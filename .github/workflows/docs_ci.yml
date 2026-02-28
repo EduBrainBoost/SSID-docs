@@ -1,0 +1,14 @@
+name: docs-ci
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sanity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo 'CI placeholder - Phase1 will add build + checks'
