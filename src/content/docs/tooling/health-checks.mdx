@@ -1,0 +1,70 @@
+---
+title: Health Checks
+description: Local and CI health checks for verifying SSID system integrity.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Health Checks
+
+SSID provides health checks at multiple levels to verify system integrity without exposing secrets.
+
+## Local Health Checks
+
+Run from the SSID repository root:
+
+```bash
+# Full system health check
+python 12_tooling/cli/ssid_health.py --check all
+
+# Check specific root
+python 12_tooling/cli/ssid_health.py --check root:02_audit_logging
+
+# Verify evidence chain integrity
+python 12_tooling/cli/ssid_health.py --check evidence-chain
+```
+
+## Check Categories
+
+| Check | What it Verifies |
+|-------|-----------------|
+| **Structure** | All 24 roots and 16 shards exist with correct layout |
+| **Manifests** | Hybrid charts are valid JSON and schema-compliant |
+| **Hashes** | Artifact hashes match computed values |
+| **Evidence** | WORM log entries are append-only, no gaps |
+| **Dependencies** | All declared dependencies resolve |
+| **Secrets** | No credentials detected in source files |
+
+## CI Health Checks
+
+These run automatically on every PR:
+
+```yaml
+jobs:
+  health:
+    steps:
+      - name: Structure check
+        run: python 12_tooling/cli/ssid_health.py --check structure
+      - name: Secret scan
+        run: python 12_tooling/cli/ssid_health.py --check secrets
+      - name: Manifest validation
+        run: python 12_tooling/cli/ssid_health.py --check manifests
+```
+
+<Aside type="tip">
+Health checks produce machine-readable JSON output for integration with monitoring systems. Use `--format json` flag.
+</Aside>
+
+## Health Report Format
+
+```json
+{
+  "timestamp_utc": "2026-02-28T12:00:00Z",
+  "checks": [
+    { "name": "structure", "result": "PASS", "details": "24/24 roots valid" },
+    { "name": "secrets", "result": "PASS", "details": "0 secrets found" },
+    { "name": "evidence", "result": "PASS", "details": "chain intact" }
+  ],
+  "overall": "PASS"
+}
+```

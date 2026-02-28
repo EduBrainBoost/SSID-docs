@@ -1,0 +1,77 @@
+---
+title: Evidence & WORM
+description: Append-only audit logs that ensure every action is permanently recorded.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Evidence & WORM Logging
+
+SSID uses **WORM (Write Once Read Many)** semantics for all audit evidence. Once written, evidence entries cannot be modified or deleted.
+
+## WORM Principles
+
+| Principle | Implementation |
+|-----------|---------------|
+| **Write Once** | Evidence files are append-only; no overwrite operations |
+| **Read Many** | Any authorized party can verify evidence at any time |
+| **Tamper-Evident** | Hash chains detect any unauthorized modification |
+| **Time-Stamped** | UTC timestamps on every entry |
+
+## Evidence Structure
+
+```
+02_audit_logging/evidence/
+├── builds/
+│   ├── build_2026-02-28T12-00-00Z.json
+│   └── build_2026-02-28T13-00-00Z.json
+├── pr_reviews/
+│   ├── pr_001.json
+│   └── pr_002.json
+├── policy_gates/
+│   └── gate_check_2026-02-28.json
+└── docs_site/
+    ├── phase0/evidence.json
+    └── phase1/evidence.json
+```
+
+## Evidence Entry Format
+
+```json
+{
+  "timestamp_utc": "2026-02-28T12:00:00Z",
+  "event_type": "policy_gate_check",
+  "task_id": "TASK_EXAMPLE",
+  "result": "PASS",
+  "actor": "ci-system",
+  "artifact_hashes": {
+    "input": "sha256:abc...",
+    "output": "sha256:def..."
+  },
+  "notes": ["All gates passed", "No secrets detected"]
+}
+```
+
+<Aside type="note">
+Evidence entries reference artifact hashes, not the artifacts themselves. This keeps the evidence log lightweight while maintaining full traceability.
+</Aside>
+
+## Verification
+
+To verify evidence integrity:
+
+1. Compute the hash of each evidence file
+2. Compare against the hash chain
+3. If any hash mismatches, the chain is broken — tampering detected
+
+```bash
+ssid audit --verify-chain 02_audit_logging/evidence/
+```
+
+## Retention
+
+Evidence is retained indefinitely. The WORM policy means:
+
+- No deletion scripts exist in the codebase
+- No API endpoints for evidence deletion
+- File system permissions enforce read-only after write

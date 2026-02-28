@@ -1,0 +1,87 @@
+---
+title: 24×16 Matrix
+description: The foundational structure of SSID — 24 Roots crossed with 16 Shards.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# 24×16 Matrix Architecture
+
+SSID uses a deterministic **24 Root × 16 Shard** matrix to organize all system components.
+
+## Roots (24 Top-Level Domains)
+
+Each root represents a distinct functional domain:
+
+| # | Root | Purpose |
+|---|------|---------|
+| 01 | `core_identity` | DID management, key lifecycle |
+| 02 | `audit_logging` | WORM-compliant evidence storage |
+| 03 | `crypto_primitives` | Cryptographic operations, key derivation |
+| 04 | `credential_engine` | VC issuance, verification, revocation |
+| 05 | `wallet_runtime` | User wallet logic, storage |
+| 06 | `governance` | Policy gates, voting, proposals |
+| 07 | `compliance` | GDPR, eIDAS, MiCA mapping |
+| 08 | `networking` | P2P, DIDComm, transport |
+| 09 | `storage` | Persistence layer, IPFS, local DB |
+| 10 | `api_gateway` | External API surface |
+| 11 | `ui_components` | Frontend components |
+| 12 | `tooling` | CLI, dispatcher, dev tools |
+| 13 | `testing` | Test framework, fixtures |
+| 14 | `deployment` | CI/CD, containers, infra |
+| 15 | `monitoring` | Health checks, metrics |
+| 16 | `documentation` | Docs generation, schemas |
+| 17 | `migration` | Schema and data migrations |
+| 18 | `integration` | Third-party integrations |
+| 19 | `analytics` | Usage analytics (privacy-preserving) |
+| 20 | `recovery` | Backup, restore, social recovery |
+| 21 | `token_mechanics` | Utility token, rewards, staking |
+| 22 | `marketplace` | Credential marketplace |
+| 23 | `extensions` | Plugin system |
+| 24 | `meta_orchestration` | Task registry, MAOS dispatcher |
+
+## Shards (16 Cross-Cutting Concerns)
+
+Each shard applies across all roots:
+
+| Shard | Purpose |
+|-------|---------|
+| `config` | Configuration schemas |
+| `schema` | Data models, validation |
+| `logic` | Business logic |
+| `handlers` | Event/request handlers |
+| `middleware` | Processing pipeline |
+| `validators` | Input/output validation |
+| `transformers` | Data transformation |
+| `adapters` | External system adapters |
+| `repositories` | Data access layer |
+| `services` | Service layer |
+| `controllers` | Request orchestration |
+| `events` | Event definitions |
+| `errors` | Error types and handling |
+| `types` | Type definitions |
+| `constants` | Static values |
+| `utils` | Shared utilities |
+
+## Hybrid Charts / Manifests
+
+Every Root×Shard intersection is tracked by a **hybrid chart** — a deterministic JSON manifest that declares:
+
+- Dependencies between components
+- Hash of the current artifact state
+- Policy gates required for modification
+- Evidence trail references
+
+<Aside type="tip">
+The matrix is not just organizational — it is the **enforcement layer** for deterministic builds and audit compliance.
+</Aside>
+
+```json
+{
+  "root": "02_audit_logging",
+  "shard": "repositories",
+  "artifact_hash": "sha256:a1b2c3...",
+  "policy_gates": ["pr_review", "evidence_append"],
+  "dependencies": ["03_crypto_primitives/services"]
+}
+```

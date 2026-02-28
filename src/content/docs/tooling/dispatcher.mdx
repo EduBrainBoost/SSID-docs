@@ -1,0 +1,85 @@
+---
+title: Dispatcher Workflow
+description: The SSID dispatcher orchestrates tasks, enforces policy gates, and produces evidence.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Dispatcher Workflow
+
+The **SSID Dispatcher** is the central orchestration engine that executes TaskSpecs, enforces policy gates, and generates evidence.
+
+## Architecture
+
+```
+TaskSpec (JSON) → Dispatcher → Preflight Checks → Step Execution → Evidence Write
+```
+
+## TaskSpec Format
+
+Every operation in SSID is defined as a **TaskSpec** — a JSON document that declares:
+
+```json
+{
+  "task_id": "TASK_EXAMPLE",
+  "mode": "FULL-ORCHESTRATION",
+  "pr_only": true,
+  "non_negotiables": {
+    "safe_fix": true,
+    "root_24_lock": true,
+    "no_secrets_in_repo": true
+  },
+  "steps": [
+    {
+      "name": "Step description",
+      "run": "command to execute",
+      "pass_fail": "PASS condition"
+    }
+  ]
+}
+```
+
+## Execution Flow
+
+1. **Load TaskSpec** — Parse and validate the JSON schema
+2. **Preflight Checks** — Verify prerequisites (tools, permissions, state)
+3. **Step Execution** — Run each step sequentially
+4. **Gate Enforcement** — Check non-negotiables after each step
+5. **Evidence Write** — Record PASS/FAIL results in WORM log
+
+<Aside type="note">
+The dispatcher is located at `12_tooling/cli/ssid_dispatcher.py` in the SSID repository.
+</Aside>
+
+## Running a Task
+
+```bash
+# From the SSID repository root
+python 12_tooling/cli/ssid_dispatcher.py --run-task path/to/taskspec.json
+```
+
+## Non-Negotiables
+
+These are enforced on every task:
+
+| Rule | Description |
+|------|-------------|
+| `safe_fix` | Changes must not break existing functionality |
+| `root_24_lock` | Meta-orchestration changes require elevated review |
+| `no_secrets_in_repo` | Zero tolerance for credentials |
+| `no_scores` | No arbitrary scoring systems |
+
+## Evidence Output
+
+After execution, the dispatcher writes evidence:
+
+```json
+{
+  "timestamp_utc": "2026-02-28T12:00:00Z",
+  "task_id": "TASK_EXAMPLE",
+  "result": "PASS",
+  "steps_completed": 5,
+  "steps_total": 5,
+  "notes": ["All steps passed"]
+}
+```

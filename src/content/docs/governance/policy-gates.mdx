@@ -1,0 +1,68 @@
+---
+title: Policy Gates
+description: Automated checks that must pass before any change is accepted.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Policy Gates
+
+Policy gates are **automated enforcement points** that validate changes before they enter the system.
+
+## Gate Types
+
+| Gate | Trigger | Checks |
+|------|---------|--------|
+| **Build Gate** | Every PR | Code compiles, no type errors |
+| **Test Gate** | Every PR | All tests pass, coverage threshold met |
+| **Secret Scan** | Every PR | No credentials, API keys, or private keys in diff |
+| **Dependency Audit** | Every PR | No known CVEs in dependency tree |
+| **Schema Validation** | Manifest changes | Hybrid charts conform to schema |
+| **Hash Verification** | Artifact creation | Output hash matches expected |
+| **CODEOWNERS** | Every PR | Required reviewers have approved |
+
+## Gate Results
+
+Every gate produces a PASS or FAIL result:
+
+```json
+{
+  "gate": "secret_scan",
+  "result": "PASS",
+  "details": {
+    "files_scanned": 42,
+    "secrets_found": 0,
+    "patterns_checked": ["api_key", "private_key", "password", "token"]
+  }
+}
+```
+
+<Aside type="caution">
+A single FAIL blocks the entire PR from merging. There are no overrides — fix the issue or provide evidence that it's a false positive.
+</Aside>
+
+## Non-Negotiables
+
+These policy gates can never be disabled:
+
+1. **`safe_fix`** — Changes must not break existing functionality
+2. **`root_24_lock`** — Root 24 (meta orchestration) requires elevated review
+3. **`no_secrets_in_repo`** — Zero tolerance for credentials in source
+4. **`no_scores`** — No arbitrary scoring or rating systems in governance
+
+## Custom Gates
+
+Teams can define additional gates in their root's configuration:
+
+```json
+{
+  "root": "04_credential_engine",
+  "custom_gates": [
+    {
+      "name": "credential_schema_validation",
+      "script": "scripts/validate_cred_schema.sh",
+      "required": true
+    }
+  ]
+}
+```

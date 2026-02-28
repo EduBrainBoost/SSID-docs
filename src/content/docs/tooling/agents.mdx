@@ -1,0 +1,62 @@
+---
+title: Agent Roles
+description: AI and automation agents in the SSID ecosystem and their responsibilities.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Agent Roles
+
+SSID uses a structured set of **agent roles** to automate operations while maintaining governance control.
+
+## Agent Types
+
+| Agent | Scope | Capabilities |
+|-------|-------|-------------|
+| **Dispatcher** | Task execution | Runs TaskSpecs, enforces gates |
+| **Auditor** | Evidence verification | Validates WORM logs, hash chains |
+| **Builder** | CI/CD | Compiles, tests, produces artifacts |
+| **Scanner** | Security | Secret detection, dependency audit |
+| **Reviewer** | Code quality | Automated code review suggestions |
+
+## Agent Principles
+
+<Aside type="caution">
+Agents operate under strict constraints. No agent can:
+- Bypass policy gates
+- Commit directly to protected branches
+- Access or generate secrets
+- Modify evidence logs
+</Aside>
+
+## Human-Agent Boundary
+
+| Action | Agent | Human |
+|--------|-------|-------|
+| Run automated checks | Yes | — |
+| Generate evidence entries | Yes | — |
+| Approve PRs | — | Yes |
+| Override policy gates | — | No (by design) |
+| Create TaskSpecs | Suggest | Approve |
+| Deploy to production | Prepare | Authorize |
+
+## AI Text Generation
+
+When AI is used for content generation:
+
+1. **No auto-publish** — AI-generated text requires PR review
+2. **Hash tracking** — Input hash, prompt hash, model ID, and output hash are recorded
+3. **Deterministic caching** — Same inputs produce cached results
+4. **Manual trigger only** — `workflow_dispatch` with environment approval
+
+```json
+{
+  "generation_record": {
+    "input_hash": "sha256:abc...",
+    "prompt_hash": "sha256:def...",
+    "model_id": "claude-opus-4-6",
+    "output_hash": "sha256:ghi...",
+    "approved_by": "human_reviewer"
+  }
+}
+```

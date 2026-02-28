@@ -1,0 +1,67 @@
+---
+title: PR-Only Workflow
+description: All changes to SSID require pull request review — no exceptions.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# PR-Only Workflow
+
+SSID enforces a strict **PR-only governance model**. No direct commits to protected branches are permitted.
+
+## Rules
+
+1. **All changes** must go through a pull request
+2. **At least one reviewer** must approve before merge
+3. **CI checks** must pass (build, tests, policy gates)
+4. **CODEOWNERS** are automatically requested for review
+5. **Squash merges** are preferred for clean history
+
+<Aside type="caution">
+Direct pushes to `main` are blocked at the repository level. This is enforced by GitHub branch protection rules.
+</Aside>
+
+## Why PR-Only?
+
+| Benefit | Description |
+|---------|-------------|
+| **Auditability** | Every change has a review record |
+| **Accountability** | Reviewer and author are logged |
+| **Quality** | Automated checks catch regressions |
+| **Evidence** | PR metadata feeds into WORM audit logs |
+| **Compliance** | Satisfies regulatory requirements for change management |
+
+## PR Workflow
+
+```
+Author creates branch → Writes code → Opens PR → CI runs →
+Reviewer approves → Policy gates checked → Squash merge → Evidence written
+```
+
+## Policy Gates on PRs
+
+Before a PR can be merged, it must pass:
+
+- Build gate (code compiles, no errors)
+- Test gate (all tests pass)
+- Secret scan (no credentials in diff)
+- Dependency audit (no known vulnerabilities)
+- CODEOWNERS approval
+
+## Evidence Generation
+
+When a PR is merged, the system automatically generates:
+
+```json
+{
+  "event": "pr_merged",
+  "pr_number": 42,
+  "author": "developer",
+  "reviewer": "reviewer",
+  "commit_hash": "abc123...",
+  "policy_gates_passed": ["build", "test", "secret_scan", "dep_audit"],
+  "timestamp_utc": "2026-02-28T12:00:00Z"
+}
+```
+
+This evidence is appended to the WORM log and cannot be modified.
