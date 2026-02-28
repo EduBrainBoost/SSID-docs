@@ -1,0 +1,37 @@
+{
+  "version": "1.0",
+  "description": "Machine-readable allowlist for ingest sources. Only public repos listed here are valid ingest targets.",
+  "policy": "public-only",
+  "private_repos_allowed": false,
+  "allowed_sources": [
+    {
+      "name": "SSID-open-core",
+      "type": "github",
+      "owner": "EduBrainBoost",
+      "repo": "SSID-open-core",
+      "visibility": "public",
+      "allowed_paths": [
+        "docs/",
+        "policies/",
+        "README.md",
+        "LICENSE",
+        "SECURITY.md"
+      ],
+      "allowed_extensions": [".md", ".mdx", ".json", ".yaml", ".yml"],
+      "notes": "Primary public content source for documentation site."
+    }
+  ],
+  "blocked_sources": [
+    {
+      "name": "SSID (private)",
+      "owner": "EduBrainBoost",
+      "repo": "SSID",
+      "reason": "Private repo. Contains secrets, internal tooling, audit logs. Never ingest."
+    }
+  ],
+  "enforcement": {
+    "ci_step": "validate-ingest-source",
+    "runtime_check": "tools/ingest.mjs:validateSourceIsPublic()",
+    "fail_on_violation": true
+  }
+}

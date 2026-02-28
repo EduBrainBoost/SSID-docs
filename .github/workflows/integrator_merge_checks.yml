@@ -1,0 +1,187 @@
+# Integrator Merge Checks — enforced gate for every PR in SSID-docs.
+#
+# Blocks merge when:
+#   1. Scope violation (files outside allowed zones)
+#   2. Forbidden metadata present (.claude/, .env*, *.pem, secrets, etc.)
+#   3. ADR missing for .github/workflows/ changes
+#
+# ADR-0001 documents this decision.
+
+name: Integrator Merge Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+
+jobs:
+  integrator_merge_checks:
+    runs-on: ubuntu-latest
+    name: "Integrator Merge Checks"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Collect changed files
+        id: files
+        run: |
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.sha }}"
+          echo "Base SHA: $BASE"
+          echo "Head SHA: $HEAD"
+          git diff --name-only "$BASE" "$HEAD" | sort > /tmp/changed_files.txt
+          COUNT=$(wc -l < /tmp/changed_files.txt | tr -d ' ')
+          echo "Changed files ($COUNT):"
+          cat /tmp/changed_files.txt
+
+      # ── Check 1: Scope Allowlist Guard ──────────────────────────
+      - name: "Check 1: Scope Allowlist"
+        id: check_scope
+        continue-on-error: true
+        run: |
+          # Allowed path prefixes and exact root files for SSID-docs
+          ALLOWED_PREFIXES=(
+            ".github/"
+            "02_audit_logging/"
+            "05_documentation/"
+            "docs/"
+            "public/"
+            "src/"
+            "tests/"
+            "tools/"
+          )
+          ALLOWED_ROOT_FILES=(
+            ".gitignore"
+            "CODEOWNERS"
+            "LICENSE"
+            "README.md"
+            "SECURITY.md"
+            "astro.config.mjs"
+            "package.json"
+            "pnpm-lock.yaml"
+            "tsconfig.json"
+          )
+
+          FAIL=0
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            MATCH=0
+            # Check prefixes
+            for prefix in "${ALLOWED_PREFIXES[@]}"; do
+              if [ "${f#"$prefix"}" != "$f" ]; then
+                MATCH=1; break
+              fi
+            done
+            # Check exact root files
+            if [ "$MATCH" -eq 0 ]; then
+              for allowed in "${ALLOWED_ROOT_FILES[@]}"; do
+                if [ "$f" = "$allowed" ]; then
+                  MATCH=1; break
+                fi
+              done
+            fi
+            if [ "$MATCH" -eq 0 ]; then
+              echo "::error::SCOPE VIOLATION: $f — not in allowlist"
+              FAIL=1
+            fi
+          done < /tmp/changed_files.txt
+          if [ "$FAIL" -eq 0 ]; then
+            echo "PASS: All files within allowed scope"
+          fi
+          exit "$FAIL"
+
+      # ── Check 2: No-Forbidden-Metadata ──────────────────────────
+      - name: "Check 2: No-Forbidden-Metadata"
+        id: check_metadata
+        continue-on-error: true
+        run: |
+          FAIL=0
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            case "$f" in
+              .claude|.claude/*)
+                echo "::error::FORBIDDEN: $f — .claude/ directory"; FAIL=1 ;;
+              .devcontainer|.devcontainer/*)
+                echo "::error::FORBIDDEN: $f — .devcontainer/ directory"; FAIL=1 ;;
+              *.code-workspace)
+                echo "::error::FORBIDDEN: $f — VS Code workspace file"; FAIL=1 ;;
+              .DS_Store|*/.DS_Store)
+                echo "::error::FORBIDDEN: $f — macOS metadata"; FAIL=1 ;;
+              Thumbs.db|*/Thumbs.db)
+                echo "::error::FORBIDDEN: $f — Windows metadata"; FAIL=1 ;;
+              .env|.env.*|*/.env|*/.env.*)
+                echo "::error::FORBIDDEN: $f — environment variable file"; FAIL=1 ;;
+              *.pem|*.key|*.p12|*.pfx|*.jks|*.keystore)
+                echo "::error::FORBIDDEN: $f — certificate/key file"; FAIL=1 ;;
+              id_rsa|*/id_rsa|id_rsa.pub|*/id_rsa.pub)
+                echo "::error::FORBIDDEN: $f — SSH key file"; FAIL=1 ;;
+              secrets/*|*/secrets/*)
+                echo "::error::FORBIDDEN: $f — secrets directory"; FAIL=1 ;;
+            esac
+          done < /tmp/changed_files.txt
+          if [ "$FAIL" -eq 0 ]; then
+            echo "PASS: No forbidden metadata found"
+          fi
+          exit "$FAIL"
+
+      # ── Check 3: ADR-Pflicht ────────────────────────────────────
+      - name: "Check 3: ADR-Pflicht"
+        id: check_adr
+        continue-on-error: true
+        run: |
+          TRIGGER_HIT=0
+          ADR_PRESENT=0
+
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            case "$f" in
+              .github/workflows/*) TRIGGER_HIT=1 ;;
+            esac
+            case "$f" in
+              05_documentation/adr/ADR_*.md) ADR_PRESENT=1 ;;
+            esac
+          done < /tmp/changed_files.txt
+
+          if [ "$TRIGGER_HIT" -eq 1 ] && [ "$ADR_PRESENT" -eq 0 ]; then
+            echo "::error::ADR-Pflicht: Changes in .github/workflows/ require 05_documentation/adr/ADR_*.md in this PR"
+            exit 1
+          fi
+          if [ "$TRIGGER_HIT" -eq 1 ]; then
+            echo "PASS: ADR present for workflow changes"
+          else
+            echo "PASS: No workflow changes (ADR not required)"
+          fi
+
+      # ── Summary ─────────────────────────────────────────────────
+      - name: Summary
+        if: always()
+        run: |
+          S="${{ steps.check_scope.outcome }}"
+          M="${{ steps.check_metadata.outcome }}"
+          A="${{ steps.check_adr.outcome }}"
+
+          [ "$S" = "success" ] && R1="PASS" || R1="FAIL"
+          [ "$M" = "success" ] && R2="PASS" || R2="FAIL"
+          [ "$A" = "success" ] && R3="PASS" || R3="FAIL"
+
+          {
+            echo "## Integrator Merge Checks"
+            echo ""
+            echo "| # | Check | Result |"
+            echo "|---|-------|--------|"
+            echo "| 1 | Scope Allowlist | $R1 |"
+            echo "| 2 | No-Forbidden-Metadata | $R2 |"
+            echo "| 3 | ADR-Pflicht | $R3 |"
+            echo ""
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "$R1" = "FAIL" ] || [ "$R2" = "FAIL" ] || [ "$R3" = "FAIL" ]; then
+            echo "::error::Integrator Merge Checks: FAIL"
+            exit 1
+          fi
+          echo "Integrator Merge Checks: PASS"
