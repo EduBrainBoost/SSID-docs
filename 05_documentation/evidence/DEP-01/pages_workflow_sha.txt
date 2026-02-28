@@ -1,0 +1,14 @@
+DEP-01 Evidence: pages.yml Workflow SHA
+========================================
+Date: 2026-02-28
+
+git rev-parse HEAD:.github/workflows/pages.yml
+Pre-fix SHA:  fa71e380e42185374abb4c158d50539c105684dd
+Post-fix PR:  #12 (squash-merged into main)
+
+Fixes applied:
+  1. Removed pnpm version:10 (conflict with packageManager in package.json)
+  2. Added actions/configure-pages@v5
+  3. Set cancel-in-progress: true
+
+All 5 required checks PASS on fix PR.

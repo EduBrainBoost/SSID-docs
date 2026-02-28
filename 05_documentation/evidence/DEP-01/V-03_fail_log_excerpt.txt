@@ -1,0 +1,31 @@
+DEP-01 Evidence: V-03 Negative Security Gate Test
+===================================================
+Date: 2026-02-28
+
+Test PR: https://github.com/EduBrainBoost/SSID-docs/pull/13
+  Title: test(v03): negative gate test — .env MUST FAIL
+  File added: .env (content: DUMMY=1)
+  Status: CLOSED (as expected, not merged)
+
+CI Results:
+  denylist-gate:            FAIL (expected)
+  Integrator Merge Checks:  FAIL (expected)
+  secret-scan:              PASS
+  validate-ingest-source:   PASS
+  build:                    FAIL (test suite caught .env)
+
+--- denylist-gate log excerpt ---
+  === Forbidden File Type Scan ===
+  FAIL: Forbidden file type .env found:
+  ./.env
+  ##[error]Process completed with exit code 1.
+
+--- Integrator Merge Checks log excerpt ---
+  Scope Allowlist:       FAIL (.env not in allowed scope)
+  No-Forbidden-Metadata: FAIL (.env matched forbidden pattern)
+  ADR-Pflicht:           PASS (no workflow changes)
+  ##[error]Integrator Merge Checks: FAIL
+  ##[error]Process completed with exit code 1.
+
+Result: V-03 PASS — .env correctly blocked by both denylist-gate AND Integrator Merge Checks.
+         PR was NOT mergeable. Security gates are functional.

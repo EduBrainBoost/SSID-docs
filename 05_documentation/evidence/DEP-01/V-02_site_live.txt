@@ -1,0 +1,17 @@
+DEP-01 Evidence: V-02 Pages Live
+==================================
+Date: 2026-02-28
+
+URL tested: https://edubrainboost.github.io/SSID-docs/overview/
+(Root / redirects to /overview/)
+
+Results:
+  Site reachable:          YES
+  Starlight theme visible: YES (dark/light toggle, accent colors, sidebar)
+  Page title:              "What is SSID?"
+  Sidebar navigation:      YES (Overview, Architecture, Governance, Compliance, Tooling, Token, FAQ)
+  Search (Pagefind):       YES (Ctrl+K search modal present in header)
+  Language switcher:       YES (English/Deutsch)
+  GitHub link:             YES
+
+Result: V-02 PASS — site reachable + Starlight theme + search works.
