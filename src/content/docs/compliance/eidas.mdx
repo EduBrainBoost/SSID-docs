@@ -1,0 +1,45 @@
+---
+title: eIDAS
+description: SSID positioning relative to the European Digital Identity framework.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# eIDAS 2.0 Positioning
+
+SSID aligns with the **eIDAS 2.0** regulation (European Digital Identity Wallet framework) in its architectural design and credential format choices.
+
+## eIDAS 2.0 Overview
+
+The revised eIDAS regulation requires EU member states to offer citizens a **European Digital Identity Wallet (EUDIW)** that supports:
+
+- Verifiable credentials
+- Selective disclosure
+- Cross-border recognition
+- High assurance levels
+
+## SSID Alignment
+
+| eIDAS Requirement | SSID Approach |
+|-------------------|---------------|
+| **Qualified Electronic Signatures** | Crypto primitives support qualified signature formats |
+| **Wallet Certification** | Architecture enables future certification against EUDIW standards |
+| **Trust Framework** | Governance model maps to trust framework requirements |
+| **Interoperability** | DID/VC standards (W3C) ensure cross-system compatibility |
+| **Level of Assurance** | Credential schema supports LoA classification |
+
+<Aside type="note">
+SSID is not a certified EUDIW. It is designed so that implementations built on SSID can pursue certification.
+</Aside>
+
+## Credential Format Compatibility
+
+SSID's credential engine supports formats compatible with eIDAS:
+
+- **W3C Verifiable Credentials** (JSON-LD, JWT)
+- **SD-JWT** (Selective Disclosure JWT)
+- **mDL** (Mobile Driving License, ISO 18013-5)
+
+## Trust Anchors
+
+SSID's governance model can integrate with national trust lists and qualified trust service providers (QTSPs) as defined by eIDAS.

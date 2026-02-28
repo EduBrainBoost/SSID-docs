@@ -1,0 +1,56 @@
+---
+title: General FAQ
+description: Frequently asked questions about SSID, its purpose, and how it works.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# General FAQ
+
+## What is SSID?
+
+SSID is a **Self-Sovereign Identity** infrastructure — a governance-first system for managing decentralized identifiers (DIDs) and verifiable credentials (VCs).
+
+## Is SSID a blockchain?
+
+No. SSID is an identity infrastructure that can integrate with blockchains but does not require one. The core system runs on deterministic, hash-linked artifact chains.
+
+## Is SSID a cryptocurrency?
+
+No. SSID has an optional utility token for governance and incentive alignment, but the token is not a cryptocurrency, payment instrument, or investment product.
+
+## Do I need tokens to use SSID?
+
+No. Core identity features (DID creation, credential issuance, verification) are free and do not require token ownership.
+
+## Who controls my data?
+
+**You do.** SSID follows self-sovereign principles — your identity data stays in your wallet on your device. No central authority has access.
+
+## Is SSID open source?
+
+SSID follows an **open-core model**:
+- Public code and documentation are in [SSID-open-core](https://github.com/EduBrainBoost/SSID-open-core)
+- The full implementation and audit system are in a private repository
+- This documentation site is public
+
+## How is SSID governed?
+
+Through a **PR-only governance model** with:
+- All changes require pull request review
+- Policy gates enforce quality and security
+- Evidence is recorded in append-only WORM logs
+- Token holders can vote on governance proposals
+
+## What standards does SSID use?
+
+| Standard | Purpose |
+|----------|---------|
+| W3C DID | Decentralized Identifiers |
+| W3C VC | Verifiable Credentials |
+| DIDComm | Secure messaging |
+| SD-JWT | Selective disclosure |
+
+<Aside type="tip">
+Can't find your question? Check the [Token Disambiguation](/faq/token-disambiguation) page for questions about the SSID token.
+</Aside>

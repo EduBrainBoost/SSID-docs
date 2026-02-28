@@ -1,0 +1,61 @@
+---
+title: What is SSID?
+description: Self-Sovereign Identity — system overview, goals, and positioning.
+---
+
+import { Aside, Card, CardGrid } from '@astrojs/starlight/components';
+
+# What is SSID?
+
+**SSID** (Self-Sovereign Identity) is a deterministic, audit-ready identity infrastructure built on the principles of **Self-Sovereign Identity (SSI)**.
+
+<Aside type="note">
+SSID is not a blockchain. It is not a token. It is a **governance-first identity system** with optional token mechanics for utility and incentive alignment.
+</Aside>
+
+## Core Principles
+
+<CardGrid>
+  <Card title="Self-Sovereignty" icon="star">
+    Users own and control their identity data. No central authority can revoke or modify credentials without consent.
+  </Card>
+  <Card title="Deterministic Artifacts" icon="document">
+    Every system state change produces verifiable, hash-linked artifacts stored in append-only evidence logs.
+  </Card>
+  <Card title="PR-Only Governance" icon="approve-check">
+    All changes to the Source of Truth require pull request review. No direct commits to protected branches.
+  </Card>
+  <Card title="Compliance-Ready" icon="setting">
+    Designed with GDPR, eIDAS 2.0, and MiCA positioning in mind from day one.
+  </Card>
+</CardGrid>
+
+## SSI Fundamentals
+
+Self-Sovereign Identity is built on three pillars:
+
+| Component | Description |
+|-----------|-------------|
+| **DID** (Decentralized Identifier) | A globally unique identifier controlled by the identity subject |
+| **VC** (Verifiable Credential) | A tamper-evident credential with cryptographic proof |
+| **Wallet** | User-controlled storage for DIDs and VCs |
+| **Verifier** | Entity that checks credential validity |
+| **Issuer** | Entity that creates and signs credentials |
+
+## System Architecture
+
+SSID organizes its codebase into a **24 Root × 16 Shard** matrix:
+
+- **24 Roots**: Top-level functional domains (audit, crypto, governance, tooling, etc.)
+- **16 Shards**: Cross-cutting concerns applied to each root
+- **Hybrid Charts/Manifests**: Deterministic configuration linking roots and shards
+
+→ [Learn more about the architecture](/architecture/matrix)
+
+## What SSID is NOT
+
+<Aside type="caution">
+- SSID is **not** related to the "SSID Token" on BSC (Binance Smart Chain). See [Token Disambiguation](/faq/token-disambiguation).
+- SSID does **not** require payment to use core identity features.
+- SSID is **not** a marketing or investment product.
+</Aside>

@@ -1,0 +1,228 @@
+/* SSID Cyberpunk Theme - Dark-First, Enterprise-Readable */
+
+:root {
+  /* Neon Accent Colors */
+  --ssid-neon-cyan: #00e5ff;
+  --ssid-neon-magenta: #ff2bd6;
+  --ssid-neon-green: #39ff14;
+  --ssid-neon-amber: #ffaa00;
+
+  /* Background & Foreground */
+  --ssid-bg-deep: #05060a;
+  --ssid-bg-surface: #0a0d14;
+  --ssid-bg-elevated: #111520;
+  --ssid-bg-glass: rgba(10, 13, 20, 0.85);
+  --ssid-fg-primary: #e6e8ff;
+  --ssid-fg-secondary: #8892b0;
+  --ssid-fg-muted: #4a5568;
+
+  /* Border & Glow */
+  --ssid-border: rgba(0, 229, 255, 0.15);
+  --ssid-glow-cyan: 0 0 20px rgba(0, 229, 255, 0.3);
+  --ssid-glow-magenta: 0 0 20px rgba(255, 43, 214, 0.3);
+}
+
+/* === Starlight Dark Theme Overrides === */
+:root[data-theme='dark'] {
+  --sl-color-accent-low: #062a30;
+  --sl-color-accent: #00e5ff;
+  --sl-color-accent-high: #b3f5ff;
+  --sl-color-white: #e6e8ff;
+  --sl-color-gray-1: #c8cce0;
+  --sl-color-gray-2: #8892b0;
+  --sl-color-gray-3: #4a5568;
+  --sl-color-gray-4: #1e2536;
+  --sl-color-gray-5: #111520;
+  --sl-color-gray-6: #0a0d14;
+  --sl-color-black: #05060a;
+  --sl-color-bg: var(--ssid-bg-deep);
+  --sl-color-bg-nav: var(--ssid-bg-surface);
+  --sl-color-bg-sidebar: var(--ssid-bg-surface);
+  --sl-color-hairline-light: var(--ssid-border);
+  --sl-color-hairline: rgba(0, 229, 255, 0.1);
+}
+
+/* === Scanline Overlay (subtle, CSS-only) === */
+:root[data-theme='dark'] body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 229, 255, 0.015) 2px,
+    rgba(0, 229, 255, 0.015) 4px
+  );
+}
+
+/* === Typography === */
+:root {
+  --sl-font: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --sl-font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+}
+
+/* === Link Styles === */
+:root[data-theme='dark'] a:not([class]) {
+  color: var(--ssid-neon-cyan);
+  text-decoration: none;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+:root[data-theme='dark'] a:not([class]):hover {
+  color: #66f0ff;
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+}
+
+/* === Code Blocks === */
+:root[data-theme='dark'] .expressive-code {
+  --ec-brdCol: var(--ssid-border);
+}
+
+:root[data-theme='dark'] .expressive-code .frame {
+  border: 1px solid var(--ssid-border);
+  box-shadow: var(--ssid-glow-cyan);
+  border-radius: 8px;
+}
+
+/* === Sidebar Navigation === */
+:root[data-theme='dark'] nav.sidebar {
+  border-right: 1px solid var(--ssid-border);
+}
+
+:root[data-theme='dark'] .sidebar-content a[aria-current='page'] {
+  color: var(--ssid-neon-cyan);
+  border-left-color: var(--ssid-neon-cyan);
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+}
+
+/* === Callout / Aside Styles === */
+:root[data-theme='dark'] .starlight-aside--note {
+  border-color: var(--ssid-neon-cyan);
+  background: rgba(0, 229, 255, 0.05);
+}
+
+:root[data-theme='dark'] .starlight-aside--caution {
+  border-color: var(--ssid-neon-amber);
+  background: rgba(255, 170, 0, 0.05);
+}
+
+:root[data-theme='dark'] .starlight-aside--danger {
+  border-color: var(--ssid-neon-magenta);
+  background: rgba(255, 43, 214, 0.05);
+}
+
+:root[data-theme='dark'] .starlight-aside--tip {
+  border-color: var(--ssid-neon-green);
+  background: rgba(57, 255, 20, 0.05);
+}
+
+/* === Glass Card Effect === */
+.glass-card {
+  background: var(--ssid-bg-glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--ssid-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card:hover {
+  border-color: rgba(0, 229, 255, 0.4);
+  box-shadow: var(--ssid-glow-cyan);
+}
+
+/* === Evidence Card === */
+.evidence-card {
+  background: var(--ssid-bg-elevated);
+  border: 1px solid var(--ssid-border);
+  border-left: 3px solid var(--ssid-neon-green);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+  font-family: var(--sl-font-mono);
+  font-size: 0.85rem;
+}
+
+.evidence-card .label {
+  color: var(--ssid-neon-green);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+/* === SoT Artifact Card === */
+.sot-card {
+  background: var(--ssid-bg-elevated);
+  border: 1px solid rgba(255, 43, 214, 0.2);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+}
+
+.sot-card .sot-label {
+  color: var(--ssid-neon-magenta);
+  font-weight: 700;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+/* === Heading Glow on Dark === */
+:root[data-theme='dark'] .content-panel h1 {
+  text-shadow: 0 0 30px rgba(0, 229, 255, 0.15);
+}
+
+/* === Table Styles === */
+:root[data-theme='dark'] table {
+  border-collapse: collapse;
+}
+
+:root[data-theme='dark'] table th {
+  background: var(--ssid-bg-elevated);
+  color: var(--ssid-neon-cyan);
+  border-bottom: 2px solid var(--ssid-border);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+:root[data-theme='dark'] table td {
+  border-bottom: 1px solid rgba(0, 229, 255, 0.08);
+}
+
+:root[data-theme='dark'] table tr:hover td {
+  background: rgba(0, 229, 255, 0.03);
+}
+
+/* === Selection Color === */
+::selection {
+  background: rgba(0, 229, 255, 0.3);
+  color: #fff;
+}
+
+/* === Scrollbar (Webkit) === */
+:root[data-theme='dark'] ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+:root[data-theme='dark'] ::-webkit-scrollbar-track {
+  background: var(--ssid-bg-deep);
+}
+
+:root[data-theme='dark'] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 229, 255, 0.2);
+  border-radius: 3px;
+}
+
+:root[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 229, 255, 0.4);
+}

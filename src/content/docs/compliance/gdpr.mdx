@@ -1,0 +1,51 @@
+---
+title: DSGVO / GDPR
+description: How SSID aligns with the General Data Protection Regulation.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# GDPR / DSGVO Compliance
+
+SSID is designed with **privacy by design** and **privacy by default** — core requirements of the EU General Data Protection Regulation (GDPR / DSGVO).
+
+## Key Alignments
+
+| GDPR Principle | SSID Implementation |
+|---------------|---------------------|
+| **Data Minimization** | Only essential identity attributes are stored |
+| **Purpose Limitation** | Credentials specify permitted use cases |
+| **Right to Erasure** | Users can revoke credentials and delete wallet data |
+| **Right to Portability** | Standard DID/VC formats enable interoperability |
+| **Privacy by Design** | Architecture enforces data protection from the ground up |
+| **Consent** | Credential sharing requires explicit user consent |
+
+## Self-Sovereignty and GDPR
+
+SSI is inherently GDPR-friendly because:
+
+1. **The user is the data controller** — they decide what to share
+2. **No central database** — personal data isn't aggregated
+3. **Selective disclosure** — share only required attributes, not full credentials
+4. **Revocability** — credentials can be revoked at any time
+
+<Aside type="note">
+SSID does not store personal data on-chain or in public repositories. All personal data resides in the user's wallet under their control.
+</Aside>
+
+## Data Processing Records
+
+SSID maintains audit logs (WORM) for system operations, but these logs:
+
+- Contain no personal data
+- Record only system events (builds, PRs, policy checks)
+- Are not shared with third parties
+- Cannot be used to identify individuals
+
+## Controller vs. Processor
+
+| Role | Entity |
+|------|--------|
+| **Data Controller** | The identity holder (end user) |
+| **Data Processor** | Verifiers processing credential presentations |
+| **System Operator** | SSID infrastructure (processes no personal data) |
