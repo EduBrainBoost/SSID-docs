@@ -2,6 +2,8 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
 export default defineConfig({
+  site: 'https://edubrainboost.github.io',
+  base: '/SSID-docs',
   integrations: [
     starlight({
       title: 'SSID',
