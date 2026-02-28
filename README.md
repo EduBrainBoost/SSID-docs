@@ -22,3 +22,4 @@ pnpm build
 - No secrets in this repository
 - All changes require PR review
 - See [SECURITY.md](SECURITY.md) for vulnerability reporting
+
