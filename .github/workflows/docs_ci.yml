@@ -45,7 +45,10 @@ jobs:
           echo "=== Secret Pattern Scan ==="
           FAIL=0
 
-          # Scan source files for credential patterns
+          # Self-exclude: this workflow file contains pattern literals for scanning.
+          # Excluding it prevents self-match false positives.
+          SELF=".github/workflows/docs_ci.yml"
+
           for pattern in \
             "PRIVATE.KEY" \
             "sk_live_" \
@@ -60,7 +63,13 @@ jobs:
               --include="*.json" --include="*.md" --include="*.mdx" \
               --include="*.css" --include="*.yml" --include="*.yaml" \
               --include="*.svg" --include="*.html" \
-              . 2>/dev/null | grep -v node_modules | grep -v pnpm-lock | grep -v "tests/security.test.mjs" | grep -v "tests/content.test.mjs" | grep -v "tools/ingest.mjs"; then
+              . 2>/dev/null \
+              | grep -v node_modules \
+              | grep -v pnpm-lock \
+              | grep -v "$SELF" \
+              | grep -v "tests/security.test.mjs" \
+              | grep -v "tests/content.test.mjs" \
+              | grep -v "tools/ingest.mjs"; then
               echo "FAIL: Pattern '$pattern' found in source files!"
               FAIL=1
             fi
@@ -100,7 +109,6 @@ jobs:
           echo "=== Forbidden Path Scan ==="
           FAIL=0
 
-          # Forbidden path patterns (SSID-internal structure must never appear)
           FORBIDDEN_PATHS=(
             "02_audit_logging"
             "worm"
@@ -128,7 +136,9 @@ jobs:
           echo "=== Absolute Path Leak Scan ==="
           FAIL=0
 
-          # Block absolute local paths that leak private repo locations
+          # Self-exclude: this file contains pattern literals.
+          SELF=".github/workflows/docs_ci.yml"
+
           LEAK_PATTERNS=(
             'C:\\Users\\'
             'C:/Users/'
@@ -142,7 +152,11 @@ jobs:
               --include="*.md" --include="*.mdx" --include="*.ts" \
               --include="*.js" --include="*.mjs" --include="*.json" \
               --include="*.yml" --include="*.yaml" --include="*.css" \
-              . 2>/dev/null | grep -v node_modules | grep -v pnpm-lock | grep -v ".git/"; then
+              . 2>/dev/null \
+              | grep -v node_modules \
+              | grep -v pnpm-lock \
+              | grep -v ".git/" \
+              | grep -v "$SELF"; then
               echo "FAIL: Absolute local path leaked: '$pattern'"
               FAIL=1
             fi
@@ -158,7 +172,9 @@ jobs:
           echo "=== Private Repo Reference Scan ==="
           FAIL=0
 
-          # No automation file should reference the private SSID repo
+          # Self-exclude: this file contains pattern literals.
+          SELF=".github/workflows/docs_ci.yml"
+
           PRIVATE_PATTERNS=(
             "local.ssid"
             "local-ssid"
@@ -179,7 +195,11 @@ jobs:
             if grep -rn "$pattern" \
               --include="*.ts" --include="*.js" --include="*.mjs" \
               --include="*.yml" --include="*.yaml" --include="*.sh" --include="*.ps1" \
-              . 2>/dev/null | grep -v node_modules | grep -v pnpm-lock | grep -v "tests/security.test.mjs"; then
+              . 2>/dev/null \
+              | grep -v node_modules \
+              | grep -v pnpm-lock \
+              | grep -v "$SELF" \
+              | grep -v "tests/security.test.mjs"; then
               echo "FAIL: Private repo reference pattern '$pattern' found!"
               FAIL=1
             fi
