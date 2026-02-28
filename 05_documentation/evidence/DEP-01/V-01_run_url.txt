@@ -1,0 +1,18 @@
+DEP-01 Evidence: V-01 Deploy Pipeline Proof
+=============================================
+Date: 2026-02-28
+
+Fix PR: https://github.com/EduBrainBoost/SSID-docs/pull/12
+  Title: fix(ci): DEP-01 pages deploy blockers
+  All 5 required checks: PASS
+  Merged: squash into main
+
+Post-merge deploy run:
+  Run ID:  22519186935
+  URL:     https://github.com/EduBrainBoost/SSID-docs/actions/runs/22519186935
+  Status:  SUCCESS
+  Jobs:
+    build:  PASS (27s) — Checkout, Setup pnpm, Setup Node, Configure Pages, Install, Build, Upload artifact
+    deploy: PASS (11s) — Deploy to GitHub Pages
+
+Result: V-01 PASS — deploy pipeline runs successfully on merge to main.

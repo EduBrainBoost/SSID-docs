@@ -1,0 +1,13 @@
+DEP-01 Evidence: Pages Enabled
+===============================
+Date: 2026-02-28
+Repo: EduBrainBoost/SSID-docs
+
+GitHub Pages API Response:
+  build_type: workflow
+  source: branch=main, path=/
+  html_url: https://edubrainboost.github.io/SSID-docs/
+  https_enforced: true
+  public: true
+
+Verification: Build and deployment = GitHub Actions (PASS)
