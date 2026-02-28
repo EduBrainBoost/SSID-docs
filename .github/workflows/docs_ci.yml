@@ -42,10 +42,150 @@ jobs:
 
       - name: Check for secrets
         run: |
-          echo "Scanning for potential secrets..."
-          # Check for common secret patterns
-          if grep -rn "PRIVATE.KEY\|sk_live\|password\s*=\s*['\"]" --include="*.ts" --include="*.js" --include="*.mjs" --include="*.json" --include="*.md" --include="*.mdx" --include="*.css" . 2>/dev/null | grep -v node_modules | grep -v pnpm-lock; then
-            echo "FAIL: Potential secrets detected!"
+          echo "=== Secret Pattern Scan ==="
+          FAIL=0
+
+          # Scan source files for credential patterns
+          for pattern in \
+            "PRIVATE.KEY" \
+            "sk_live_" \
+            "sk_test_" \
+            "-----BEGIN.*KEY-----" \
+            "ghp_[A-Za-z0-9_]" \
+            "gho_[A-Za-z0-9_]" \
+            "password\s*[:=]\s*['\"]" \
+            "api[_-]key\s*[:=]\s*['\"]"; do
+            if grep -rn "$pattern" \
+              --include="*.ts" --include="*.js" --include="*.mjs" \
+              --include="*.json" --include="*.md" --include="*.mdx" \
+              --include="*.css" --include="*.yml" --include="*.yaml" \
+              --include="*.svg" --include="*.html" \
+              . 2>/dev/null | grep -v node_modules | grep -v pnpm-lock | grep -v "tests/security.test.mjs" | grep -v "tests/content.test.mjs" | grep -v "tools/ingest.mjs"; then
+              echo "FAIL: Pattern '$pattern' found in source files!"
+              FAIL=1
+            fi
+          done
+
+          if [ "$FAIL" -eq 1 ]; then
             exit 1
           fi
           echo "PASS: No secrets detected"
+
+  denylist-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for forbidden file types
+        run: |
+          echo "=== Forbidden File Type Scan ==="
+          FAIL=0
+
+          # Forbidden file extensions (never allowed in public docs repo)
+          for ext in pem key p12 pfx jks keystore env; do
+            if find . -name "*.${ext}" -not -path "./node_modules/*" -not -path "./.git/*" | grep -q .; then
+              echo "FAIL: Forbidden file type .${ext} found:"
+              find . -name "*.${ext}" -not -path "./node_modules/*" -not -path "./.git/*"
+              FAIL=1
+            fi
+          done
+
+          if [ "$FAIL" -eq 1 ]; then
+            exit 1
+          fi
+          echo "PASS: No forbidden file types"
+
+      - name: Check for forbidden paths
+        run: |
+          echo "=== Forbidden Path Scan ==="
+          FAIL=0
+
+          # Forbidden path patterns (SSID-internal structure must never appear)
+          FORBIDDEN_PATHS=(
+            "02_audit_logging"
+            "worm"
+            "registry/.*internal"
+            "credential"
+            "token.*secret"
+            "\.env\."
+          )
+
+          for pattern in "${FORBIDDEN_PATHS[@]}"; do
+            if find . -path "./node_modules" -prune -o -path "./.git" -prune -o -regex ".*${pattern}.*" -print | grep -q .; then
+              echo "FAIL: Forbidden path pattern '${pattern}' found:"
+              find . -path "./node_modules" -prune -o -path "./.git" -prune -o -regex ".*${pattern}.*" -print
+              FAIL=1
+            fi
+          done
+
+          if [ "$FAIL" -eq 1 ]; then
+            exit 1
+          fi
+          echo "PASS: No forbidden paths"
+
+      - name: Check for absolute local paths in content
+        run: |
+          echo "=== Absolute Path Leak Scan ==="
+          FAIL=0
+
+          # Block absolute local paths that leak private repo locations
+          LEAK_PATTERNS=(
+            'C:\\Users\\'
+            'C:/Users/'
+            '/home/.*Documents.*SSID'
+            '/mnt/.*SSID'
+            'Users/bibel'
+          )
+
+          for pattern in "${LEAK_PATTERNS[@]}"; do
+            if grep -rn "$pattern" \
+              --include="*.md" --include="*.mdx" --include="*.ts" \
+              --include="*.js" --include="*.mjs" --include="*.json" \
+              --include="*.yml" --include="*.yaml" --include="*.css" \
+              . 2>/dev/null | grep -v node_modules | grep -v pnpm-lock | grep -v ".git/"; then
+              echo "FAIL: Absolute local path leaked: '$pattern'"
+              FAIL=1
+            fi
+          done
+
+          if [ "$FAIL" -eq 1 ]; then
+            exit 1
+          fi
+          echo "PASS: No absolute path leaks"
+
+      - name: Check for private repo references in automation
+        run: |
+          echo "=== Private Repo Reference Scan ==="
+          FAIL=0
+
+          # No automation file should reference the private SSID repo
+          PRIVATE_PATTERNS=(
+            "local.ssid"
+            "local-ssid"
+            "localSsid"
+            "SSID[^-].*clone"
+            "SSID[^-].*checkout"
+            "sync.all"
+            "mirror.repo"
+            "export.repo"
+            "rsync.*SSID[^-]"
+            "robocopy.*SSID[^-]"
+            "cp.*-r.*SSID[^-]"
+            "git.subtree.*SSID[^-]"
+            "git.filter-repo"
+          )
+
+          for pattern in "${PRIVATE_PATTERNS[@]}"; do
+            if grep -rn "$pattern" \
+              --include="*.ts" --include="*.js" --include="*.mjs" \
+              --include="*.yml" --include="*.yaml" --include="*.sh" --include="*.ps1" \
+              . 2>/dev/null | grep -v node_modules | grep -v pnpm-lock | grep -v "tests/security.test.mjs"; then
+              echo "FAIL: Private repo reference pattern '$pattern' found!"
+              FAIL=1
+            fi
+          done
+
+          if [ "$FAIL" -eq 1 ]; then
+            exit 1
+          fi
+          echo "PASS: No private repo references"

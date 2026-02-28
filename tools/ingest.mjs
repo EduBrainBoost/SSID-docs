@@ -32,18 +32,30 @@ const ALLOWED_PATHS = [
 const ALLOWED_EXTENSIONS = ['.md', '.mdx', '.json', '.yaml', '.yml'];
 
 // === BLOCKLIST: These patterns are NEVER ingested ===
+// Aligned with CI denylist-gate (docs_ci.yml)
 const BLOCKED_PATTERNS = [
+  // File types
   /\.env/i,
   /\.key$/i,
   /\.pem$/i,
+  /\.p12$/i,
+  /\.pfx$/i,
+  /\.jks$/i,
+  /\.keystore$/i,
+  // Content patterns
   /credentials/i,
   /secret/i,
   /private/i,
   /password/i,
+  // SSID-internal paths (must never leak)
+  /02_audit_logging/,
+  /worm/i,
+  /registry\/.*internal/i,
+  /token.*secret/i,
   /token.*\.json$/i,
   /audit.*log/i,
-  /worm/i,
   /internal/i,
+  // Infrastructure
   /\.git\//,
   /node_modules\//,
 ];
@@ -102,12 +114,27 @@ function isAllowed(relativePath) {
   return true;
 }
 
+// === ABSOLUTE PATH PATTERNS: Content containing these is rejected ===
+const ABSOLUTE_PATH_PATTERNS = [
+  /C:\\Users\\/i,
+  /C:\/Users\//i,
+  /\/home\/.*Documents.*SSID/i,
+  /\/mnt\/.*SSID/i,
+  /Users\/bibel/i,
+];
+
 function containsSecrets(filePath) {
   try {
     const content = fs.readFileSync(filePath, 'utf-8');
     for (const pattern of SECRET_PATTERNS) {
       if (pattern.test(content)) {
         console.error(`[ingest] SECRET DETECTED in: ${filePath}`);
+        return true;
+      }
+    }
+    for (const pattern of ABSOLUTE_PATH_PATTERNS) {
+      if (pattern.test(content)) {
+        console.error(`[ingest] ABSOLUTE PATH LEAK in: ${filePath}`);
         return true;
       }
     }

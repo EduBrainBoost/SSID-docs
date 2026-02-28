@@ -58,6 +58,8 @@ function scanDir(dir) {
     if (entry.isDirectory()) {
       scanDir(full);
     } else if (/\.(mjs|js|ts|yml|yaml|sh|ps1)$/.test(entry.name)) {
+      // Skip CI workflow files — they contain patterns as scan rules, not real references
+      if (entry.name === 'docs_ci.yml') continue;
       scanFileForPatterns(full);
     }
   }
@@ -88,12 +90,28 @@ if (!ingestContent.includes('validateSourceIsPublic')) {
   errors++;
 }
 
-// === 4. Check CI has secret-scan job ===
+// === 4. Check ingest.mjs has absolute path detection ===
+if (!ingestContent.includes('ABSOLUTE_PATH_PATTERNS')) {
+  console.error('  FAIL: ingest.mjs missing ABSOLUTE_PATH_PATTERNS guard');
+  errors++;
+}
+
+// === 5. Check PUBLIC_POLICY.md exists ===
+if (!fs.existsSync(path.join(ROOT, 'PUBLIC_POLICY.md'))) {
+  console.error('  FAIL: PUBLIC_POLICY.md missing');
+  errors++;
+}
+
+// === 6. Check CI has required gates ===
 const ciPath = path.join(ROOT, '.github', 'workflows', 'docs_ci.yml');
 if (fs.existsSync(ciPath)) {
   const ciContent = fs.readFileSync(ciPath, 'utf-8');
   if (!ciContent.includes('secret') && !ciContent.includes('Secret')) {
     console.error('  FAIL: CI workflow missing secret scan step');
+    errors++;
+  }
+  if (!ciContent.includes('denylist-gate')) {
+    console.error('  FAIL: CI workflow missing denylist-gate job');
     errors++;
   }
 }
@@ -124,5 +142,8 @@ if (errors > 0) {
 console.log('  No private repo access patterns');
 console.log('  No dangerous sync/mirror patterns');
 console.log('  Allowlist enforcement verified');
+console.log('  Absolute path detection verified');
+console.log('  CI denylist-gate verified');
+console.log('  PUBLIC_POLICY.md present');
 console.log('  Secret scan in CI verified');
 console.log('  No .env files found');
