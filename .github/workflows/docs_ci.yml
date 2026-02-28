@@ -61,10 +61,11 @@ jobs:
               --include="*.json" --include="*.md" --include="*.mdx" \
               --include="*.css" --include="*.yml" --include="*.yaml" \
               --include="*.svg" --include="*.html" \
+              --exclude="$SELF" \
               . 2>/dev/null \
               | grep -v node_modules \
               | grep -v pnpm-lock \
-              | grep -v "$SELF" \
+              | grep -vF "$SELF" \
               | grep -v "PUBLIC_POLICY.md" \
               | grep -v "tests/security.test.mjs" \
               | grep -v "tests/content.test.mjs" \
@@ -149,11 +150,12 @@ jobs:
               --include="*.md" --include="*.mdx" --include="*.ts" \
               --include="*.js" --include="*.mjs" --include="*.json" \
               --include="*.yml" --include="*.yaml" --include="*.css" \
+              --exclude="$SELF" \
               . 2>/dev/null \
               | grep -v node_modules \
               | grep -v pnpm-lock \
               | grep -v ".git/" \
-              | grep -v "$SELF" \
+              | grep -vF "$SELF" \
               | grep -v "PUBLIC_POLICY.md"; then
               echo "FAIL: Absolute local path leaked: '$pattern'"
               FAIL=1
@@ -188,10 +190,11 @@ jobs:
             if grep -rn "$pattern" \
               --include="*.ts" --include="*.js" --include="*.mjs" \
               --include="*.yml" --include="*.yaml" --include="*.sh" --include="*.ps1" \
+              --exclude="$SELF" \
               . 2>/dev/null \
               | grep -v node_modules \
               | grep -v pnpm-lock \
-              | grep -v "$SELF" \
+              | grep -vF "$SELF" \
               | grep -v "tests/security.test.mjs"; then
               echo "FAIL: Private repo reference pattern '$pattern' found!"
               FAIL=1
