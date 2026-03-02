@@ -59,6 +59,7 @@ jobs:
             ".gitignore"
             "CODEOWNERS"
             "LICENSE"
+            "PUBLIC_POLICY.md"
             "README.md"
             "SECURITY.md"
             "astro.config.mjs"
