@@ -89,6 +89,7 @@ export default defineConfig({
             { label: 'Roadmap', slug: 'roadmap' },
             { label: 'Status', slug: 'status' },
             { label: 'Changelog', slug: 'changelog' },
+            { label: 'Security & Disclosure', slug: 'security' },
           ],
         },
       ],
