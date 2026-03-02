@@ -1,0 +1,8 @@
+# SSID Security Contact (RFC 9116)
+# https://securitytxt.org/
+
+Contact: https://github.com/EduBrainBoost/SSID-docs/security/advisories/new
+Expires: 2027-03-01T00:00:00.000Z
+Preferred-Languages: en, de
+Canonical: https://edubrainboost.github.io/SSID-docs/.well-known/security.txt
+Policy: https://github.com/EduBrainBoost/SSID-docs/blob/main/SECURITY.md

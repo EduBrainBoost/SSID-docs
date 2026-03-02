@@ -1,0 +1,50 @@
+---
+title: Security & Responsible Disclosure
+description: How to report security vulnerabilities in the SSID project.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Reporting a Vulnerability
+
+<Aside type="caution">
+**Do NOT** create a public GitHub issue for security vulnerabilities.
+</Aside>
+
+If you discover a security vulnerability in any SSID repository, please report it responsibly:
+
+1. Use [GitHub's private vulnerability reporting](https://github.com/EduBrainBoost/SSID-docs/security/advisories/new)
+2. Include a clear description and steps to reproduce
+3. Allow reasonable time for a fix before public disclosure
+
+We aim to acknowledge reports within **48 hours** and provide a fix timeline within **7 days**.
+
+## Scope
+
+| Repository | Scope | Notes |
+|------------|-------|-------|
+| **SSID-docs** | Public documentation site | No secrets, no credentials |
+| **SSID-open-core** | Public sanitized export | Deny-glob + secret scan enforced |
+| **SSID** (private) | Core identity system | Additional security controls |
+| **SSID-EMS** (private) | External Management System | Evidence store, guard/gate matrix |
+
+## Security Controls
+
+This documentation site enforces:
+
+- **Secret scanning** on every PR (pattern-based detection)
+- **Denylist gate** blocking forbidden file types, paths, and absolute path leaks
+- **Ingest validation** ensuring only SSID-open-core (public) is used as source
+- **No direct commits** to `main` (PR-only governance)
+- **WORM evidence** for all merge events
+
+## Contact
+
+- **Preferred**: [GitHub Security Advisory](https://github.com/EduBrainBoost/SSID-docs/security/advisories/new)
+- **Languages**: English, Deutsch
+- **security.txt**: [/.well-known/security.txt](/.well-known/security.txt)
+
+## Policy References
+
+- [SECURITY.md](https://github.com/EduBrainBoost/SSID-docs/blob/main/SECURITY.md) (repository-level policy)
+- [RFC 9116](https://www.rfc-editor.org/rfc/rfc9116) (security.txt standard)
