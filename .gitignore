@@ -22,6 +22,12 @@ Thumbs.db
 # Astro
 .astro/
 
+# Claude Code
+.claude/
+
+# pnpm-only (no npm lockfile)
+package-lock.json
+
 # Debug
 npm-debug.log*
 pnpm-debug.log*
