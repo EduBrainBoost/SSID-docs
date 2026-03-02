@@ -1,0 +1,82 @@
+---
+title: "AI Gateway"
+description: "Controlled Claude integration with model allowlist, prompt redaction, rate limiting, and output guard."
+---
+
+The AI Gateway controls all interactions between the EMS and Claude, enforcing security, cost, and governance policies.
+
+## Architecture
+
+```
+Prompt → Pre-flight Redaction → Model Allowlist → Rate Limiter → Claude CLI → Output Guard → Response
+```
+
+Each step is enforced by the `subprocess_driver.py` module in `ssidctl`.
+
+## Model Allowlist
+
+Only approved models can be invoked:
+
+| Model ID | Use Case |
+|----------|----------|
+| `claude-sonnet-4-6` | Default: code review, PR summaries |
+| `claude-opus-4-6` | Complex analysis, architecture review |
+| `claude-haiku-4-5-20251001` | Fast, cost-effective routine checks |
+
+Requests with unauthorized models return exit code -3 (blocked).
+
+## Pre-Flight Prompt Redaction
+
+Before any prompt reaches the LLM:
+
+1. `contains_secrets(prompt)` scans for API keys, tokens, PII, paths
+2. If found: `sanitize_text(prompt)` replaces with safe placeholders
+3. Original prompt hash (`sha256:...`) logged for audit trail
+4. Redacted prompt sent to Claude
+
+This prevents accidental secret leakage to the LLM provider.
+
+## Rate Limiting
+
+| Limit | Default | Configurable |
+|-------|---------|-------------|
+| Per minute | 10 calls | `claude.rate_limit_per_minute` |
+| Per hour | 100 calls | `claude.rate_limit_per_hour` |
+
+Exceeded limits return exit code -4 with descriptive error.
+
+## Output Guard
+
+LLM responses are scanned for dangerous patterns before use:
+
+- `rm -rf`, `DROP TABLE`, `DELETE FROM`
+- `git push --force`, `git reset --hard`
+- `--no-verify`, `sudo rm`, `format c:`
+
+Flagged patterns are recorded in `output_guard_flags` but do **not** block the response. LLM output is never executed directly — it is written as a suggestion for human review.
+
+## OWASP LLM Top 10 Alignment
+
+| Risk | Mitigation |
+|------|-----------|
+| LLM01: Prompt Injection | Pre-flight redaction, no direct output execution |
+| LLM02: Insecure Output | Output guard flags, human review required |
+| LLM03: Training Data Poisoning | Anthropic API (managed), no fine-tuning |
+| LLM06: Sensitive Info Disclosure | Prompt redaction, hash-only evidence |
+| LLM08: Excessive Agency | Tool/action allowlisting via EMS scope firewall |
+
+## Graceful Degradation
+
+When Claude is unavailable (quota exceeded, API outage):
+- All CI gates continue to function (Python/OPA, not LLM-dependent)
+- AI-assisted features disabled (code review, PR summaries)
+- **No merge block**: Claude unavailability does not block merges
+
+## NIST AI RMF Alignment
+
+The AI Gateway implements controls from the [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework):
+
+- **Govern**: Model allowlist, rate limits, spend controls
+- **Map**: Risk assessment for prompt injection, data leakage
+- **Measure**: Output guard metrics, rate limit tracking
+- **Manage**: Graceful degradation, incident response (RB-005)

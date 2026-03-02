@@ -226,3 +226,119 @@
 :root[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 229, 255, 0.4);
 }
+
+/* === Animated Glow on Focus === */
+:root[data-theme='dark'] *:focus-visible {
+  outline: 2px solid var(--ssid-neon-cyan);
+  outline-offset: 2px;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.3);
+}
+
+/* === Status Badge Variants === */
+.badge-pass {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: rgba(57, 255, 20, 0.12);
+  color: var(--ssid-neon-green);
+}
+
+.badge-fail {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: rgba(255, 43, 214, 0.12);
+  color: var(--ssid-neon-magenta);
+}
+
+.badge-info {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: rgba(0, 229, 255, 0.12);
+  color: var(--ssid-neon-cyan);
+}
+
+/* === Responsive Grid Layout === */
+.ssid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .ssid-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* === Responsive Sidebar Adjustments === */
+@media (max-width: 768px) {
+  :root[data-theme='dark'] .content-panel {
+    padding: 1rem;
+  }
+
+  :root[data-theme='dark'] .content-panel h1 {
+    font-size: 1.5rem;
+  }
+}
+
+/* === Print Styles === */
+@media print {
+  body::after {
+    display: none !important;
+  }
+
+  .glass-card,
+  .evidence-card,
+  .sot-card {
+    background: #fff;
+    color: #000;
+    border: 1px solid #ccc;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  nav.sidebar,
+  .starlight-aside {
+    break-inside: avoid;
+  }
+
+  a:not([class]) {
+    color: #000;
+    text-decoration: underline;
+  }
+
+  a:not([class])::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.8em;
+    color: #666;
+  }
+}
+
+/* === Neon Pulse Animation (opt-in via class) === */
+@keyframes neon-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.neon-pulse {
+  animation: neon-pulse 2s ease-in-out infinite;
+}
+
+/* === Reduced Motion === */
+@media (prefers-reduced-motion: reduce) {
+  .neon-pulse {
+    animation: none;
+  }
+
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}

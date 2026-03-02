@@ -1,0 +1,57 @@
+---
+title: "Supply-Chain Security"
+description: "SLSA provenance, SBOM generation, artifact signing, and reproducible builds for the SSID ecosystem."
+---
+
+Supply-chain security ensures that every artifact produced by SSID can be traced back to its source, verified for integrity, and reproduced independently.
+
+## Current State
+
+SSID enforces supply-chain integrity through:
+
+- **8-gate blocking chain**: Every PR must pass structure, SoT, policy, and QA gates
+- **Secret scan**: Gitleaks (SSID) / grep-based patterns (open-core, docs) in CI
+- **Hash-only evidence**: SHA-256 hashes for all artifacts, WORM-sealed
+- **Dependency pinning**: OPA v1.0.0, Python 3.11, Gitleaks v8.21.2 pinned in CI
+
+## Planned Enhancements
+
+### SLSA Level 3 Provenance
+
+[SLSA](https://slsa.dev/) defines supply-chain security levels. Level 3 requires:
+
+- Isolated, hermetic builds
+- Signed provenance attestations
+- Non-falsifiable build metadata
+
+**Roadmap**: Integrate `slsa-verifier` and GitHub's official SLSA provenance generators into CI.
+
+### SBOM (Software Bill of Materials)
+
+Two standards under evaluation:
+
+| Standard | Focus | Format |
+|----------|-------|--------|
+| SPDX (ISO/IEC 5962:2021) | License compliance | Tag-value, JSON, RDF |
+| CycloneDX (ECMA-424) | Security/vulnerability tracking | JSON, XML |
+
+**Roadmap**: Generate SBOM as CI artifact alongside gate evidence.
+
+### Artifact Signing (Sigstore)
+
+- **Cosign**: Keyless signing using Fulcio (short-lived certificates from OIDC identity)
+- **Rekor**: Transparency log for audit trail of all signing events
+- **Verification**: `cosign verify` against Rekor transparency log
+
+### Reproducible Builds
+
+Goal: Given the same source inputs, produce bit-identical outputs.
+
+Current measures:
+- Pinned tool versions in CI (Python, OPA, Gitleaks)
+- Frozen lockfiles (`pnpm-lock.yaml` for docs)
+- Deterministic gate chain (stop-on-first-fail, no random ordering)
+
+Planned:
+- Nix or container-based hermetic build environment
+- Build reproducibility verification as a CI gate

@@ -1,0 +1,63 @@
+---
+title: "External Management System"
+description: "Architecture of the SSID External Management System (EMS) — the control, evidence, and execution planes."
+---
+
+The EMS is the external control plane that enforces SSID governance without embedding management code into the repository itself. It operates as a **CLI-first** tool (`ssidctl`) with a clear separation into three planes.
+
+## Control Plane
+
+| Component | Implementation | Purpose |
+|-----------|---------------|---------|
+| Policy Engine | OPA (Rego) + Python guards | Structural/SoT/scope validation |
+| Workflow Orchestrator | `lifecycle.py` state machine | 8-state deterministic workflow (CREATED→DONE/FAILED) |
+| AI Gateway | `subprocess_driver.py` | Controlled Claude access with model allowlist, rate limits, redaction |
+| Scope Firewall | `scope_firewall.py` | Limits changed files/lines/types per task |
+
+## Evidence Plane
+
+| Component | Implementation | Purpose |
+|-----------|---------------|---------|
+| Event Store | Append-only JSONL with SHA-256 payload hashes | Tamper-evident event recording |
+| WORM Storage | `evidence_store.py` with SEALED sentinel | Immutable evidence after sealing |
+| Hash Chain | `verify_hash_chain()` | Cryptographic chain integrity verification |
+| Approval Ledger | Append-only JSONL (hash-only, no raw diffs) | Immutable approval records |
+
+## Execution Plane
+
+### 3-Worktree Model
+
+Every EMS run creates three isolated git worktrees:
+
+| Worktree | Mode | Purpose |
+|----------|------|---------|
+| `plan` | Read-only (detached HEAD) | Snapshot analysis, scope scanning |
+| `apply` | Write (branch `cms/{task}/{run}`) | Patch application, commit building |
+| `verify` | Read-only (detached HEAD) | Clean reproduction: fresh checkout + patch apply + gates |
+
+The `verify` worktree prevents "dirty artifacts" false-PASS by applying the patch to a clean state.
+
+### Guard/Gate Matrix
+
+**7 Pre-flight Guards** (EMS-side): ROOT-24-LOCK, anti-duplication, forbidden extensions, SoT write guard, secret/PII scan, registry semantics, token legal lexicon.
+
+**6 External Gates** (SSID-side): structure guard, duplicate guard, repo separation, policy check, SoT validation, QA check.
+
+## CLI Architecture
+
+The `ssidctl` CLI provides 16 commands covering the full lifecycle:
+
+```
+ssidctl gates      # Run guards/gates
+ssidctl doctor     # Health check (tools, paths, state)
+ssidctl evidence   # Query/verify evidence store
+ssidctl incident   # Incident management
+ssidctl pr         # PR queue management
+ssidctl bootstrap  # SSID skeleton generation
+```
+
+## Concurrency Model
+
+- **Concurrency = 1**: Global single-flight per repository
+- PID-based lock file with stale detection
+- No parallel runs allowed (prevents state corruption)
