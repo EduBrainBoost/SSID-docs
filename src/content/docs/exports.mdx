@@ -1,0 +1,51 @@
+---
+title: Export Transparency
+description: Public export run metadata showing what was exported to SSID-open-core.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<Aside type="note">
+This page shows **metadata only** from public export runs. No file paths, raw content, or internal identifiers are disclosed. All data originates from sanitized export manifests.
+</Aside>
+
+## Latest Export Run
+
+| Field | Value |
+|-------|-------|
+| **Timestamp** | 2026-03-02T06:26:33Z |
+| **Policy Version** | 1.0.0 |
+| **Files Scanned** | 578 |
+| **Files Exported** | 258 |
+| **Denied (policy glob)** | 241 |
+| **Blocked (secret scan)** | 1 |
+| **Blocked (binary filter)** | 78 |
+| **Oversized (rejected)** | 0 |
+| **Max File Size** | 10 MB |
+
+## Export Pipeline
+
+The public export process is fully deterministic and enforces multiple safety layers:
+
+1. **Policy glob filter** removes internal paths (audit logs, quarantine, registry internals)
+2. **Secret scanner** rejects files containing API keys, private keys, passwords, or tokens
+3. **Binary filter** blocks non-allowlisted binary file types
+4. **Size cap** rejects files exceeding the configured maximum
+5. **Manifest generation** records SHA-256 hashes for every exported file
+
+## Export Schedule
+
+| Job | Schedule | Status | Description |
+|-----|----------|--------|-------------|
+| Daily dry-run | `0 6 * * *` (06:00 CET) | Active | Audit/preview only, no files copied |
+| Weekly PR export | `0 7 * * 1` (Monday 07:00 CET) | Disabled | Requires explicit approval to activate |
+
+<Aside type="caution">
+The weekly PR export is **approval-gated**. It cannot be activated without a recorded approval in the EMS Approval Ledger. Even when active, it creates a pull request for review — it never auto-merges.
+</Aside>
+
+## Integrity
+
+Each export run produces a manifest containing SHA-256 hashes per file. The manifest itself is stored in the EMS runs directory (outside any git repository) and is available for audit verification.
+
+No raw file content, internal identifiers, or absolute paths appear in export manifests or on this page.

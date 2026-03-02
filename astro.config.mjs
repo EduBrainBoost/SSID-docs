@@ -90,6 +90,7 @@ export default defineConfig({
             { label: 'Status', slug: 'status' },
             { label: 'Changelog', slug: 'changelog' },
             { label: 'Security & Disclosure', slug: 'security' },
+            { label: 'Export Transparency', slug: 'exports' },
           ],
         },
       ],
