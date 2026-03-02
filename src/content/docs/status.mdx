@@ -1,0 +1,54 @@
+---
+title: Project Status
+description: Current operational status of SSID public infrastructure.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<Aside type="note">
+This page shows the status of **public-facing** SSID infrastructure only.
+All data is derived from the SSID-open-core public export. Last updated: 2026-03-02.
+</Aside>
+
+## Repository Status
+
+| Repository | Branch | Status | Notes |
+|------------|--------|--------|-------|
+| **SSID** (private) | `main` | Operational | PR-only, CI gates active |
+| **SSID-open-core** (public) | `main` | Operational | Sanitized export from SSID |
+| **SSID-docs** (public) | `main` | Operational | Starlight site, deterministic ingest |
+| **SSID-EMS** (private) | `master` | Operational | CLI control plane, pytest passing |
+
+## Governance Gates
+
+| Gate | Status | Description |
+|------|--------|-------------|
+| Structure Guard | Active | Validates 24-root directory layout |
+| Secret Scan | Active | Blocks credentials, API keys, PII in PRs |
+| Dependency Audit | Active | Checks for known vulnerabilities |
+| CODEOWNERS | Active | Enforces review by domain owners |
+| WORM Evidence | Active | Append-only audit log for all merges |
+
+## EMS Health
+
+| Component | Status | Last Verified |
+|-----------|--------|---------------|
+| `ssidctl` CLI | Operational | 2026-03-02 |
+| 3-Worktree Model | Operational | 2026-03-02 |
+| Guard/Gate Matrix (7+6) | All passing | 2026-03-02 |
+| Evidence Store | Operational | 2026-03-02 |
+| pytest Suite | 554 passed, 7 skipped | 2026-03-02 |
+
+## Public Export Pipeline
+
+| Step | Status | Description |
+|------|--------|-------------|
+| Deny-glob filter | Active | Blocks internal paths, secrets, binary files |
+| Binary allowlist | Active | Only explicitly permitted binary types pass |
+| Size cap | Active | Per-file and total export size limits |
+| PII/Secrets block | Active | Pattern-based detection + absolute path leak prevention |
+| Ingest to docs | Active | Deterministic scan, no LLM, allowlist-only |
+
+<Aside type="caution">
+Status information is updated manually with each documentation release. For real-time CI status, see the repository Actions tabs on GitHub.
+</Aside>

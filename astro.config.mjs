@@ -36,6 +36,7 @@ export default defineConfig({
             { label: '24x16 Matrix', slug: 'architecture/matrix' },
             { label: 'Shards & Hybrid Charts', slug: 'architecture/shards' },
             { label: 'Deterministic Artifacts', slug: 'architecture/artifacts' },
+            { label: 'EMS Architecture', slug: 'architecture/ems' },
           ],
         },
         {
@@ -44,6 +45,8 @@ export default defineConfig({
             { label: 'PR-Only Workflow', slug: 'governance/pr-only' },
             { label: 'Evidence & WORM', slug: 'governance/evidence' },
             { label: 'Policy Gates', slug: 'governance/policy-gates' },
+            { label: 'Incident Response & DR', slug: 'governance/incident-response' },
+            { label: 'Secrets Management', slug: 'governance/secrets-management' },
           ],
         },
         {
@@ -52,6 +55,7 @@ export default defineConfig({
             { label: 'DSGVO / GDPR', slug: 'compliance/gdpr' },
             { label: 'eIDAS', slug: 'compliance/eidas' },
             { label: 'MiCA Positioning', slug: 'compliance/mica' },
+            { label: 'Supply-Chain Security', slug: 'compliance/supply-chain' },
           ],
         },
         {
@@ -59,7 +63,10 @@ export default defineConfig({
           items: [
             { label: 'Dispatcher Workflow', slug: 'tooling/dispatcher' },
             { label: 'Agent Roles', slug: 'tooling/agents' },
+            { label: 'Mission Control (EMS)', slug: 'tooling/mission-control' },
             { label: 'Health Checks', slug: 'tooling/health-checks' },
+            { label: 'Observability', slug: 'tooling/observability' },
+            { label: 'AI Gateway', slug: 'tooling/ai-gateway' },
           ],
         },
         {
@@ -74,6 +81,14 @@ export default defineConfig({
           items: [
             { label: 'General FAQ', slug: 'faq/general' },
             { label: 'Token Disambiguation', slug: 'faq/token-disambiguation' },
+          ],
+        },
+        {
+          label: 'Project',
+          items: [
+            { label: 'Roadmap', slug: 'roadmap' },
+            { label: 'Status', slug: 'status' },
+            { label: 'Changelog', slug: 'changelog' },
           ],
         },
       ],

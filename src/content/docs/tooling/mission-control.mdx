@@ -1,0 +1,174 @@
+---
+title: Mission Control (EMS)
+description: ssidctl CLI — task board, content pipeline, team registry, calendar, memory vault, and office dashboard.
+---
+
+import { Aside, Card, CardGrid } from '@astrojs/starlight/components';
+
+# Mission Control (EMS)
+
+**SSID-EMS** is the operational layer for the SSID ecosystem. It provides a CLI tool (`ssidctl`) that manages tasks, content, teams, scheduling, and evidence — all governed by the same PR-only, append-only principles as the SSID repo itself.
+
+<Aside type="note">
+EMS stands for **Evidence Management System**. All mutations are event-sourced (YAML snapshot + JSONL append-only log) and evidence-linked.
+</Aside>
+
+## Core Modules
+
+<CardGrid>
+  <Card title="Task Board" icon="list-format">
+    Kanban-style task management with 7 statuses, 4 priorities, and event-sourced mutation tracking.
+  </Card>
+  <Card title="Content Pipeline" icon="document">
+    9-stage content lifecycle from IDEA to POSTMORTEM with attachment tracking and hash verification.
+  </Card>
+  <Card title="Team Registry" icon="group">
+    Agent profiles with availability tracking (IDLE, RUNNING, BLOCKED) and role-based scope enforcement.
+  </Card>
+  <Card title="Office Dashboard" icon="laptop">
+    Aggregated view of all agents, active tasks, and board summary with watch mode and JSON export.
+  </Card>
+</CardGrid>
+
+## CLI Overview
+
+All commands follow the pattern `ssidctl <module> <action>`.
+
+### Task Board
+
+```bash
+ssidctl board add T-001 "Implement auth flow" --module SSID --priority P0
+ssidctl board move T-001 DOING
+ssidctl board assign T-001 agent:Agent-IMP
+ssidctl board update T-001 --priority P1
+ssidctl board delete T-001
+ssidctl board list
+ssidctl board show T-001
+```
+
+| Status | Description |
+|--------|-------------|
+| BACKLOG | Not yet scheduled |
+| READY | Scheduled, waiting for assignment |
+| DOING | In progress |
+| BLOCKED | Waiting on dependency |
+| REVIEW | Under review |
+| DONE | Completed |
+| CANCELLED | Cancelled |
+
+### Content Pipeline
+
+```bash
+ssidctl content new C-001 "Blog: SSID Architecture" --channel blog --tags architecture,overview
+ssidctl content stage C-001 SCRIPT
+ssidctl content edit C-001 --title "Updated Title"
+ssidctl content attach C-001 ./diagram.png --mime image/png
+ssidctl content export
+ssidctl content list
+ssidctl content show C-001
+```
+
+Stages: `IDEA` > `OUTLINE` > `BRIEF` > `SCRIPT` > `ASSETS` > `REVIEW` > `PUBLISH` > `ARCHIVE` > `POSTMORTEM`
+
+### Team Registry
+
+```bash
+ssidctl team list
+ssidctl team show Agent-IMP
+ssidctl team set-status Agent-IMP RUNNING
+```
+
+### Calendar / Cron
+
+```bash
+ssidctl calendar add daily-gates "@daily" "ssidctl gates --all"
+ssidctl calendar list
+ssidctl calendar disable daily-gates
+ssidctl calendar enable daily-gates
+ssidctl calendar run-now daily-gates
+ssidctl calendar export   # ICS format
+```
+
+### Memory Vault
+
+```bash
+ssidctl memory add "Architecture Decision" --tags adr,architecture --file ./adr-001.md
+ssidctl memory list
+ssidctl memory show M-abc123
+ssidctl memory search "architecture"   # Fulltext search across title, tags, and content
+```
+
+### Attachment Vault
+
+```bash
+ssidctl vault add ./report.pdf --category reports --mime application/pdf
+ssidctl vault list
+ssidctl vault retrieve V-abc12345 --dest ./output.pdf
+```
+
+### Office Dashboard
+
+```bash
+ssidctl office              # Snapshot view
+ssidctl office --watch      # Live polling (5s default)
+ssidctl office --export-json status.json
+```
+
+## Agent Roles
+
+EMS defines 8 agent roles that operate within the 3-worktree model:
+
+| Role | ID | Responsibility |
+|------|----|---------------|
+| Assistant | — | Control plane / orchestrator |
+| Planner | Agent-PLN | Scope analysis, plan generation |
+| Implementer | Agent-IMP | Patch creation in apply worktree |
+| Auditor | Agent-AUD | Gate execution in verify worktree |
+| Ops Runner | Agent-OPS | CI parity, environment checks |
+| Content Writer | Agent-CNT | Content artifact creation |
+| Designer | Agent-DSN | Asset briefings, design prompts |
+| Board Manager | Agent-PM | Task board and calendar maintenance |
+
+## Guards and Gates
+
+EMS runs **7 pre-flight guards** before any worktree operation:
+
+| Guard | Check |
+|-------|-------|
+| root_24_lock | Exactly 24 root directories exist |
+| anti_duplication | No duplicate filenames across paths |
+| forbidden_extensions | No banned file types (.exe, .dll, etc.) |
+| sot_write_guard | SoT files require explicit approval |
+| secret_pii_scan | No secrets or PII in staged files |
+| registry_semantics | Registry paths follow naming conventions |
+| token_legal_lexicon | No misleading financial terminology |
+
+Additionally, **11 gates** are defined in the guard-gate matrix and executed as CI checks on the SSID repo.
+
+## Data Model
+
+All modules use **event-sourced storage**:
+
+- **Snapshot** (`.yaml`): Current state, overwritten on each mutation
+- **Event log** (`.jsonl`): Append-only record of every mutation with timestamp, actor, and payload
+
+```
+state/
+  board/tasks.yaml + tasks.jsonl
+  content/content.yaml + content.jsonl
+  team/team.yaml + team.jsonl
+  calendar/cron.yaml + runs.jsonl
+  memory/index.jsonl + docs/*.md
+```
+
+<Aside type="caution">
+EMS state directories live outside the SSID repo. Evidence is written to SSID only via PR after gate validation.
+</Aside>
+
+## Bootstrap
+
+```bash
+ssidctl bootstrap ssid --target ./my-ssid-repo   # Create 24-root skeleton
+ssidctl bootstrap validate --target ./my-ssid-repo  # Validate skeleton
+ssidctl bootstrap ems                              # Create EMS state directories
+```

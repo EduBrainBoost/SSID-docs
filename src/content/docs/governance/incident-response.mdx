@@ -1,0 +1,58 @@
+---
+title: "Incident Response & DR"
+description: "Incident response procedures aligned with NIST SP 800-61r3, BSI DER, and DORA for the SSID ecosystem."
+---
+
+The SSID incident response framework covers detection, containment, eradication, and recovery for security and operational incidents.
+
+## Reference Frameworks
+
+| Framework | Scope | Application |
+|-----------|-------|-------------|
+| NIST SP 800-61r3 | Incident Response | IR lifecycle, CSF 2.0 integration |
+| BSI DER.2.1 | Security incident handling | German regulatory alignment |
+| BSI DER.4 | Emergency management | Business continuity |
+| DORA | Digital operational resilience | EU financial sector requirements |
+
+## Incident Classes
+
+| Class | Example | Severity | Response |
+|-------|---------|----------|----------|
+| Webhook spoofing | Signature verification failure spike | HIGH | Block intake, verify HMAC secrets |
+| Policy bypass | Manipulated check conclusions | CRITICAL | Block merges, audit trail review |
+| Runner compromise | Artifact tampering (SLSA/signing mismatch) | CRITICAL | Isolate runner, re-verify artifacts |
+| Evidence failure | WORM write errors, retention misconfiguration | CRITICAL | Fail-closed: block merges |
+| Prompt injection | OWASP LLM01 pattern in Claude interaction | HIGH | Disable AI assist, review output |
+
+## Quarantine
+
+Quarantine is reserved exclusively for security incidents:
+- Malware or compromised binaries
+- Active exploit risk
+- DMCA takedown
+
+Quarantine path: `02_audit_logging/quarantine/singleton/quarantine_store/`
+Evidence hashes: `23_compliance/evidence/malware_quarantine_hashes/`
+
+Structure/policy violations cause gate FAIL, not quarantine.
+
+## Operational Runbooks
+
+Five runbooks cover the most critical operational scenarios:
+
+1. **RB-001**: Webhook intake degraded
+2. **RB-002**: Required checks stuck
+3. **RB-003**: Evidence write failure
+4. **RB-004**: Key/secret rotation
+5. **RB-005**: Claude quota exceeded
+
+## Disaster Recovery
+
+| Component | Backup Strategy | Recovery Target |
+|-----------|----------------|-----------------|
+| Event Store | Append-only JSONL, filesystem backup | RPO: last event |
+| WORM Evidence | Sealed, immutable, cross-location copy | RPO: zero (immutable) |
+| Key Material | KMS/HSM-backed (planned) | Break-glass documented |
+| Configuration | Git-versioned (ems.schema.yaml) | Restore from repo |
+
+DR exercises: Quarterly table-top + annual full restore test (per DORA resilience requirements).

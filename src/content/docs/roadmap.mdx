@@ -1,0 +1,60 @@
+---
+title: Roadmap
+description: Public development roadmap for the SSID project.
+---
+
+import { Aside, Card, CardGrid } from '@astrojs/starlight/components';
+
+<Aside type="note">
+This roadmap reflects publicly visible milestones only. Internal development milestones are tracked separately in the EMS.
+All content is derived from the **SSID-open-core** public export.
+</Aside>
+
+## Current Phase: Foundation
+
+The SSID project is in its **foundation phase**, establishing the core infrastructure, governance model, and compliance framework.
+
+<CardGrid>
+  <Card title="24x16 Matrix" icon="approve-check">
+    Structure skeleton complete. All 24 roots and 16 shards are defined with deterministic SoT references.
+  </Card>
+  <Card title="EMS (External Management System)" icon="approve-check">
+    CLI-first control plane (`ssidctl`) operational. 3-worktree model, guard/gate matrix, and evidence store active.
+  </Card>
+  <Card title="PR-Only Governance" icon="approve-check">
+    Enforced across all repositories. Branch protection, CI gates, and WORM evidence logging in place.
+  </Card>
+  <Card title="Public Documentation" icon="approve-check">
+    Starlight-based docs site with deterministic ingest from open-core. No LLM-generated content.
+  </Card>
+</CardGrid>
+
+## Upcoming Milestones
+
+| Milestone | Scope | Status |
+|-----------|-------|--------|
+| **TS001** Structure Skeleton | SoT-derived SSID structure completion | Done |
+| **TS002** Public Export | Sanitized open-core export with deny-glob, PII/secrets gates | Done |
+| **TS003** Docs Ingest | Open-core content ingested into SSID-docs | Done |
+| **TS004** Public Pages | Roadmap, Status, and Changelog pages | In Progress |
+| **TS005** Automated Export | Cron-based `public-export --dry-run` with approval-gated PR creation | Planned |
+
+## Post-Quantum Cryptography
+
+<Aside type="tip">
+SSID includes a post-quantum cryptography migration path. See the open-core `21_post_quantum_crypto/migration_roadmap.md` for the public timeline.
+</Aside>
+
+## Governance Roadmap
+
+- Incident Response and Disaster Recovery procedures are documented
+- Secrets management with generated pattern detection is operational
+- Supply-chain security policies are in place
+- Community governance guidelines are published in open-core
+
+## What Will NOT Be on This Roadmap
+
+- Internal security audit timelines
+- Token launch dates or pricing
+- Infrastructure provider details
+- Anything requiring private repository access
