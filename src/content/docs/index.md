@@ -1,5 +1,6 @@
 ---
 title: Home
+description: SSID Documentation entry point — redirects to overview.
 sidebar:
   hidden: true
 ---
