@@ -3,7 +3,7 @@ import starlight from '@astrojs/starlight';
 
 export default defineConfig({
   site: 'https://edubrainboost.github.io',
-  base: '/SSID-docs',
+  base: process.env.NODE_ENV === 'production' ? '/SSID-docs' : '/',
   integrations: [
     starlight({
       title: 'SSID',
