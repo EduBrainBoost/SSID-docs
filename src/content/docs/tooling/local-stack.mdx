@@ -1,0 +1,74 @@
+---
+title: Local Stack Operations
+description: How to start, stop, and monitor the SSID local development stack.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Local Stack Operations
+
+The SSID local stack consists of four services, all bound to localhost only.
+
+## Services
+
+| Service | Default Port | Fallback Ports | Health Endpoint |
+|---------|-------------|----------------|-----------------|
+| EMS Dashboard | 8484 | 8485–8487 | `http://127.0.0.1:{port}/health` |
+| Orchestrator API | 3210 | 3211–3213 | `http://localhost:{port}/api/health` |
+| Orchestrator Web | 5173 | 5174–5176 | `http://localhost:{port}/` |
+| Docs Site | 4321 | 4322–4324 | `http://localhost:{port}/SSID-docs/overview` |
+
+<Aside type="caution">
+All services are loopback-only. Never expose them to external networks.
+</Aside>
+
+## Quick Start
+
+```bash
+# Start all services
+ssidctl stack up --manifest path/to/local_stack_manifest.yaml \
+  --evidence-root path/to/SSID_EVIDENCE
+
+# Check health
+ssidctl stack health --manifest path/to/local_stack_manifest.yaml
+
+# View status
+ssidctl stack status --manifest path/to/local_stack_manifest.yaml \
+  --evidence-root path/to/SSID_EVIDENCE
+
+# Stop all services
+ssidctl stack down --manifest path/to/local_stack_manifest.yaml \
+  --evidence-root path/to/SSID_EVIDENCE
+```
+
+## Port Policy
+
+Ports are selected deterministically from the `candidates` list in the manifest.
+The first available port is chosen via socket bind probe. If all candidates
+are occupied, the component reports `port_unavailable`.
+
+## Evidence
+
+Stack operations write evidence externally (never in the repo):
+
+- **State:** `SSID_EVIDENCE/local_stack/state/local-stack.json`
+- **Logs:** `SSID_EVIDENCE/local_stack/runs/{run_id}/stack.log`
+- **Ledger:** `SSID_EVIDENCE/local_stack/ledger.jsonl` + `.sha256`
+
+## Troubleshooting
+
+**Port conflict:** Check which process occupies the port:
+
+```bash
+# Windows
+netstat -ano | findstr :<port>
+
+# Linux/macOS
+lsof -i :<port>
+```
+
+**Service won't start:** Verify the `workdir` path exists and dependencies
+are installed (e.g., `pnpm install` for Node.js services).
+
+**Health check fails:** The service may still be starting. Wait a few seconds
+and retry. Check the service logs in the evidence directory.
