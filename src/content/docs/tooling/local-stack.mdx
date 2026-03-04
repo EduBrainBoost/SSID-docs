@@ -22,6 +22,19 @@ The SSID local stack consists of four services, all bound to localhost only.
 All services are loopback-only. Never expose them to external networks.
 </Aside>
 
+## Preconditions
+
+- SSID repo on `main`, clean and up-to-date
+- SSID-EMS on `master` with Stack CLI (PR#26+)
+- Evidence root directory exists (e.g. `SSID_EVIDENCE/` at your configured path)
+- Node.js services: `pnpm install` run in respective repos
+- Python services: virtualenv active with `pip install -e .`
+
+<Aside type="danger">
+No secrets, tokens, or credentials in the manifest or logs.
+Environment variables are referenced by key name only — values come from local `.env` files or GitHub Environments.
+</Aside>
+
 ## Quick Start
 
 ```bash
@@ -72,3 +85,21 @@ are installed (e.g., `pnpm install` for Node.js services).
 
 **Health check fails:** The service may still be starting. Wait a few seconds
 and retry. Check the service logs in the evidence directory.
+
+**EMS Stack CLI missing:** Align `origin/master` with Stack CLI code
+(see SSID-EMS PR#26).
+
+## Verification
+
+All commands return `PASS` / `FAIL` with a findings list — no scores or badges.
+
+```bash
+# SSID gates
+python 12_tooling/cli/sot_validator.py --verify-all
+
+# SSID tests
+python -m pytest -q
+
+# EMS tests
+cd path/to/SSID-EMS && python -m pytest -q
+```
