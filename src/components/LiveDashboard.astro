@@ -1,0 +1,165 @@
+---
+// LiveDashboard — fetches projection data from orchestrator at build/SSR time.
+// Falls back gracefully if orchestrator is not reachable.
+const ORCH_API = import.meta.env.PUBLIC_ORCH_API_BASE || "http://127.0.0.1:3210/api";
+
+let projection: any = null;
+let fetchError: string | null = null;
+
+try {
+  const res = await fetch(`${ORCH_API}/publish/projections/website-b`, {
+    signal: AbortSignal.timeout(3000),
+  });
+  if (res.ok) {
+    projection = await res.json();
+  } else {
+    fetchError = `HTTP ${res.status}`;
+  }
+} catch (e: any) {
+  fetchError = e?.message || "Orchestrator unreachable";
+}
+---
+
+<div class="live-dashboard">
+  {projection ? (
+    <div>
+      <p class="meta" style="margin-bottom: 1rem;">
+        Live data from Orchestrator Control Plane.
+        Generated: {projection.generated_at?.slice(0, 19) || "unknown"}
+      </p>
+
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <div class="dashboard-value">{projection.task_board?.total || 0}</div>
+          <div class="dashboard-label">Total Tasks</div>
+        </div>
+        <div class="dashboard-card">
+          <div class="dashboard-value">{projection.runs?.total || 0}</div>
+          <div class="dashboard-label">Runs</div>
+        </div>
+        <div class="dashboard-card">
+          <div class="dashboard-value">{projection.evidence?.total || 0}</div>
+          <div class="dashboard-label">Evidence</div>
+        </div>
+        <div class="dashboard-card">
+          <div class="dashboard-value">{projection.calendar?.total_jobs || 0}</div>
+          <div class="dashboard-label">Calendar Jobs</div>
+        </div>
+      </div>
+
+      {projection.task_board?.by_status && (
+        <div style="margin-top: 1rem;">
+          <strong>Tasks by Status:</strong>
+          <div class="status-chips">
+            {Object.entries(projection.task_board.by_status).map(([status, count]: [string, any]) => (
+              <span class="status-chip">{status}: {count}</span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {projection.governance && (
+        <div style="margin-top: 1rem;">
+          <strong>Governance:</strong>
+          <div class="status-chips">
+            {Object.entries(projection.governance).map(([repo, status]: [string, any]) => (
+              <span class={`status-chip ${status === "reachable" ? "ok" : "err"}`}>{repo}: {status}</span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {projection.runs?.recent?.length > 0 && (
+        <div style="margin-top: 1rem;">
+          <strong>Recent Runs:</strong>
+          <table class="dashboard-table">
+            <thead>
+              <tr><th>Run ID</th><th>Status</th><th>Verify</th></tr>
+            </thead>
+            <tbody>
+              {projection.runs.recent.slice(0, 5).map((r: any) => (
+                <tr>
+                  <td>{r.run_id}</td>
+                  <td>{r.status}</td>
+                  <td>{r.verify || "-"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  ) : (
+    <p class="meta">
+      Dashboard data unavailable. {fetchError && <span>({fetchError})</span>}
+      <br/>Orchestrator Control Plane (3210) may not be running.
+    </p>
+  )}
+</div>
+
+<style>
+  .live-dashboard {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 8px;
+    background: var(--sl-color-gray-7);
+  }
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.75rem;
+  }
+  .dashboard-card {
+    background: var(--sl-color-gray-6);
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 6px;
+    padding: 0.75rem;
+    text-align: center;
+  }
+  .dashboard-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--sl-color-white);
+  }
+  .dashboard-label {
+    font-size: 0.75rem;
+    color: var(--sl-color-gray-3);
+    margin-top: 0.25rem;
+  }
+  .status-chips {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+  .status-chip {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    background: var(--sl-color-gray-5);
+    color: var(--sl-color-gray-2);
+  }
+  .status-chip.ok { background: #065f46; color: #6ee7b7; }
+  .status-chip.err { background: #7f1d1d; color: #fca5a5; }
+  .dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+  }
+  .dashboard-table th, .dashboard-table td {
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid var(--sl-color-gray-5);
+    text-align: left;
+  }
+  .dashboard-table th {
+    color: var(--sl-color-gray-3);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+  }
+  .meta {
+    color: var(--sl-color-gray-3);
+    font-size: 0.8rem;
+  }
+</style>
