@@ -1,0 +1,56 @@
+---
+title: "SLSA Level 3 Provenance"
+description: "Signed build provenance attestations for supply-chain integrity"
+---
+
+## Overview
+
+[SLSA](https://slsa.dev/) (Supply-chain Levels for Software Artifacts) Level 3 requires isolated, hermetic builds with signed provenance attestations and non-falsifiable build metadata.
+
+## Current State
+
+SSID currently achieves SLSA Level 1 through:
+- Version-controlled source code
+- Scripted build process
+- Provenance generated (unsigned)
+
+## Target: SLSA Level 3
+
+### Requirements
+
+| Requirement | Status | Implementation |
+|------------|--------|----------------|
+| Hermetic builds | Planned | Nix or container-based isolation |
+| Signed provenance | Planned | GitHub SLSA generators |
+| Non-falsifiable metadata | Planned | Rekor transparency log |
+| Source integrity | Done | Git commit signing |
+
+### Implementation Plan
+
+1. **Integrate `slsa-verifier`** for provenance verification in CI
+2. **Use GitHub's official SLSA generators** (`slsa-framework/slsa-github-generator`)
+3. **Publish provenance** to Rekor transparency log
+4. **Verify on consumption** — all downstream tools check provenance before use
+
+### GitHub Actions Integration
+
+```yaml
+jobs:
+  build:
+    uses: slsa-framework/slsa-github-generator/.github/workflows/builder_go_slsa3.yml@v2.1.0
+    with:
+      go-version: "1.22"
+    permissions:
+      id-token: write
+      contents: read
+      actions: read
+```
+
+## Verification
+
+```bash
+slsa-verifier verify-artifact \
+  --provenance-path provenance.intoto.jsonl \
+  --source-uri github.com/edubrainboost/SSID \
+  artifact.tar.gz
+```

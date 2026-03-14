@@ -1,0 +1,49 @@
+---
+title: "Post-Quantum Cryptography Migration"
+description: "Migration path from classical to quantum-resistant cryptographic algorithms"
+---
+
+## Quantum Threat Timeline
+
+Current cryptographic algorithms face obsolescence as quantum computers advance:
+
+| Algorithm | Type | Quantum Vulnerable | SSID Usage |
+|-----------|------|-------------------|------------|
+| RSA-2048 | Asymmetric | Yes (Shor's) | TLS, Git signing |
+| ECDSA P-256 | Signature | Yes (Shor's) | Evidence signing |
+| SHA-256 | Hash | Partially (Grover's, still 128-bit) | Hash chains, WORM |
+| AES-256 | Symmetric | Partially (Grover's, still 128-bit) | Encryption at rest |
+
+## NIST Post-Quantum Standards
+
+| Standard | Algorithm | Type | Use Case |
+|----------|-----------|------|----------|
+| FIPS 203 | ML-KEM (Kyber) | Key Encapsulation | TLS, key exchange |
+| FIPS 204 | ML-DSA (Dilithium) | Digital Signature | Evidence signing, Git |
+| FIPS 205 | SLH-DSA (SPHINCS+) | Hash-based Signature | Long-term verification |
+
+## Migration Phases
+
+### Phase 1: Inventory and Assessment (Current)
+- Catalog all cryptographic usage across SSID ecosystem
+- Identify quantum-vulnerable components
+- Document in `21_post_quantum_crypto/migration_roadmap.md`
+
+### Phase 2: Hybrid Deployment
+- Deploy hybrid signatures (classical + PQC) for evidence chain
+- Use ML-DSA alongside ECDSA for dual signing
+- Maintain backward compatibility
+
+### Phase 3: PQC Primary
+- ML-KEM for all new key exchanges
+- ML-DSA as primary signature algorithm
+- SLH-DSA for archival/long-term evidence
+
+### Phase 4: Classical Deprecation
+- Remove classical-only code paths
+- Mandate PQC for all new deployments
+- Re-sign historical evidence with PQC
+
+## Hash Chain Implications
+
+SHA-256 remains secure against quantum attacks at 128-bit security level (Grover's algorithm halves effective key length). No immediate migration needed for hash chains, but monitoring NIST guidance for future SHA-3 transition.
