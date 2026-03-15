@@ -25,6 +25,20 @@ Thumbs.db
 # Claude Code
 .claude/
 
+# OpenAI Codex CLI
+.codex/
+
+# MCP and dev configs
+.mcp.json
+
+# Artifacts and screenshots
+artifacts/
+screenshot-*.png
+stammbaum.html
+
+# Generated agent documentation (local)
+AGENTS.md
+
 # pnpm-only (no npm lockfile)
 package-lock.json
 
