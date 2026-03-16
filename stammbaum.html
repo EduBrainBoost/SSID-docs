@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSID Mitarbeiter-Stammbaum (Organigramm)</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-card: #161b22;
+    --bg-hover: #1c2333;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --opus: #a371f7;
+    --opus-bg: rgba(163,113,247,0.12);
+    --sonnet: #58a6ff;
+    --sonnet-bg: rgba(88,166,255,0.12);
+    --haiku: #3fb950;
+    --haiku-bg: rgba(63,185,80,0.12);
+    --orchestrator: #f0883e;
+    --orchestrator-bg: rgba(240,136,62,0.12);
+    --line: #30363d;
+    --accent: #f78166;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: auto;
+  }
+  h1 {
+    text-align: center;
+    padding: 24px 16px 8px;
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  h1 span { color: var(--orchestrator); }
+  .subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+  }
+
+  /* Layout */
+  .main-grid {
+    display: flex;
+    gap: 16px;
+    padding: 0 16px 24px;
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+  .sidebar {
+    flex: 0 0 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .tree-area {
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .card h3 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+  }
+
+  /* Legend */
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-size: 0.82rem;
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* Pillars */
+  .pillar {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+  .pillar-num {
+    flex-shrink: 0;
+    width: 20px; height: 20px;
+    border-radius: 4px;
+    background: var(--orchestrator-bg);
+    color: var(--orchestrator);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.7rem;
+  }
+
+  /* Lifecycle */
+  .lifecycle {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+  }
+  .lc-step {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    background: var(--bg-hover);
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .lc-step.active { background: var(--orchestrator-bg); color: var(--orchestrator); border-color: var(--orchestrator); }
+  .lc-step.fail { background: rgba(248,81,73,0.12); color: #f85149; border-color: #f85149; }
+  .lc-arrow { color: var(--text-muted); font-size: 0.7rem; }
+
+  /* Repos */
+  .repo-list { list-style: none; }
+  .repo-list li {
+    font-size: 0.78rem;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 6px;
+  }
+  .repo-list li:last-child { border-bottom: none; }
+  .repo-tag {
+    font-size: 0.65rem;
+    padding: 1px 5px;
+    border-radius: 8px;
+    background: var(--bg-hover);
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  /* TREE */
+  .org-tree {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 8px;
+    min-width: 1200px;
+  }
+
+  /* Tier labels */
+  .tier-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    padding: 2px 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-card);
+  }
+
+  /* Node */
+  .node {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    min-width: 120px;
+    max-width: 160px;
+  }
+  .node:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  }
+  .node.opus { border-color: var(--opus); }
+  .node.opus:hover { background: var(--opus-bg); }
+  .node.sonnet { border-color: var(--sonnet); }
+  .node.sonnet:hover { background: var(--sonnet-bg); }
+  .node.haiku { border-color: var(--haiku); }
+  .node.haiku:hover { background: var(--haiku-bg); }
+  .node.orch { border-color: var(--orchestrator); border-width: 2px; }
+  .node.orch:hover { background: var(--orchestrator-bg); }
+
+  .node-id {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+  }
+  .node-name {
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+    word-break: break-word;
+  }
+  .node-role {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+  }
+  .node-model {
+    display: inline-block;
+    font-size: 0.58rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 1px 5px;
+    border-radius: 6px;
+    margin-top: 4px;
+  }
+  .node.opus .node-model { background: var(--opus-bg); color: var(--opus); }
+  .node.sonnet .node-model { background: var(--sonnet-bg); color: var(--sonnet); }
+  .node.haiku .node-model { background: var(--haiku-bg); color: var(--haiku); }
+  .node.orch .node-model { background: var(--orchestrator-bg); color: var(--orchestrator); }
+
+  /* Rows */
+  .tier-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  /* Connector lines via SVG overlay */
+  .tree-wrapper {
+    position: relative;
+  }
+  .connectors {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .org-tree > * { position: relative; z-index: 1; }
+
+  /* Tooltip */
+  .tooltip {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    background: #1c2333;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    max-width: 340px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    pointer-events: none;
+  }
+  .tooltip.show { display: block; }
+  .tooltip h4 { margin-bottom: 6px; font-size: 0.9rem; }
+  .tooltip .tt-row { display: flex; gap: 6px; margin-bottom: 3px; }
+  .tooltip .tt-label { color: var(--text-muted); min-width: 70px; }
+
+  /* Root modules grid */
+  .roots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .root-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 8px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    cursor: default;
+    transition: background 0.15s;
+  }
+  .root-chip:hover { background: var(--bg-hover); }
+  .root-chip .rc-id {
+    font-weight: 700;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    min-width: 22px;
+  }
+  .root-chip .rc-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* Bottom section */
+  .bottom-section {
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 0 16px 32px;
+  }
+  .bottom-section h2 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: var(--text-muted);
+  }
+
+  /* Responsive */
+  @media (max-width: 1100px) {
+    .main-grid { flex-direction: column; }
+    .sidebar { flex-direction: row; flex-wrap: wrap; flex: none; }
+    .sidebar .card { flex: 1; min-width: 220px; }
+  }
+</style>
+</head>
+<body>
+
+<h1><span>SSID</span> Mitarbeiter-Stammbaum</h1>
+<p class="subtitle">Sovereign Self-Sovereign Identity &mdash; Agent-Organigramm &amp; Governance-Hierarchie</p>
+
+<div class="main-grid">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Legend -->
+    <div class="card">
+      <h3>Modell-Legende</h3>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--orchestrator)"></div> Orchestrator</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--opus)"></div> Opus (Critical)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--sonnet)"></div> Sonnet (Standard)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--haiku)"></div> Haiku (Lightweight)</div>
+    </div>
+
+    <!-- 8 Pillars -->
+    <div class="card">
+      <h3>8 Governance-Saulen</h3>
+      <div class="pillar"><div class="pillar-num">1</div><span>Wahrheit (SoT/Contracts)</span></div>
+      <div class="pillar"><div class="pillar-num">2</div><span>Struktur (ROOT-24-LOCK)</span></div>
+      <div class="pillar"><div class="pillar-num">3</div><span>Kontrolle (PLAN&rarr;APPROVAL&rarr;APPLY)</span></div>
+      <div class="pillar"><div class="pillar-num">4</div><span>Kryptografie (SHA256, Hash-only)</span></div>
+      <div class="pillar"><div class="pillar-num">5</div><span>CI/CD + Registry</span></div>
+      <div class="pillar"><div class="pillar-num">6</div><span>Audit + Evidence (WORM)</span></div>
+      <div class="pillar"><div class="pillar-num">7</div><span>Governance + Recht (Non-custodial)</span></div>
+      <div class="pillar"><div class="pillar-num">8</div><span>Selbstanpassung</span></div>
+    </div>
+
+    <!-- Lifecycle -->
+    <div class="card">
+      <h3>Workflow-Lifecycle</h3>
+      <div class="lifecycle">
+        <span class="lc-step active">CREATED</span><span class="lc-arrow">&rarr;</span>
+        <span class="lc-step active">PLANNING</span><span class="lc-arrow">&rarr;</span>
+        <span class="lc-step active">PLANNED</span><span class="lc-arrow">&rarr;</span>
+        <span class="lc-step active">APPROVED</span><span class="lc-arrow">&rarr;</span>
+        <span class="lc-step active">APPLYING</span><span class="lc-arrow">&rarr;</span>
+        <span class="lc-step active">VERIFYING</span><span class="lc-arrow">&rarr;</span>
+        <span class="lc-step active">DONE</span>
+        <span class="lc-arrow">/</span>
+        <span class="lc-step fail">FAILED</span>
+      </div>
+    </div>
+
+    <!-- Repos -->
+    <div class="card">
+      <h3>Repositories</h3>
+      <ul class="repo-list">
+        <li><strong>SSID</strong> <span class="repo-tag">Data Plane</span> 24 Roots</li>
+        <li><strong>SSID-EMS</strong> <span class="repo-tag">Control Plane</span> Orchestrator, Guards</li>
+        <li><strong>SSID-orchestrator</strong> <span class="repo-tag">Web UI</span> Dashboard</li>
+        <li><strong>SSID-docs</strong> <span class="repo-tag">Docs</span> Dokumentation</li>
+        <li><strong>SSID-open-core</strong> <span class="repo-tag">OSS</span> Open Source</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Tree -->
+  <div class="tree-area">
+    <div class="tree-wrapper">
+      <svg class="connectors" id="connectors"></svg>
+      <div class="org-tree" id="orgTree">
+
+        <!-- Ebene 0 -->
+        <div class="tier-label">Ebene 0 &mdash; Governance</div>
+        <div class="tier-row" id="tier0">
+          <div class="node orch" data-id="00" data-name="SSID Orchestrator" data-model="Multi" data-role="Zentraler Dispatcher" data-access="Vollzugriff" data-desc="Steuert alle Agents. Plant, dispatcht, reviewt und integriert. Einziger Commit-Berechtigter.">
+            <div class="node-id">#00</div>
+            <div class="node-name">SSID Orchestrator</div>
+            <div class="node-role">Zentraler Dispatcher</div>
+            <div class="node-model">Governance</div>
+          </div>
+        </div>
+
+        <!-- Ebene 1 -->
+        <div class="tier-label" style="margin-top:16px">Ebene 1 &mdash; Kernteam (12 Agents)</div>
+        <div class="tier-row" id="tier1">
+          <div class="node opus" data-id="01" data-name="ssid-planner" data-model="Opus" data-role="Planner" data-access="Read-only" data-desc="Erstellt und validiert Aufgabenplane. Strategische Planung und Zerlegung komplexer Aufgaben.">
+            <div class="node-id">#01</div>
+            <div class="node-name">ssid-planner</div>
+            <div class="node-role">Planner</div>
+            <div class="node-model">Opus</div>
+          </div>
+          <div class="node haiku" data-id="02" data-name="scope-sentry" data-model="Haiku" data-role="Scope Validator" data-access="Read-only" data-desc="Uberwacht Scope-Grenzen. Stellt sicher, dass Agents nur innerhalb ihrer zugewiesenen Dateien arbeiten.">
+            <div class="node-id">#02</div>
+            <div class="node-name">scope-sentry</div>
+            <div class="node-role">Scope Validator</div>
+            <div class="node-model">Haiku</div>
+          </div>
+          <div class="node sonnet" data-id="03" data-name="patch-implementer" data-model="Sonnet" data-role="Implementer" data-access="Write (scoped)" data-desc="Implementiert Code-Anderungen. Schreibzugriff nur auf explizit zugewiesene Dateien.">
+            <div class="node-id">#03</div>
+            <div class="node-name">patch-implementer</div>
+            <div class="node-role">Implementer</div>
+            <div class="node-model">Sonnet</div>
+          </div>
+          <div class="node sonnet" data-id="04" data-name="gate-runner" data-model="Sonnet" data-role="Auditor/Verifier" data-access="Read + Bash" data-desc="Fuhrt Gate-Checks durch. Verifiziert Lint, Tests und Compliance vor Freigabe.">
+            <div class="node-id">#04</div>
+            <div class="node-name">gate-runner</div>
+            <div class="node-role">Auditor/Verifier</div>
+            <div class="node-model">Sonnet</div>
+          </div>
+          <div class="node opus" data-id="05" data-name="security-compliance" data-model="Opus" data-role="Security Scanner" data-access="Read-only" data-desc="Scannt auf Sicherheitslucken, Secrets und PII. Kritische Rolle fur Governance.">
+            <div class="node-id">#05</div>
+            <div class="node-name">security-compliance</div>
+            <div class="node-role">Security Scanner</div>
+            <div class="node-model">Opus</div>
+          </div>
+          <div class="node haiku" data-id="06" data-name="evidence-worm" data-model="Haiku" data-role="Evidence Logger" data-access="EMS-only writes" data-desc="WORM-konformer Evidence-Logger. Schreibt unveranderliche Audit-Eintr&auml;ge ins EMS.">
+            <div class="node-id">#06</div>
+            <div class="node-name">evidence-worm</div>
+            <div class="node-role">Evidence Logger</div>
+            <div class="node-model">Haiku</div>
+          </div>
+          <div class="node sonnet" data-id="07" data-name="pr-integrator" data-model="Sonnet" data-role="PR Manager" data-access="Branch push" data-desc="Erstellt und verwaltet Pull Requests. Einziger Agent mit Branch-Push-Berechtigung.">
+            <div class="node-id">#07</div>
+            <div class="node-name">pr-integrator</div>
+            <div class="node-role">PR Manager</div>
+            <div class="node-model">Sonnet</div>
+          </div>
+          <div class="node haiku" data-id="08" data-name="ops-runner" data-model="Haiku" data-role="Operations" data-access="Read + Bash" data-desc="Fuhrt operative Aufgaben aus. Scripts, Builds, DevOps-Automatisierung.">
+            <div class="node-id">#08</div>
+            <div class="node-name">ops-runner</div>
+            <div class="node-role">Operations</div>
+            <div class="node-model">Haiku</div>
+          </div>
+          <div class="node haiku" data-id="09" data-name="content-writer" data-model="Haiku" data-role="Content Creator" data-access="EMS-only" data-desc="Erstellt und pflegt Inhalte. Dokumentation, Beschreibungen, Metadaten.">
+            <div class="node-id">#09</div>
+            <div class="node-name">content-writer</div>
+            <div class="node-role">Content Creator</div>
+            <div class="node-model">Haiku</div>
+          </div>
+          <div class="node haiku" data-id="10" data-name="designer" data-model="Haiku" data-role="Designer" data-access="EMS-only" data-desc="UI/UX-Design und visuelle Gestaltung. Templates, Layouts, Styles.">
+            <div class="node-id">#10</div>
+            <div class="node-name">designer</div>
+            <div class="node-role">Designer</div>
+            <div class="node-model">Haiku</div>
+          </div>
+          <div class="node haiku" data-id="11" data-name="board-manager" data-model="Haiku" data-role="Board Manager" data-access="ssidctl-only" data-desc="Verwaltet das Task-Board. Erstellt, aktualisiert und priorisiert Aufgaben via ssidctl.">
+            <div class="node-id">#11</div>
+            <div class="node-name">board-manager</div>
+            <div class="node-role">Board Manager</div>
+            <div class="node-model">Haiku</div>
+          </div>
+          <div class="node opus" data-id="12" data-name="test-runner" data-model="Opus" data-role="Test Executor" data-access="Read + Bash" data-desc="Fuhrt Tests aus und validiert Ergebnisse. Unit-, Integration- und E2E-Tests.">
+            <div class="node-id">#12</div>
+            <div class="node-name">test-runner</div>
+            <div class="node-role">Test Executor</div>
+            <div class="node-model">Opus</div>
+          </div>
+        </div>
+
+        <!-- Ebene 2 -->
+        <div class="tier-label" style="margin-top:16px">Ebene 2 &mdash; Spezialisten (8 Agents)</div>
+        <div class="tier-row" id="tier2">
+          <div class="node opus" data-id="13" data-name="crypto-auditor" data-model="Opus" data-role="Post-Quantum Crypto" data-access="Read-only" data-desc="Spezialist fur Post-Quantum-Kryptografie. Verantwortlich fur Root 21 (Crypto).">
+            <div class="node-id">#13</div>
+            <div class="node-name">crypto-auditor</div>
+            <div class="node-role">Post-Quantum Crypto</div>
+            <div class="node-model">Opus</div>
+          </div>
+          <div class="node sonnet" data-id="14" data-name="compliance-officer" data-model="Sonnet" data-role="Compliance & Governance" data-access="Read-only" data-desc="Compliance Root 23, Governance Root 07, GDPR. Regulator. Uberwachung und Einhaltung.">
+            <div class="node-id">#14</div>
+            <div class="node-name">compliance-officer</div>
+            <div class="node-role">Compliance &amp; GDPR</div>
+            <div class="node-model">Sonnet</div>
+          </div>
+          <div class="node sonnet" data-id="15" data-name="data-pipeline-engineer" data-model="Sonnet" data-role="Data Pipeline" data-access="Write (scoped)" data-desc="Data Pipeline Root 06, Data Layer Root 18, Datasets Root 22. Baut und wartet Datenstrecken.">
+            <div class="node-id">#15</div>
+            <div class="node-name">data-pipeline-engineer</div>
+            <div class="node-role">Data Pipeline</div>
+            <div class="node-model">Sonnet</div>
+          </div>
+          <div class="node opus" data-id="16" data-name="identity-architect" data-model="Opus" data-role="Identity Score & Auth" data-access="Read + Write (scoped)" data-desc="Identity Score Root 08, Meta-Identity Root 09, Zero-Time Auth Root 14. Kernlogik der Identitat.">
+            <div class="node-id">#16</div>
+            <div class="node-name">identity-architect</div>
+            <div class="node-role">Identity &amp; Auth</div>
+            <div class="node-model">Opus</div>
+          </div>
+          <div class="node haiku" data-id="17" data-name="observability-engineer" data-model="Haiku" data-role="Observability & Logging" data-access="Read + Bash" data-desc="Observability Root 17, Audit Logging Root 02. Monitoring, Tracing, Alerting.">
+            <div class="node-id">#17</div>
+            <div class="node-name">observability-engineer</div>
+            <div class="node-role">Observability</div>
+            <div class="node-model">Haiku</div>
+          </div>
+          <div class="node sonnet" data-id="18" data-name="infra-deployer" data-model="Sonnet" data-role="Infrastruktur & Deploy" data-access="Write (scoped) + Bash" data-desc="Infrastructure Root 15, Deployment Root 04, Adapters Root 19. Cloud, Container, Deployment-Pipelines.">
+            <div class="node-id">#18</div>
+            <div class="node-name">infra-deployer</div>
+            <div class="node-role">Infra &amp; Deploy</div>
+            <div class="node-model">Sonnet</div>
+          </div>
+          <div class="node haiku" data-id="19" data-name="interop-specialist" data-model="Haiku" data-role="Interoperabilitat" data-access="Read-only" data-desc="Interoperability Root 10, Foundation Root 20. Standards, Protokolle, externe Schnittstellen.">
+            <div class="node-id">#19</div>
+            <div class="node-name">interop-specialist</div>
+            <div class="node-role">Interoperabilitat</div>
+            <div class="node-model">Haiku</div>
+          </div>
+          <div class="node haiku" data-id="20" data-name="documentation-curator" data-model="Haiku" data-role="Dokumentation" data-access="Write (docs)" data-desc="Documentation Root 05, Codex Root 16. Pflegt und strukturiert die gesamte Dokumentation.">
+            <div class="node-id">#20</div>
+            <div class="node-name">documentation-curator</div>
+            <div class="node-role">Dokumentation</div>
+            <div class="node-model">Haiku</div>
+          </div>
+        </div>
+
+        <!-- Ebene 3 — Erweiterte Spezialisten -->
+        <div class="tier-label" style="margin-top:16px">Ebene 3 &mdash; Erweiterte Spezialisten (9 Agents)</div>
+        <div class="tier-row" id="tier3">
+          <div class="node sonnet" data-id="21" data-name="debugger" data-model="Sonnet" data-role="Debugger" data-access="Read + Bash" data-desc="Systematische Bug-Analyse, Root-Cause-Identifikation, Fix-Plan-Erstellung. Spezialist fur schwierige Fehlerdiagnose.">
+            <div class="node-id">#21</div>
+            <div class="node-name">debugger</div>
+            <div class="node-role">Debugger</div>
+            <div class="node-model">Sonnet</div>
+          </div>
+          <div class="node sonnet" data-id="22" data-name="code-reviewer" data-model="Sonnet" data-role="Code Review" data-access="Read-only" data-desc="Tiefes Code-Review gegen SOT-Regeln und 8 Saulen. Qualitats- und Governance-Kontrolle.">
+            <div class="node-id">#22</div>
+            <div class="node-name">code-reviewer</div>
+            <div class="node-role">Code Review</div>
+            <div class="node-model">Sonnet</div>
+          </div>
+          <div class="node sonnet" data-id="23" data-name="research-engineer" data-model="Sonnet" data-role="Research" data-access="Read-only" data-desc="Technische Recherche, Standards-Analyse (W3C, DID, VC, eIDAS). Markt- und Technologie-Scouting.">
+            <div class="node-id">#23</div>
+            <div class="node-name">research-engineer</div>
+            <div class="node-role">Research</div>
+            <div class="node-model">Sonnet</div>
+          </div>
+          <div class="node sonnet" data-id="24" data-name="api-specialist" data-model="Sonnet" data-role="API Design" data-access="Read + Write (scoped)" data-desc="API-Design, OpenAPI-Specs, Adapter-Implementierung. Verantwortlich fur externe Schnittstellen.">
+            <div class="node-id">#24</div>
+            <div class="node-name">api-specialist</div>
+            <div class="node-role">API Design</div>
+            <div class="node-model">Sonnet</div>
+          </div>
+          <div class="node sonnet" data-id="25" data-name="devops-engineer" data-model="Sonnet" data-role="DevOps" data-access="Write (scoped) + Bash" data-desc="CI/CD-Pipelines, Docker, GitHub Actions, Deployment-Automatisierung. Betrieb und Infrastruktur.">
+            <div class="node-id">#25</div>
+            <div class="node-name">devops-engineer</div>
+            <div class="node-role">DevOps</div>
+            <div class="node-model">Sonnet</div>
+          </div>
+          <div class="node haiku" data-id="26" data-name="ux-designer" data-model="Haiku" data-role="UX Design" data-access="EMS-only" data-desc="UI/UX-Design, Komponenten-Erstellung, Barrierefreiheit, Design-System. Frontend-Gestalter.">
+            <div class="node-id">#26</div>
+            <div class="node-name">ux-designer</div>
+            <div class="node-role">UX Design</div>
+            <div class="node-model">Haiku</div>
+          </div>
+          <div class="node sonnet" data-id="27" data-name="legal-analyst" data-model="Sonnet" data-role="Legal" data-access="Read-only" data-desc="Regulatorische Analyse: eIDAS, MiCA, GDPR, DORA, NIS2, Token-Klassifikation. Rechtliche Compliance.">
+            <div class="node-id">#27</div>
+            <div class="node-name">legal-analyst</div>
+            <div class="node-role">Legal</div>
+            <div class="node-model">Sonnet</div>
+          </div>
+          <div class="node sonnet" data-id="28" data-name="performance-engineer" data-model="Sonnet" data-role="Performance" data-access="Read + Bash" data-desc="Performance-Analyse, Benchmarking, Engpass-Identifikation. Optimierung kritischer Pfade.">
+            <div class="node-id">#28</div>
+            <div class="node-name">performance-engineer</div>
+            <div class="node-role">Performance</div>
+            <div class="node-model">Sonnet</div>
+          </div>
+          <div class="node opus" data-id="29" data-name="autoresearcher" data-model="Opus" data-role="Autonomous Research" data-access="Read + Write (scoped)" data-desc="Autonome Forschungsschleifen: modifizieren, trainieren, messen, behalten/verwerfen (Karpathy-Methode).">
+            <div class="node-id">#29</div>
+            <div class="node-name">autoresearcher</div>
+            <div class="node-role">Autonomous Research</div>
+            <div class="node-model">Opus</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Roots -->
+    <div style="margin-top:24px;">
+      <div class="tier-label" style="display:inline-block; margin-bottom:10px;">Ebene 3 &mdash; 24 Root-Module</div>
+      <div class="roots-grid" id="rootsGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Tooltip -->
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+// Root definitions: [id, name, responsible_agent_id]
+const roots = [
+  [1, "AI Layer", 1],
+  [2, "Audit Logging", 17],
+  [3, "Core", 3],
+  [4, "Deployment", 18],
+  [5, "Documentation", 20],
+  [6, "Data Pipeline", 15],
+  [7, "Governance Legal", 14],
+  [8, "Identity Score", 16],
+  [9, "Meta-Identity", 16],
+  [10, "Interoperability", 19],
+  [11, "Test Simulation", 5],
+  [12, "Tooling", 8],
+  [13, "UI Layer", 5],
+  [14, "Zero-Time Auth", 16],
+  [15, "Infra", 18],
+  [16, "Codex", 20],
+  [17, "Observability", 17],
+  [18, "Data Layer", 15],
+  [19, "Adapters", 18],
+  [20, "Foundation", 19],
+  [21, "Post-Quantum Crypto", 13],
+  [22, "Datasets", 15],
+  [23, "Compliance", 14],
+  [24, "Meta-Orchestration", 1],
+];
+
+// Agent model map for coloring roots
+const agentModel = {
+  1:'opus',2:'haiku',3:'sonnet',4:'sonnet',5:'opus',6:'haiku',7:'sonnet',8:'haiku',
+  9:'haiku',10:'haiku',11:'haiku',12:'opus',13:'opus',14:'sonnet',15:'sonnet',
+  16:'opus',17:'haiku',18:'sonnet',19:'haiku',20:'haiku',
+  21:'sonnet',22:'sonnet',23:'sonnet',24:'sonnet',25:'sonnet',
+  26:'haiku',27:'sonnet',28:'sonnet',29:'opus'
+};
+const modelColor = { opus:'var(--opus)', sonnet:'var(--sonnet)', haiku:'var(--haiku)' };
+
+// Render roots
+const rootsGrid = document.getElementById('rootsGrid');
+roots.forEach(([id, name, agentId]) => {
+  const m = agentModel[agentId] || 'haiku';
+  const chip = document.createElement('div');
+  chip.className = 'root-chip';
+  chip.title = `Verantwortlich: Agent #${String(agentId).padStart(2,'0')}`;
+  chip.innerHTML = `<span class="rc-id">${String(id).padStart(2,'0')}</span><span class="rc-dot" style="background:${modelColor[m]}"></span><span>${name}</span>`;
+  rootsGrid.appendChild(chip);
+});
+
+// Tooltip logic
+const tooltip = document.getElementById('tooltip');
+let activeNode = null;
+
+document.querySelectorAll('.node').forEach(node => {
+  node.addEventListener('mouseenter', e => {
+    const d = node.dataset;
+    tooltip.innerHTML = `
+      <h4>#${d.id} ${d.name}</h4>
+      <div class="tt-row"><span class="tt-label">Modell:</span><span>${d.model}</span></div>
+      <div class="tt-row"><span class="tt-label">Rolle:</span><span>${d.role}</span></div>
+      <div class="tt-row"><span class="tt-label">Zugriff:</span><span>${d.access}</span></div>
+      <div style="margin-top:6px;color:var(--text-muted);font-size:0.75rem;">${d.desc}</div>
+    `;
+    tooltip.classList.add('show');
+    positionTooltip(e);
+  });
+  node.addEventListener('mousemove', positionTooltip);
+  node.addEventListener('mouseleave', () => {
+    tooltip.classList.remove('show');
+  });
+  node.addEventListener('click', () => {
+    node.style.transform = node.style.transform === 'scale(1.05)' ? '' : 'scale(1.05)';
+  });
+});
+
+function positionTooltip(e) {
+  let x = e.clientX + 16;
+  let y = e.clientY + 12;
+  if (x + 350 > window.innerWidth) x = e.clientX - 360;
+  if (y + 200 > window.innerHeight) y = e.clientY - 200;
+  tooltip.style.left = x + 'px';
+  tooltip.style.top = y + 'px';
+}
+
+// Draw SVG connector lines
+function drawConnectors() {
+  const svg = document.getElementById('connectors');
+  const wrapper = svg.parentElement;
+  const wRect = wrapper.getBoundingClientRect();
+  svg.setAttribute('width', wrapper.scrollWidth);
+  svg.setAttribute('height', wrapper.scrollHeight);
+  svg.innerHTML = '';
+
+  const tiers = [
+    document.querySelectorAll('#tier0 .node'),
+    document.querySelectorAll('#tier1 .node'),
+    document.querySelectorAll('#tier2 .node'),
+    document.querySelectorAll('#tier3 .node'),
+  ];
+
+  // Tier0 -> Tier1
+  drawTierConnections(tiers[0], tiers[1], wRect, svg);
+  // Tier1 -> Tier2 (all from orchestrator via tier1)
+  drawTierConnections(tiers[0], tiers[2], wRect, svg);
+}
+
+function drawTierConnections(parents, children, wRect, svg) {
+  parents.forEach(p => {
+    const pR = p.getBoundingClientRect();
+    const px = pR.left + pR.width / 2 - wRect.left;
+    const py = pR.bottom - wRect.top;
+
+    children.forEach(c => {
+      const cR = c.getBoundingClientRect();
+      const cx = cR.left + cR.width / 2 - wRect.left;
+      const cy = cR.top - wRect.top;
+      const my = py + (cy - py) / 2;
+
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', `M${px},${py} C${px},${my} ${cx},${my} ${cx},${cy}`);
+      path.setAttribute('fill', 'none');
+      path.setAttribute('stroke', 'var(--line)');
+      path.setAttribute('stroke-width', '1.5');
+      path.setAttribute('opacity', '0.5');
+      svg.appendChild(path);
+    });
+  });
+}
+
+// Initial draw + redraw on resize
+drawConnectors();
+window.addEventListener('resize', drawConnectors);
+// Redraw after layout settles
+setTimeout(drawConnectors, 100);
+setTimeout(drawConnectors, 500);
+</script>
+
+</body>
+</html>
