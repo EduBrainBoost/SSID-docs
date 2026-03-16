@@ -65,6 +65,7 @@ jobs:
             "astro.config.mjs"
             "package.json"
             "pnpm-lock.yaml"
+            "stammbaum.html"
             "tsconfig.json"
           )
 
