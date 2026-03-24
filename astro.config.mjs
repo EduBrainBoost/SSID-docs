@@ -60,10 +60,13 @@ export default defineConfig({
         {
           label: 'Architecture',
           items: [
+            { label: '24 Root Modules', slug: 'architecture/roots' },
             { label: '24x16 Matrix', slug: 'architecture/matrix' },
             { label: 'Shards & Hybrid Charts', slug: 'architecture/shards' },
+            { label: 'Open-Core Structure', slug: 'architecture/open-core' },
             { label: 'Deterministic Artifacts', slug: 'architecture/artifacts' },
             { label: 'EMS Architecture', slug: 'architecture/ems' },
+            { label: 'Post-Quantum Crypto', slug: 'architecture/post-quantum' },
           ],
         },
         {
@@ -74,6 +77,7 @@ export default defineConfig({
             { label: 'Policy Gates', slug: 'governance/policy-gates' },
             { label: 'Incident Response & DR', slug: 'governance/incident-response' },
             { label: 'Secrets Management', slug: 'governance/secrets-management' },
+            { label: 'DAO Governance', slug: 'governance/dao' },
           ],
         },
         {
@@ -83,6 +87,7 @@ export default defineConfig({
             { label: 'eIDAS', slug: 'compliance/eidas' },
             { label: 'MiCA Positioning', slug: 'compliance/mica' },
             { label: 'Supply-Chain Security', slug: 'compliance/supply-chain' },
+            { label: 'Audit Framework', slug: 'compliance/audit-framework' },
           ],
         },
         {
@@ -98,10 +103,18 @@ export default defineConfig({
           ],
         },
         {
+          label: 'Developer',
+          items: [
+            { label: 'Getting Started', slug: 'developer/getting-started' },
+          ],
+        },
+        {
           label: 'Token',
           items: [
             { label: 'Utility & Governance', slug: 'token/utility' },
             { label: 'Non-Custodial Design', slug: 'token/non-custodial' },
+            { label: 'Fee & Subscription Models', slug: 'token/fee-models' },
+            { label: 'Distribution & Fairness', slug: 'token/distribution' },
           ],
         },
         {

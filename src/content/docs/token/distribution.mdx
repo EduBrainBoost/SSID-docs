@@ -1,0 +1,64 @@
+---
+title: "Token Distribution & Fairness"
+description: "POFI mechanism, impact-token binding, and fair distribution in SSID."
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Token Distribution & Fairness
+
+This page documents the fair-distribution rule: how SSID allocates rewards based on verified impact rather than capital concentration.
+
+## POFI (Proof of Fairness Indicator)
+
+POFI determines priority for discretionary reward pools.
+
+**Formula:** `POFI = Historical Activity Level / Lifetime Rewards Accumulated`
+
+| POFI value | Meaning | Effect |
+|------------|---------|--------|
+| **High** | Much activity, low rewards received | Higher priority for airdrops and bonuses |
+| **Low** | High rewards already accumulated | Lower priority |
+
+**Applies to:** community bonus pools, growth incentives, education grants.
+
+**Does NOT affect:** governance voting rights or validator reward payouts.
+
+## Impact-token binding
+
+Rewards scale with verified impact, not capital.
+
+| Property | Detail |
+|----------|--------|
+| **Bound metrics** | Education completion, energy savings, CO2 reduction |
+| **Concentration prevention** | Rewards scale with verified impact, not capital |
+| **Configurability** | Governance votes can add, modify, or retire metrics |
+| **Verification** | Outcomes attested via verifiable credentials |
+
+## Enterprise distribution
+
+Revenue split per 1,000 EUR enterprise subscription payment:
+
+| Recipient | Amount | Share |
+|-----------|--------|-------|
+| Core Team / Dev | 300 EUR | 30% |
+| DAO Treasury | 500 EUR | 50% |
+| Node Rewards | 100 EUR | 10% |
+| Community Bonus | 100 EUR | 10% |
+
+## MiCA positioning
+
+| Area | Status |
+|------|--------|
+| **Prohibited jurisdictions** | Token not offered in prohibited jurisdictions |
+| **Regulatory monitoring** | Ongoing; classification reviewed quarterly |
+| **DORA alignment** | Incident response procedures aligned with DORA |
+| **Stablecoin reserve testing** | (hypothetical regulatory mapping -- no stablecoin features are currently planned) |
+
+<Aside type="caution">
+**Legal safe harbor** -- Token value may decline to zero. The token is provided AS-IS with no warranties. Jurisdictional restrictions apply. Nothing in this documentation constitutes legal, financial, or investment advice.
+</Aside>
+
+---
+
+Derived from local SoT.

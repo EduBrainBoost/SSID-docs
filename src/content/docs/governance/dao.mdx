@@ -1,0 +1,69 @@
+---
+title: "DAO Governance & Change Process"
+description: "Decentralized governance model, MoSCoW framework, and promotion rules in SSID."
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# DAO Governance & Change Process
+
+This page defines the governance roles, change classification framework, and voting rules that control how SSID evolves.
+
+## Governance roles
+
+| Role | Scope | Responsibilities |
+|------|-------|------------------|
+| **Owner (Per Shard)** | Single Shard | Development, quality, release readiness |
+| **Architecture Board** | Cross-Root | Strategic decisions, API contracts, breaking changes |
+| **Compliance Team** | Org-wide | Regulatory oversight, policy enforcement, audit trail |
+| **Security Team** | Org-wide | Vulnerability management, incident response, pentesting |
+| **DAO / Community** | Protocol-wide | Non-critical governance, treasury allocation, grants |
+
+## MoSCoW change framework
+
+Every proposed change receives one of four priority classifications:
+
+| Priority | Meaning | Example |
+|----------|---------|---------|
+| **MUST** | Regulatory requirement or security critical | eIDAS compliance, CVE patch |
+| **SHOULD** | Best practice, strong recommendation | Logging standardization |
+| **COULD** | Nice-to-have, lower priority | Dashboard cosmetic improvement |
+| **WOULD** | Future consideration, not currently planned | Experimental DID method support |
+
+## Promotion and deprecation rules
+
+Changes move between priority levels under strict conditions:
+
+| Transition | Requirements |
+|------------|--------------|
+| SHOULD to MUST | 99.5%+ SLA achieved, security audit passed, 3 independent implementations exist |
+| HAVE to SHOULD | 6-month advance notice, replacement path documented |
+| MUST to Deprecated | Compliance Committee approval + legal review + 12-month wind-down period |
+
+<Aside type="caution">
+Deprecating a MUST-level rule requires legal review. Do not begin a wind-down without written Compliance Committee approval.
+</Aside>
+
+## DAO voting parameters
+
+| Parameter | Value |
+|-----------|-------|
+| **Voting period** | 14 days |
+| **Quorum threshold** | 67% |
+| **Fee range** | 0.05% -- 0.5% (adjustable by vote) |
+| **Distribution ratios** | Tunable per governance proposal |
+
+<Aside type="note">
+Fee range and distribution ratios require a passing vote before any adjustment takes effect.
+</Aside>
+
+## Maintainer review structure
+
+| Layer | Role | Review cadence |
+|-------|------|----------------|
+| 1 | Lead Maintainer + Tech Lead | Every PR |
+| 2 | Senior Compliance Officer | Quarterly |
+| 3 | External Compliance Expert Pool | Annual |
+| 4 | Board Compliance Committee | Escalation only |
+
+Derived from local SoT.

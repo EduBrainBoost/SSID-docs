@@ -1,0 +1,76 @@
+---
+title: "Developer Guide"
+description: "Roles, contribution workflow, and local setup for SSID developers."
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Developer Guide
+
+This guide covers the developer and publisher roles, contribution workflow, and local setup for working on SSID.
+
+<Aside type="caution">
+Developer = code publisher, NOT operator. Developers publish code modules but do not operate the network or hold user data. Non-custodial by design. This distinction is legally significant.
+</Aside>
+
+## Developer role
+
+A developer implements modules within the Root/Shard architecture:
+
+- Implements features within assigned Roots and Shards
+- Maintains **95%+ test coverage** on all submitted code
+- Submits changes via pull request with CI validation
+- Receives automatic, non-custodial developer rewards on-chain
+- May propose governance changes (subject to Architecture Board review)
+
+## Publisher role
+
+A publisher maintains Root-level consistency and compliance:
+
+- Reviews code for correctness and architectural fit
+- Performs compliance checks against regulatory gates
+- Approves merges with Compliance sign-off (required for Root 23)
+- Ensures **24x16 matrix** completeness across all Shards
+
+## Contribution workflow
+
+1. Fork or branch from `main`.
+2. Implement your changes within the assigned Root/Shard.
+3. Write tests to meet the 95%+ coverage threshold.
+4. Submit a pull request. CI validation runs automatically.
+5. A Publisher reviews the code and Compliance signs off.
+6. The PR is merged via squash merge.
+7. Developer reward is auto-distributed on-chain after merge.
+
+## Set up local development
+
+These steps apply to the `SSID-docs` repository.
+
+1. Clone the repository and navigate into it.
+   ```bash
+   git clone <repo-url> && cd SSID-docs
+   ```
+2. Install dependencies.
+   ```bash
+   pnpm install
+   ```
+3. Start the development server on port 4321.
+   ```bash
+   pnpm dev
+   ```
+4. Build the site (includes type checking).
+   ```bash
+   pnpm build
+   ```
+5. Run the test suite (structure, content, theme, security).
+   ```bash
+   pnpm test
+   ```
+
+<Aside type="tip">
+Run `pnpm dev` for live reload during authoring. The build step catches type errors that the dev server does not.
+</Aside>
+
+---
+
+Derived from local SoT.
