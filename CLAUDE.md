@@ -36,6 +36,34 @@ Keine anderen Ports belegen. Port-Guard ist aktiv.
 - Interne Links auf Integritaet pruefen
 - API-Referenzdocs mit Quell-Repos synchronisieren
 
+## SCOPE-DISZIPLIN
+- Nur das tun, was explizit beauftragt ist. Nicht "vorarbeiten" oder "mitliefern".
+- Wenn der Auftrag "nur Baseline" sagt, keine Content-Expansion starten.
+- Im Zweifel den engeren Scope waehlen.
+- Scope-Erweiterung nur mit expliziter User-Freigabe.
+
+## VERIFY-PFLICHT
+Kein Commit und keine Fertig-Meldung ohne:
+1. pnpm build PASS
+2. pnpm test PASS
+3. Dev-Server auf Workspace-Port 4331 gestartet
+4. Route-Sweep aller neuen/geaenderten Seiten (HTTP 200)
+5. CSP im HTML-Output geprueft (wenn konfiguriert)
+Build allein ist NICHT ausreichend. Runtime-Verify ist Pflicht.
+
+## STARLIGHT-REGELN
+- Aside-Komponente: nur type="note", "tip", "caution", "danger"
+- NICHT erlaubt: "important", "warning", "info", "success"
+- Build schlaegt bei ungueltigen Aside-Typen fehl.
+
+## REGULATORISCHE SPRACHE
+- Kein "bonus multiplier" → "token-preference adjustment" oder "conversion incentive offset"
+- Kein "fair-growth" → "fair-distribution"
+- Kein "returned to user" (impliziert vorherige Custody) → "verbleibt beim User"
+- Kein "investment", "returns", "profit", "guaranteed"
+- Token = utility/governance ONLY. Developer = Code Publisher, NOT Operator.
+- Stablecoin-Referenzen als "(hypothetisch, nicht geplant)" markieren.
+
 ## SAFE-FIX
 SAFE-FIX ist permanent aktiv (NON-INTERACTIVE, SHA256-geloggt).
 Alle Schreibvorgaenge werden im Evidence-Verzeichnis protokolliert.
