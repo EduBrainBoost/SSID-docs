@@ -2,9 +2,11 @@
 
 ## REPO-IDENTITAET
 - Repo-Name: SSID-docs
-- Repo-Pfad: C:\Users\bibel\SSID-Workspace\Github\SSID-docs
+- Kanonisches Original (read-only Referenz): C:\Users\bibel\Documents\Github\SSID-docs
+- Arbeitsstand (dieses Repo): C:\Users\bibel\SSID-Workspace\SSID-Arbeitsbereich\Github\SSID-docs
 - Primaerer Branch: main
 - Arbeits-Branches: develop, feature/*, fix/*
+- Dieses Repo nutzt ausschliesslich Workspace-Ports (4331).
 
 ## WRITE-SCOPE
 Nur innerhalb dieses Repos schreiben.
