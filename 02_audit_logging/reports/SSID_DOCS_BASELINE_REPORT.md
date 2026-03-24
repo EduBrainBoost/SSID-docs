@@ -3,6 +3,16 @@
 **Date:** 2026-03-23
 **Branch:** fix/ssid-docs-baseline-sot-ia-csp-lock
 **Base:** main (commit a6047c3)
+**Commit:** 5ae84a9
+
+## Remote Verification
+
+| Check | Result |
+|-------|--------|
+| Branch on origin | PASS — `origin/fix/ssid-docs-baseline-sot-ia-csp-lock` |
+| Commit SHA on remote | PASS — `5ae84a93b9923826f26281eb109abb07f554c0ff` |
+| Working tree clean | PASS |
+| Protected | false |
 
 ## Repo-Inventar
 
