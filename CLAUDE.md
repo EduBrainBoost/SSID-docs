@@ -17,8 +17,9 @@ SSID-orchestrator) widerspiegeln — API-Referenzen immer mit Source of Truth ab
 - Globale .ssid-system/ Dateien ohne L0-Freigabe
 
 ## STACK
-- Docusaurus (statische Site-Generierung)
+- Astro 5.x + Starlight (statische Site-Generierung)
 - MDX (Markdown mit JSX-Erweiterungen)
+- pnpm (Package Manager, Version in package.json packageManager)
 - I18N (Mehrsprachigkeit — Vollstaendigkeit aller Sprachversionen pruefen)
 
 ## PORTS

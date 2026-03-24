@@ -8,6 +8,33 @@ export default defineConfig({
     starlight({
       title: 'SSID',
       description: 'Self-Sovereign Identity Documentation',
+      head: [
+        {
+          tag: 'meta',
+          attrs: {
+            'http-equiv': 'Content-Security-Policy',
+            content: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline'",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data:",
+              "connect-src 'self'",
+              "font-src 'self'",
+              "frame-src 'none'",
+              "object-src 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+            ].join('; '),
+          },
+        },
+        {
+          tag: 'meta',
+          attrs: {
+            name: 'referrer',
+            content: 'strict-origin-when-cross-origin',
+          },
+        },
+      ],
       logo: {
         light: './src/assets/ssid-logo-light.svg',
         dark: './src/assets/ssid-logo-dark.svg',
@@ -67,6 +94,7 @@ export default defineConfig({
             { label: 'Health Checks', slug: 'tooling/health-checks' },
             { label: 'Observability', slug: 'tooling/observability' },
             { label: 'AI Gateway', slug: 'tooling/ai-gateway' },
+            { label: 'Local Stack', slug: 'tooling/local-stack' },
           ],
         },
         {
@@ -91,6 +119,7 @@ export default defineConfig({
             { label: 'Changelog', slug: 'changelog' },
             { label: 'Security & Disclosure', slug: 'security' },
             { label: 'Export Transparency', slug: 'exports' },
+            { label: 'Research', slug: 'research/permissionless-crypto-assets-2026-03' },
           ],
         },
       ],
