@@ -20,6 +20,15 @@ export default defineConfig({
           href: 'https://github.com/EduBrainBoost/SSID-open-core',
         },
       ],
+      head: [
+        {
+          tag: 'meta',
+          attrs: {
+            'http-equiv': 'Content-Security-Policy',
+            content: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';",
+          },
+        },
+      ],
       customCss: [
         './src/styles/cyberpunk.css',
       ],
@@ -33,6 +42,7 @@ export default defineConfig({
         {
           label: 'Architecture',
           items: [
+            { label: 'Root-24 Architecture', slug: 'architecture/roots' },
             { label: '24x16 Matrix', slug: 'architecture/matrix' },
             { label: 'Shards & Hybrid Charts', slug: 'architecture/shards' },
             { label: 'Deterministic Artifacts', slug: 'architecture/artifacts' },
@@ -45,6 +55,7 @@ export default defineConfig({
             { label: 'PR-Only Workflow', slug: 'governance/pr-only' },
             { label: 'Evidence & WORM', slug: 'governance/evidence' },
             { label: 'Policy Gates', slug: 'governance/policy-gates' },
+            { label: 'DAO Governance', slug: 'governance/dao' },
             { label: 'Incident Response & DR', slug: 'governance/incident-response' },
             { label: 'Secrets Management', slug: 'governance/secrets-management' },
           ],
@@ -74,6 +85,8 @@ export default defineConfig({
           items: [
             { label: 'Utility & Governance', slug: 'token/utility' },
             { label: 'Non-Custodial Design', slug: 'token/non-custodial' },
+            { label: 'Fee Models', slug: 'token/fee-models' },
+            { label: 'Token Distribution', slug: 'token/distribution' },
           ],
         },
         {

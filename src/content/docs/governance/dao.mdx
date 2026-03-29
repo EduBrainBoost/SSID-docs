@@ -1,0 +1,116 @@
+---
+title: "DAO Governance"
+description: "SSID DAO governance structure, scope, and restrictions"
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# DAO Governance
+
+SSID governance is implemented as a **Decentralized Autonomous Organization (DAO)** with strictly scoped authority. The DAO governs system parameters and policy — it does not control funds in a custodial sense.
+
+## Governance Scope
+
+The DAO can govern the following areas:
+
+| Area | Examples |
+|------|----------|
+| **System parameters** | Fee thresholds, rate limits, timeout values |
+| **Policy gates** | Adding/removing required review gates |
+| **Module policies** | Per-root access control, contribution requirements |
+| **Budget allocation** | Treasury spending within non-profit constraints |
+| **SBT issuance** | Granting and revoking Soulbound Token roles |
+| **Protocol upgrades** | Smart contract upgrade proposals |
+
+## Non-Votable Parameters
+
+<Aside type="danger">
+The following parameters are **immutable and cannot be changed by governance vote**:
+
+- `profit_distribution` — No profit distribution mechanism can be introduced
+- `redemption` — No token redemption at par can be created
+- `treasury_extraction` — No extraction of treasury funds for profit
+- `fee_increase_beyond_cap` — Fee percentages cannot exceed the hardcoded cap
+- `root_structure` — The 24-root structure is locked (ROOT-24-LOCK)
+- `evidence_deletion` — WORM evidence logs cannot be deleted or modified
+- `custody_model` — The non-custodial design cannot be changed to custodial
+
+These invariants are enforced at the smart contract level and cannot be overridden.
+</Aside>
+
+## SSIDGovernor.sol
+
+The governance logic is implemented in `SSIDGovernor.sol`, which extends OpenZeppelin's Governor pattern:
+
+```solidity
+// Simplified interface
+interface ISSIDGovernor {
+    /// @notice Create a governance proposal
+    /// @param targets Contract addresses to call
+    /// @param values ETH values (typically 0)
+    /// @param calldatas Encoded function calls
+    /// @param description Human-readable proposal description
+    function propose(
+        address[] memory targets,
+        uint256[] memory values,
+        bytes[] memory calldatas,
+        string memory description
+    ) external returns (uint256 proposalId);
+
+    /// @notice Cast a vote on an active proposal
+    /// @param proposalId The proposal to vote on
+    /// @param support 0=Against, 1=For, 2=Abstain
+    function castVote(uint256 proposalId, uint8 support) external;
+
+    /// @notice Check if a parameter is votable
+    /// @param paramHash keccak256 of the parameter name
+    function isVotable(bytes32 paramHash) external view returns (bool);
+}
+```
+
+Key design decisions:
+
+- **Parameter allow-list** — Only explicitly allowed parameters can be modified by vote
+- **Timelock** — All approved proposals have a mandatory delay before execution
+- **Quorum** — Minimum participation threshold required for vote validity
+- **Non-votable guard** — The `isVotable()` check prevents proposals that target immutable parameters
+
+## Proposal Lifecycle
+
+```
+1. DRAFT     → Proposer creates proposal (requires SBT_GOVERNOR)
+2. REVIEW    → Community review period (minimum 7 days)
+3. VOTING    → Token-weighted voting period (minimum 7 days)
+4. TIMELOCK  → Mandatory delay before execution (minimum 48 hours)
+5. EXECUTION → Proposal is executed on-chain
+```
+
+<Aside type="note">
+The review period ensures that all proposals receive adequate community scrutiny before voting begins. Emergency proposals follow a separate fast-track process with higher quorum requirements.
+</Aside>
+
+## Not-for-Profit Treasury Rules
+
+The DAO treasury operates under strict non-profit constraints:
+
+| Rule | Enforcement |
+|------|-------------|
+| No profit extraction | Smart contract invariant — no withdrawal to non-operational addresses |
+| Spending requires vote | All treasury disbursements require governance approval |
+| Operational use only | Funds may only cover infrastructure, audits, maintenance, compliance |
+| Transparent accounting | All treasury movements are on-chain and publicly auditable |
+| No investment activity | Treasury cannot be deployed into yield, lending, or trading protocols |
+
+<Aside type="tip">
+The not-for-profit treasury model ensures that SSID remains a public good. The DAO governs how funds are spent on ecosystem sustainability — not how profits are distributed.
+</Aside>
+
+## Governance Restrictions Summary
+
+The DAO is powerful within its scope but deliberately constrained:
+
+- **Can** adjust system parameters, approve upgrades, allocate operational budgets
+- **Cannot** introduce profit distribution, change custody model, modify root structure
+- **Cannot** delete evidence logs, bypass policy gates, or override security invariants
+
+This design ensures that governance enhances the system without undermining its foundational guarantees.

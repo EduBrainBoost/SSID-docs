@@ -1,0 +1,95 @@
+---
+title: "Token Distribution"
+description: "SSID token distribution model, sink mechanics, and SBT roles"
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Token Distribution
+
+The SSID token is a **utility and governance token** — not an investment instrument. Its distribution model is designed for ecosystem participation, not speculative value.
+
+<Aside type="caution">
+The SSID token does not represent equity, debt, or any financial claim. There is no redemption at par, no guaranteed buyback, and no profit distribution to holders.
+</Aside>
+
+## Token Classification
+
+| Property | Value |
+|----------|-------|
+| **Primary function** | Utility access + governance voting |
+| **Investment product?** | No |
+| **Redemption at par?** | No |
+| **Profit distribution?** | No — `treasury_nonprofit_only` |
+| **Custody model** | Non-custodial (user-held keys) |
+| **Transfer restrictions** | Peer-to-peer, no intermediary |
+
+## Sink Model
+
+SSID uses a **sink model** for treasury management:
+
+- All system fees flow into the non-profit treasury
+- Treasury funds are allocated exclusively to ecosystem operations
+- The treasury operates under `treasury_nonprofit_only` constraints
+- No profit extraction, dividend, or buyback mechanisms exist
+
+```
+Transaction Fee (3%)
+    ├── 2% → Non-Profit Treasury (sink)
+    │         ├── Infrastructure
+    │         ├── Security Audits
+    │         ├── Open-Source Maintenance
+    │         └── Compliance
+    └── 1% → Developer Rewards (autonomous routing)
+```
+
+<Aside type="note">
+The sink model ensures that value flows into ecosystem sustainability rather than external extraction. This aligns with the non-profit governance structure.
+</Aside>
+
+## SBT Roles (Soulbound Tokens)
+
+SSID uses **Soulbound Tokens (SBTs)** for role-based access control. SBTs are non-transferable tokens bound to a DID.
+
+| SBT Role | Purpose | Transferable? |
+|----------|---------|---------------|
+| `SBT_CONTRIBUTOR` | Marks verified code contributors | No |
+| `SBT_AUDITOR` | Grants audit and evidence review access | No |
+| `SBT_GOVERNOR` | Enables governance proposal creation | No |
+| `SBT_VALIDATOR` | Authorizes node validation | No |
+| `SBT_REVIEWER` | Grants PR review authority | No |
+
+### Properties
+
+- **Non-transferable** — SBTs cannot be sold, traded, or transferred
+- **DID-bound** — Each SBT is cryptographically linked to a self-sovereign DID
+- **Revocable** — Governance can revoke SBTs through the standard proposal process
+- **Auditable** — All SBT issuance and revocation is logged in the evidence trail
+
+<Aside type="tip">
+SBTs solve the "credential marketplace" problem — roles cannot be bought or sold, only earned through verified contribution and governance approval.
+</Aside>
+
+## No Redemption at Par
+
+<Aside type="danger">
+The SSID token has **no redemption mechanism**:
+
+- There is no guaranteed exchange rate
+- There is no buyback program
+- There is no par value
+- Tokens are not redeemable for fiat, assets, or other tokens at a fixed rate
+
+The token's utility is functional ecosystem access, not stored monetary value.
+</Aside>
+
+## Governance Participation
+
+Token holders participate in governance through:
+
+1. **Proposal voting** — Vote on system parameter changes
+2. **Policy gate approval** — Vote on new policy gates
+3. **Budget allocation** — Vote on treasury spending within non-profit constraints
+4. **Root governance** — Vote on module-level policy changes
+
+Governance scope and restrictions are defined in the [DAO documentation](/governance/dao).

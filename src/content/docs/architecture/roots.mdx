@@ -1,0 +1,97 @@
+---
+title: "Root-24 Architecture"
+description: "The 24 canonical root modules of SSID"
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Root-24 Architecture
+
+SSID is organized into exactly **24 canonical root modules**. This structure is enforced by the **ROOT-24-LOCK** invariant and cannot be modified without an RFC process.
+
+## The 24 Roots
+
+| # | Root | Purpose |
+|---|------|---------|
+| 01 | `01_ai_layer` | AI model integration, inference pipelines, bias audits |
+| 02 | `02_audit_logging` | WORM-compliant evidence storage, audit trail |
+| 03 | `03_core` | Core identity logic, DID management, key lifecycle |
+| 04 | `04_deployment` | CI/CD pipelines, container definitions, infra-as-code |
+| 05 | `05_documentation` | Internal documentation generation and schemas |
+| 06 | `06_data_pipeline` | Data ingestion, transformation, ETL flows |
+| 07 | `07_governance_legal` | Legal compliance mapping, governance policies |
+| 08 | `08_identity_score` | Identity scoring models, trust metrics |
+| 09 | `09_meta_identity` | Meta-identity aggregation, cross-context identity |
+| 10 | `10_interoperability` | Cross-chain bridges, DIDComm, protocol adapters |
+| 11 | `11_test_simulation` | Test framework, simulation environments, fixtures |
+| 12 | `12_tooling` | CLI tools, dispatcher, developer utilities |
+| 13 | `13_ui_layer` | Frontend components, UI runtime |
+| 14 | `14_zero_time_auth` | Zero-knowledge auth, instant verification |
+| 15 | `15_infra` | Infrastructure definitions, cloud configuration |
+| 16 | `16_codex` | Source of Truth — canonical schemas, system contracts |
+| 17 | `17_observability` | Health checks, metrics, alerting |
+| 18 | `18_data_layer` | Persistence layer, database schemas, storage |
+| 19 | `19_adapters` | External system adapters, third-party connectors |
+| 20 | `20_foundation` | Base libraries, shared utilities, common types |
+| 21 | `21_post_quantum_crypto` | Post-quantum cryptographic primitives (Kyber, Dilithium) |
+| 22 | `22_datasets` | Training data, benchmark datasets, test fixtures |
+| 23 | `23_compliance` | Regulatory compliance (GDPR, eIDAS, MiCA, EU AI Act) |
+| 24 | `24_meta_orchestration` | Task registry, MAOS dispatcher, agent orchestration |
+
+## ROOT-24-LOCK Invariant
+
+<Aside type="danger">
+The ROOT-24-LOCK is an immutable system invariant. No agent, process, or human may:
+
+- **Create** new root-level folders
+- **Rename** existing roots
+- **Delete** any root
+- **Restructure** the root hierarchy
+
+Every write operation is validated against the canonical root list before execution.
+</Aside>
+
+The lock is enforced at multiple levels:
+
+1. **Path Guard** — Blocks file system writes outside the 24 roots
+2. **Scope Router** — Assigns each agent to specific root(s) at session start
+3. **PR Gates** — Rejects pull requests that modify root structure
+4. **Evidence Logging** — All write operations are logged with SHA-256 hashes
+
+## Common-MUST Structure
+
+Every root module **must** contain the following directory structure:
+
+```
+XX_root_name/
+├── module.yaml       # Module manifest (dependencies, version, policy gates)
+├── README.md         # Module-level documentation
+├── docs/             # Detailed design docs and ADRs
+├── src/              # Source code
+└── tests/            # Unit and integration tests
+```
+
+### module.yaml
+
+The `module.yaml` file declares the module's metadata, dependencies, and policy requirements:
+
+```yaml
+name: 03_core
+version: 0.1.0
+description: Core identity logic
+dependencies:
+  - 21_post_quantum_crypto
+  - 18_data_layer
+policy_gates:
+  - pr_review
+  - evidence_append
+  - security_scan
+```
+
+<Aside type="tip">
+The Common-MUST structure ensures that every root is self-documenting, testable, and auditable — regardless of which team or agent maintains it.
+</Aside>
+
+## Source of Truth
+
+The canonical definition of all 24 roots lives in **`16_codex`**. All other systems (agents, CI/CD, documentation) derive their root list from this single source. Changes to `16_codex` require an RFC and multi-party approval.
