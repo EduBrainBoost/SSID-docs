@@ -1,0 +1,101 @@
+---
+title: "Fee Models"
+description: "Developer reward and fee distribution in the SSID ecosystem"
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Fee Models
+
+SSID implements a transparent, non-custodial fee model that rewards developers autonomously through smart contract logic. The model is immutable once deployed and does not rely on any custodial intermediary.
+
+<Aside type="caution">
+SSID fees are **not profit, yield, or APR**. They are deterministic service fees routed by immutable smart contract logic. No party "earns returns" — contributors receive automated rewards for verified work.
+</Aside>
+
+## Fee Distribution
+
+All on-chain transactions that interact with SSID identity services are subject to a total fee of **3%**, split as follows:
+
+| Component | Rate | Destination |
+|-----------|------|-------------|
+| System Fee | 2% | Non-profit treasury (`treasury_nonprofit_only`) |
+| Developer Reward | 1% | Contributing developer wallets |
+| **Total** | **3%** | |
+
+### System Fee (2%)
+
+The system fee flows into the non-profit treasury. It funds:
+
+- Infrastructure operation costs
+- Security audits and bug bounties
+- Open-source maintenance
+- Compliance and legal requirements
+
+The treasury operates under `treasury_nonprofit_only` rules — no profit extraction is permitted.
+
+### Developer Reward (1%)
+
+The developer reward is distributed to contributors whose code is deployed in the active system. Distribution is calculated from the `license_fee_matrix.yaml`, which maps contributions across all 24 roots.
+
+<Aside type="note">
+All 24/24 roots participate in the fee matrix. Every root that contains deployed, production code generates reward eligibility for its contributors.
+</Aside>
+
+## IdentityFeeRouter.sol
+
+The fee routing is handled by the `IdentityFeeRouter.sol` hook contract:
+
+```solidity
+// Simplified interface
+interface IIdentityFeeRouter {
+    /// @notice Routes fees from an identity transaction
+    /// @param amount The transaction amount
+    /// @param rootId The originating root module (1-24)
+    function routeFee(uint256 amount, uint8 rootId) external;
+
+    /// @notice Returns the current fee breakdown
+    function feeBreakdown() external view returns (
+        uint256 systemBps,    // 200 = 2%
+        uint256 developerBps  // 100 = 1%
+    );
+}
+```
+
+Key properties of the router:
+
+- **Immutable** — Fee percentages are hardcoded at deployment; no admin key can change them
+- **Non-custodial** — Fees are routed directly to destination wallets; the contract never holds funds
+- **Autonomous** — No human intervention required for distribution
+- **Deterministic** — Given the same input, the output is always the same
+
+## license_fee_matrix.yaml
+
+Each root maintains a `license_fee_matrix.yaml` that declares contributor weights:
+
+```yaml
+root: 03_core
+contributors:
+  - did: "did:ssid:contributor_a"
+    weight: 40
+  - did: "did:ssid:contributor_b"
+    weight: 35
+  - did: "did:ssid:contributor_c"
+    weight: 25
+total_weight: 100
+```
+
+The matrix is updated through the standard PR-only governance workflow and is subject to evidence logging.
+
+## What This Is Not
+
+<Aside type="danger">
+The SSID fee model is **not**:
+
+- An investment return or yield mechanism
+- A profit-sharing arrangement
+- An APR/APY product
+- A staking reward in the DeFi sense
+
+It is a deterministic, non-custodial, autonomous developer reward system governed by immutable smart contract logic.
+</Aside>
