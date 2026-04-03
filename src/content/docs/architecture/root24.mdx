@@ -1,0 +1,121 @@
+---
+title: "ROOT-24 Architecture Overview"
+description: "System-level architecture of the 24 canonical SSID root modules — dependencies, data flow, and enforcement model"
+---
+
+import { Aside, Card, CardGrid } from '@astrojs/starlight/components';
+
+# ROOT-24 Architecture Overview
+
+This document describes the **system-level architecture** that connects SSID's 24 canonical root modules. For the module list itself, see [Root-24 Architecture](./roots/).
+
+## Design Principles
+
+1. **Immutability** — The 24-root structure is locked. No additions, removals, or renames.
+2. **Single Source of Truth** — `16_codex` holds the canonical schema. All other systems derive from it.
+3. **Additive-Only Writes** — Every file write is SHA-256 evidenced (SAFE-FIX enforcement).
+4. **Session Isolation** — Each agent operates within a locked session with explicit root scope.
+
+## Layer Model
+
+The 24 roots organize into five logical layers:
+
+### Layer 0 — Foundation
+
+| Root | Role |
+|------|------|
+| `20_foundation` | Shared libraries, base types, utility functions |
+| `16_codex` | Source of Truth — schemas, contracts, canonical definitions |
+| `18_data_layer` | Persistence, database schemas, storage abstractions |
+
+### Layer 1 — Cryptography and Identity
+
+| Root | Role |
+|------|------|
+| `21_post_quantum_crypto` | Kyber (KEM), Dilithium (signatures), hybrid schemes |
+| `03_core` | DID lifecycle, key management, identity logic |
+| `08_identity_score` | Trust metrics, scoring models, reputation |
+| `09_meta_identity` | Cross-context identity aggregation |
+| `14_zero_time_auth` | Zero-knowledge proofs, instant verification |
+
+### Layer 2 — Data and Integration
+
+| Root | Role |
+|------|------|
+| `06_data_pipeline` | ETL, data ingestion, transformation |
+| `10_interoperability` | DIDComm, cross-chain bridges, protocol adapters |
+| `19_adapters` | Third-party connectors, external API integrations |
+| `22_datasets` | Training data, benchmarks, test fixtures |
+
+### Layer 3 — Intelligence and Compliance
+
+| Root | Role |
+|------|------|
+| `01_ai_layer` | AI inference, model integration, bias audits |
+| `23_compliance` | GDPR, eIDAS, MiCA, EU AI Act mapping |
+| `07_governance_legal` | Legal policies, governance rules |
+
+### Layer 4 — Operations and UI
+
+| Root | Role |
+|------|------|
+| `02_audit_logging` | WORM evidence storage, audit trail |
+| `04_deployment` | CI/CD, containers, infrastructure-as-code |
+| `05_documentation` | Internal doc generation |
+| `11_test_simulation` | Test frameworks, simulation environments |
+| `12_tooling` | CLI tools, dispatcher, developer utilities |
+| `13_ui_layer` | Frontend components, UI runtime |
+| `15_infra` | Cloud configuration, infrastructure definitions |
+| `17_observability` | Health checks, metrics, alerting |
+| `24_meta_orchestration` | MAOS dispatcher, agent task registry |
+
+## Dependency Flow
+
+```
+Layer 0 (Foundation / SoT)
+    ↓
+Layer 1 (Crypto / Identity)
+    ↓
+Layer 2 (Data / Integration)
+    ↓
+Layer 3 (AI / Compliance)
+    ↓
+Layer 4 (Ops / UI)
+```
+
+<Aside type="caution">
+Dependencies flow **downward only**. A Layer 2 module must never depend on Layer 3 or Layer 4. Circular dependencies are prohibited and enforced by the PR gate.
+</Aside>
+
+## Enforcement Mechanisms
+
+<CardGrid>
+  <Card title="Path Guard" icon="approve-check">
+    Blocks file writes outside the agent's assigned roots. Validated at runtime.
+  </Card>
+  <Card title="ROOT-24-LOCK" icon="warning">
+    Immutable invariant — no structural changes to root hierarchy permitted.
+  </Card>
+  <Card title="SAFE-FIX" icon="document">
+    SHA-256 evidence before and after every write. No blind overwrites.
+  </Card>
+  <Card title="Session Isolation" icon="setting">
+    Each agent gets a unique session ID, lock file, and evidence path.
+  </Card>
+</CardGrid>
+
+## Module Interactions
+
+Key integration points across roots:
+
+- **DID Resolution**: `03_core` → `21_post_quantum_crypto` → `18_data_layer`
+- **Credential Issuance**: `03_core` → `08_identity_score` → `23_compliance`
+- **Auth Flow**: `14_zero_time_auth` → `03_core` → `01_ai_layer` (risk scoring)
+- **Agent Dispatch**: `24_meta_orchestration` → `12_tooling` → `02_audit_logging`
+- **Monitoring**: `17_observability` → `15_infra` → `04_deployment`
+
+## Related
+
+- [Root Module List](./roots/) — The 24 roots with descriptions
+- [Shard Architecture](./shards/) — 16-shard data partitioning
+- [EMS Architecture](./ems/) — Enterprise Management System

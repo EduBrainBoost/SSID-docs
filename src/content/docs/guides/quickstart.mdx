@@ -1,0 +1,139 @@
+---
+title: "Developer Quickstart"
+description: "Get the SSID development environment running in under 10 minutes"
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+# Developer Quickstart
+
+This guide walks you through setting up a local SSID development environment.
+
+## Prerequisites
+
+- **Node.js** >= 20 LTS
+- **Python** >= 3.11
+- **Git** >= 2.40
+- **Docker** >= 24 (optional, for full stack)
+- A GitHub account with access to the SSID organization
+
+## Clone the Repositories
+
+<Steps>
+
+1. **Clone the main SSID repo**
+
+   ```bash
+   git clone https://github.com/<org>/SSID.git
+   cd SSID
+   ```
+
+2. **Clone the EMS portal** (if working on frontend/backend)
+
+   ```bash
+   git clone https://github.com/<org>/SSID-EMS.git
+   ```
+
+3. **Clone the documentation site** (if contributing to docs)
+
+   ```bash
+   git clone https://github.com/<org>/SSID-docs.git
+   ```
+
+</Steps>
+
+## Port Matrix
+
+SSID uses a fixed port matrix. Do not invent ports.
+
+| Service | Local (C) | Dev (G) |
+|---------|-----------|---------|
+| EMS Frontend | 3000 | 3100 |
+| EMS Backend | 8000 | 8100 |
+| Legacy Website | 3001 | 3101 |
+| Docs (Docusaurus) | 3002 | 3102 |
+| Orchestrator API | 3210 | 3310 |
+| Orchestrator UI | 5173 | 5273 |
+| SSID-docs (Starlight) | 4321 | 4331 |
+| CCT Dashboard | 4322 | 4332 |
+
+<Aside type="danger">
+Ports are immutable. Never assign custom ports. The canonical matrix is defined in `port-policy.json`.
+</Aside>
+
+## Start the EMS Portal
+
+<Tabs>
+  <TabItem label="Frontend">
+    ```bash
+    cd SSID-EMS/frontend
+    npm install
+    npm run dev
+    # → http://localhost:3000
+    ```
+  </TabItem>
+  <TabItem label="Backend">
+    ```bash
+    cd SSID-EMS/backend
+    pip install -r requirements.txt
+    uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    # → http://localhost:8000/docs
+    ```
+  </TabItem>
+</Tabs>
+
+<Aside type="tip">
+Always use `localhost` (not `127.0.0.1`) for browser access to avoid CORS and cookie issues.
+</Aside>
+
+## Start the Documentation Site
+
+```bash
+cd SSID-docs
+npm install
+npm run dev
+# → http://localhost:4321
+```
+
+## Project Structure (Root-24)
+
+The main SSID repository uses exactly 24 canonical root folders. See [ROOT-24 Architecture](/architecture/root24/) for details.
+
+```
+SSID/
+├── 01_ai_layer/
+├── 02_audit_logging/
+├── 03_core/           ← DID management, identity logic
+├── ...
+├── 16_codex/          ← Source of Truth
+├── ...
+├── 24_meta_orchestration/
+```
+
+<Aside type="caution">
+The ROOT-24-LOCK invariant prohibits creating, renaming, or deleting root folders. All changes must go through the RFC process.
+</Aside>
+
+## Development Rules
+
+1. **No secrets in code** — Use vault integration for all credentials
+2. **No hardcoded API endpoints** — Configuration via environment variables
+3. **Additive writes only** — SAFE-FIX enforcement requires SHA-256 evidence
+4. **Branch workflow** — All changes via PR; direct pushes to `main` are blocked
+5. **Non-custodial** — Never store PII; use SHA3-256 hashes only
+
+## Authentication Stack
+
+SSID uses a layered auth model:
+
+- **mTLS** — Mutual TLS for service-to-service communication
+- **JWT** — Session tokens for API access
+- **DID Session Tokens** — Decentralized identity-bound sessions
+- **Post-Quantum Crypto** — Kyber (KEM) and Dilithium (signatures) for future-proofing
+
+## Next Steps
+
+- [DID Method Specification](/identity/did-method/) — Understand `did:ssid:polygon`
+- [Verifiable Credentials](/identity/verifiable-credentials/) — VC lifecycle
+- [ROOT-24 Architecture](/architecture/root24/) — System architecture deep dive
+- [EMS Architecture](/architecture/ems/) — Frontend/Backend design
