@@ -1,0 +1,145 @@
+---
+title: "DID Method — did:ssid:polygon"
+description: "Specification of the did:ssid:polygon decentralized identifier method"
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# DID Method: `did:ssid:polygon`
+
+## Overview
+
+SSID implements a W3C-compliant Decentralized Identifier (DID) method anchored on the Polygon network. The method provides self-sovereign identity resolution with post-quantum cryptographic guarantees.
+
+## Method Syntax
+
+```
+did:ssid:polygon:<network>:<unique-id>
+```
+
+| Component | Description |
+|-----------|-------------|
+| `did` | W3C DID scheme prefix |
+| `ssid` | SSID method name |
+| `polygon` | Blockchain anchor network |
+| `<network>` | `mainnet` or `amoy` (testnet) |
+| `<unique-id>` | SHA3-256 hash of the initial public key material |
+
+### Examples
+
+```
+did:ssid:polygon:mainnet:0x7a3b...c4f2
+did:ssid:polygon:amoy:0x9e1d...a8b3
+```
+
+## DID Document
+
+A resolved DID Document follows the W3C DID Core v1.0 specification:
+
+```json
+{
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    "https://w3id.org/security/suites/jws-2020/v1",
+    "https://ssid.example/context/v1"
+  ],
+  "id": "did:ssid:polygon:mainnet:0x7a3b...c4f2",
+  "authentication": [
+    {
+      "id": "did:ssid:polygon:mainnet:0x7a3b...c4f2#key-1",
+      "type": "JsonWebKey2020",
+      "controller": "did:ssid:polygon:mainnet:0x7a3b...c4f2",
+      "publicKeyJwk": {
+        "kty": "OKP",
+        "crv": "ML-DSA-65",
+        "x": "<base64url-encoded-public-key>"
+      }
+    }
+  ],
+  "assertionMethod": ["#key-1"],
+  "service": [
+    {
+      "id": "did:ssid:polygon:mainnet:0x7a3b...c4f2#vc-service",
+      "type": "VerifiableCredentialService",
+      "serviceEndpoint": "https://vc.ssid.example/api/v1"
+    }
+  ]
+}
+```
+
+## CRUD Operations
+
+### Create
+
+1. Generate a Dilithium (ML-DSA-65) key pair in `03_core`
+2. Compute `unique-id` = SHA3-256 of the public key
+3. Construct the initial DID Document
+4. Anchor the DID Document hash on Polygon via smart contract
+5. Store the full document in `18_data_layer`
+6. Log creation evidence to `02_audit_logging`
+
+<Aside type="tip">
+Key generation uses the post-quantum primitives from `21_post_quantum_crypto`. Classical ECDSA keys may be included as a hybrid fallback.
+</Aside>
+
+### Read (Resolve)
+
+1. Query the Polygon smart contract for the document hash
+2. Retrieve the full DID Document from `18_data_layer`
+3. Verify the document hash matches the on-chain anchor
+4. Return the resolved DID Document
+
+### Update
+
+1. Authenticate with the current DID controller key
+2. Apply changes (key rotation, service endpoint update)
+3. Increment the `versionId` in the document
+4. Re-anchor the updated hash on Polygon
+5. Log the update with before/after SHA-256 hashes (SAFE-FIX)
+
+<Aside type="caution">
+DID Document updates require RFC approval if they modify the authentication method. Key rotation without method change can proceed with standard PR review.
+</Aside>
+
+### Deactivate
+
+1. Authenticate with the DID controller key
+2. Set the `deactivated` flag in the DID Document
+3. Anchor the deactivation on Polygon (irreversible on-chain)
+4. Log deactivation evidence
+
+<Aside type="danger">
+Deactivation is permanent. A deactivated DID cannot be reactivated. All associated Verifiable Credentials become unverifiable.
+</Aside>
+
+## Security Properties
+
+| Property | Implementation |
+|----------|---------------|
+| **Post-Quantum Resistance** | Dilithium (ML-DSA-65) signatures |
+| **Hybrid Mode** | Optional ECDSA + Dilithium dual signatures |
+| **Key Derivation** | SHA3-256 for identifier generation |
+| **Non-Custodial** | Private keys never leave the holder's device |
+| **Tamper Evidence** | On-chain hash anchoring on Polygon |
+| **Audit Trail** | WORM-compliant evidence in `02_audit_logging` |
+
+## Resolution Flow
+
+```
+Client → Resolver → Polygon Smart Contract
+                  → 18_data_layer (full document)
+                  → Hash verification
+                  → Return DID Document
+```
+
+## Compliance
+
+- **W3C DID Core v1.0** — Full conformance
+- **eIDAS 2.0** — Compatible with EU Digital Identity Wallet requirements
+- **GDPR** — No PII stored on-chain; only cryptographic hashes
+
+## Related
+
+- [VC Lifecycle](/identity/vc-lifecycle/) — VC lifecycle built on this DID method
+- [ROOT-24 Architecture](/architecture/root24/) — System architecture context
+- [Post-Quantum Crypto](/architecture/roots/) — Root `21_post_quantum_crypto`
