@@ -4,6 +4,7 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
   site: 'https://edubrainboost.github.io',
   base: process.env.NODE_ENV === 'production' ? '/SSID-docs' : '/',
+  server: { port: 4331 },
   integrations: [
     starlight({
       title: 'SSID',
