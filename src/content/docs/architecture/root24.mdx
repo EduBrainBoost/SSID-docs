@@ -109,7 +109,7 @@ Dependencies flow **downward only**. A Layer 2 module must never depend on Layer
 Key integration points across roots:
 
 - **DID Resolution**: `03_core` → `21_post_quantum_crypto` → `18_data_layer`
-- **Credential Issuance**: `03_core` → `08_identity_score` → `23_compliance`
+- **VC Issuance**: `03_core` → `08_identity_score` → `23_compliance`
 - **Auth Flow**: `14_zero_time_auth` → `03_core` → `01_ai_layer` (risk scoring)
 - **Agent Dispatch**: `24_meta_orchestration` → `12_tooling` → `02_audit_logging`
 - **Monitoring**: `17_observability` → `15_infra` → `04_deployment`

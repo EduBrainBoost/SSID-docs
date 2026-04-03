@@ -39,7 +39,7 @@ src/content/docs/
 │   └── quickstart.mdx       ← NEW
 ├── identity/
 │   ├── did-method.mdx        ← NEW
-│   └── verifiable-credentials.mdx  ← NEW
+│   └── vc-lifecycle.mdx             ← NEW
 ├── operations/
 │   └── local-stack.md
 ├── research/
@@ -63,4 +63,4 @@ src/content/docs/
 
 - **Total files**: 41
 - **Sections**: 11 (architecture, compliance, faq, governance, guides, identity, operations, research, token, tooling, root-level)
-- **New in this commit**: 4 files (root24.mdx, quickstart.mdx, did-method.mdx, verifiable-credentials.mdx)
+- **New in this commit**: 4 files (root24.mdx, quickstart.mdx, did-method.mdx, vc-lifecycle.mdx)
