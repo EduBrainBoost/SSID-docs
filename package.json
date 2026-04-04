@@ -13,7 +13,8 @@
     "test:structure": "node tests/structure.test.mjs",
     "test:content": "node tests/content.test.mjs",
     "test:theme": "node tests/theme.test.mjs",
-    "ingest": "node tools/ingest.mjs"
+    "ingest": "node tools/ingest.mjs",
+    "start:runtime": "astro preview --port 4331"
   },
   "keywords": ["ssid", "ssi", "documentation", "astro", "starlight"],
   "author": "SSID Project",
