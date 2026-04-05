@@ -116,10 +116,16 @@ jobs:
             "\.env\."
           )
 
+          # Allowlisted path suffixes that are safe despite matching a
+          # forbidden pattern (e.g. .env.example is NOT a real .env file).
+          ALLOWED_SUFFIXES="\.env\.example|\.env\.sample"
+
           for pattern in "${FORBIDDEN_PATHS[@]}"; do
-            if find . -path "./node_modules" -prune -o -path "./.git" -prune -o -path "./02_audit_logging" -prune -o -regex ".*${pattern}.*" -print | grep -q .; then
+            MATCHES=$(find . -path "./node_modules" -prune -o -path "./.git" -prune -o -path "./02_audit_logging" -prune -o -regex ".*${pattern}.*" -print \
+              | grep -Ev "(${ALLOWED_SUFFIXES})" || true)
+            if [ -n "$MATCHES" ]; then
               echo "FAIL: Forbidden path pattern '${pattern}' found:"
-              find . -path "./node_modules" -prune -o -path "./.git" -prune -o -path "./02_audit_logging" -prune -o -regex ".*${pattern}.*" -print
+              echo "$MATCHES"
               FAIL=1
             fi
           done
