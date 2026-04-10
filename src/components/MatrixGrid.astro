@@ -1,0 +1,393 @@
+---
+// MatrixGrid.astro — 24-cell root matrix + stats row
+// Pure Astro + CSS, no client-side JavaScript required
+// Staggered fade-in via CSS custom property --i per cell
+
+interface Root {
+  id: number;
+  name: string;
+}
+
+const roots: Root[] = [
+  { id:  1, name: 'AI Layer' },
+  { id:  2, name: 'Audit Logging' },
+  { id:  3, name: 'Core' },
+  { id:  4, name: 'Deployment' },
+  { id:  5, name: 'Documentation' },
+  { id:  6, name: 'Data Pipeline' },
+  { id:  7, name: 'Governance Legal' },
+  { id:  8, name: 'Identity Score' },
+  { id:  9, name: 'Meta Identity' },
+  { id: 10, name: 'Interoperability' },
+  { id: 11, name: 'Test Simulation' },
+  { id: 12, name: 'Tooling' },
+  { id: 13, name: 'UI Layer' },
+  { id: 14, name: 'Zero-Time Auth' },
+  { id: 15, name: 'Infrastructure' },
+  { id: 16, name: 'Codex' },
+  { id: 17, name: 'Observability' },
+  { id: 18, name: 'Data Layer' },
+  { id: 19, name: 'Adapters' },
+  { id: 20, name: 'Foundation' },
+  { id: 21, name: 'Post-Quantum Crypto' },
+  { id: 22, name: 'Datasets' },
+  { id: 23, name: 'Compliance' },
+  { id: 24, name: 'Meta Orchestration' },
+];
+
+const stats = [
+  { value: '36', label: 'SoT Rules' },
+  { value: '8',  label: 'Gate Chain' },
+  { value: '24', label: 'Roots' },
+  { value: '71+', label: 'ADRs' },
+];
+---
+
+<section class="matrix-section" aria-label="24-Root Matrix">
+
+  <!-- Section label -->
+  <p class="matrix-label" aria-hidden="true">
+    <span class="matrix-label-line"></span>
+    24 ROOTS
+    <span class="matrix-label-line"></span>
+  </p>
+
+  <!-- Grid -->
+  <div class="matrix-grid" role="list" aria-label="Root modules">
+    {roots.map((root) => (
+      <div
+        class="matrix-cell"
+        role="listitem"
+        style={`--i: ${root.id - 1}`}
+        aria-label={`Root ${String(root.id).padStart(2, '0')}: ${root.name}`}
+      >
+        <span class="cell-number">{String(root.id).padStart(2, '0')}</span>
+        <span class="cell-tooltip">{root.name}</span>
+      </div>
+    ))}
+  </div>
+
+  <!-- Stats row -->
+  <div class="stats-row" aria-label="Key statistics">
+    {stats.map((stat, i) => (
+      <>
+        <div class="stat-item">
+          <span class="stat-value">{stat.value}</span>
+          <span class="stat-label">{stat.label}</span>
+        </div>
+        {i < stats.length - 1 && (
+          <span class="stat-divider" aria-hidden="true">·</span>
+        )}
+      </>
+    ))}
+  </div>
+
+</section>
+
+<style>
+  /* ------------------------------------------------------------------ */
+  /* Section wrapper                                                      */
+  /* ------------------------------------------------------------------ */
+  .matrix-section {
+    width: 100%;
+    padding: 2rem 1.5rem 3.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Section label                                                        */
+  /* ------------------------------------------------------------------ */
+  .matrix-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--sl-font-mono, monospace);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ssid-fg-muted, #4a5568);
+    margin: 0;
+  }
+
+  .matrix-label-line {
+    display: block;
+    width: 48px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 229, 255, 0.3)
+    );
+  }
+
+  .matrix-label-line:last-child {
+    background: linear-gradient(
+      90deg,
+      rgba(0, 229, 255, 0.3),
+      transparent
+    );
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Grid — 2 rows × 12 cols desktop, 4×6 tablet, 6×4 mobile           */
+  /* ------------------------------------------------------------------ */
+  .matrix-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 48px);
+    gap: 6px;
+    justify-content: center;
+  }
+
+  @media (max-width: 700px) {
+    .matrix-grid {
+      grid-template-columns: repeat(6, 48px);
+    }
+  }
+
+  @media (max-width: 380px) {
+    .matrix-grid {
+      grid-template-columns: repeat(4, 48px);
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Individual cell                                                      */
+  /* ------------------------------------------------------------------ */
+  .matrix-cell {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+
+    /*
+     * Position-based gradient: cell index 0 → cyan, cell index 23 → magenta
+     * Computed via a linear interpolation expressed in hsl-space approximation.
+     * We use a background gradient on each cell from its own colour.
+     */
+    background: linear-gradient(
+      135deg,
+      hsl(
+        calc(185deg - (var(--i, 0) * 7.5deg)),
+        100%,
+        30%
+      ) 0%,
+      hsl(
+        calc(185deg - (var(--i, 0) * 7.5deg)),
+        80%,
+        18%
+      ) 100%
+    );
+    border: 1px solid hsl(
+      calc(185deg - (var(--i, 0) * 7.5deg)),
+      60%,
+      35%
+    );
+
+    /* Staggered entrance animation */
+    opacity: 0;
+    animation: cell-in 0.4s ease forwards;
+    animation-delay: calc(var(--i, 0) * 30ms);
+
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .matrix-cell:hover,
+  .matrix-cell:focus-visible {
+    transform: scale(1.12);
+    box-shadow:
+      0 0 16px hsl(calc(185deg - (var(--i, 0) * 7.5deg)), 100%, 50%, 0.5),
+      0 0 32px hsl(calc(185deg - (var(--i, 0) * 7.5deg)), 100%, 50%, 0.2);
+    border-color: hsl(calc(185deg - (var(--i, 0) * 7.5deg)), 100%, 60%);
+    z-index: 10;
+  }
+
+  @keyframes cell-in {
+    from {
+      opacity: 0;
+      transform: scale(0.7);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Cell number label                                                    */
+  /* ------------------------------------------------------------------ */
+  .cell-number {
+    font-family: var(--sl-font-mono, monospace);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: hsl(calc(185deg - (var(--i, 0) * 7.5deg)), 100%, 75%);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    user-select: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .matrix-cell:hover .cell-number,
+  .matrix-cell:focus-visible .cell-number {
+    opacity: 0;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Tooltip (shown on hover via CSS)                                     */
+  /* ------------------------------------------------------------------ */
+  .cell-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ssid-bg-elevated, #111520);
+    border: 1px solid rgba(0, 229, 255, 0.25);
+    border-radius: 5px;
+    padding: 0.25rem 0.5rem;
+    font-family: var(--sl-font-mono, monospace);
+    font-size: 0.62rem;
+    font-weight: 500;
+    color: var(--ssid-fg-primary, #e6e8ff);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    z-index: 20;
+  }
+
+  /* Arrow below tooltip */
+  .cell-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: rgba(0, 229, 255, 0.25);
+  }
+
+  .matrix-cell:hover .cell-tooltip,
+  .matrix-cell:focus-visible .cell-tooltip {
+    opacity: 1;
+  }
+
+  /* Keep tooltip on-screen for edge cells */
+  .matrix-cell:first-child .cell-tooltip,
+  .matrix-cell:nth-child(2) .cell-tooltip {
+    left: 0;
+    transform: none;
+  }
+
+  .matrix-cell:last-child .cell-tooltip,
+  .matrix-cell:nth-last-child(2) .cell-tooltip {
+    left: auto;
+    right: 0;
+    transform: none;
+  }
+
+  .matrix-cell:first-child .cell-tooltip::after,
+  .matrix-cell:nth-child(2) .cell-tooltip::after {
+    left: 16px;
+    transform: none;
+  }
+
+  .matrix-cell:last-child .cell-tooltip::after,
+  .matrix-cell:nth-last-child(2) .cell-tooltip::after {
+    left: auto;
+    right: 16px;
+    transform: none;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Stats row                                                            */
+  /* ------------------------------------------------------------------ */
+  .stats-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    padding-top: 0.5rem;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
+    min-width: 60px;
+  }
+
+  .stat-value {
+    font-family: var(--sl-font-mono, monospace);
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    font-weight: 700;
+    color: var(--ssid-neon-cyan, #00e5ff);
+    line-height: 1;
+    text-shadow: 0 0 16px rgba(0, 229, 255, 0.4);
+    letter-spacing: -0.02em;
+  }
+
+  .stat-label {
+    font-family: var(--sl-font-mono, monospace);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ssid-fg-muted, #4a5568);
+  }
+
+  .stat-divider {
+    font-size: 1.5rem;
+    color: var(--ssid-fg-muted, #4a5568);
+    line-height: 1;
+    margin-top: -0.5rem;
+    user-select: none;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Reduced motion — skip entrance animation, keep hover scale          */
+  /* ------------------------------------------------------------------ */
+  @media (prefers-reduced-motion: reduce) {
+    .matrix-cell {
+      animation: none;
+      opacity: 1;
+    }
+    .matrix-cell:hover,
+    .matrix-cell:focus-visible {
+      transform: none;
+    }
+    .cell-number {
+      transition: none;
+    }
+    .cell-tooltip {
+      transition: none;
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Responsive padding                                                   */
+  /* ------------------------------------------------------------------ */
+  @media (max-width: 480px) {
+    .matrix-section {
+      padding: 1.5rem 0.75rem 2.5rem;
+    }
+    .stats-row {
+      gap: 0.75rem;
+    }
+    .stat-divider {
+      display: none;
+    }
+  }
+</style>

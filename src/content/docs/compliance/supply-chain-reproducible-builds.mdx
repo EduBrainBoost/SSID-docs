@@ -1,0 +1,71 @@
+---
+title: "Reproducible Builds"
+description: "Hermetic build environments ensuring bit-for-bit reproducible outputs"
+---
+
+## Current State
+
+SSID currently uses these determinism measures:
+- Pinned tool versions in CI
+- Frozen lockfiles (`requirements.lock`, `pnpm-lock.yaml`)
+- Deterministic gate chain execution order
+
+## Target: Hermetic Builds
+
+### Nix-Based Approach (Recommended)
+
+```nix
+# flake.nix
+{
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+
+  outputs = { self, nixpkgs }: {
+    packages.x86_64-linux.ssid-ems = nixpkgs.legacyPackages.x86_64-linux.mkDerivation {
+      pname = "ssid-ems";
+      version = "1.0.0";
+      src = ./.;
+      buildInputs = [ python312 nodejs_22 ];
+      buildPhase = ''
+        pip install --no-deps -r requirements.lock
+        pnpm install --frozen-lockfile
+        pnpm build
+      '';
+    };
+  };
+}
+```
+
+### Container-Based Alternative
+
+```dockerfile
+FROM python:3.12-slim@sha256:<pinned-digest>
+COPY requirements.lock .
+RUN pip install --no-cache-dir --no-deps -r requirements.lock
+COPY . .
+RUN python -m compileall .
+```
+
+## Verification Gate
+
+A reproducibility verification gate confirms builds produce identical outputs:
+
+```python
+def verify_reproducibility(build_a: Path, build_b: Path) -> bool:
+    """Compare two independent builds for bit-for-bit identity."""
+    hash_a = compute_tree_hash(build_a)
+    hash_b = compute_tree_hash(build_b)
+    return hash_a == hash_b
+```
+
+## CI Integration
+
+```yaml
+- name: Build (attempt 1)
+  run: nix build .#ssid-ems --out-link result-1
+
+- name: Build (attempt 2)
+  run: nix build .#ssid-ems --out-link result-2 --rebuild
+
+- name: Verify reproducibility
+  run: diff <(nix hash path result-1) <(nix hash path result-2)
+```

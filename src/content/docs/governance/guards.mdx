@@ -1,0 +1,155 @@
+---
+title: Guard System
+description: Pre-flight guards with 9 scopes, hard/soft enforcement modes, and Claude Code hook integration.
+---
+
+import { Aside, Card, CardGrid } from '@astrojs/starlight/components';
+
+# Guard System
+
+The guard system enforces bounded autonomy for AI agents operating within the SSID ecosystem. Guards are **pre-flight checks** that intercept tool calls (Read, Write, Edit, Bash) before they execute, blocking or warning on policy violations.
+
+<Aside type="note">
+Guards operate at the **EMS level** (not in the SSID repo). They are enforced via Claude Code's `PreToolUse` hook protocol, which receives a JSON payload for each tool invocation and returns a block/allow decision.
+</Aside>
+
+## Guard Scopes
+
+Each agent is assigned a guard scope that defines what operations it may perform. There are 9 scopes:
+
+| Scope | Purpose | Key Restrictions |
+|-------|---------|-----------------|
+| `read-only` | Read-only agents (Planner, Scope Sentry) | Blocks all Write, Edit, and Bash calls |
+| `write-scope` | Scoped write agents (Implementer) | Allow/deny pattern matching on file paths; hard-deny on `16_codex/`, `.git/`, `.github/` |
+| `bash-allowlist` | Controlled shell access | Binary allowlist (python, git, gh, pytest, ruff, mypy, etc.); blocks shell operators (`\|`, `&&`, `;`, `>`) |
+| `ems-only` | EMS-internal agents (Evidence, WORM) | Writes must target SSID-EMS paths only; no SSID repo writes |
+| `gate-scope` | Gate execution agents (Auditor) | Restricted binary set for gate tools (pytest, gitleaks, semgrep, opa, ruff, mypy) |
+| `ops-scope` | Health-check agents (Ops Runner) | Allowed: where.exe, pwsh, python, git, ssidctl, gh, node, npm, pnpm |
+| `board-scope` | Board management agents (PM) | Only `ssidctl board`, `ssidctl calendar`, and `ssidctl memory` commands |
+| `pr-scope` | PR integration agents | Blocks writes to numbered root dirs (`01_*` through `24_*`) and protected paths |
+| `pr-bash-scope` | PR shell operations | Only `git push`, `git checkout`, `git branch`, `git status`, `git log`, `git diff`, `gh pr`, `gh api` |
+
+## Hard Mode vs. Soft Mode
+
+Guards operate in one of two enforcement modes:
+
+| Mode | Behavior | Exit Code on Block | Use Case |
+|------|----------|-------------------|----------|
+| **Hard** (default) | Blocks the tool call; agent receives an error | Exit 2 | Production; all automated runs |
+| **Soft** | Logs a warning but allows the tool call | Exit 0 | Development; debugging guard rules |
+
+Set the mode via environment variable:
+
+```bash
+# Default: hard mode (production)
+export SSIDCTL_GUARD_SOFT=0
+
+# Soft mode (development/debugging only)
+export SSIDCTL_GUARD_SOFT=1
+```
+
+<Aside type="caution">
+Soft mode is intended for local development only. CI and automated runs always use hard mode. There is no override mechanism in CI.
+</Aside>
+
+## Hook Integration with Claude Code
+
+Guards integrate with Claude Code via the **PreToolUse** hook protocol. When Claude Code invokes a tool, the hook receives a JSON payload:
+
+```json
+{
+  "tool_name": "Write",
+  "tool_input": {
+    "file_path": "C:/Users/bibel/Documents/Github/SSID/01_identity/new_file.py",
+    "content": "..."
+  }
+}
+```
+
+The guard function evaluates the payload against the agent's assigned scope and returns a `GuardResult`:
+
+```json
+{
+  "blocked": true,
+  "reason": "BLOCKED: path '01_identity/new_file.py' not in allowed scope"
+}
+```
+
+### Guard Evaluation Order
+
+1. **Blocked patterns check** -- Unconditionally blocked patterns (e.g., `Invoke-WebRequest`, `-EncodedCommand`)
+2. **Shell operator check** -- Blocks command chaining (`&&`, `||`, `;`, `|`, `>`, `>>`)
+3. **Hard-deny paths** -- `16_codex/`, `.git/`, `.github/` are always blocked for writes
+4. **Scope-specific rules** -- Allow/deny patterns, binary allowlists, command prefix checks
+
+## Pre-Flight Guards (Guard-Gate Matrix)
+
+The EMS defines 12 pre-flight guards that run before worktree operations:
+
+| ID | Guard | Phase | Description |
+|----|-------|-------|-------------|
+| G-001 | `root_24_lock` | PRE_FLIGHT | 24 numbered dirs, no symlinks |
+| G-002 | `anti_duplication` | PRE_FLIGHT | No duplicate rule_ids/functions in scope |
+| G-003 | `forbidden_extensions` | PRE_FLIGHT | No blocklist file extensions (.exe, .dll, etc.) |
+| G-004 | `sot_write_guard` | POST_CLAUDE | SoT files only if in allowed_paths |
+| G-005 | `secret_pii_scan` | POST_CLAUDE | No secrets/PII in diff additions |
+| G-006 | `registry_semantics` | POST_CLAUDE | Registry paths exist, valid hashes |
+| G-007 | `token_legal_lexicon` | PRE_FLIGHT | No prohibited financial terms (configurable) |
+| G-008 | `output_policy_lint` | POST_CLAUDE | No scores, bundles, or certification triggers |
+| G-009 | `anti_gaming` | PRE_FLIGHT | No symlinks, case-variant paths, or wildcard exceptions |
+| G-010 | `worktree_health` | PRE_FLIGHT | Git worktree state is healthy |
+| G-011 | `sandbox_hygiene` | PRE_FLIGHT | Sandbox artifacts not tracked by git |
+| G-014 | `anti_centralization` | PRE_FLIGHT | No root-level shared/common/utils directories |
+
+## External Gates (SSID-Repo)
+
+11 gates execute as scripts in the SSID repository during the operate phase:
+
+| ID | Gate | Script | Check |
+|----|------|--------|-------|
+| GATE-0 | `structure_guard` | `structure_guard.py` | Root structure integrity |
+| GATE-1 | `duplicate_guard` | `duplicate_guard.py` | No duplicate files |
+| GATE-2 | `repo_separation` | `repo_separation_guard.py` | EMS/SSID boundary enforcement |
+| GATE-3 | `policy_check` | `run_all_gates.py --policy-only` | Policy compliance |
+| GATE-4 | `sot_validation` | `sot_validator.py --verify-all` | Source-of-Truth validation |
+| GATE-5 | `qa_check` | `qa_master_suite.py --mode minimal` | Quality assurance |
+| GATE-6 | `workflow_lint` | `run_all_gates.py --policy-only` | Workflow policy lint |
+| GATE-7 | `sanctions_freshness` | Guard-based | Sanctions list recency |
+| GATE-8 | `dora_ir_presence` | Guard-based | DORA incident response artifacts present |
+| GATE-9 | `critical_paths_presence` | Guard-based | Critical compliance paths exist |
+| GATE-10 | `secret_scan` | `run_all_gates.py --e2e-only` | Secret and PII detection |
+
+## Repo-Separation Guards
+
+7 additional guards enforce the boundary between SSID and SSID-EMS:
+
+| ID | Rule | Enforcement |
+|----|------|-------------|
+| RS-001 | No SSID root writes outside controlled PR workflow | HARD / STOP |
+| RS-002 | No `.claude/` directory in SSID repo | HARD / STOP |
+| RS-003 | No files directly in SSID root by EMS | HARD / STOP |
+| RS-004 | Runtime artifacts (worktrees, evidence, runs, locks) only in SSID-EMS | HARD / STOP |
+| RS-005 | SSID access: read via `git -C`, mutate via worktree + PR | HARD / STOP |
+| RS-006 | SAFE-FIX enforced: no force-push, reset, clean without approval | HARD / STOP |
+| RS-007 | Root-24-lock: no new root directories, no renaming | HARD / STOP |
+
+## Guard-Gate Matrix
+
+The guard-gate matrix defines which guards map to which gates:
+
+- **PRE_FLIGHT guards** run before any Claude interaction (tool call interception)
+- **POST_CLAUDE guards** run after Claude produces output but before commit
+- **Gates** run in the verify worktree against the actual SSID repo
+
+Every gate produces a deterministic PASS or FAIL result. A single FAIL blocks the PR from merging.
+
+```bash
+# Run all guards
+ssidctl gates --all
+
+# Run specific guard
+ssidctl gates --guard root_24_lock
+
+# Check guard status
+ssidctl gates --status
+```

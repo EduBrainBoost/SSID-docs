@@ -1,0 +1,122 @@
+---
+title: Authentication (OIDC/JWT)
+description: OIDC-based identity verification with JWT token validation, multi-provider support, and RBAC claim extraction.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Authentication (OIDC/JWT)
+
+SSID-EMS uses **OIDC (OpenID Connect)** for identity verification. JWT tokens from supported providers are validated against the provider's JSON Web Key Set (JWKS), and identity claims are extracted for role-based access control (RBAC).
+
+<Aside type="note">
+Authentication is used for identity verification of agents and CI systems. It does not replace the PR-only governance model -- all mutations still require a PR regardless of identity.
+</Aside>
+
+## Supported Providers
+
+| Provider | Claim Mapping | Role Source |
+|----------|--------------|-------------|
+| **GitHub Actions** | `actor` field as username | No roles (agent identity only) |
+| **Azure AD** | `preferred_username` as username | Top-level `roles` claim |
+| **Keycloak** | `preferred_username` as username | `realm_access.roles` array |
+| **Generic OIDC** | `preferred_username` or `sub` | No roles by default |
+
+## Token Validation Flow
+
+```
+1. Agent/CI presents JWT token
+2. EMS fetches JWKS from provider's .well-known/jwks.json endpoint
+3. Token header is parsed for key ID (kid)
+4. Matching public key is found in JWKS
+5. Token signature is verified (RS256)
+6. Claims are validated: issuer, audience, expiration
+7. Identity is extracted and normalized
+```
+
+### Configuration
+
+```python
+from ssidctl.services.oidc_auth import OIDCConfig, OIDCAuthenticator
+
+config = OIDCConfig(
+    issuer="https://token.actions.githubusercontent.com",
+    client_id="your-client-id",
+    audience="your-audience",  # defaults to client_id if not set
+    algorithms=["RS256"],      # default
+)
+
+auth = OIDCAuthenticator(config)
+claims = auth.verify_token(token)
+identity = auth.extract_identity(claims)
+```
+
+### Normalized Identity
+
+Regardless of provider, the authenticator produces a normalized identity object:
+
+```json
+{
+  "username": "ci-bot",
+  "email": "ci-bot@github",
+  "provider": "github",
+  "roles": [],
+  "sub": "repo:EduBrainBoost/SSID:ref:refs/heads/main"
+}
+```
+
+## Token Rotation
+
+JWT tokens are short-lived by design:
+
+| Property | Value |
+|----------|-------|
+| Token lifetime | Set by OIDC provider (typically 5-60 minutes) |
+| JWKS caching | Cached in-memory per authenticator instance |
+| Key rotation | Automatic via JWKS re-fetch on key ID mismatch |
+
+<Aside type="caution">
+EMS does not issue or rotate tokens itself. Token lifecycle is managed entirely by the OIDC provider. EMS only verifies and consumes tokens.
+</Aside>
+
+## Refresh Flow
+
+The token refresh flow depends on the provider:
+
+1. **GitHub Actions**: Tokens are issued per workflow run. No refresh needed -- each run gets a fresh token via the `ACTIONS_ID_TOKEN_REQUEST_TOKEN` environment variable.
+2. **Azure AD / Keycloak**: Standard OAuth2 refresh token flow. The client exchanges a refresh token for a new access token before expiry.
+3. **Generic OIDC**: Follows the provider's token endpoint for refresh.
+
+EMS does not persist tokens. Each API call presents a fresh or recently refreshed token.
+
+## Security Properties
+
+| Property | Guarantee |
+|----------|-----------|
+| **Signature verification** | RS256 asymmetric signatures verified against provider JWKS |
+| **Issuer validation** | Token `iss` claim must match configured issuer URL |
+| **Audience validation** | Token `aud` claim must match configured client ID or audience |
+| **Expiration enforcement** | Expired tokens are rejected (`ExpiredSignatureError`) |
+| **No token storage** | EMS never persists JWT tokens to disk or database |
+| **No secret material** | Only public keys from JWKS are used; no private keys in EMS |
+
+## Error Handling
+
+| Error | Cause | Resolution |
+|-------|-------|------------|
+| `Token has expired` | JWT `exp` claim is in the past | Obtain a fresh token from the provider |
+| `No matching key found` | Key ID in token header not in JWKS | JWKS may be stale; provider may have rotated keys |
+| `Invalid token` | Signature mismatch, malformed token, or wrong issuer/audience | Verify provider configuration matches token claims |
+| `PyJWT not installed` | Optional dependency missing | Install with `pip install PyJWT[crypto]` |
+
+## Integration with Guards
+
+Authentication claims feed into the guard system:
+
+1. The `actor` from verified claims is recorded in event logs
+2. Roles from claims can be matched against guard scope requirements
+3. Unauthenticated tool calls in production are blocked by the guard layer
+
+<Aside type="note">
+Authentication is an optional dependency (`PyJWT[crypto]`). When not installed, the OIDC authenticator raises a clear error. Core EMS functionality (CLI, guards, gates) works without it.
+</Aside>

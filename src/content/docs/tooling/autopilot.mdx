@@ -1,0 +1,168 @@
+---
+title: Autopilot
+description: Bounded self-healing CI loop with gate-driven feedback, automatic patching, and evidence integration.
+---
+
+import { Aside, Card, CardGrid } from '@astrojs/starlight/components';
+
+# Autopilot
+
+The Autopilot is a **bounded self-healing CI loop** that automatically collects findings from CI/gate failures, routes them to the appropriate agent for fixing, applies patches, verifies the fix, and updates the PR. It operates under strict autonomy limits to prevent runaway changes.
+
+<Aside type="note">
+Autopilot is not fully autonomous. It has hard stop criteria, change budgets, and maximum iteration limits. Secret exposures and root-lock violations always trigger an immediate stop requiring human intervention.
+</Aside>
+
+## Loop Architecture
+
+Each autopilot run follows a 7-phase cycle that repeats until convergence or a stop criterion is hit:
+
+```
+Collect -> Triage -> Route -> Patch -> Verify -> PR Update -> Report -> Repeat
+```
+
+| Phase | Description | Timeout |
+|-------|-------------|---------|
+| **Collect** | Run CI checks (ruff, mypy, pytest) and parse output into findings | 60s |
+| **Triage** | Classify findings by category (lint, test, type-check, secret, schema, coverage, root-lock) | 30s |
+| **Route** | Map each finding to an agent and action via the routing matrix | 10s |
+| **Patch** | Execute auto-fix commands for fixable findings | 300s |
+| **Verify** | Stage changes, re-run ruff check and pytest to confirm the fix | 300s |
+| **PR Update** | Commit changes and update the PR with iteration results | 120s |
+| **Report** | Write iteration report to protocol outputs | 60s |
+
+## Finding Categories
+
+Findings are classified into categories that determine routing and stop behavior:
+
+| Category | Source | Agent | Action | Auto-fixable |
+|----------|--------|-------|--------|-------------|
+| `lint` | ruff | agent-03 (Implementer) | `ruff-fix` | Yes |
+| `test` | pytest | agent-03 | `pytest-fix` | Yes |
+| `type-check` | mypy | agent-03 | `mypy-fix` | Yes |
+| `schema` | schema validator | agent-03 | `schema-fix` | Yes |
+| `coverage` | pytest-cov | agent-03 | `coverage-improve` | Yes |
+| `secret` | gitleaks | agent-05 (Security) | `secret-remediate` | **No (STOP)** |
+| `root-lock` | structure guard | agent-02 (Scope Sentry) | `root-lock-enforce` | **No (STOP)** |
+| `unknown` | any CI job | agent-03 | `manual-review` | Yes |
+
+<Aside type="caution">
+**Secret** and **root-lock** findings trigger an immediate STOP. Autopilot will not attempt to auto-fix these categories. Human review is required.
+</Aside>
+
+## Gate Filter
+
+Before applying any patch, the autopilot checks findings against stop criteria:
+
+1. **Stop categories** (secret, root-lock) immediately halt the loop
+2. **Budget checks** verify that the proposed changes stay within limits
+3. **Convergence detection** identifies stalled or oscillating fix attempts
+
+Only findings in auto-fixable categories proceed to the patch phase.
+
+## Bounded Autonomy
+
+Autopilot operates under hard limits that cannot be overridden per-task:
+
+### Iteration Limits
+
+| Limit | Value |
+|-------|-------|
+| Maximum iterations | 5 |
+| Maximum total time | 1800s (30 minutes) |
+
+### Change Budget (Per Iteration)
+
+| Limit | Value |
+|-------|-------|
+| Max files per iteration | 8 |
+| Max lines per iteration | 400 |
+| Max total files (across all iterations) | 20 |
+| Max total lines (across all iterations) | 1200 |
+
+### Circuit Breaker
+
+| Parameter | Value |
+|-----------|-------|
+| Failure threshold | 3 consecutive failures |
+| Cooldown period | 300s (5 minutes) |
+
+### Convergence Detection
+
+| Parameter | Value |
+|-----------|-------|
+| Stall threshold | 2 iterations with no progress |
+| Oscillation window | 3 iterations |
+
+## PR Updater
+
+After a successful patch-verify cycle, the autopilot:
+
+1. Stages all changes with `git add`
+2. Runs verification (ruff check + pytest)
+3. Commits with a structured message referencing the autopilot run ID
+4. Updates the PR with iteration results
+
+The PR body includes the iteration summary from the handoff report.
+
+## Evidence Integration
+
+Every autopilot run produces four protocol output files:
+
+| File | Format | Content |
+|------|--------|---------|
+| `worklog.jsonl` | Append-only JSONL | Event-sourced log of every phase transition, finding, and action |
+| `manifest.json` | JSON | Run metadata: ID, result, iterations, budget usage, HEAD SHA, worklog hash |
+| `findings.json` | JSON | All findings across all iterations with category, source, file, line, and message |
+| `handoff.md` | Markdown | Human-readable summary with iteration results and next steps |
+
+These files are written to `SSID-EMS/state/autopilot/runs/{run_id}/` and referenced (by hash) in evidence entries.
+
+## Iteration Results
+
+Each iteration produces one of four results:
+
+| Result | Meaning | Action |
+|--------|---------|--------|
+| `PASS` | All CI checks pass after fixes | Loop ends; PR ready for review |
+| `FAIL` | Fixes applied but CI still fails | Continue to next iteration |
+| `STOP` | Hard stop criterion triggered (secret, root-lock) | Loop ends; manual intervention required |
+| `BUDGET_EXCEEDED` | Change budget would be exceeded | Loop ends; manual intervention required |
+
+## CLI
+
+```bash
+# Start an autopilot run
+ssidctl autopilot run --repo /path/to/SSID
+
+# List past runs
+ssidctl autopilot list
+
+# Show run details
+ssidctl autopilot show APR-20260309T120000
+
+# Check autopilot status
+ssidctl autopilot status
+```
+
+## ReportBus
+
+The ReportBus is the internal message-passing system for findings:
+
+- **Inbox**: CI tools write findings as JSON files
+- **Outbox**: Router writes routed tasks as JSON files
+- Both are cleared at the start of each iteration to prevent stale data
+
+```
+state/autopilot/bus/
+  inbox/   # Raw findings from CI
+  outbox/  # Routed tasks for agents
+```
+
+## Write Lock
+
+Autopilot acquires a global write lock (`AUTOPILOT`) before executing any fixes. This ensures:
+
+- No parallel autopilot runs on the same repo
+- No concurrent mutations from other agents
+- Lock has a 30-minute TTL with stale detection
