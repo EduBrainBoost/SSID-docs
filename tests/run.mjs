@@ -1,17 +1,13 @@
 /**
  * SSID Docs Test Runner
- * Runs all test suites and reports results.
+ * Runs all test suites and reports results in-process to avoid Windows spawn issues.
  */
 
-import { execSync } from 'node:child_process';
-import path from 'node:path';
-
-const ROOT = path.resolve(import.meta.dirname, '..');
 const tests = [
-  { name: 'Structure Tests', script: 'tests/structure.test.mjs' },
-  { name: 'Content Tests', script: 'tests/content.test.mjs' },
-  { name: 'Theme Tests', script: 'tests/theme.test.mjs' },
-  { name: 'Security Tests', script: 'tests/security.test.mjs' },
+  { name: 'Structure Tests', module: './structure.test.mjs' },
+  { name: 'Content Tests', module: './content.test.mjs' },
+  { name: 'Theme Tests', module: './theme.test.mjs' },
+  { name: 'Security Tests', module: './security.test.mjs' },
 ];
 
 let passed = 0;
@@ -22,15 +18,21 @@ console.log('=== SSID Docs Test Suite ===\n');
 
 for (const test of tests) {
   try {
-    const output = execSync(`node ${test.script}`, { cwd: ROOT, encoding: 'utf-8' });
+    const testModule = await import(new URL(test.module, import.meta.url));
+    const outputLines = testModule.run();
     console.log(`PASS: ${test.name}`);
-    if (output.trim()) console.log(output.trim());
+    for (const line of outputLines) {
+      console.log(line);
+    }
     passed++;
     results.push({ name: test.name, result: 'PASS' });
   } catch (err) {
     console.error(`FAIL: ${test.name}`);
-    if (err.stdout) console.error(err.stdout);
-    if (err.stderr) console.error(err.stderr);
+    if (err instanceof Error && err.message) {
+      console.error(err.message);
+    } else {
+      console.error(String(err));
+    }
     failed++;
     results.push({ name: test.name, result: 'FAIL' });
   }
