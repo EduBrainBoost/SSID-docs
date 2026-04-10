@@ -29,17 +29,36 @@ const base = process.env.CI ? '/SSID-docs' : '/';
 - Local dev (`CI` unset) uses `/` — no prefix needed for `localhost:4331`.
 
 ### .github/workflows/pages.yml
-Add a **Verify base path** step immediately after `pnpm build`:
+Add a **Verify base path** step immediately after `pnpm build`.
+
+**v1 (initial, weak):** Used `grep -rl '/SSID-docs/'` which only checks for
+substring presence anywhere in HTML files. This can false-pass if `/SSID-docs/`
+appears in text content but real `href`/`src` attributes use root-absolute paths
+without the prefix.
+
+**v2 (hardened):** Validates actual `href` and `src` attribute values in
+generated HTML:
 
 ```yaml
-- name: Verify base path (/SSID-docs)
+- name: Verify base path (/SSID-docs) in href/src attributes
   run: |
-    COUNT=$(grep -rl '/SSID-docs/' dist/ --include="*.html" 2>/dev/null | wc -l)
-    if [ "$COUNT" -eq 0 ]; then
-      echo "FAIL: /SSID-docs/ base path missing in dist/*.html"
+    # Extract href/src attribute values from dist/index.html
+    # FAIL if any root-absolute URL lacks /SSID-docs/ prefix
+    BAD_URLS=$(grep -oP '(?:href|src)="/(?!SSID-docs/)[^"]*"' dist/index.html || true)
+    if [ -n "$BAD_URLS" ]; then
+      echo "FAIL: root-absolute URLs without /SSID-docs/ prefix"
       exit 1
     fi
-    echo "PASS: /SSID-docs/ confirmed in $COUNT HTML file(s)"
+    # Verify at least one /SSID-docs/ href/src exists
+    GOOD_COUNT=$(grep -cP '(?:href|src)="/SSID-docs/' dist/index.html || echo 0)
+    if [ "$GOOD_COUNT" -eq 0 ]; then exit 1; fi
+    # Repeat for a second HTML file
+    SECOND=$(find dist -name "index.html" -not -path "dist/index.html" | head -1)
+    if [ -n "$SECOND" ]; then
+      BAD2=$(grep -oP '(?:href|src)="/(?!SSID-docs/)[^"]*"' "$SECOND" || true)
+      if [ -n "$BAD2" ]; then exit 1; fi
+    fi
+    echo "PASS: All href/src attributes use /SSID-docs/ base path"
 ```
 
 This step exits 1 and blocks deployment if a future change breaks the base path.
@@ -48,7 +67,8 @@ This step exits 1 and blocks deployment if a future change breaks the base path.
 - GitHub Pages deployment always uses `/SSID-docs` as base path.
 - Local dev workflow is unaffected.
 - Any future regression in base path is caught before artifact upload.
-- The verify step serves as a living regression test in CI.
+- The verify step validates real URL attributes, not just string presence.
+- False-pass scenarios from v1 are eliminated.
 
 ## References
 - PR #43: health check path fix (introduced regression)
