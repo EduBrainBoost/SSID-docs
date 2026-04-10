@@ -5,7 +5,6 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { pathToFileURL } from 'node:url';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 
@@ -61,80 +60,61 @@ const contentFiles = [
   'src/content/docs/faq/token-disambiguation.mdx',
 ];
 
-export function run() {
-  let errors = 0;
-  const messages = [];
+let errors = 0;
 
-  // Check required files
-  for (const file of requiredFiles) {
-    const fullPath = path.join(ROOT, file);
-    if (!fs.existsSync(fullPath)) {
-      messages.push(`  MISSING file: ${file}`);
-      errors++;
-    }
-  }
-
-  // Check required directories
-  for (const dir of requiredDirs) {
-    const fullPath = path.join(ROOT, dir);
-    if (!fs.existsSync(fullPath) || !fs.statSync(fullPath).isDirectory()) {
-      messages.push(`  MISSING directory: ${dir}`);
-      errors++;
-    }
-  }
-
-  // Check content files
-  for (const file of contentFiles) {
-    const fullPath = path.join(ROOT, file);
-    if (!fs.existsSync(fullPath)) {
-      messages.push(`  MISSING content: ${file}`);
-      errors++;
-    }
-  }
-
-  // Check package.json has required scripts
-  const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf-8'));
-  const requiredScripts = ['dev', 'build', 'preview', 'test', 'ingest'];
-  for (const script of requiredScripts) {
-    if (!pkg.scripts?.[script]) {
-      messages.push(`  MISSING script: ${script}`);
-      errors++;
-    }
-  }
-
-  // Check dependencies
-  const requiredDeps = ['astro', '@astrojs/starlight'];
-  for (const dep of requiredDeps) {
-    if (!pkg.dependencies?.[dep]) {
-      messages.push(`  MISSING dependency: ${dep}`);
-      errors++;
-    }
-  }
-
-  if (errors > 0) {
-    messages.push(`  ${errors} structure error(s) found`);
-    throw new Error(messages.join('\n'));
-  }
-
-  return [
-    `  ${requiredFiles.length} files OK`,
-    `  ${requiredDirs.length} directories OK`,
-    `  ${contentFiles.length} content files OK`,
-    `  ${requiredScripts.length} scripts OK`,
-    `  ${requiredDeps.length} dependencies OK`,
-  ];
-}
-
-const isDirectRun =
-  process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url;
-
-if (isDirectRun) {
-  try {
-    for (const line of run()) {
-      console.log(line);
-    }
-  } catch (err) {
-    console.error(err instanceof Error ? err.message : String(err));
-    process.exit(1);
+// Check required files
+for (const file of requiredFiles) {
+  const fullPath = path.join(ROOT, file);
+  if (!fs.existsSync(fullPath)) {
+    console.error(`  MISSING file: ${file}`);
+    errors++;
   }
 }
+
+// Check required directories
+for (const dir of requiredDirs) {
+  const fullPath = path.join(ROOT, dir);
+  if (!fs.existsSync(fullPath) || !fs.statSync(fullPath).isDirectory()) {
+    console.error(`  MISSING directory: ${dir}`);
+    errors++;
+  }
+}
+
+// Check content files
+for (const file of contentFiles) {
+  const fullPath = path.join(ROOT, file);
+  if (!fs.existsSync(fullPath)) {
+    console.error(`  MISSING content: ${file}`);
+    errors++;
+  }
+}
+
+// Check package.json has required scripts
+const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf-8'));
+const requiredScripts = ['dev', 'build', 'preview', 'test', 'ingest'];
+for (const script of requiredScripts) {
+  if (!pkg.scripts?.[script]) {
+    console.error(`  MISSING script: ${script}`);
+    errors++;
+  }
+}
+
+// Check dependencies
+const requiredDeps = ['astro', '@astrojs/starlight'];
+for (const dep of requiredDeps) {
+  if (!pkg.dependencies?.[dep]) {
+    console.error(`  MISSING dependency: ${dep}`);
+    errors++;
+  }
+}
+
+if (errors > 0) {
+  console.error(`  ${errors} structure error(s) found`);
+  process.exit(1);
+}
+
+console.log(`  ${requiredFiles.length} files OK`);
+console.log(`  ${requiredDirs.length} directories OK`);
+console.log(`  ${contentFiles.length} content files OK`);
+console.log(`  ${requiredScripts.length} scripts OK`);
+console.log(`  ${requiredDeps.length} dependencies OK`);

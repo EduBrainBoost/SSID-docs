@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Public documentation site for SSID",
   "scripts": {
-    "dev": "astro dev --port 4331",
+    "dev": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
@@ -13,8 +13,7 @@
     "test:structure": "node tests/structure.test.mjs",
     "test:content": "node tests/content.test.mjs",
     "test:theme": "node tests/theme.test.mjs",
-    "ingest": "node tools/ingest.mjs",
-    "start:runtime": "astro preview --port 4331"
+    "ingest": "node tools/ingest.mjs"
   },
   "keywords": ["ssid", "ssi", "documentation", "astro", "starlight"],
   "author": "SSID Project",

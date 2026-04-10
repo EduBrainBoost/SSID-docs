@@ -5,7 +5,6 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { pathToFileURL } from 'node:url';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const DOCS_DIR = path.join(ROOT, 'src', 'content', 'docs');
@@ -25,9 +24,7 @@ function findMdxFiles(dir) {
 }
 
 function parseFrontmatter(content) {
-  // Handle both LF and CRLF line endings
-  const normalized = content.replace(/\r\n/g, '\n');
-  const match = normalized.match(/^---\n([\s\S]*?)\n---/);
+  const match = content.match(/^---\n([\s\S]*?)\n---/);
   if (!match) return null;
 
   const fm = {};
@@ -43,83 +40,63 @@ function parseFrontmatter(content) {
   return fm;
 }
 
-export function run() {
-  let errors = 0;
-  let fileCount = 0;
-  const messages = [];
+let errors = 0;
+let fileCount = 0;
 
-  const mdxFiles = findMdxFiles(DOCS_DIR);
+const mdxFiles = findMdxFiles(DOCS_DIR);
 
-  for (const file of mdxFiles) {
-    const relPath = path.relative(ROOT, file);
-    const content = fs.readFileSync(file, 'utf-8');
-    fileCount++;
+for (const file of mdxFiles) {
+  const relPath = path.relative(ROOT, file);
+  const content = fs.readFileSync(file, 'utf-8');
+  fileCount++;
 
-    // Check frontmatter exists
-    const fm = parseFrontmatter(content);
-    if (!fm) {
-      messages.push(`  MISSING frontmatter: ${relPath}`);
-      errors++;
-      continue;
-    }
-
-    // Check required frontmatter fields
-    if (!fm.title) {
-      messages.push(`  MISSING title in frontmatter: ${relPath}`);
-      errors++;
-    }
-
-    if (!fm.description) {
-      messages.push(`  MISSING description in frontmatter: ${relPath}`);
-      errors++;
-    }
-
-    // Check content is non-empty (beyond frontmatter)
-    const normalizedContent = content.replace(/\r\n/g, '\n');
-    const body = normalizedContent.replace(/^---\n[\s\S]*?\n---\n*/, '').trim();
-    if (body.length < 50) {
-      messages.push(`  EMPTY/SHORT content: ${relPath} (${body.length} chars)`);
-      errors++;
-    }
-
-    // Check no secrets patterns
-    const secretPatterns = [
-      /sk_live_/i,
-      /PRIVATE.KEY/,
-      /password\s*=\s*["'][^"']+["']/i,
-      /api_key\s*=\s*["'][^"']+["']/i,
-    ];
-
-    for (const pattern of secretPatterns) {
-      if (pattern.test(content)) {
-        messages.push(`  POTENTIAL SECRET in: ${relPath}`);
-        errors++;
-      }
-    }
+  // Check frontmatter exists
+  const fm = parseFrontmatter(content);
+  if (!fm) {
+    console.error(`  MISSING frontmatter: ${relPath}`);
+    errors++;
+    continue;
   }
 
-  if (errors > 0) {
-    messages.push(`  ${errors} content error(s) found`);
-    throw new Error(messages.join('\n'));
+  // Check required frontmatter fields
+  if (!fm.title) {
+    console.error(`  MISSING title in frontmatter: ${relPath}`);
+    errors++;
   }
 
-  return [
-    `  ${fileCount} content files validated`,
-    '  All frontmatter valid',
-    '  No secrets detected',
+  if (!fm.description) {
+    console.error(`  MISSING description in frontmatter: ${relPath}`);
+    errors++;
+  }
+
+  // Check content is non-empty (beyond frontmatter)
+  const body = content.replace(/^---\n[\s\S]*?\n---\n*/, '').trim();
+  if (body.length < 50) {
+    console.error(`  EMPTY/SHORT content: ${relPath} (${body.length} chars)`);
+    errors++;
+  }
+
+  // Check no secrets patterns
+  const secretPatterns = [
+    /sk_live_/i,
+    /PRIVATE.KEY/,
+    /password\s*=\s*["'][^"']+["']/i,
+    /api_key\s*=\s*["'][^"']+["']/i,
   ];
-}
 
-const isDirectRun =
-  process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url;
-
-if (isDirectRun) {
-  try {
-    for (const line of run()) {
-      console.log(line);
+  for (const pattern of secretPatterns) {
+    if (pattern.test(content)) {
+      console.error(`  POTENTIAL SECRET in: ${relPath}`);
+      errors++;
     }
-  } catch (err) {
-    console.error(err instanceof Error ? err.message : String(err));
-    process.exit(1);
   }
 }
+
+if (errors > 0) {
+  console.error(`  ${errors} content error(s) found`);
+  process.exit(1);
+}
+
+console.log(`  ${fileCount} content files validated`);
+console.log(`  All frontmatter valid`);
+console.log(`  No secrets detected`);

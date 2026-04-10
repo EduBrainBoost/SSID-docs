@@ -1,14 +1,51 @@
 name: docs-ci
 on:
   pull_request:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  sanity:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo 'CI placeholder - Phase1 will add build + checks'
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type check
+        run: pnpm astro check
+
+      - name: Build site
+        run: pnpm build
+
+      - name: Run tests
+        run: pnpm test
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for secrets
+        run: |
+          echo "Scanning for potential secrets..."
+          # Check for common secret patterns
+          if grep -rn "PRIVATE.KEY\|sk_live\|password\s*=\s*['\"]" --include="*.ts" --include="*.js" --include="*.mjs" --include="*.json" --include="*.md" --include="*.mdx" --include="*.css" . 2>/dev/null | grep -v node_modules | grep -v pnpm-lock; then
+            echo "FAIL: Potential secrets detected!"
+            exit 1
+          fi
+          echo "PASS: No secrets detected"
