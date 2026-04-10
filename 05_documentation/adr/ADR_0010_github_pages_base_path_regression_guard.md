@@ -63,14 +63,42 @@ generated HTML:
 
 This step exits 1 and blocks deployment if a future change breaks the base path.
 
+### src/remark-base-path.mjs (v3 — content link fix)
+
+The v2 verify step correctly caught a deeper issue: Markdown/MDX content links
+like `[text](/faq/token-disambiguation)` are NOT automatically prefixed with the
+Astro `base` path. Starlight renders them as `href="/faq/token-disambiguation"`
+instead of `href="/SSID-docs/faq/token-disambiguation"`, breaking navigation on
+GitHub Pages.
+
+**Fix:** A zero-dependency remark plugin (`src/remark-base-path.mjs`) walks the
+MDAST tree and prefixes every root-absolute link with `/SSID-docs` when
+`CI=true`. In local dev (`CI` unset), links stay unchanged.
+
+```js
+// astro.config.mjs
+import remarkBasePath from './src/remark-base-path.mjs';
+
+export default defineConfig({
+  markdown: { remarkPlugins: [remarkBasePath] },
+  // ...
+});
+```
+
+This ensures all internal content links carry the correct base path in
+production builds without requiring content authors to hardcode `/SSID-docs/`.
+
 ## Consequences
 - GitHub Pages deployment always uses `/SSID-docs` as base path.
 - Local dev workflow is unaffected.
 - Any future regression in base path is caught before artifact upload.
 - The verify step validates real URL attributes, not just string presence.
 - False-pass scenarios from v1 are eliminated.
+- Content authors can use root-absolute links (`/faq/...`) without worrying
+  about the base path — the remark plugin handles prefixing in CI.
 
 ## References
 - PR #43: health check path fix (introduced regression)
-- PR #44: this fix
+- PR #44: base path guard + hardened verify step
+- PR #45: remark plugin for content link prefixing
 - Commit: `1105787`
