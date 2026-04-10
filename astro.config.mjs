@@ -2,6 +2,9 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
 export default defineConfig({
+  site: 'https://edubrainboost.github.io',
+  base: process.env.NODE_ENV === 'production' ? '/SSID-docs' : '/',
+  server: { port: 4331 },
   integrations: [
     starlight({
       title: 'SSID',
@@ -18,6 +21,15 @@ export default defineConfig({
           href: 'https://github.com/EduBrainBoost/SSID-open-core',
         },
       ],
+      head: [
+        {
+          tag: 'meta',
+          attrs: {
+            'http-equiv': 'Content-Security-Policy',
+            content: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';",
+          },
+        },
+      ],
       customCss: [
         './src/styles/cyberpunk.css',
       ],
@@ -31,9 +43,11 @@ export default defineConfig({
         {
           label: 'Architecture',
           items: [
+            { label: 'Root-24 Architecture', slug: 'architecture/roots' },
             { label: '24x16 Matrix', slug: 'architecture/matrix' },
             { label: 'Shards & Hybrid Charts', slug: 'architecture/shards' },
             { label: 'Deterministic Artifacts', slug: 'architecture/artifacts' },
+            { label: 'EMS Architecture', slug: 'architecture/ems' },
           ],
         },
         {
@@ -42,6 +56,9 @@ export default defineConfig({
             { label: 'PR-Only Workflow', slug: 'governance/pr-only' },
             { label: 'Evidence & WORM', slug: 'governance/evidence' },
             { label: 'Policy Gates', slug: 'governance/policy-gates' },
+            { label: 'DAO Governance', slug: 'governance/dao' },
+            { label: 'Incident Response & DR', slug: 'governance/incident-response' },
+            { label: 'Secrets Management', slug: 'governance/secrets-management' },
           ],
         },
         {
@@ -50,6 +67,7 @@ export default defineConfig({
             { label: 'DSGVO / GDPR', slug: 'compliance/gdpr' },
             { label: 'eIDAS', slug: 'compliance/eidas' },
             { label: 'MiCA Positioning', slug: 'compliance/mica' },
+            { label: 'Supply-Chain Security', slug: 'compliance/supply-chain' },
           ],
         },
         {
@@ -57,7 +75,10 @@ export default defineConfig({
           items: [
             { label: 'Dispatcher Workflow', slug: 'tooling/dispatcher' },
             { label: 'Agent Roles', slug: 'tooling/agents' },
+            { label: 'Mission Control (EMS)', slug: 'tooling/mission-control' },
             { label: 'Health Checks', slug: 'tooling/health-checks' },
+            { label: 'Observability', slug: 'tooling/observability' },
+            { label: 'AI Gateway', slug: 'tooling/ai-gateway' },
           ],
         },
         {
@@ -65,6 +86,8 @@ export default defineConfig({
           items: [
             { label: 'Utility & Governance', slug: 'token/utility' },
             { label: 'Non-Custodial Design', slug: 'token/non-custodial' },
+            { label: 'Fee Models', slug: 'token/fee-models' },
+            { label: 'Token Distribution', slug: 'token/distribution' },
           ],
         },
         {
@@ -72,6 +95,16 @@ export default defineConfig({
           items: [
             { label: 'General FAQ', slug: 'faq/general' },
             { label: 'Token Disambiguation', slug: 'faq/token-disambiguation' },
+          ],
+        },
+        {
+          label: 'Project',
+          items: [
+            { label: 'Roadmap', slug: 'roadmap' },
+            { label: 'Status', slug: 'status' },
+            { label: 'Changelog', slug: 'changelog' },
+            { label: 'Security & Disclosure', slug: 'security' },
+            { label: 'Export Transparency', slug: 'exports' },
           ],
         },
       ],
