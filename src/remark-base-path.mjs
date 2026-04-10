@@ -7,23 +7,32 @@
  * already prefixed and is not an external URL, so generated `href`
  * attributes carry the correct `/SSID-docs/...` prefix in production
  * while staying root-relative (`/...`) in local dev (base = '/').
+ *
+ * Zero external dependencies — walks the MDAST tree manually.
  */
-import { visit } from 'unist-util-visit';
 
 const base = process.env.CI ? '/SSID-docs' : '';
 
+function walkTree(node) {
+  if (node.type === 'link' && typeof node.url === 'string') {
+    if (
+      node.url.startsWith('/') &&
+      !node.url.startsWith('//') &&
+      !node.url.startsWith(`${base}/`) &&
+      base.length > 0
+    ) {
+      node.url = base + node.url;
+    }
+  }
+  if (Array.isArray(node.children)) {
+    for (const child of node.children) {
+      walkTree(child);
+    }
+  }
+}
+
 export default function remarkBasePath() {
   return (tree) => {
-    visit(tree, 'link', (node) => {
-      if (
-        typeof node.url === 'string' &&
-        node.url.startsWith('/') &&
-        !node.url.startsWith('//') &&             // not protocol-relative
-        !node.url.startsWith(`${base}/`) &&        // not already prefixed
-        base.length > 0                            // only rewrite in CI
-      ) {
-        node.url = base + node.url;
-      }
-    });
+    walkTree(tree);
   };
 }
