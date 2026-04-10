@@ -1,0 +1,57 @@
+---
+title: "Audit Framework"
+description: "Audit schedule, evidence chain, and CI validation gates in SSID."
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+This page documents the audit schedule, CI/CD validation gates, and immutable evidence chain that enforce compliance across the SSID ecosystem.
+
+## Audit schedule
+
+| Cadence | Reviewer | Scope |
+|-------------|----------------------------------------------|------------------------|
+| Monthly | Internal Compliance Team | Merged changes review |
+| Quarterly | Senior Compliance Officer + independent auditor | Deep audit |
+| Semi-Annual | Executive Compliance Committee + Legal | Governance review |
+| Annual | External third-party + board certification | Full audit |
+
+## CI/CD validation gates
+
+Four gate levels run sequentially. A failure at any level produces **Exit Code 24** and blocks the branch.
+
+<Aside type="danger">Exit Code 24 triggers automatic branch protection. The violating commit cannot merge until all gates pass.</Aside>
+
+| Level | Name | Checks |
+|-------|--------------|--------|
+| 1 | Structure | Verify exactly 24 Root directories, allowed exceptions, MUST/OPTIONAL folder structure |
+| 2 | Content | `chart.yaml` validation (16 Shards per Root), `manifest.yaml` structure, dependency graph validation |
+| 3 | Policy | Compliance matrix version compatibility, evidence chain integrity, governance approval status |
+| 4 | Anti-Gaming | Badge integrity signature validation, circular dependency detection, review compliance status |
+
+<Aside type="tip">Run the full gate chain locally before pushing to avoid branch-lock delays.</Aside>
+
+## Immutable evidence chain
+
+All audit artifacts follow append-only semantics with WORM (Write Once Read Many) properties.
+
+| Component | Behavior |
+|----------------------------|----------|
+| Hash-Ledger | Append-only; SHA-256 chain of all gate results |
+| Quarterly compliance reports | Generated automatically from ledger data |
+| Evidence quarantine | WORM-sealed; no retroactive modification |
+| Version-specific validity | Each evidence record is bound to its source version |
+
+## Registry lock
+
+The compliance registry enforces strict write controls:
+
+- **Write-once / append-only** hash chain prevents tampering.
+- **Dual approval** required for any change (Owner + Compliance Officer).
+- **No retroactive modifications** permitted under any circumstance.
+
+<Aside type="caution">Bypassing the registry lock voids the evidence chain for the affected version. A full re-audit is required to restore compliance status.</Aside>
+
+---
+
+Derived from local SoT, SSID_structure_level3_part3_MAX.

@@ -34,7 +34,24 @@ export default defineConfig({
           tag: 'meta',
           attrs: {
             'http-equiv': 'Content-Security-Policy',
-            content: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';",
+            content: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline'",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: https:",
+              "font-src 'self' data:",
+              "connect-src 'self'",
+              "frame-ancestors 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+            ].join('; '),
+          },
+        },
+        {
+          tag: 'meta',
+          attrs: {
+            name: 'referrer',
+            content: 'strict-origin-when-cross-origin',
           },
         },
       ],
@@ -54,8 +71,10 @@ export default defineConfig({
             { label: 'Root-24 Architecture', slug: 'architecture/roots' },
             { label: '24x16 Matrix', slug: 'architecture/matrix' },
             { label: 'Shards & Hybrid Charts', slug: 'architecture/shards' },
+            { label: 'Open-Core Structure', slug: 'architecture/open-core' },
             { label: 'Deterministic Artifacts', slug: 'architecture/artifacts' },
             { label: 'EMS Architecture', slug: 'architecture/ems' },
+            { label: 'Post-Quantum Crypto', slug: 'architecture/post-quantum' },
           ],
         },
         {
@@ -80,6 +99,7 @@ export default defineConfig({
             { label: 'eIDAS', slug: 'compliance/eidas' },
             { label: 'MiCA Positioning', slug: 'compliance/mica' },
             { label: 'Supply-Chain Security', slug: 'compliance/supply-chain' },
+            { label: 'Audit Framework', slug: 'compliance/audit-framework' },
             { label: 'Supply-Chain SLSA', slug: 'compliance/supply-chain-slsa' },
             { label: 'Supply-Chain Sigstore', slug: 'compliance/supply-chain-sigstore' },
             { label: 'Supply-Chain SBOM', slug: 'compliance/supply-chain-sbom' },
@@ -102,6 +122,12 @@ export default defineConfig({
             { label: 'Observability OTEL', slug: 'tooling/observability-otel' },
             { label: 'Observability SLOs', slug: 'tooling/observability-slos' },
             { label: 'AI Gateway', slug: 'tooling/ai-gateway' },
+          ],
+        },
+        {
+          label: 'Developer',
+          items: [
+            { label: 'Getting Started', slug: 'developer/getting-started' },
           ],
         },
         {
@@ -128,6 +154,7 @@ export default defineConfig({
             { label: 'Changelog', slug: 'changelog' },
             { label: 'Security & Disclosure', slug: 'security' },
             { label: 'Export Transparency', slug: 'exports' },
+            { label: 'Research', slug: 'research/permissionless-crypto-assets-2026-03' },
           ],
         },
       ],

@@ -1,0 +1,74 @@
+---
+title: "Open-Core Structure"
+description: "Public and private layer separation in the SSID architecture."
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Open-Core Structure
+
+SSID separates its codebase into a public layer released under permissive licenses and a private layer containing commercially sensitive or jurisdiction-specific material.
+
+## Layer separation
+
+| Layer | License | Contents |
+|-------|---------|----------|
+| **Public** | MIT / Apache 2.0 | Root module structures, generic compliance templates, API specifications, data portability frameworks, AI/ML compliance architecture, community governance frameworks, license fee matrices, badge and metrics systems |
+| **Private** | Confidential / Commercial | Jurisdictional compliance mappings (v1.5+), EU regulatory matrix (v2.1), internal maintainer definitions, enterprise-specific policies, business confidentiality exceptions |
+
+## Public layer components
+
+All 24 root module structures are public. The following artifacts ship under MIT or Apache 2.0:
+
+| Component | Purpose |
+|-----------|---------|
+| Generic compliance templates | Reusable policy scaffolds applicable across jurisdictions |
+| API specifications | OpenAPI and data portability framework definitions |
+| AI/ML compliance architecture | Model governance, bias audit hooks, explainability contracts |
+| Community governance frameworks | Contribution rules, voting mechanisms, role definitions |
+| License fee matrices | Transparent fee structures per module tier |
+| Badge and metrics systems | Achievement tracking, contribution scoring, public dashboards |
+
+## Private layer components
+
+| Component | Version | Purpose |
+|-----------|---------|---------|
+| Jurisdictional compliance mappings | v1.5+ | Region-specific regulatory rule sets |
+| EU regulatory matrix | v2.1 | MiCA, eIDAS, GDPR cross-reference tables |
+| Internal maintainer definitions | — | Role assignments and access scopes |
+| Enterprise-specific policies | — | Customer-negotiated compliance addenda |
+| Business confidentiality exceptions | — | Exemptions from public disclosure requirements |
+
+## Create-on-use pattern
+
+Modules are **not** pre-created in the repository. Each module is generated on demand when first referenced by a root or shard.
+
+1. A root or shard references a module identifier that does not yet exist.
+2. The dispatcher generates the module structure from the canonical template.
+3. Compliance validation runs against the generated output before it is written to disk.
+4. CI gates enforce structural correctness on every write operation.
+
+<Aside type="tip">
+This pattern reduces repository bloat and guarantees that every module present in the tree has passed compliance validation at least once.
+</Aside>
+
+## Anti-gaming controls (Level 4)
+
+Six controls prevent manipulation of badge scores, contribution metrics, and reward distribution.
+
+| Control | Mechanism |
+|---------|-----------|
+| **Badge Integrity Framework** | Digital signatures on every badge issuance event |
+| **Circular Dependency Detection** | Graph analysis prevents self-referential reward loops |
+| **Overfitting Prevention** | Module diversity requirements enforce breadth of contribution |
+| **Proof of Fairness (POFI)** | Impact-token binding ties rewards to verified outcomes |
+| **Validator Pool Independence** | External reviewers required for changes to core modules |
+| **CI Gate Lockout** | Exit code 24 on violation; automated pipeline halt |
+
+<Aside type="caution">
+A violation detected by any anti-gaming control terminates the CI run with exit code 24 and locks the gate until manual review clears the finding.
+</Aside>
+
+---
+
+Derived from local SoT, SSID_opencore_structure_level3.

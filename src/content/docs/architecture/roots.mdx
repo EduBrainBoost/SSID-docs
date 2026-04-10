@@ -7,7 +7,7 @@ import { Aside } from '@astrojs/starlight/components';
 
 # Root-24 Architecture
 
-SSID is organized into exactly **24 canonical root modules**. This structure is enforced by the **ROOT-24-LOCK** invariant and cannot be modified without an RFC process.
+SSID is organized into exactly **24 canonical root modules**. This structure is enforced by the **ROOT-24-LOCK** invariant and anchors the broader 24x16 matrix architecture.
 
 ## The 24 Roots
 
@@ -55,14 +55,28 @@ The lock is enforced at multiple levels:
 
 1. **Path Guard** — Blocks file system writes outside the 24 roots
 2. **Scope Router** — Assigns each agent to specific root(s) at session start
-3. **PR Gates** — Rejects pull requests that modify root structure
+3. **PR Gates** — Reject pull requests that modify root structure
 4. **Evidence Logging** — All write operations are logged with SHA-256 hashes
+
+## Structural Properties
+
+<Aside type="note">
+Every Root contains exactly 16 Shards, producing 384 Root x Shard reference points across the full matrix. See [Shards & Hybrid Charts](/architecture/shards/) for shard details.
+</Aside>
+
+Three roots act as universal architectural baselines:
+
+| Root | Role |
+|------|------|
+| `20_foundation` | Shared primitives, crypto, utilities |
+| `23_compliance` | Regulatory gates applied across domains |
+| `24_meta_orchestration` | Registry, versioning, and orchestration control |
 
 ## Common-MUST Structure
 
 Every root module **must** contain the following directory structure:
 
-```
+```text
 XX_root_name/
 ├── module.yaml       # Module manifest (dependencies, version, policy gates)
 ├── README.md         # Module-level documentation
@@ -71,7 +85,7 @@ XX_root_name/
 └── tests/            # Unit and integration tests
 ```
 
-### module.yaml
+### `module.yaml`
 
 The `module.yaml` file declares the module's metadata, dependencies, and policy requirements:
 
@@ -89,9 +103,9 @@ policy_gates:
 ```
 
 <Aside type="tip">
-The Common-MUST structure ensures that every root is self-documenting, testable, and auditable — regardless of which team or agent maintains it.
+The Common-MUST structure ensures that every root is self-documenting, testable, and auditable regardless of which team or agent maintains it.
 </Aside>
 
 ## Source of Truth
 
-The canonical definition of all 24 roots lives in **`16_codex`**. All other systems (agents, CI/CD, documentation) derive their root list from this single source. Changes to `16_codex` require an RFC and multi-party approval.
+The canonical definition of all 24 roots lives in **`16_codex`**. All other systems — agents, CI/CD, documentation, and runtime guards — derive their root list from this single source.
