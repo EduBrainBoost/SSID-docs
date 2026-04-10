@@ -24,7 +24,9 @@ function findMdxFiles(dir) {
 }
 
 function parseFrontmatter(content) {
-  const match = content.match(/^---\n([\s\S]*?)\n---/);
+  // Handle both LF and CRLF line endings
+  const normalized = content.replace(/\r\n/g, '\n');
+  const match = normalized.match(/^---\n([\s\S]*?)\n---/);
   if (!match) return null;
 
   const fm = {};
@@ -70,7 +72,8 @@ for (const file of mdxFiles) {
   }
 
   // Check content is non-empty (beyond frontmatter)
-  const body = content.replace(/^---\n[\s\S]*?\n---\n*/, '').trim();
+  const normalizedContent = content.replace(/\r\n/g, '\n');
+  const body = normalizedContent.replace(/^---\n[\s\S]*?\n---\n*/, '').trim();
   if (body.length < 50) {
     console.error(`  EMPTY/SHORT content: ${relPath} (${body.length} chars)`);
     errors++;
