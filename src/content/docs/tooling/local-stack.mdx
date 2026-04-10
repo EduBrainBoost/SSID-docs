@@ -11,12 +11,13 @@ The SSID local stack consists of four services, all bound to localhost only.
 
 ## Services
 
-| Service | Default Port | Fallback Ports | Health Endpoint |
-|---------|-------------|----------------|-----------------|
-| EMS Dashboard | 8484 | 8485–8487 | `http://127.0.0.1:{port}/health` |
-| Orchestrator API | 3210 | 3211–3213 | `http://localhost:{port}/api/health` |
-| Orchestrator Web | 5173 | 5174–5176 | `http://localhost:{port}/` |
-| Docs Site | 4321 | 4322–4324 | `http://localhost:{port}/SSID-docs/overview` |
+| Service | Canonical Port (Documents/Github) | Workspace Port (SSID-Arbeitsbereich) | Health Endpoint |
+|---------|-----------------------------------|--------------------------------------|-----------------|
+| EMS Backend | 8000 | 8100 | `http://127.0.0.1:{port}/api/health` |
+| EMS Frontend | 3000 | 3100 | `http://localhost:{port}/` |
+| Orchestrator API | 3210 | 3310 | `http://localhost:{port}/api/health` |
+| Orchestrator Web | 5173 | 5273 | `http://localhost:{port}/` |
+| Docs Site | 4321 | 4331 | `http://localhost:{port}/SSID-docs/overview` |
 
 <Aside type="caution">
 All services are loopback-only. Never expose them to external networks.

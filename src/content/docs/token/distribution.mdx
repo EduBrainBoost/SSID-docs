@@ -1,16 +1,16 @@
 ---
 title: "Token Distribution"
-description: "SSID token distribution model, sink mechanics, and SBT roles"
+description: "SSID token distribution model, fairness signals, sink mechanics, and SBT roles"
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
 # Token Distribution
 
-The SSID token is a **utility and governance token** — not an investment instrument. Its distribution model is designed for ecosystem participation, not speculative value.
+The SSID token is a **utility and governance token** — not an investment instrument. Its distribution model is designed for ecosystem participation, long-term sustainability, and fair access rather than speculative extraction.
 
 <Aside type="caution">
-The SSID token does not represent equity, debt, or any financial claim. There is no redemption at par, no guaranteed buyback, and no profit distribution to holders.
+The SSID token does not represent equity, debt, or any guaranteed financial claim. There is no redemption at par, no guaranteed buyback, and no profit distribution to holders.
 </Aside>
 
 ## Token Classification
@@ -26,14 +26,14 @@ The SSID token does not represent equity, debt, or any financial claim. There is
 
 ## Sink Model
 
-SSID uses a **sink model** for treasury management:
+SSID uses a sink model for treasury management:
 
-- All system fees flow into the non-profit treasury
+- System fees flow into the non-profit treasury
 - Treasury funds are allocated exclusively to ecosystem operations
 - The treasury operates under `treasury_nonprofit_only` constraints
 - No profit extraction, dividend, or buyback mechanisms exist
 
-```
+```text
 Transaction Fee (3%)
     ├── 2% → Non-Profit Treasury (sink)
     │         ├── Infrastructure
@@ -43,11 +43,28 @@ Transaction Fee (3%)
     └── 1% → Developer Rewards (autonomous routing)
 ```
 
-<Aside type="note">
-The sink model ensures that value flows into ecosystem sustainability rather than external extraction. This aligns with the non-profit governance structure.
-</Aside>
+## Fairness Signals
 
-## SBT Roles (Soulbound Tokens)
+Beyond the base sink model, SSID can use governance-defined fairness indicators for discretionary or programmatic community allocations.
+
+One example is a **Proof of Fairness Indicator (POFI)** style signal that prioritizes verified impact over capital concentration.
+
+- High contribution and low historical reward can increase priority for ecosystem programs
+- Already saturated reward histories can lower priority for discretionary pools
+- Such signals do not override governance rights or protocol safety constraints
+
+## Impact-Linked Programs
+
+Where governance approves outcome-based programs, distribution may be linked to verifiable impact rather than capital size alone. Typical examples include:
+
+- Education completion
+- Energy savings
+- CO2 reduction
+- Other attestable public-good metrics
+
+These programs must remain auditable, configurable through governance, and backed by verifiable credentials or equivalent evidence.
+
+## SBT Roles
 
 SSID uses **Soulbound Tokens (SBTs)** for role-based access control. SBTs are non-transferable tokens bound to a DID.
 
@@ -66,30 +83,24 @@ SSID uses **Soulbound Tokens (SBTs)** for role-based access control. SBTs are no
 - **Revocable** — Governance can revoke SBTs through the standard proposal process
 - **Auditable** — All SBT issuance and revocation is logged in the evidence trail
 
-<Aside type="tip">
-SBTs solve the "credential marketplace" problem — roles cannot be bought or sold, only earned through verified contribution and governance approval.
-</Aside>
-
 ## No Redemption at Par
 
 <Aside type="danger">
-The SSID token has **no redemption mechanism**:
+The SSID token has no redemption mechanism:
 
-- There is no guaranteed exchange rate
-- There is no buyback program
-- There is no par value
-- Tokens are not redeemable for fiat, assets, or other tokens at a fixed rate
-
-The token's utility is functional ecosystem access, not stored monetary value.
+- No guaranteed exchange rate
+- No buyback program
+- No par value
+- No fixed redemption into fiat, assets, or other tokens
 </Aside>
 
 ## Governance Participation
 
 Token holders participate in governance through:
 
-1. **Proposal voting** — Vote on system parameter changes
-2. **Policy gate approval** — Vote on new policy gates
-3. **Budget allocation** — Vote on treasury spending within non-profit constraints
-4. **Root governance** — Vote on module-level policy changes
+1. Proposal voting
+2. Policy gate approval
+3. Budget allocation within non-profit constraints
+4. Module-level policy changes
 
 Governance scope and restrictions are defined in the [DAO documentation](/governance/dao).

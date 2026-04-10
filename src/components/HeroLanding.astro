@@ -1,0 +1,236 @@
+---
+// HeroLanding.astro — Full-width hero for the SSID documentation site
+// Works inside Starlight's splash layout
+// All styles are scoped; animations respect prefers-reduced-motion
+---
+
+<section class="hero-wrapper" aria-label="SSID Hero">
+  <div class="hero-inner">
+
+    <!-- Logo block -->
+    <div class="hero-logo" aria-hidden="true">
+      <span class="logo-prompt">&gt;_</span><span class="logo-name"> SSID</span>
+    </div>
+    <p class="hero-subtitle">EXTERNAL MANAGEMENT SYSTEM</p>
+
+    <!-- Main headline -->
+    <h1 class="hero-headline">
+      Self-Sovereign Identity Infrastructure
+    </h1>
+    <p class="hero-tagline">
+      Governance-First. Deterministic. Auditable.
+    </p>
+
+    <!-- CTA buttons -->
+    <nav class="hero-cta" aria-label="Primary actions">
+      <a href="/overview/" class="btn btn-primary">Get Started</a>
+      <a href="/architecture/matrix/" class="btn btn-ghost">Architecture</a>
+    </nav>
+
+  </div>
+</section>
+
+<style>
+  /* ------------------------------------------------------------------ */
+  /* Wrapper — full viewport width, breaks out of Starlight content lane */
+  /* ------------------------------------------------------------------ */
+  .hero-wrapper {
+    width: 100%;
+    padding: 4rem 1.5rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Subtle radial glow behind the hero text */
+  .hero-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 0%,
+        rgba(0, 229, 255, 0.08) 0%,
+        transparent 70%),
+      radial-gradient(ellipse 40% 30% at 20% 80%,
+        rgba(255, 43, 214, 0.05) 0%,
+        transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Logo                                                                 */
+  /* ------------------------------------------------------------------ */
+  .hero-logo {
+    font-family: var(--sl-font-mono, 'JetBrains Mono', 'Fira Code', monospace);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.35rem;
+    color: var(--ssid-neon-cyan, #00e5ff);
+    text-shadow:
+      0 0 20px rgba(0, 229, 255, 0.7),
+      0 0 60px rgba(0, 229, 255, 0.3),
+      0 0 120px rgba(0, 229, 255, 0.15);
+    animation: logo-pulse 3s ease-in-out infinite;
+  }
+
+  .logo-prompt {
+    color: var(--ssid-neon-magenta, #ff2bd6);
+    text-shadow:
+      0 0 20px rgba(255, 43, 214, 0.7),
+      0 0 60px rgba(255, 43, 214, 0.3);
+  }
+
+  .logo-name {
+    color: var(--ssid-neon-cyan, #00e5ff);
+  }
+
+  @keyframes logo-pulse {
+    0%, 100% {
+      text-shadow:
+        0 0 20px rgba(0, 229, 255, 0.7),
+        0 0 60px rgba(0, 229, 255, 0.3),
+        0 0 120px rgba(0, 229, 255, 0.15);
+    }
+    50% {
+      text-shadow:
+        0 0 30px rgba(0, 229, 255, 0.9),
+        0 0 80px rgba(0, 229, 255, 0.5),
+        0 0 160px rgba(0, 229, 255, 0.2);
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Subtitle line below logo                                             */
+  /* ------------------------------------------------------------------ */
+  .hero-subtitle {
+    font-family: var(--sl-font-mono, monospace);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ssid-fg-secondary, #8892b0);
+    margin: 0 0 2.5rem;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Main headline                                                        */
+  /* ------------------------------------------------------------------ */
+  .hero-headline {
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--ssid-fg-primary, #e6e8ff);
+    letter-spacing: -0.01em;
+    margin: 0 0 0.75rem;
+    /* Override any Starlight heading margins/shadows that bleed in */
+    text-shadow: none;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Tagline                                                              */
+  /* ------------------------------------------------------------------ */
+  .hero-tagline {
+    font-family: var(--sl-font-mono, monospace);
+    font-size: clamp(0.85rem, 2vw, 1.05rem);
+    color: var(--ssid-neon-cyan, #00e5ff);
+    letter-spacing: 0.06em;
+    margin: 0 0 2.5rem;
+    opacity: 0.9;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* CTA buttons                                                          */
+  /* ------------------------------------------------------------------ */
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 1.6rem;
+    border-radius: 6px;
+    font-family: var(--sl-font-mono, monospace);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: transparent;
+    color: var(--ssid-neon-cyan, #00e5ff);
+    border: 1.5px solid var(--ssid-neon-cyan, #00e5ff);
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.2);
+  }
+
+  .btn-primary:hover,
+  .btn-primary:focus-visible {
+    background: var(--ssid-neon-cyan, #00e5ff);
+    color: var(--ssid-bg-deep, #05060a);
+    box-shadow: 0 0 24px rgba(0, 229, 255, 0.5);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ssid-fg-secondary, #8892b0);
+    border: 1.5px solid rgba(136, 146, 176, 0.35);
+  }
+
+  .btn-ghost:hover,
+  .btn-ghost:focus-visible {
+    color: var(--ssid-fg-primary, #e6e8ff);
+    border-color: rgba(230, 232, 255, 0.5);
+    box-shadow: 0 0 12px rgba(230, 232, 255, 0.08);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Reduced motion                                                       */
+  /* ------------------------------------------------------------------ */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-logo {
+      animation: none;
+    }
+    .btn {
+      transition: none;
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Responsive                                                           */
+  /* ------------------------------------------------------------------ */
+  @media (max-width: 480px) {
+    .hero-wrapper {
+      padding: 3rem 1rem 2rem;
+    }
+    .hero-cta {
+      flex-direction: column;
+      align-items: center;
+    }
+    .btn {
+      width: 100%;
+      max-width: 260px;
+    }
+  }
+</style>

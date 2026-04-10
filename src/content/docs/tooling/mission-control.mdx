@@ -1,40 +1,64 @@
 ---
 title: Mission Control (EMS)
-description: ssidctl CLI — task board, content pipeline, team registry, calendar, memory vault, and office dashboard.
+description: Web dashboard and CLI for task tracking, live terminal output, run management, governance status, and SSE-driven live updates.
 ---
 
 import { Aside, Card, CardGrid } from '@astrojs/starlight/components';
 
 # Mission Control (EMS)
 
-**Mission Control (EMS)** is the operational layer for the SSID ecosystem. It provides a CLI tool (`ssidctl`) that manages tasks, content, teams, scheduling, and evidence — all governed by the same PR-only, append-only principles as the SSID repo itself.
+**Mission Control** is the unified operational dashboard for the SSID ecosystem. It combines a CLI tool (`ssidctl`) with a web-based portal that provides real-time visibility into tasks, runs, governance status, and agent activity.
 
 <Aside type="note">
-EMS stands for **Evidence Management System**. All mutations are event-sourced (YAML snapshot + JSONL append-only log) and evidence-linked.
+EMS stands for **External Management System** (the user's private vault/wallet). This tooling page documents the evidence management capabilities within Mission Control. All mutations are event-sourced (YAML snapshot + JSONL append-only log) and evidence-linked.
 </Aside>
 
-## Core Modules
+## Dashboard Pages
 
 <CardGrid>
-  <Card title="Task Board" icon="list-format">
-    Kanban-style task management with 7 statuses, 4 priorities, and event-sourced mutation tracking.
+  <Card title="Board" icon="list-format">
+    Kanban-style task tracking with detail views, 7 statuses, 4 priorities, and event-sourced mutation history.
   </Card>
-  <Card title="Content Pipeline" icon="document">
-    9-stage content lifecycle from IDEA to POSTMORTEM with attachment tracking and hash verification.
+  <Card title="Console" icon="open-book">
+    Live terminal output from running agents. Streams PTY output in real time via SSE.
   </Card>
-  <Card title="Team Registry" icon="group">
-    Agent profiles with availability tracking (IDLE, RUNNING, BLOCKED) and role-based scope enforcement.
+  <Card title="Runs" icon="rocket">
+    Run list and detail views showing logs, ledger entries, iteration reports, and gate results per run.
   </Card>
-  <Card title="Office Dashboard" icon="laptop">
-    Aggregated view of all agents, active tasks, and board summary with watch mode and JSON export.
+  <Card title="Governance" icon="approve-check-circle">
+    Guard and gate status overview. Shows current enforcement state of all 12 guards and 11 gates.
   </Card>
 </CardGrid>
 
-## CLI Overview
+<CardGrid>
+  <Card title="Live Dashboard" icon="sun">
+    Server-Sent Events (SSE) driven real-time feed of system events: task transitions, gate results, agent status changes.
+  </Card>
+  <Card title="Memory" icon="document">
+    Searchable vault of architecture decisions, notes, and referenced files with fulltext search.
+  </Card>
+  <Card title="Calendar" icon="seti:clock">
+    Scheduled jobs with cron expressions, run history, enable/disable controls, and ICS export.
+  </Card>
+  <Card title="Content" icon="pencil">
+    9-stage content pipeline from IDEA to POSTMORTEM with attachment tracking and hash verification.
+  </Card>
+</CardGrid>
 
-All commands follow the pattern `ssidctl <module> <action>`.
+<CardGrid>
+  <Card title="Office" icon="laptop">
+    Aggregated view of all agents, active tasks, and board summary with watch mode and JSON export.
+  </Card>
+  <Card title="Team" icon="group">
+    Agent profiles with availability tracking (IDLE, RUNNING, BLOCKED) and role-based scope enforcement.
+  </Card>
+</CardGrid>
 
-### Task Board
+## Board (Task Tracking)
+
+The Board page provides full task lifecycle management with detail views for each task.
+
+### CLI
 
 ```bash
 ssidctl board add T-001 "Implement auth flow" --module SSID --priority P0
@@ -46,6 +70,8 @@ ssidctl board list
 ssidctl board show T-001
 ```
 
+### Task Statuses
+
 | Status | Description |
 |--------|-------------|
 | BACKLOG | Not yet scheduled |
@@ -55,6 +81,79 @@ ssidctl board show T-001
 | REVIEW | Under review |
 | DONE | Completed |
 | CANCELLED | Cancelled |
+
+Task detail views show the full event history (every status transition, assignment change, and priority update) as an append-only event log.
+
+## Console (Live Terminal)
+
+The Console page streams live PTY output from running agents. Each agent session is isolated and output is streamed to the browser via Server-Sent Events (SSE).
+
+Key properties:
+- **Real-time streaming** via SSE (not polling)
+- **Per-agent isolation** with separate output buffers
+- **Scrollback** retained for the duration of the session
+- **No secrets in output** enforced by the guard system (PII/secret scan runs pre-flight)
+
+## Runs
+
+The Runs page lists all EMS runs with detail views that include:
+
+- **Run metadata**: run ID, timestamp, result (PASS/FAIL/STOP), iteration count
+- **Logs**: worklog.jsonl event stream for the run
+- **Ledger**: append-only approval records with hash chains
+- **Gate results**: per-gate PASS/FAIL outcomes with details
+- **Handoff summary**: human-readable report generated at run completion
+
+```bash
+ssidctl autopilot list     # List all runs
+ssidctl autopilot show APR-20260309T120000  # Show run details
+```
+
+## Governance
+
+The Governance page provides a unified view of the guard and gate enforcement layer.
+
+- **12 pre-flight guards** (EMS-internal) with current enabled/disabled state
+- **11 external gates** (SSID-repo scripts) with last execution results
+- **Guard-gate matrix** showing the relationship between guards and gates
+- **Enforcement mode** indicator (hard vs. soft) per guard
+
+See the [Guard System](/governance/guards/) page for full details.
+
+## Live Dashboard (SSE Events)
+
+The Live Dashboard page provides a real-time event feed powered by Server-Sent Events.
+
+Events include:
+- Task status transitions (`board.task.moved`)
+- Gate execution results (`gate.executed`)
+- Agent status changes (`team.agent.status_changed`)
+- Autopilot iteration completions (`autopilot.iteration.completed`)
+- Evidence writes (`evidence.entry.created`)
+
+The SSE endpoint delivers events as they occur with no polling delay.
+
+## Additional Pages
+
+### Memory Vault
+
+```bash
+ssidctl memory add "Architecture Decision" --tags adr,architecture --file ./adr-001.md
+ssidctl memory list
+ssidctl memory show M-abc123
+ssidctl memory search "architecture"   # Fulltext search across title, tags, and content
+```
+
+### Calendar / Cron
+
+```bash
+ssidctl calendar add daily-gates "@daily" "ssidctl gates --all"
+ssidctl calendar list
+ssidctl calendar disable daily-gates
+ssidctl calendar enable daily-gates
+ssidctl calendar run-now daily-gates
+ssidctl calendar export   # ICS format
+```
 
 ### Content Pipeline
 
@@ -70,42 +169,6 @@ ssidctl content show C-001
 
 Stages: `IDEA` > `OUTLINE` > `BRIEF` > `SCRIPT` > `ASSETS` > `REVIEW` > `PUBLISH` > `ARCHIVE` > `POSTMORTEM`
 
-### Team Registry
-
-```bash
-ssidctl team list
-ssidctl team show Agent-IMP
-ssidctl team set-status Agent-IMP RUNNING
-```
-
-### Calendar / Cron
-
-```bash
-ssidctl calendar add daily-gates "@daily" "ssidctl gates --all"
-ssidctl calendar list
-ssidctl calendar disable daily-gates
-ssidctl calendar enable daily-gates
-ssidctl calendar run-now daily-gates
-ssidctl calendar export   # ICS format
-```
-
-### Memory Vault
-
-```bash
-ssidctl memory add "Architecture Decision" --tags adr,architecture --file ./adr-001.md
-ssidctl memory list
-ssidctl memory show M-abc123
-ssidctl memory search "architecture"   # Fulltext search across title, tags, and content
-```
-
-### Attachment Vault
-
-```bash
-ssidctl vault add ./report.pdf --category reports --mime application/pdf
-ssidctl vault list
-ssidctl vault retrieve V-abc12345 --dest ./output.pdf
-```
-
 ### Office Dashboard
 
 ```bash
@@ -114,13 +177,21 @@ ssidctl office --watch      # Live polling (5s default)
 ssidctl office --export-json status.json
 ```
 
+### Team Registry
+
+```bash
+ssidctl team list
+ssidctl team show Agent-IMP
+ssidctl team set-status Agent-IMP RUNNING
+```
+
 ## Agent Roles
 
 EMS defines 8 agent roles that operate within the 3-worktree model:
 
 | Role | ID | Responsibility |
 |------|----|---------------|
-| Assistant | — | Control plane / orchestrator |
+| Assistant | --- | Control plane / orchestrator |
 | Planner | Agent-PLN | Scope analysis, plan generation |
 | Implementer | Agent-IMP | Patch creation in apply worktree |
 | Auditor | Agent-AUD | Gate execution in verify worktree |
@@ -128,22 +199,6 @@ EMS defines 8 agent roles that operate within the 3-worktree model:
 | Content Writer | Agent-CNT | Content artifact creation |
 | Designer | Agent-DSN | Asset briefings, design prompts |
 | Board Manager | Agent-PM | Task board and calendar maintenance |
-
-## Guards and Gates
-
-EMS runs **7 pre-flight guards** before any worktree operation:
-
-| Guard | Check |
-|-------|-------|
-| root_24_lock | Exactly 24 root directories exist |
-| anti_duplication | No duplicate filenames across paths |
-| forbidden_extensions | No banned file types (.exe, .dll, etc.) |
-| sot_write_guard | SoT files require explicit approval |
-| secret_pii_scan | No secrets or PII in staged files |
-| registry_semantics | Registry paths follow naming conventions |
-| token_legal_lexicon | No misleading financial terminology |
-
-Additionally, **11 gates** are defined in the guard-gate matrix and executed as CI checks on the SSID repo.
 
 ## Data Model
 

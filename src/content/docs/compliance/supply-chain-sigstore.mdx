@@ -1,0 +1,60 @@
+---
+title: "Artifact Signing with Sigstore"
+description: "Keyless signing and verification using Cosign, Fulcio, and Rekor"
+---
+
+## Overview
+
+[Sigstore](https://sigstore.dev/) provides keyless code signing — no long-lived keys to manage, rotate, or protect.
+
+## Components
+
+| Component | Purpose |
+|-----------|---------|
+| **Cosign** | Sign and verify artifacts (containers, blobs, SBOMs) |
+| **Fulcio** | Issues short-lived signing certificates via OIDC |
+| **Rekor** | Immutable transparency log for signing events |
+
+## Signing Workflow
+
+```bash
+# Install cosign
+go install github.com/sigstore/cosign/v2/cmd/cosign@latest
+
+# Keyless signing (opens browser for OIDC auth)
+cosign sign-blob --bundle artifact.bundle artifact.tar.gz
+
+# Container image signing
+cosign sign ghcr.io/edubrainboost/ssid-ems:latest
+```
+
+## Verification
+
+```bash
+# Verify blob signature
+cosign verify-blob \
+  --bundle artifact.bundle \
+  --certificate-identity user@example.com \
+  --certificate-oidc-issuer https://accounts.google.com \
+  artifact.tar.gz
+
+# Verify container image
+cosign verify \
+  --certificate-identity-regexp '.*@edubrainboost.*' \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+  ghcr.io/edubrainboost/ssid-ems:latest
+```
+
+## CI Integration
+
+```yaml
+- name: Sign artifact
+  uses: sigstore/cosign-installer@v3
+- run: cosign sign-blob --yes --bundle evidence.bundle evidence.zip
+  env:
+    COSIGN_EXPERIMENTAL: "1"
+```
+
+## Transparency Log
+
+All signing events are recorded in [Rekor](https://rekor.sigstore.dev/) — a tamper-resistant, append-only log. Search entries at `rekor.sigstore.dev/api/v1/log/entries`.
