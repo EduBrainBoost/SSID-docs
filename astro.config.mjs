@@ -1,9 +1,13 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
+// Production (CI=true on GitHub Actions) → /SSID-docs
+// Dev / local                            → / (no prefix)
+const base = process.env.CI ? '/SSID-docs' : '/';
+
 export default defineConfig({
   site: 'https://edubrainboost.github.io',
-  base: '/',
+  base,
   server: { port: 4331 },
   integrations: [
     starlight({

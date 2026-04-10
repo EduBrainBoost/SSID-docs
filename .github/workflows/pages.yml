@@ -45,6 +45,58 @@ jobs:
       - name: Build site
         run: pnpm build
 
+      - name: Verify base path (/SSID-docs) in href/src attributes
+        run: |
+          echo "=== Base Path Regression Guard ==="
+          echo "Checking real href/src attributes in generated HTML..."
+
+          # 1. Verify dist/index.html exists
+          if [ ! -f dist/index.html ]; then
+            echo "FAIL: dist/index.html not found"
+            exit 1
+          fi
+
+          # 2. Extract href/src attribute values from dist/index.html
+          HREF_SRC_INDEX=$(grep -oP '(?:href|src)="[^"]*"' dist/index.html | head -20)
+          echo "dist/index.html href/src attributes:"
+          echo "$HREF_SRC_INDEX"
+
+          # 3. Check for root-absolute URLs without /SSID-docs/ prefix
+          # Pattern: href="/..." or src="/..." where the path does NOT start with /SSID-docs/
+          BAD_URLS=$(grep -oP '(?:href|src)="/(?!SSID-docs/)[^"]*"' dist/index.html || true)
+          if [ -n "$BAD_URLS" ]; then
+            echo ""
+            echo "FAIL: Found root-absolute URLs without /SSID-docs/ prefix in dist/index.html:"
+            echo "$BAD_URLS"
+            exit 1
+          fi
+
+          # 4. Verify at least one /SSID-docs/ href/src exists in index.html
+          GOOD_COUNT_INDEX=$(grep -cP '(?:href|src)="/SSID-docs/' dist/index.html || echo 0)
+          if [ "$GOOD_COUNT_INDEX" -eq 0 ]; then
+            echo "FAIL: No /SSID-docs/ href/src attributes found in dist/index.html"
+            exit 1
+          fi
+          echo "PASS: dist/index.html has $GOOD_COUNT_INDEX correct /SSID-docs/ attribute(s)"
+
+          # 5. Check a second HTML file
+          SECOND_HTML=$(find dist -name "index.html" -not -path "dist/index.html" | head -1)
+          if [ -n "$SECOND_HTML" ]; then
+            echo ""
+            echo "Checking $SECOND_HTML..."
+            BAD_URLS_2=$(grep -oP '(?:href|src)="/(?!SSID-docs/)[^"]*"' "$SECOND_HTML" || true)
+            if [ -n "$BAD_URLS_2" ]; then
+              echo "FAIL: Found root-absolute URLs without /SSID-docs/ prefix in $SECOND_HTML:"
+              echo "$BAD_URLS_2"
+              exit 1
+            fi
+            GOOD_COUNT_2=$(grep -cP '(?:href|src)="/SSID-docs/' "$SECOND_HTML" || echo 0)
+            echo "PASS: $SECOND_HTML has $GOOD_COUNT_2 correct /SSID-docs/ attribute(s)"
+          fi
+
+          echo ""
+          echo "=== PASS: All href/src attributes use /SSID-docs/ base path ==="
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
