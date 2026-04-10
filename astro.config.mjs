@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import remarkBasePath from './src/remark-base-path.mjs';
 
 // Production (CI=true on GitHub Actions) → /SSID-docs
 // Dev / local                            → / (no prefix)
@@ -9,6 +10,9 @@ export default defineConfig({
   site: 'https://edubrainboost.github.io',
   base,
   server: { port: 4331 },
+  markdown: {
+    remarkPlugins: [remarkBasePath],
+  },
   integrations: [
     starlight({
       title: 'SSID',
