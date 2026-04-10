@@ -192,6 +192,11 @@ jobs:
             "sync.all"
             "mirror.repo"
             "export.repo"
+            "rsync.*SSID[^-]"
+            "robocopy.*SSID[^-]"
+            "cp.*-r.*SSID[^-]"
+            "git.subtree.*SSID[^-]"
+            "git.filter-repo"
           )
 
           for pattern in "${PRIVATE_PATTERNS[@]}"; do
