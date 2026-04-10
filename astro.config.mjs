@@ -3,38 +3,12 @@ import starlight from '@astrojs/starlight';
 
 export default defineConfig({
   site: 'https://edubrainboost.github.io',
-  base: process.env.NODE_ENV === 'production' ? '/SSID-docs' : '/',
+  base: '/',
+  server: { port: 4331 },
   integrations: [
     starlight({
       title: 'SSID',
       description: 'Self-Sovereign Identity Documentation',
-      head: [
-        {
-          tag: 'meta',
-          attrs: {
-            'http-equiv': 'Content-Security-Policy',
-            content: [
-              "default-src 'self'",
-              "script-src 'self' 'unsafe-inline'",
-              "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data:",
-              "connect-src 'self'",
-              "font-src 'self'",
-              "frame-src 'none'",
-              "object-src 'none'",
-              "base-uri 'self'",
-              "form-action 'self'",
-            ].join('; '),
-          },
-        },
-        {
-          tag: 'meta',
-          attrs: {
-            name: 'referrer',
-            content: 'strict-origin-when-cross-origin',
-          },
-        },
-      ],
       logo: {
         light: './src/assets/ssid-logo-light.svg',
         dark: './src/assets/ssid-logo-dark.svg',
@@ -45,6 +19,15 @@ export default defineConfig({
           icon: 'github',
           label: 'GitHub',
           href: 'https://github.com/EduBrainBoost/SSID-open-core',
+        },
+      ],
+      head: [
+        {
+          tag: 'meta',
+          attrs: {
+            'http-equiv': 'Content-Security-Policy',
+            content: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';",
+          },
         },
       ],
       customCss: [
@@ -60,13 +43,11 @@ export default defineConfig({
         {
           label: 'Architecture',
           items: [
-            { label: '24 Root Modules', slug: 'architecture/roots' },
+            { label: 'Root-24 Architecture', slug: 'architecture/roots' },
             { label: '24x16 Matrix', slug: 'architecture/matrix' },
             { label: 'Shards & Hybrid Charts', slug: 'architecture/shards' },
-            { label: 'Open-Core Structure', slug: 'architecture/open-core' },
             { label: 'Deterministic Artifacts', slug: 'architecture/artifacts' },
             { label: 'EMS Architecture', slug: 'architecture/ems' },
-            { label: 'Post-Quantum Crypto', slug: 'architecture/post-quantum' },
           ],
         },
         {
@@ -75,9 +56,9 @@ export default defineConfig({
             { label: 'PR-Only Workflow', slug: 'governance/pr-only' },
             { label: 'Evidence & WORM', slug: 'governance/evidence' },
             { label: 'Policy Gates', slug: 'governance/policy-gates' },
+            { label: 'DAO Governance', slug: 'governance/dao' },
             { label: 'Incident Response & DR', slug: 'governance/incident-response' },
             { label: 'Secrets Management', slug: 'governance/secrets-management' },
-            { label: 'DAO Governance', slug: 'governance/dao' },
           ],
         },
         {
@@ -87,7 +68,6 @@ export default defineConfig({
             { label: 'eIDAS', slug: 'compliance/eidas' },
             { label: 'MiCA Positioning', slug: 'compliance/mica' },
             { label: 'Supply-Chain Security', slug: 'compliance/supply-chain' },
-            { label: 'Audit Framework', slug: 'compliance/audit-framework' },
           ],
         },
         {
@@ -99,13 +79,6 @@ export default defineConfig({
             { label: 'Health Checks', slug: 'tooling/health-checks' },
             { label: 'Observability', slug: 'tooling/observability' },
             { label: 'AI Gateway', slug: 'tooling/ai-gateway' },
-            { label: 'Local Stack', slug: 'tooling/local-stack' },
-          ],
-        },
-        {
-          label: 'Developer',
-          items: [
-            { label: 'Getting Started', slug: 'developer/getting-started' },
           ],
         },
         {
@@ -113,8 +86,8 @@ export default defineConfig({
           items: [
             { label: 'Utility & Governance', slug: 'token/utility' },
             { label: 'Non-Custodial Design', slug: 'token/non-custodial' },
-            { label: 'Fee & Subscription Models', slug: 'token/fee-models' },
-            { label: 'Distribution & Fairness', slug: 'token/distribution' },
+            { label: 'Fee Models', slug: 'token/fee-models' },
+            { label: 'Token Distribution', slug: 'token/distribution' },
           ],
         },
         {
@@ -132,7 +105,6 @@ export default defineConfig({
             { label: 'Changelog', slug: 'changelog' },
             { label: 'Security & Disclosure', slug: 'security' },
             { label: 'Export Transparency', slug: 'exports' },
-            { label: 'Research', slug: 'research/permissionless-crypto-assets-2026-03' },
           ],
         },
       ],
