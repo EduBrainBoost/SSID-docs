@@ -1,70 +1,40 @@
-# CLAUDE.md — SSID-docs Governance Rules
+# SSID-docs — Repo-Regeln
 
-## Identity
+## REPO-IDENTITAET
+- Repo-Name: SSID-docs
+- Repo-Pfad: C:\Users\bibel\SSID-Workspace\Github\SSID-docs
+- Primaerer Branch: main
+- Arbeits-Branches: develop, feature/*, fix/*
 
-- **Repo**: SSID-docs
-- **Primary Branch**: main
-- **Purpose**: Public-facing documentation site for the SSID project
-- **Scope**: User documentation, guides, generated API reference, and I18N content
+## WRITE-SCOPE
+Nur innerhalb dieses Repos schreiben.
+Dokumentation muss den aktuellen Stand der Quell-Repos (SSID, SSID-EMS, SSID-open-core,
+SSID-orchestrator) widerspiegeln — API-Referenzen immer mit Source of Truth abgleichen.
 
-## Write Scope
+## VERBOTENE PFADE
+- Andere Repos (SSID, SSID-EMS, SSID-open-core, SSID-orchestrator)
+- .git/ direkt beschreiben
+- Globale .ssid-system/ Dateien ohne L0-Freigabe
 
-- Documentation content (MDX files)
-- Astro/Starlight configuration
-- I18N translation files
-- Static assets for documentation
-- Repository-local automation and quality gates
+## STACK
+- Docusaurus (statische Site-Generierung)
+- MDX (Markdown mit JSX-Erweiterungen)
+- I18N (Mehrsprachigkeit — Vollstaendigkeit aller Sprachversionen pruefen)
 
-## Forbidden
+## PORTS
+| Service      | Local (C) | Workspace (G) |
+|--------------|-----------|---------------|
+| Docusaurus   | 3002      | 3102          |
+| SSID-docs    | 4321      | 4331          |
 
-- Storing system secrets in docs
-- Manual API documentation when the source of truth is OpenAPI
-- System-level documentation that belongs in `16_codex` of the main SSID repo
-- Placing PII in any documentation content
-- Writing outside this repository
-- Editing `.git/` directly
+Keine anderen Ports belegen. Port-Guard ist aktiv.
 
-## Stack
+## QUALITAETSSICHERUNG
+- MDX-Syntax vor jedem Merge pruefen
+- I18N-Vollstaendigkeit sicherstellen (alle Sprachversionen aktuell)
+- Interne Links auf Integritaet pruefen
+- API-Referenzdocs mit Quell-Repos synchronisieren
 
-- Astro + Starlight (SSG)
-- MDX content format
-- pnpm package manager
-- I18N support required for all user-facing content
-
-## Ports
-
-| Service   | G-Port (Workspace) | C-Port (Canonical) |
-|-----------|--------------------|--------------------|
-| SSID-docs | 4331               | 4321               |
-
-## Rules
-
-- **SAFE-FIX**: Permanent, non-interactive, SHA256-logged write enforcement
-- **NON-CUSTODIAL**: No PII in documentation, hash-only references
-- **ROOT-24-LOCK**: Documentation must reflect the canonical 24-root structure accurately
-- **SOURCE-OF-TRUTH**: API references and cross-repo docs must be validated against source repositories
-- **QUALITY-GATES**: Validate MDX syntax, I18N completeness, and internal links before merge
-- **LOCAL-FIRST**: build, test, verify, commit, push
-
-## Scope Discipline
-
-- Only do the explicitly assigned task; do not expand scope without approval
-- Prefer the narrower scope when the request is ambiguous
-- Do not modify other repositories while working in `SSID-docs`
-
-## Verification
-
-- Do not declare completion without `pnpm build` and `pnpm test`
-- Validate internal links and I18N completeness for changed docs
-- Verify runtime behavior and CSP output when config or routing changes
-
-## Starlight Rules
-
-- Use only `note`, `tip`, `caution`, and `danger` for `Aside`
-- Keep MDX valid for Astro/Starlight builds
-
-## Regulatory Language
-
-- Treat the token as utility/governance only
-- Avoid investment-style phrasing such as returns, guaranteed profit, or custody implications
-- Mark hypothetical stablecoin mappings as hypothetical and not planned
+## SAFE-FIX
+SAFE-FIX ist permanent aktiv (NON-INTERACTIVE, SHA256-geloggt).
+Alle Schreibvorgaenge werden im Evidence-Verzeichnis protokolliert.
