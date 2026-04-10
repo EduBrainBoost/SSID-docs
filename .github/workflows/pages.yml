@@ -45,6 +45,18 @@ jobs:
       - name: Build site
         run: pnpm build
 
+      - name: Verify base path (/SSID-docs)
+        run: |
+          echo "Checking dist/ for /SSID-docs/ references..."
+          COUNT=$(grep -rl '/SSID-docs/' dist/ --include="*.html" 2>/dev/null | wc -l)
+          if [ "$COUNT" -eq 0 ]; then
+            echo "FAIL: No /SSID-docs/ base path found in dist/*.html — regression detected!"
+            echo "Build output:"
+            head -5 dist/index.html 2>/dev/null || echo "(no index.html)"
+            exit 1
+          fi
+          echo "PASS: /SSID-docs/ base path confirmed in $COUNT HTML file(s)"
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
