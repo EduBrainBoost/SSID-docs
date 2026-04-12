@@ -1,0 +1,40 @@
+---
+title: "Entwicklerhandbuch"
+description: "Rollen, Beitrags-Workflow und lokale Einrichtung fuer SSID-Entwickler."
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Entwicklerhandbuch
+
+Dieses Handbuch beschreibt die Entwickler- und Publisher-Rollen, den Beitrags-Workflow und die lokale Einrichtung fuer die Arbeit an SSID.
+
+<Aside type="caution">
+Entwickler = Code-Publisher, NICHT Betreiber. Entwickler veroeffentlichen Code-Module, betreiben aber nicht das Netzwerk und halten keine Nutzerdaten. Non-Custodial by Design. Diese Unterscheidung ist rechtlich bedeutsam.
+</Aside>
+
+## Entwicklerrolle
+
+Ein Entwickler implementiert Module innerhalb der Root/Shard-Architektur:
+
+- Implementiert Features innerhalb zugewiesener Roots und Shards
+- Haelt **95%+ Testabdeckung** bei allem eingereichten Code
+- Reicht Aenderungen per Pull Request mit CI-Validierung ein
+- Erhaelt automatische, non-custodiale Entwickler-Verguetungen on-chain
+- Kann Governance-Aenderungen vorschlagen (Architecture Board Review erforderlich)
+
+## Publisher-Rolle
+
+Ein Publisher sorgt fuer Root-Level-Konsistenz und Compliance:
+
+- Prueft Code auf Korrektheit und architektonische Passung
+- Fuehrt Compliance-Checks gegen regulatorische Gates durch
+- Genehmigt Merges mit Compliance-Freigabe (erforderlich fuer Root 23)
+- Stellt **24x16-Matrix**-Vollstaendigkeit ueber alle Shards sicher
+
+## Beitrags-Workflow
+
+1. Fork oder Branch von `main` erstellen.
+2. Aenderungen im zugewiesenen Root/Shard implementieren.
+3. Tests schreiben, um die 95%-Abdeckungsschwelle zu erreichen.
+4. Pull Request einreichen. CI-Validierung laeuft automatisch.

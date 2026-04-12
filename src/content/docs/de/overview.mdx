@@ -1,0 +1,59 @@
+---
+title: Was ist SSID?
+description: Self-Sovereign Identity — Systemuebersicht, Ziele und Positionierung.
+---
+
+import { Aside, Card, CardGrid } from '@astrojs/starlight/components';
+
+# Was ist SSID?
+
+**SSID** (Self-Sovereign Identity) ist eine deterministische, auditfaehige Identitaetsinfrastruktur, die auf den Prinzipien der **Self-Sovereign Identity (SSI)** basiert.
+
+<Aside type="note">
+SSID ist keine Blockchain. Es ist kein Token. Es ist ein **Governance-first-Identitaetssystem** mit optionalen Token-Mechaniken fuer Nutzbarkeit und Anreizausrichtung.
+</Aside>
+
+## Kernprinzipien
+
+<CardGrid>
+  <Card title="Selbstbestimmung" icon="star">
+    Nutzer besitzen und kontrollieren ihre Identitaetsdaten. Keine zentrale Instanz kann Nachweise ohne Zustimmung widerrufen oder aendern.
+  </Card>
+  <Card title="Deterministische Artefakte" icon="document">
+    Jede Systemzustandsaenderung erzeugt verifizierbare, hash-verkettete Artefakte in Append-only-Evidence-Logs.
+  </Card>
+  <Card title="PR-Only-Governance" icon="approve-check">
+    Alle Aenderungen an der Source of Truth erfordern Pull-Request-Review. Keine direkten Commits auf geschuetzte Branches.
+  </Card>
+  <Card title="Compliance-Ready" icon="setting">
+    Von Tag eins mit DSGVO, eIDAS 2.0 und MiCA-Positionierung konzipiert.
+  </Card>
+</CardGrid>
+
+## SSI-Grundlagen
+
+Self-Sovereign Identity basiert auf drei Saeulen:
+
+| Komponente | Beschreibung |
+|-----------|-------------|
+| **DID** (Decentralized Identifier) | Ein global eindeutiger Identifikator, der vom Identitaetssubjekt kontrolliert wird |
+| **VC** (Verifiable Credential) | Ein manipulationssicherer Nachweis mit kryptographischem Beweis |
+| **Wallet** | Nutzergesteuerte Speicherung fuer DIDs und VCs |
+| **Verifier** | Entitaet, die die Gueltigkeit von Nachweisen prueft |
+| **Issuer** | Entitaet, die Nachweise erstellt und signiert |
+
+## Systemarchitektur
+
+SSID organisiert seine Codebasis in einer **24 Root x 16 Shard**-Matrix:
+
+- **24 Roots**: Top-Level-Funktionsdomaenen (Audit, Krypto, Governance, Tooling etc.)
+- **16 Shards**: Querschnittsaspekte, die auf jeden Root angewandt werden
+- **Hybrid Charts/Manifeste**: Deterministische Konfiguration, die Roots und Shards verknuepft
+
+## Was SSID NICHT ist
+
+<Aside type="caution">
+- SSID hat **nichts** mit dem "SSID Token" auf BSC (Binance Smart Chain) zu tun.
+- SSID erfordert **keine** Zahlung fuer Kern-Identitaetsfunktionen.
+- SSID ist **kein** Marketing- oder Investmentprodukt.
+</Aside>
