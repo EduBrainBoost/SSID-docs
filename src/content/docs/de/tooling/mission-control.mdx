@@ -1,0 +1,229 @@
+---
+title: Mission Control (EMS)
+description: Web-Dashboard und CLI fuer Task-Tracking, Live-Terminal-Ausgabe, Run-Verwaltung, Governance-Status und SSE-gesteuerte Live-Updates.
+---
+
+import { Aside, Card, CardGrid } from '@astrojs/starlight/components';
+
+# Mission Control (EMS)
+
+**Mission Control** ist das einheitliche Operational-Dashboard fuer das SSID-Oekosystem. Es kombiniert ein CLI-Tool (`ssidctl`) mit einer webbasierten Portal, die Echtzeit-Sichtbarkeit in Tasks, Runs, Governance-Status und Agent-Aktivitaet bietet.
+
+<Aside type="note">
+EMS steht fuer **External Management System** (das private Vault/Wallet des Benutzers). Diese Seite dokumentiert die **Portal UI** Features. Fuer CLI-fokussierte Dokumentation, siehe [EMS Control Plane (CLI)](./ems-control-plane). Alle Mutationen sind Event-Sourced (YAML Snapshot + JSONL append-only Log) und Evidence-verlinkt.
+</Aside>
+
+## Dashboard-Seiten
+
+<CardGrid>
+  <Card title="Board" icon="list-format">
+    Kanban-style Task-Tracking mit Detail-Views, 7 Statussen, 4 Prioritaeten und Event-Sourced Mutations-Historie.
+  </Card>
+  <Card title="Console" icon="open-book">
+    Live-Terminal-Ausgabe von laufenden Agenten. Streamt PTY-Ausgabe in Echtzeit via SSE.
+  </Card>
+  <Card title="Runs" icon="rocket">
+    Run-Liste und Detail-Views mit Logs, Ledger-Eintraegen, Iterations-Reports und Gate-Ergebnissen pro Run.
+  </Card>
+  <Card title="Governance" icon="approve-check-circle">
+    Guard und Gate Status Ueberblick. Zeigt aktuellen Durchsetzungsstatus aller 12 Guards und 11 Gates.
+  </Card>
+</CardGrid>
+
+<CardGrid>
+  <Card title="Live Dashboard" icon="sun">
+    Server-Sent Events (SSE) gesteuerte Echtzeit-Feed von System-Events: Task-Uebergaenge, Gate-Ergebnisse, Agent-Statusaenderungen.
+  </Card>
+  <Card title="Memory" icon="document">
+    Durchsuchbarer Vault von Architektur-Entscheidungen, Notizen und referenzierten Dateien mit Volltext-Suche.
+  </Card>
+  <Card title="Calendar" icon="seti:clock">
+    Geplante Jobs mit Cron-Ausdrucksmaessigkeit, Run-Historie, Enable/Disable-Controls und ICS-Export.
+  </Card>
+  <Card title="Content" icon="pencil">
+    9-stufige Content-Pipeline von IDEA zu POSTMORTEM mit Attachment-Tracking und Hash-Verifikation.
+  </Card>
+</CardGrid>
+
+<CardGrid>
+  <Card title="Office" icon="laptop">
+    Aggregierte View aller Agenten, aktiver Tasks und Board-Zusammenfassung mit Watch-Modus und JSON-Export.
+  </Card>
+  <Card title="Team" icon="group">
+    Agent-Profile mit Verfuegbarkeits-Tracking (IDLE, RUNNING, BLOCKED) und rollenbasierter Scope-Durchsetzung.
+  </Card>
+</CardGrid>
+
+## Board (Task-Tracking)
+
+Die Board-Seite bietet vollstaendiges Task-Lifecycle-Management mit Detail-Views fuer jeden Task.
+
+### CLI
+
+```bash
+ssidctl board add T-001 "Implement auth flow" --module SSID --priority P0
+ssidctl board move T-001 DOING
+ssidctl board assign T-001 agent:Agent-IMP
+ssidctl board update T-001 --priority P1
+ssidctl board delete T-001
+ssidctl board list
+ssidctl board show T-001
+```
+
+### Task-Statussen
+
+| Status | Beschreibung |
+|--------|-------------|
+| BACKLOG | Noch nicht geplant |
+| READY | Geplant, wartet auf Zuweisung |
+| DOING | In Arbeit |
+| BLOCKED | Wartet auf Abhaengigkeit |
+| REVIEW | Under Review |
+| DONE | Abgeschlossen |
+| CANCELLED | Abgebrochen |
+
+Task-Detail-Views zeigen die volle Event-Historie (jede Status-Uebergang, Zuweisung Aenderung und Prioritaets-Update) als append-only Event-Log.
+
+## Console (Live-Terminal)
+
+Die Console-Seite streamt Live-PTY-Ausgabe von laufenden Agenten. Jede Agent-Session ist isoliert und Ausgabe wird zum Browser gestreamt via Server-Sent Events (SSE).
+
+Wichtige Properties:
+- **Real-time Streaming** via SSE (kein Polling)
+- **Pro-Agent Isolation** mit separaten Output-Buffern
+- **Scrollback** behalten fuer die Dauer der Session
+- **Keine Secrets in Output** durchgesetzt durch Guard-System (PII/Secret-Scan laeuft Pre-Flight)
+
+## Runs
+
+Die Runs-Seite listet alle EMS Runs auf mit Detail-Views, die enthalten:
+
+- **Run Metadaten**: Run-ID, Timestamp, Ergebnis (PASS/FAIL/STOP), Iterationsanzahl
+- **Logs**: worklog.jsonl Event-Stream fuer den Run
+- **Ledger**: Append-only Approval-Records mit Hash-Chains
+- **Gate Ergebnisse**: Pro-Gate PASS/FAIL Outcomes mit Details
+- **Handoff Zusammenfassung**: Menschenlesbarer Report, generiert beim Run-Completion
+
+```bash
+ssidctl autopilot list     # Liste alle Runs auf
+ssidctl autopilot show APR-20260309T120000  # Zeige Run-Details
+```
+
+## Governance
+
+Die Governance-Seite bietet eine einheitliche View des Guard- und Gate-Durchsetzungs-Layer.
+
+- **12 Pre-Flight Guards** (EMS-internal) mit aktuellen enabled/disabled State
+- **11 External Gates** (SSID-Repo Scripts) mit letzten Execution-Ergebnissen
+- **Guard-Gate Matrix** showing the Beziehung zwischen Guards und Gates
+- **Enforcement Mode** Indikator (hard vs. soft) pro Guard
+
+Siehe die [Guard System](/de/governance/guards/) Seite fuer volle Details.
+
+## Live Dashboard (SSE Events)
+
+Die Live Dashboard-Seite bietet eine Echtzeit-Event-Feed mit Server-Sent Events.
+
+Events enthalten:
+- Task Status-Uebergaenge (`board.task.moved`)
+- Gate Execution-Ergebnisse (`gate.executed`)
+- Agent Status-Aenderungen (`team.agent.status_changed`)
+- Autopilot Iterations-Completions (`autopilot.iteration.completed`)
+- Evidence Writes (`evidence.entry.created`)
+
+Der SSE-Endpoint liefert Events, wenn sie vorkommen, mit keiner Polling-Verzoegerung.
+
+## Zusaetzliche Seiten
+
+### Memory Vault
+
+```bash
+ssidctl memory add "Architecture Decision" --tags adr,architecture --file ./adr-001.md
+ssidctl memory list
+ssidctl memory show M-abc123
+ssidctl memory search "architecture"   # Volltext-Suche ueber Titel, Tags und Inhalt
+```
+
+### Calendar / Cron
+
+```bash
+ssidctl calendar add daily-gates "@daily" "ssidctl gates --all"
+ssidctl calendar list
+ssidctl calendar disable daily-gates
+ssidctl calendar enable daily-gates
+ssidctl calendar run-now daily-gates
+ssidctl calendar export   # ICS Format
+```
+
+### Content Pipeline
+
+```bash
+ssidctl content new C-001 "Blog: SSID Architecture" --channel blog --tags architecture,overview
+ssidctl content stage C-001 SCRIPT
+ssidctl content edit C-001 --title "Updated Title"
+ssidctl content attach C-001 ./diagram.png --mime image/png
+ssidctl content export
+ssidctl content list
+ssidctl content show C-001
+```
+
+Stages: `IDEA` > `OUTLINE` > `BRIEF` > `SCRIPT` > `ASSETS` > `REVIEW` > `PUBLISH` > `ARCHIVE` > `POSTMORTEM`
+
+### Office Dashboard
+
+```bash
+ssidctl office              # Snapshot View
+ssidctl office --watch      # Live Polling (5s default)
+ssidctl office --export-json status.json
+```
+
+### Team Registry
+
+```bash
+ssidctl team list
+ssidctl team show Agent-IMP
+ssidctl team set-status Agent-IMP RUNNING
+```
+
+## Agent Roles
+
+EMS definiert 8 Agent-Rollen, die innerhalb des 3-Worktree-Modells operieren:
+
+| Rolle | ID | Verantwortung |
+|-------|----|----|
+| Assistant | --- | Control Plane / Orchestrator |
+| Planner | Agent-PLN | Scope-Analyse, Plan-Generierung |
+| Implementer | Agent-IMP | Patch-Erstellung in Apply-Worktree |
+| Auditor | Agent-AUD | Gate-Execution in Verify-Worktree |
+| Ops Runner | Agent-OPS | CI Parity, Environment Checks |
+| Content Writer | Agent-CNT | Content Artifact-Erstellung |
+| Designer | Agent-DSN | Asset-Briefings, Design-Prompts |
+| Board Manager | Agent-PM | Task Board und Calendar-Verwaltung |
+
+## Data Model
+
+Alle Module nutzen **Event-Sourced Storage**:
+
+- **Snapshot** (`.yaml`): Aktueller State, ueberschrieben bei jeder Mutation
+- **Event Log** (`.jsonl`): Append-only Record jeder Mutation mit Timestamp, Actor und Payload
+
+```
+state/
+  board/tasks.yaml + tasks.jsonl
+  content/content.yaml + content.jsonl
+  team/team.yaml + team.jsonl
+  calendar/cron.yaml + runs.jsonl
+  memory/index.jsonl + docs/*.md
+```
+
+<Aside type="caution">
+EMS State-Verzeichnisse live ausserhalb des SSID-Repos. Evidence wird in SSID geschrieben nur via PR nach Gate-Validierung.
+</Aside>
+
+## Bootstrap
+
+```bash
+ssidctl bootstrap ssid --target ./my-ssid-repo   # Erstelle 24-Root-Skeleton
+ssidctl bootstrap validate --target ./my-ssid-repo  # Validiere Skeleton
+ssidctl bootstrap ems                              # Erstelle EMS State-Verzeichnisse
+```

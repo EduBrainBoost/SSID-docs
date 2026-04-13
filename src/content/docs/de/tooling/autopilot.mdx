@@ -1,0 +1,168 @@
+---
+title: Autopilot
+description: Beschraenkte selbstheilende CI-Schleife mit Gate-gesteuerter Rueckmeldung, automatischem Patching und Evidence-Integration.
+---
+
+import { Aside, Card, CardGrid } from '@astrojs/starlight/components';
+
+# Autopilot
+
+Der Autopilot ist eine **beschraenkte selbstheilende CI-Schleife**, die automatisch Findings aus CI/Gate-Ausfaellen sammelt, sie zum entsprechenden Agent zum Beheben leitet, Patches anwendet, die Behebung verifiziert und den PR aktualisiert. Er operiert unter strikten Autonomie-Grenzen um Runaway-Aenderungen zu vermeiden.
+
+<Aside type="note">
+Autopilot ist nicht vollstaendig autonom. Er hat harte Stop-Kriterien, Aenderungsbudgets und maximale Iterationsgrenzen. Secret-Leakages und Root-Lock-Verletzungen loesen immer sofortiges Stoppen aus, das menschliches Eingreifen erfordert.
+</Aside>
+
+## Schleifen-Architektur
+
+Jede Autopilot-Ausfuehrung folgt einem 7-Phasen-Zyklus, der sich bis zur Konvergenz oder einem Stop-Kriterium wiederholt:
+
+```
+Sammeln -> Triage -> Routing -> Patching -> Verifikation -> PR-Update -> Report -> Wiederholung
+```
+
+| Phase | Beschreibung | Timeout |
+|-------|-------------|---------|
+| **Sammeln** | Fuehre CI-Checks aus (ruff, mypy, pytest) und parse Ausgabe in Findings | 60s |
+| **Triage** | Klassifiziere Findings nach Kategorie (lint, test, type-check, secret, schema, coverage, root-lock) | 30s |
+| **Routing** | Ordne jedes Finding einem Agent und einer Aktion ueber die Routing-Matrix zu | 10s |
+| **Patching** | Fuehre Auto-Fix-Befehle fuer behebbare Findings aus | 300s |
+| **Verifikation** | Stage Aenderungen, fuehre ruff check und pytest erneut aus um die Behebung zu bestaetigen | 300s |
+| **PR-Update** | Committe Aenderungen und aktualisiere PR mit Iterationsergebnissen | 120s |
+| **Report** | Schreibe Iterationsbericht in Protocol Outputs | 60s |
+
+## Finding-Kategorien
+
+Findings werden in Kategorien klassifiziert, die Routing und Stop-Verhalten bestimmen:
+
+| Kategorie | Quelle | Agent | Aktion | Auto-behebbar |
+|-----------|--------|-------|--------|-------------|
+| `lint` | ruff | agent-03 (Implementer) | `ruff-fix` | Ja |
+| `test` | pytest | agent-03 | `pytest-fix` | Ja |
+| `type-check` | mypy | agent-03 | `mypy-fix` | Ja |
+| `schema` | schema validator | agent-03 | `schema-fix` | Ja |
+| `coverage` | pytest-cov | agent-03 | `coverage-improve` | Ja |
+| `secret` | gitleaks | agent-05 (Security) | `secret-remediate` | **Nein (STOP)** |
+| `root-lock` | structure guard | agent-02 (Scope Sentry) | `root-lock-enforce` | **Nein (STOP)** |
+| `unknown` | any CI job | agent-03 | `manual-review` | Ja |
+
+<Aside type="caution">
+**Secret** und **root-lock** Findings loesen sofortiges STOPPEN aus. Autopilot wird nicht versuchen, diese Kategorien automatisch zu beheben. Menschliche Uebergruendlichkeit ist erforderlich.
+</Aside>
+
+## Gate-Filter
+
+Vor dem Anwenden von Patches prueft der Autopilot Findings gegen Stop-Kriterien:
+
+1. **Stop-Kategorien** (secret, root-lock) stoppen die Schleife sofort
+2. **Budget-Checks** ueberpruefen, dass vorgeschlagene Aenderungen innerhalb der Grenzen bleiben
+3. **Konvergenz-Erkennung** identifiziert stagnierte oder oszillierende Behebungsversuche
+
+Nur Findings in auto-behebbaren Kategorien fahren zur Patch-Phase fort.
+
+## Beschraenkte Autonomie
+
+Autopilot operiert unter harten Grenzen, die pro Task nicht ueberschrieben werden koennen:
+
+### Iterationsgrenzen
+
+| Grenze | Wert |
+|--------|------|
+| Maximale Iterationen | 5 |
+| Maximale Gesamtzeit | 1800s (30 Minuten) |
+
+### Aenderungsbudget (Pro Iteration)
+
+| Grenze | Wert |
+|--------|------|
+| Max Dateien pro Iteration | 8 |
+| Max Zeilen pro Iteration | 400 |
+| Max Gesamtdateien (ueber alle Iterationen) | 20 |
+| Max Gesamtzeilen (ueber alle Iterationen) | 1200 |
+
+### Circuit Breaker
+
+| Parameter | Wert |
+|-----------|------|
+| Fehlerschwelle | 3 konsekutive Fehler |
+| Cooldown-Periode | 300s (5 Minuten) |
+
+### Konvergenz-Erkennung
+
+| Parameter | Wert |
+|-----------|------|
+| Stagnationsschwelle | 2 Iterationen ohne Fortschritt |
+| Oszillations-Fenster | 3 Iterationen |
+
+## PR-Updater
+
+Nach einem erfolgreichen Patch-Verifikations-Zyklus:
+
+1. Stage alle Aenderungen mit `git add`
+2. Fuehre Verifikation aus (ruff check + pytest)
+3. Committe mit strukturierter Nachricht, die die Autopilot-Run-ID referenziert
+4. Aktualisiere PR mit Iterationsergebnissen
+
+Der PR-Body enthaelt die Iterationszusammenfassung aus dem Handoff-Report.
+
+## Evidence-Integration
+
+Jede Autopilot-Ausfuehrung produziert vier Protocol-Output-Dateien:
+
+| Datei | Format | Inhalt |
+|-------|--------|--------|
+| `worklog.jsonl` | Append-only JSONL | Event-Sourced Log jeder Phasen-Uebergang, Finding und Aktion |
+| `manifest.json` | JSON | Run-Metadaten: ID, Ergebnis, Iterationen, Budget-Nutzung, HEAD SHA, Worklog-Hash |
+| `findings.json` | JSON | Alle Findings ueber alle Iterationen mit Kategorie, Quelle, Datei, Zeile und Nachricht |
+| `handoff.md` | Markdown | Menschenlesbarer Ueberblick mit Iterationsergebnissen und naechsten Schritten |
+
+Diese Dateien werden in `SSID-EMS/state/autopilot/runs/{run_id}/` geschrieben und (nach Hash) in Evidence-Eintraegen referenziert.
+
+## Iterationsergebnisse
+
+Jede Iteration produziert eines von vier Ergebnissen:
+
+| Ergebnis | Bedeutung | Aktion |
+|----------|-----------|--------|
+| `PASS` | Alle CI-Checks bestehen nach Behebungen | Schleife endet; PR bereit zum Review |
+| `FAIL` | Behebungen angewendet aber CI schlaegt immer noch fehl | Weitergabe zur naechsten Iteration |
+| `STOP` | Hartes Stop-Kriterium ausgeloest (secret, root-lock) | Schleife endet; manuelles Eingreifen erforderlich |
+| `BUDGET_EXCEEDED` | Aenderungsbudget wuerde ueberschritten | Schleife endet; manuelles Eingreifen erforderlich |
+
+## CLI
+
+```bash
+# Starte eine Autopilot-Ausfuehrung
+ssidctl autopilot run --repo /path/to/SSID
+
+# Liste vergangene Ausfuehrungen auf
+ssidctl autopilot list
+
+# Zeige Run-Details
+ssidctl autopilot show APR-20260309T120000
+
+# Pruefe Autopilot-Status
+ssidctl autopilot status
+```
+
+## ReportBus
+
+Der ReportBus ist das interne Nachrichtensystem fuer Findings:
+
+- **Inbox**: CI-Tools schreiben Findings als JSON-Dateien
+- **Outbox**: Router schreibt geroutete Aufgaben als JSON-Dateien
+- Beide werden zu Beginn jeder Iteration geleert um veraltete Daten zu verhindern
+
+```
+state/autopilot/bus/
+  inbox/   # Raw findings from CI
+  outbox/  # Routed tasks for agents
+```
+
+## Write Lock
+
+Autopilot erhaelt einen globalen Write Lock (`AUTOPILOT`) vor Ausfuehrung von Behebungen. Dies stellt sicher:
+
+- Keine parallelen Autopilot-Ausfuehrungen im selben Repo
+- Keine konkurrierenden Mutationen von anderen Agenten
+- Lock hat 30-Minuten TTL mit Stale-Detection
