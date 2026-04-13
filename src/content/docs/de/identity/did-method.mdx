@@ -1,0 +1,145 @@
+---
+title: "DID Method — did:ssid:polygon"
+description: "Spezifikation der did:ssid:polygon dezentralisierten Identifikatormethode"
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# DID Method: `did:ssid:polygon`
+
+## Übersicht
+
+SSID implementiert eine W3C-konforme Dezentralisierte Identifikatormethode (DID), verankert im Polygon-Netzwerk. Die Methode bietet Self-Sovereign-Identity-Auflösung mit Post-Quantum-Kryptographie-Garantien.
+
+## Methoden-Syntax
+
+```
+did:ssid:polygon:<network>:<unique-id>
+```
+
+| Komponente | Beschreibung |
+|-----------|-------------|
+| `did` | W3C DID-Schema-Präfix |
+| `ssid` | SSID-Methodenname |
+| `polygon` | Blockchain-Anker-Netzwerk |
+| `<network>` | `mainnet` oder `amoy` (Testnet) |
+| `<unique-id>` | SHA3-256 Hash des initialen Public Key Materials |
+
+### Beispiele
+
+```
+did:ssid:polygon:mainnet:0x7a3b...c4f2
+did:ssid:polygon:amoy:0x9e1d...a8b3
+```
+
+## DID Document
+
+Ein aufgelöstes DID-Dokument folgt der W3C DID Core v1.0 Spezifikation:
+
+```json
+{
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    "https://w3id.org/security/suites/jws-2020/v1",
+    "https://ssid.example/context/v1"
+  ],
+  "id": "did:ssid:polygon:mainnet:0x7a3b...c4f2",
+  "authentication": [
+    {
+      "id": "did:ssid:polygon:mainnet:0x7a3b...c4f2#key-1",
+      "type": "JsonWebKey2020",
+      "controller": "did:ssid:polygon:mainnet:0x7a3b...c4f2",
+      "publicKeyJwk": {
+        "kty": "OKP",
+        "crv": "ML-DSA-65",
+        "x": "<base64url-encoded-public-key>"
+      }
+    }
+  ],
+  "assertionMethod": ["#key-1"],
+  "service": [
+    {
+      "id": "did:ssid:polygon:mainnet:0x7a3b...c4f2#vc-service",
+      "type": "VerifiableCredentialService",
+      "serviceEndpoint": "https://vc.ssid.example/api/v1"
+    }
+  ]
+}
+```
+
+## CRUD-Operationen
+
+### Create
+
+1. Generieren Sie ein Dilithium (ML-DSA-65) Schlüsselpaar in `03_core`
+2. Berechnen Sie `unique-id` = SHA3-256 des Public Key
+3. Konstruieren Sie das initiale DID-Dokument
+4. Verankern Sie den DID-Dokument-Hash auf Polygon über Smart Contract
+5. Speichern Sie das vollständige Dokument in `18_data_layer`
+6. Protokollieren Sie die Erstellungs-Evidence zu `02_audit_logging`
+
+<Aside type="tip">
+Die Schlüsselerzeugung verwendet Post-Quantum-Primitive von `21_post_quantum_crypto`. Klassische ECDSA-Schlüssel können als Hybrid-Fallback enthalten sein.
+</Aside>
+
+### Read (Resolve)
+
+1. Fragen Sie den Polygon Smart Contract nach dem Dokument-Hash ab
+2. Rufen Sie das vollständige DID-Dokument von `18_data_layer` ab
+3. Verifizieren Sie, dass der Dokument-Hash mit dem On-Chain-Anker übereinstimmt
+4. Geben Sie das aufgelöste DID-Dokument zurück
+
+### Update
+
+1. Authentifizieren Sie mit dem aktuellen DID-Controller-Schlüssel
+2. Wenden Sie Änderungen an (Schlüsselrotation, Service-Endpunkt-Update)
+3. Inkrementieren Sie die `versionId` im Dokument
+4. Verankern Sie den aktualisierten Hash erneut auf Polygon
+5. Protokollieren Sie das Update mit Before/After SHA-256 Hashes (SAFE-FIX)
+
+<Aside type="caution">
+DID-Dokument-Updates erfordern RFC-Genehmigung, wenn sie die Authentifizierungsmethode ändern. Schlüsselrotation ohne Methodenänderung kann mit standard PR-Review fortfahren.
+</Aside>
+
+### Deactivate
+
+1. Authentifizieren Sie mit dem DID-Controller-Schlüssel
+2. Setzen Sie die `deactivated`-Flag im DID-Dokument
+3. Verankern Sie die Deaktivierung auf Polygon (irreversibel auf der Chain)
+4. Protokollieren Sie die Deaktiverungs-Evidence
+
+<Aside type="danger">
+Die Deaktivierung ist dauerhaft. Ein deaktiviertes DID kann nicht reaktiviert werden. Alle zugehörigen Verifiable Credentials werden unverifiebar.
+</Aside>
+
+## Sicherheitseigenschaften
+
+| Eigenschaft | Implementierung |
+|----------|---------------|
+| **Post-Quantum Resistance** | Dilithium (ML-DSA-65) Signaturen |
+| **Hybrid Mode** | Optionale ECDSA + Dilithium Dual-Signaturen |
+| **Key Derivation** | SHA3-256 für Identifikatorgenerierung |
+| **Non-Custodial** | Private Schlüssel verlassen das Gerät des Inhabers nie |
+| **Tamper Evidence** | On-Chain-Hash-Verankerung auf Polygon |
+| **Audit Trail** | WORM-konforme Evidence in `02_audit_logging` |
+
+## Resolution Flow
+
+```
+Client → Resolver → Polygon Smart Contract
+                  → 18_data_layer (vollständiges Dokument)
+                  → Hash-Verifizierung
+                  → Gibt DID-Dokument zurück
+```
+
+## Compliance
+
+- **W3C DID Core v1.0** — Vollständige Konformität
+- **eIDAS 2.0** — Kompatibel mit EU Digital Identity Wallet Anforderungen
+- **GDPR** — Keine PII On-Chain gespeichert; nur kryptographische Hashes
+
+## Verwandt
+
+- [VC Lifecycle](/de/identity/vc-lifecycle/) — VC-Lebenszyklus aufgebaut auf dieser DID-Methode
+- [ROOT-24 Architecture](/de/architecture/root24/) — System-Architektur-Kontext
+- [Post-Quantum Crypto](/de/architecture/roots/) — Root `21_post_quantum_crypto`
