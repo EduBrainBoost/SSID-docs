@@ -1,57 +1,57 @@
 ---
-title: "Supply-Chain Security"
-description: "SLSA Provenance, SBOM Generierung, Artifact Signing und Reproducible Builds für das SSID Ökosystem."
+title: "Supply-Chain-Sicherheit"
+description: "SLSA-Provenance, SBOM-Generierung, Artifact-Signatur und reproduzierbare Builds fuer das SSID-Oekosystem."
 ---
 
-Supply-Chain Security sichert, dass jedes von SSID produzierte Artefakt zur Quelle zurückverfolgbar ist, auf Integrität verifiziert wird und unabhängig reproduzierbar ist.
+Supply-Chain-Sicherheit stellt sicher, dass jedes vom SSID erzeugete Artefakt zu seinem Ursprung zurueckverfolgt, auf Integritaet verifiziert und unabhaengig reproduziert werden kann.
 
 ## Aktueller Status
 
-SSID erzwingt Supply-Chain Integrität durch:
+SSID erzwingt Supply-Chain-Integritaet durch:
 
-- **8-Gate Blocking Chain**: Jeder PR muss Structure, SoT, Policy und QA Gates bestehen
-- **Secret Scan**: Gitleaks (SSID) / Grep-basierte Muster (open-core, docs) in CI
-- **Hash-Only Evidence**: SHA-256 Hashes für alle Artefakte, WORM-Sealed
-- **Dependency Pinning**: OPA v1.0.0, Python 3.11, Gitleaks v8.21.2 pinned in CI
+- **8-Gate-Blocking-Kette**: Jeder PR muss Struktur-, SoT-, Policy- und QA-Gates bestehen
+- **Secret-Scan**: Gitleaks (SSID) / grep-basierte Patterns (open-core, docs) in CI
+- **Hash-Only-Evidence**: SHA-256-Hashes fuer alle Artefakte, WORM-versiegelt
+- **Dependency-Pinning**: OPA v1.0.0, Python 3.11, Gitleaks v8.21.2 in CI festgelegt
 
 ## Geplante Verbesserungen
 
 ### SLSA Level 3 Provenance
 
-[SLSA](https://slsa.dev/) definiert Supply-Chain Security Level. Level 3 erfordert:
+[SLSA](https://slsa.dev/) definiert Supply-Chain-Sicherheits-Ebenen. Level 3 erfordert:
 
 - Isolierte, hermetic Builds
-- Signierte Provenance Attestationen
-- Non-Falsifiable Build Metadaten
+- Signierte Provenance-Atteste
+- Nicht-faelschbare Build-Metadaten
 
-**Roadmap**: Integriere `slsa-verifier` und GitHub's offizielle SLSA Provenance Generatoren in CI.
+**Roadmap**: Integration von `slsa-verifier` und Githubs offiziellen SLSA-Provenance-Generatoren in CI.
 
 ### SBOM (Software Bill of Materials)
 
-Zwei Standards werden evaluiert:
+Zwei Standards in Evaluierung:
 
 | Standard | Fokus | Format |
 |----------|-------|--------|
-| SPDX (ISO/IEC 5962:2021) | License Compliance | Tag-Value, JSON, RDF |
-| CycloneDX (ECMA-424) | Security/Vulnerability Tracking | JSON, XML |
+| SPDX (ISO/IEC 5962:2021) | Lizenz-Compliance | Tag-Wert, JSON, RDF |
+| CycloneDX (ECMA-424) | Sicherheit/Vulnerability-Tracking | JSON, XML |
 
-**Roadmap**: Generiere SBOM als CI Artefakt neben Gate Evidence.
+**Roadmap**: SBOM als CI-Artefakt neben Gate-Evidence generieren.
 
-### Artifact Signing (Sigstore)
+### Artifact-Signatur (Sigstore)
 
-- **Cosign**: Keyless Signing mit Fulcio (Kurz-lebige Zertifikate aus OIDC Identität)
-- **Rekor**: Transparenz Log für Audit Trail aller Signing Events
-- **Verifikation**: `cosign verify` gegen Rekor Transparenz Log
+- **Cosign**: Schluessellose Signatur mit Fulcio (kurzlebige Zertifikate von OIDC-Identitaet)
+- **Rekor**: Transparenz-Log fuer Audit-Trail aller Signatur-Events
+- **Verifizierung**: `cosign verify` gegen Rekor-Transparenz-Log
 
-### Reproducible Builds
+### Reproduzierbare Builds
 
-Ziel: Gegeben die gleichen Source Inputs, produziere Bit-identische Outputs.
+Ziel: Bei gleichen Source-Eingaben bit-identische Ausgaben produzieren.
 
-Aktuelle Maßnahmen:
-- Pinned Tool Versionen in CI (Python, OPA, Gitleaks)
-- Frozen Lockfiles (`pnpm-lock.yaml` für Docs)
-- Deterministic Gate Chain (Stop-on-First-Fail, kein Random Ordering)
+Aktuelle Massnahmen:
+- Festgelegte Tool-Versionen in CI (Python, OPA, Gitleaks)
+- Eingefrorene Lockfiles (`pnpm-lock.yaml` fuer docs)
+- Deterministische Gate-Kette (stop-on-first-fail, keine zufaellige Sortierung)
 
 Geplant:
-- Nix oder Container-basierte Hermetic Build Umgebung
-- Build Reproducibility Verifikation als CI Gate
+- Nix oder Container-basierte hermetic-Build-Umgebung
+- Build-Reproduzierbarkeits-Verifizierung als CI-Gate

@@ -1,0 +1,60 @@
+---
+title: Roadmap
+description: Oeffentliche Entwicklungs-Roadmap fuer das SSID-Projekt.
+---
+
+import { Aside, Card, CardGrid } from '@astrojs/starlight/components';
+
+<Aside type="note">
+Diese Roadmap zeigt oeffentlich sichtbare Milestones nur. Interne Entwicklungs-Milestones werden separat im EMS getrackt.
+Alle Inhalte stammen vom **SSID-open-core** oeffentlichen Export.
+</Aside>
+
+## Aktuelle Phase: Foundation
+
+Das SSID-Projekt befindet sich in seiner **Foundation-Phase**, etabliert die Kern-Infrastruktur, Governance-Modell und Compliance-Framework.
+
+<CardGrid>
+  <Card title="24x16 Matrix" icon="approve-check">
+    Structure-Skeleton fertig. Alle 24 Roots und 16 Shards sind definiert mit deterministischen SoT-Referenzen.
+  </Card>
+  <Card title="EMS (External Management System)" icon="approve-check">
+    CLI-first Control Plane (`ssidctl`) operational. 3-Worktree-Modell, Guard/Gate-Matrix und Evidence-Store aktiv.
+  </Card>
+  <Card title="PR-Only Governance" icon="approve-check">
+    Durchgesetzt ueber alle Repositories. Branch-Protection, CI Gates und WORM Evidence-Logging in place.
+  </Card>
+  <Card title="Public Documentation" icon="approve-check">
+    Starlight-basierte Docs-Site mit deterministischem Ingest aus Open-Core. Keine LLM-generierten Inhalte.
+  </Card>
+</CardGrid>
+
+## Bevorstehende Milestones
+
+| Milestone | Scope | Status |
+|-----------|-------|--------|
+| **TS001** Structure Skeleton | SoT-abgeleitete SSID-Struktur-Completion | Done |
+| **TS002** Public Export | Sanitierter Open-Core-Export mit Deny-Glob, PII/Secrets Gates | Done |
+| **TS003** Docs Ingest | Open-Core-Inhalt ingested in SSID-Docs | Done |
+| **TS004** Public Pages | Roadmap, Status und Changelog Seiten | In Progress |
+| **TS005** Automated Export | Cron-basierter `public-export --dry-run` mit Approval-Gated PR-Erstellung | Planned |
+
+## Post-Quantum Kryptographie
+
+<Aside type="tip">
+SSID enthaelt einen Post-Quantum-Kryptographie-Migrations-Pfad. Siehe das Open-Core `21_post_quantum_crypto/migration_roadmap.md` fuer den oeffentlichen Timeline.
+</Aside>
+
+## Governance Roadmap
+
+- Incident Response und Disaster Recovery Verfahren sind dokumentiert
+- Secrets-Management mit generierter Pattern-Detektion ist operational
+- Supply-Chain Security Policies sind in place
+- Community-Governance-Richtlinien sind im Open-Core publiziert
+
+## Was wird NICHT auf dieser Roadmap sein
+
+- Interne Security-Audit-Timelines
+- Token-Launch-Daten oder Preisgestaltung
+- Infrastructure-Provider-Details
+- Alles, das privaten Repository-Zugriff erfordert

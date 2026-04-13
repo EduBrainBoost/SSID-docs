@@ -1,0 +1,106 @@
+---
+title: Local Stack Operationen
+description: So startest, stopst und monitoring du den SSID lokalen Entwicklungs-Stack.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Local Stack Operationen
+
+Der SSID-Local-Stack besteht aus vier Services, alle gebunden an localhost nur.
+
+## Services
+
+| Service | Kanonischer Port (Documents/Github) | Workspace Port (SSID-Arbeitsbereich) | Health Endpoint |
+|---------|-----------------------------------|--------------------------------------|-----------------|
+| EMS Backend | 8000 | 8100 | `http://127.0.0.1:{port}/api/health` |
+| EMS Frontend | 3000 | 3100 | `http://localhost:{port}/` |
+| Orchestrator API | 3210 | 3310 | `http://localhost:{port}/api/health` |
+| Orchestrator Web | 5173 | 5273 | `http://localhost:{port}/` |
+| Docs Site | 4321 | 4331 | `http://localhost:{port}/SSID-docs/overview` |
+
+<Aside type="caution">
+Alle Services sind Loopback-only. Never expose sie zu externen Netzwerken.
+</Aside>
+
+## Vorbedingungen
+
+- SSID Repo auf `main`, sauber und up-to-date
+- SSID-EMS auf `master` mit Stack CLI (PR#26+)
+- Evidence Root-Directory existiert (z.B. `SSID_EVIDENCE/` bei deinem konfigurierten Pfad)
+- Node.js Services: `pnpm install` laufen in respektiven Repos
+- Python Services: virtualenv aktiv mit `pip install -e .`
+
+<Aside type="danger">
+Keine Secrets, Tokens oder Credentials im Manifest oder Logs.
+Environment-Variablen werden nach Schluesselname referenziert — Werte kommen von lokalen `.env` Dateien oder GitHub Environments.
+</Aside>
+
+## Quick Start
+
+```bash
+# Starte alle Services
+ssidctl stack up --manifest path/to/local_stack_manifest.yaml \
+  --evidence-root path/to/SSID_EVIDENCE
+
+# Check Gesundheit
+ssidctl stack health --manifest path/to/local_stack_manifest.yaml
+
+# View Status
+ssidctl stack status --manifest path/to/local_stack_manifest.yaml \
+  --evidence-root path/to/SSID_EVIDENCE
+
+# Stop alle Services
+ssidctl stack down --manifest path/to/local_stack_manifest.yaml \
+  --evidence-root path/to/SSID_EVIDENCE
+```
+
+## Port-Policy
+
+Ports werden deterministisch gewählt aus der `candidates` List im Manifest.
+Der erste verfügbare Port wird gewählt via Socket-Bind-Probe. Wenn alle Kandidaten
+besetzt sind, meldet die Komponente `port_unavailable`.
+
+## Evidence
+
+Stack-Operationen schreiben Evidence extern (niemals im Repo):
+
+- **State:** `SSID_EVIDENCE/local_stack/state/local-stack.json`
+- **Logs:** `SSID_EVIDENCE/local_stack/runs/{run_id}/stack.log`
+- **Ledger:** `SSID_EVIDENCE/local_stack/ledger.jsonl` + `.sha256`
+
+## Troubleshooting
+
+**Port Konflikt:** Check welcher Prozess den Port einnimmt:
+
+```bash
+# Windows
+netstat -ano | findstr :<port>
+
+# Linux/macOS
+lsof -i :<port>
+```
+
+**Service wird nicht gestartet:** Verifiziere der `workdir` Pfad existiert und Dependencies
+sind installiert (z.B. `pnpm install` fuer Node.js Services).
+
+**Health Check schlaegt fehl:** Der Service kann immer noch am Starten sein. Warte paar Sekunden
+und retry. Check die Service-Logs im Evidence-Directory.
+
+**EMS Stack CLI fehlt:** Align `origin/master` mit Stack CLI Code
+(siehe SSID-EMS PR#26).
+
+## Verifikation
+
+Alle Befehle geben `PASS` / `FAIL` zurueck mit einer Findings-List — keine Scores oder Badges.
+
+```bash
+# SSID Gates
+python 12_tooling/cli/sot_validator.py --verify-all
+
+# SSID Tests
+python -m pytest -q
+
+# EMS Tests
+cd path/to/SSID-EMS && python -m pytest -q
+```

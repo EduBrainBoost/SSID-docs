@@ -1,0 +1,86 @@
+---
+title: Projekt-Status
+description: Aktueller Betriebsstatus der oeffentlichen SSID-Infrastruktur.
+---
+
+import { Aside, Card, CardGrid } from '@astrojs/starlight/components';
+import LiveDashboard from '../../components/LiveDashboard.astro';
+
+<Aside type="note">
+Diese Seite zeigt den Status von **oeffentlich erreichbarer** SSID-Infrastruktur nur.
+Alle Daten werden vom **SSID-open-core** oeffentlichen Export abgeleitet. Fuer Echtzeit-CI-Status siehe die Repository Actions Tabs auf GitHub.
+</Aside>
+
+## Live Dashboard
+
+<LiveDashboard />
+
+## Repository-Status
+
+| Repository | Branch | Status | Notizen |
+|------------|--------|--------|-------|
+| **SSID** (privat) | `main` | Operational | PR-Only, CI Gates aktiv |
+| **SSID-open-core** (oeffentlich) | `main` | Operational | Sanitierter Export von SSID |
+| **SSID-docs** (oeffentlich) | `main` | Operational | Starlight Site, deterministischer Ingest |
+| **EMS** (privat) | `master` | Operational | CLI Control Plane, pytest Bestanden |
+
+## Governance Gates
+
+| Gate | Status | Beschreibung |
+|------|--------|-------------|
+| Structure Guard | Active | Validiert 24-Root Verzeichnis-Layout |
+| Secret Scan | Active | Blockiert Credentials, API-Keys, PII in PRs |
+| Dependency Audit | Active | Checked fuer bekannte Sicherheitsluecken |
+| CODEOWNERS | Active | Erzwingt Review durch Domain-Owner |
+| WORM Evidence | Active | Append-Only Audit-Log fuer alle Merges |
+
+## EMS Gesundheit
+
+| Komponente | Status | Notizen |
+|-----------|--------|-------|
+| `ssidctl` CLI | Operational | Control Plane Kommandozeilen-Interface |
+| 3-Plane Model | Operational | Control / Data / Evidence Planes |
+| Guard/Gate Matrix (7+6) | All Passing | Policy-Durchsetzung aktiv |
+| Evidence Store | Operational | WORM Ledger fuer Audit-Trail |
+| pytest Suite | Passing | Siehe CI/CD fuer letzte Ergebnisse |
+| `public-status export` | Operational | Sanitierter oeffentlicher Daten-Export |
+
+## Entwicklungs-Fortschritt (Now / Next / Later)
+
+<Aside type="note">
+Dieser Abschnitt zeigt **nur Aggregats-Zaehler und Topic-Tags**. Keine internen Identifikatoren, Issue-IDs, Commit-Hashes oder Benutzernamen werden offengelegt. Daten werden von `ssidctl public-status export` mit Allowlist-basierter Sanitierung generiert.
+</Aside>
+
+<CardGrid>
+  <Card title="Now" icon="rocket">
+    **0 aktive Tasks**
+
+    Keine Tasks sind gerade in Progress.
+  </Card>
+  <Card title="Next" icon="right-arrow">
+    **0 queued Tasks**
+
+    Keine Tasks sind gerade in Queue.
+  </Card>
+  <Card title="Later" icon="list-format">
+    **0 Backlog Tasks**
+
+    Keine Tasks sind gerade im Backlog.
+  </Card>
+</CardGrid>
+
+*Daten stammen von SSID-open-core oeffentlichen Export. Fuer Automated Updates, siehe CI/CD Pipeline.*
+
+## Oeffentliche Export-Pipeline
+
+| Schritt | Status | Beschreibung |
+|---------|--------|-------------|
+| Deny-Glob Filter | Active | Blockiert interne Pfade, Secrets, Binary-Dateien |
+| Binary Allowlist | Active | Nur explizit permit Binary-Typen passieren |
+| Size Cap | Active | Pro-Datei und Gesamt-Export-Groessen-Grenzen |
+| PII/Secrets Block | Active | Pattern-basierte Detektion + Absolute-Path-Leak-Vermeidung |
+| Ingest zu Docs | Active | Deterministic Scan, kein LLM, Allowlist-Only |
+
+<Aside type="caution">
+Status-Informationen werden manuell bei jeder Dokumentations-Release aktualisiert. Fuer Echtzeit-CI-Status, siehe die Repository Actions Tabs auf GitHub.
+</Aside>

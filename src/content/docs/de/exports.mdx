@@ -1,0 +1,51 @@
+---
+title: Export Transparenz
+description: Oeffentliche Export-Run-Metadaten zeigen was in SSID-open-core exportiert wurde.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<Aside type="note">
+Diese Seite zeigt **nur Metadaten** von oeffentlichen Export-Runs. Keine Dateipfade, raw Inhalte oder interne Identifikatoren werden offengelegt. Alle Daten stammen von sanitierten Export-Manifesten.
+</Aside>
+
+## Letzter Export-Run
+
+| Feld | Wert |
+|-------|-------|
+| **Timestamp** | 2026-03-02T06:26:33Z |
+| **Policy Version** | 1.0.0 |
+| **Files Scanned** | 578 |
+| **Files Exported** | 258 |
+| **Denied (policy glob)** | 241 |
+| **Blocked (secret scan)** | 1 |
+| **Blocked (binary filter)** | 78 |
+| **Oversized (rejected)** | 0 |
+| **Max File Size** | 10 MB |
+
+## Export-Pipeline
+
+Der oeffentliche Export-Prozess ist vollstaendig deterministisch und erzwingt mehrere Safety-Layer:
+
+1. **Policy Glob Filter** entfernt interne Pfade (Audit-Logs, Quarantine, Registry-Internals)
+2. **Secret Scanner** lehnt Dateien mit API-Keys, Private-Keys, Passwoerter oder Tokens ab
+3. **Binary Filter** blockiert nicht-allowlisten Binary-File-Typen
+4. **Size Cap** lehnt Dateien ab, die das konfigurierte Maximum ueberschreiten
+5. **Manifest Generierung** zeichnet SHA-256-Hashes fuer jede exportierte Datei auf
+
+## Export-Schedule
+
+| Job | Schedule | Status | Beschreibung |
+|-----|----------|--------|-------------|
+| Daily Dry-Run | `0 6 * * *` (06:00 CET) | Active | Nur Audit/Preview, keine Dateien kopiert |
+| Weekly PR Export | `0 7 * * 1` (Montag 07:00 CET) | Disabled | Erfordert explizite Genehmigung zu aktivieren |
+
+<Aside type="caution">
+Der Weekly PR Export ist **Approval-Gated**. Er kann nicht ohne einen aufgezeichneten Approval im EMS Approval Ledger aktiviert werden. Selbst wenn aktiv, erstellt er einen Pull-Request zum Review — er merget niemals automatisch.
+</Aside>
+
+## Integrity
+
+Jeder Export-Run produziert ein Manifest mit SHA-256-Hashes pro Datei. Das Manifest selbst wird im EMS Runs-Directory (ausserhalb eines git-Repositories) gespeichert und ist fuer Audit-Verifikation verfuegbar.
+
+Kein raw Datei-Inhalt, interne Identifikatoren oder absolute Pfade erscheinen in Export-Manifesten oder auf dieser Seite.
