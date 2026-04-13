@@ -38,6 +38,26 @@ Diese Seite dokumentiert jedes Root-Modul der SSID 24x16-Matrix-Architektur.
 | 23 | `23_compliance` | Globale Compliance-Matrix mit Regulierungs-zu-Evidence-Zuordnung. |
 | 24 | `24_meta_orchestration` | Top-Level-Systemorchestrierung, Service-Registry und Versionsmanagement. |
 
+## Strukturelle Eigenschaften
+
+<Aside type="note">
+Jedes Root enthaelt exakt 16 Shards und erzeugt 384 Root x Shard-Referenzpunkte ueber die gesamte Matrix. Siehe [Shards & Hybrid Charts](/de/architecture/shards/) fuer Shard-Details.
+</Aside>
+
+**Create-on-Use-Pattern.** Root-Verzeichnisse und ihre Shard-Unterverzeichnisse werden bei Bedarf generiert, wenn sie zuerst vom Dispatcher referenziert werden. Leere Roots erfordern keine Runtime-Kosten.
+
+**Universelle Abhaengigkeiten.** Drei Roots werden von allen anderen importiert und bilden die architektonische Grundlage:
+
+| Root | Rolle |
+|------|-------|
+| `20_foundation` | Gemeinsame Primitiven, Kryptographie, Utilities |
+| `23_compliance` | Regulatory Gates auf jeder Ebene angewendet |
+| `24_meta_orchestration` | Registry, Versionierung, CI-Gate-Durchsetzung |
+
 <Aside type="note">
 Die 24-Root-Struktur ist kanonisch und unveraenderlich (ROOT-24-LOCK). Keine neuen Roots duerfen angelegt, umbenannt oder geloescht werden.
 </Aside>
+
+---
+
+Derived from local SoT, ssid_master_definition_corrected_v1.1.1.

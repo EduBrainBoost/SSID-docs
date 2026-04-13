@@ -1,0 +1,87 @@
+---
+title: Dispatcher Workflow
+description: Der SSID Dispatcher orchestriert Tasks, erzwingt Policy Gates und produziert Evidence.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Dispatcher Workflow
+
+Der **SSID Dispatcher** ist die zentrale Orchestrations-Engine die TaskSpecs ausführt, Policy Gates erzwingt und Evidence generiert.
+
+## Architektur
+
+```
+TaskSpec (JSON) → Dispatcher → Preflight Checks → Step Execution → Evidence Write
+```
+
+## TaskSpec Format
+
+Jede Operation in SSID wird als **TaskSpec** definiert — ein JSON Dokument das deklariert:
+
+```json
+{
+  "task_id": "TASK_EXAMPLE",
+  "mode": "FULL-ORCHESTRATION",
+  "pr_only": true,
+  "non_negotiables": {
+    "safe_fix": true,
+    "root_24_lock": true,
+    "no_secrets_in_repo": true
+  },
+  "steps": [
+    {
+      "name": "Step description",
+      "run": "command to execute",
+      "pass_fail": "PASS condition"
+    }
+  ]
+}
+```
+
+## Execution Flow
+
+1. **Load TaskSpec** — Parse und validiere das JSON Schema
+2. **Preflight Checks** — Verifiziere Prerequisites (Tools, Permissions, State)
+3. **Step Execution** — Führe jeden Schritt sequenziell aus
+4. **Gate Enforcement** — Checke Non-Negotiables nach jedem Schritt
+5. **Evidence Write** — Registriere PASS/FAIL Results im WORM Log
+
+<Aside type="note">
+Der SSID Dispatcher ist lokalisiert unter `12_tooling/cli/ssid_dispatcher.py` im SSID Repository. Dies ist ein Low-Level Orchestrations-Tool für SSID Interne Operationen.
+
+Für Runtime Task Dispatch und Workflow Execution über das Full SSID Ökosystem (EMS ↔ SSID-Orchestrator), siehe [Orchestrator Runtime](./orchestrator-runtime).
+</Aside>
+
+## Starten einer Task
+
+```bash
+# Vom SSID Repository Root
+python 12_tooling/cli/ssid_dispatcher.py --run-task path/to/taskspec.json
+```
+
+## Non-Negotiables
+
+Diese werden bei jeder Task erzwungen:
+
+| Rule | Description |
+|------|-------------|
+| `safe_fix` | Änderungen dürfen keine bestehende Funktionalität brechen |
+| `root_24_lock` | Meta-Orchestration Änderungen erfordern erhöhte Review |
+| `no_secrets_in_repo` | Zero Tolerance für Credentials |
+| `no_scores` | Keine arbiträren Scoring Systeme |
+
+## Evidence Output
+
+Nach Execution schreibt der Dispatcher Evidence:
+
+```json
+{
+  "timestamp_utc": "2026-02-28T12:00:00Z",
+  "task_id": "TASK_EXAMPLE",
+  "result": "PASS",
+  "steps_completed": 5,
+  "steps_total": 5,
+  "notes": ["All steps passed"]
+}
+```
