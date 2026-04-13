@@ -1,0 +1,104 @@
+---
+title: "Fee & Subscription Modelle"
+description: "Transaktionsgebühren, Enterprise Subscription Tiers und Revenue Distribution in SSID."
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Fee & Subscription Modelle
+
+Diese Seite dokumentiert die drei-schichtige Fee Architektur: Pro-Transaktions Gebühren, Enterprise Subscription Tiers und das Hybrid Fiat/Token Auszahlungs-Modell.
+
+<Aside type="caution">
+Alle Fee Routings in SSID sind **Non-Custodial**. Kein Intermediary hält Funds zu irgendeinem Zeitpunkt. Es gibt kein Escrow und keine temporäre Custody. Die Fee wird zum Execution Time abgezogen und der User überweist niemals mehr als den Netto-Betrag.
+</Aside>
+
+## Layer 1: Transaction Gebühren
+
+Jede Transaktion hat eine durchschnittliche Gebühr von **0.12%**. Die Gebühr wird zum Execution Time in drei Non-Custodial Streams geteilt.
+
+| Recipient | Share | Beschreibung |
+|-----------|-------|-------------|
+| **User retained** | 97.00% | Bleibt im User Wallet. Nur die 3% Gebühr wird zum Execution Time abgezogen. |
+| **Developer Reward** | 1.00% | Automatisch verteilt an Module Developer. Non-Custodial. |
+| **System Pool** | 2.00% | Aufgeteilt über vier Sub-Pools (siehe unten). |
+
+### System Pool Breakdown
+
+| Sub-Pool | Share von Transaktion |
+|----------|---------------------|
+| DAO Treasury | 0.50% |
+| Node / Validators | 0.35% |
+| Stability Fund | 0.25% |
+| Community Bonus | 0.10% |
+
+### Developer Reward Tiers by Root
+
+Developer und System Shares variieren je nachdem welcher Module Root die Transaktion verarbeitet.
+
+| Root | Developer Share | System Share |
+|------|-----------------|-------------|
+| `03_core` | 1.00% | 2.00% |
+| `16_codex` | 0.80% | 2.20% |
+| `17_observability` | 0.75% | 2.25% |
+| `18_data_layer` | 0.75% | 2.25% |
+| `19_adapters` | 0.80% | 2.20% |
+| `20_foundation` | 0.60% | 2.40% |
+| `21_pqc` | 0.70% | 2.30% |
+
+<Aside type="note">
+Die kombinierte Developer + System Share ist immer 3.00%. Wenn die Developer Share abnimmt, fließt der Unterschied zum System Pool.
+</Aside>
+
+## Layer 2: Enterprise Subscription Tiers
+
+Vier Subscription Tiers decken verschiedene Organizational Sizes und Compliance Requirements.
+
+| Tier | Name | Price (EUR/Monat) | API Access | Tx Limit / Monat | Included Users | Token-Preference Adjustment | Zusätzlich |
+|------|------|--------|----------|----------|---------|---------|---------|
+| 1 | Small Business | 100 -- 500 | Core API | 1M | 2 | -- | -- |
+| 2 | Mid-Market | 500 -- 2,500 | Advanced API | 50M | 10 | 1.05x | -- |
+| 3 | Enterprise | 2,500 -- 10,000 | Full API | Unlimited | Unlimited | 1.10x | DAO Advisory Seat |
+| 4 | Global Proof Suite | 2,000 | Full API | Unlimited | Unlimited | -- | Post-Quantum Proofs (NIST Algorithmen), 10-Jahr Proof Retention |
+
+<Aside type="tip">
+Tier 4 (Global Proof Suite) ist für Organisationen designed die Post-Quantum Kryptographische Proofs mit langfristiger Retention erfordern. Es kann mit Tier 2 oder Tier 3 kombiniert werden.
+</Aside>
+
+## Layer 3: Hybrid Fiat/Token Auszahlung
+
+Auszahlungen an Developers und Contributors folgen einem Hybrid Modell. Die Auszahlungs-Währung ist Standard basierend auf dem Betrag und jeder Partizipant kann die Standard überschreiben.
+
+| Auszahlungs-Betrag | Standard-Währung | Conversion Incentive Offset |
+|---|---|---|
+| Bis 100 EUR | Fiat | -- |
+| Über 100 EUR | Token | 1.1x Conversion Incentive Offset angewendet |
+
+### Opt-out Optionen
+
+| Choice | Behavior |
+|--------|----------|
+| Full Fiat | Auszahlung in Fiat. Kein Conversion Incentive Offset angewendet. |
+| Full Token | Auszahlung in Token. Conversion Incentive Offset angewendet. |
+
+<Aside type="note">
+Der Conversion Incentive Offset kompensiert für Token Volatilität und Lock-Up Überlegungen. Es ist ein Token-Preference Adjustment, nicht eine garantierte Rückgabe.
+</Aside>
+
+## Governance Parameter
+
+Die DAO kann Fee Parameter durch On-Chain Governance modifizieren.
+
+| Parameter | Constraint |
+|-----------|------------|
+| Fee Range | 0.05% -- 0.50% |
+| Voting Period | 14 Tage |
+| Quorum Requirement | 67% |
+
+<Aside type="caution">
+Jede Fee Änderung erfordert eine 14-Tag Voting Period und 67% Quorum. Änderungen werden wirksam bei der nächsten Epoch Boundary nachdem der Vote abschließt.
+</Aside>
+
+---
+
+Derived from local SoT, SSID_structure_gebuehren_abo_modelle.

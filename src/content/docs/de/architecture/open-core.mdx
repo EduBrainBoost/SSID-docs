@@ -1,0 +1,82 @@
+---
+title: "Open-Core Struktur"
+description: "Public und Private Layer Separation in der SSID Architektur."
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Open-Core Struktur
+
+SSID teilt seine Codebase in einen Public Layer veröffentlicht unter permissiven Lizenzen und einem Private Layer der kommerziell sensitive oder jurisdiktions-spezifisches Material enthält.
+
+## Layer Separation
+
+| Layer | License | Contents |
+|-------|---------|----------|
+| **Public** | MIT / Apache 2.0 | Root Module Strukturen, Generische Compliance Templates, API Spezifikationen, Data Portability Frameworks, AI/ML Compliance Architektur, Community Governance Frameworks, License Fee Matrizen, Badge und Metrics Systeme |
+| **Private** | Confidential / Commercial | Jurisdiktionale Compliance Mappings (v1.5+), EU Regulatory Matrix (v2.1), Interne Maintainer Definitionen, Enterprise-spezifische Policies, Business Confidentiality Exceptions |
+
+## Public Layer Komponenten
+
+Alle 24 Root Module Strukturen sind Public. Die folgenden Artefakte werden unter MIT oder Apache 2.0 ausgeliefert:
+
+| Komponente | Zweck |
+|-----------|-------|
+| Generische Compliance Templates | Wiederverwendbare Policy Scaffolds anwendbar über Jurisdiktionen |
+| API Spezifikationen | OpenAPI und Data Portability Framework Definitionen |
+| AI/ML Compliance Architektur | Model Governance, Bias Audit Hooks, Explainability Contracts |
+| Community Governance Frameworks | Contribution Rules, Voting Mechanismen, Role Definitionen |
+| License Fee Matrizen | Transparente Fee Strukturen pro Module Tier |
+| Badge und Metrics Systeme | Achievement Tracking, Contribution Scoring, Public Dashboards |
+
+## Private Layer Komponenten
+
+| Komponente | Version | Zweck |
+|-----------|---------|-------|
+| Jurisdiktionale Compliance Mappings | v1.5+ | Region-spezifische Regulatory Rule Sets |
+| EU Regulatory Matrix | v2.1 | MiCA, eIDAS, GDPR Cross-Reference Tables |
+| Interne Maintainer Definitionen | — | Role Assignments und Access Scopes |
+| Enterprise-spezifische Policies | — | Customer-Negotiated Compliance Addenda |
+| Business Confidentiality Exceptions | — | Exemptions von Public Disclosure Requirements |
+
+## Create-on-Use Pattern
+
+Module werden **nicht** pre-created im Repository. Jedes Module wird on Demand generiert wenn zuerst referenziert durch einen Root oder Shard.
+
+1. Ein Root oder Shard referenziert eine Module ID die noch nicht existiert.
+2. Der Dispatcher generiert die Module Struktur aus dem Canonical Template.
+3. Compliance Validierung läuft gegen den generierten Output bevor es auf Disk geschrieben wird.
+4. CI Gates erzwingen Structural Correctness bei jeder Write Operation.
+
+<Aside type="tip">
+Dieses Pattern reduziert Repository Bloat und garantiert dass jedes Module in dem Tree mindestens einmal Compliance Validierung passed hat.
+</Aside>
+
+## Anti-Gaming Controls (Level 4)
+
+Sechs Controls verhindern Manipulation von Badge Scores, Contribution Metrics und Reward Distribution.
+
+| Control | Mechanism |
+|---------|-----------|
+| **Badge Integrity Framework** | Digital Signatures auf jedem Badge Issuance Event |
+| **Circular Dependency Detection** | Graph Analysis verhindert Self-Referential Reward Loops |
+| **Overfitting Prevention** | Module Diversity Requirements erzwingen Breadth von Contribution |
+| **Proof of Fairness (POFI)** | Impact-Token Binding bindet Rewards an verified Outcomes |
+| **Validator Pool Independence** | External Reviewers erforderlich für Changes zu Core Modules |
+| **CI Gate Lockout** | Exit Code 24 bei Violation; Automated Pipeline Halt |
+
+<Aside type="caution">
+Eine Violation erkannt durch jeden Anti-Gaming Control beendet den CI Run mit Exit Code 24 und sperrt das Gate bis Manual Review die Finding clearet.
+</Aside>
+
+---
+
+## SSID-open-core im Ökosystem
+
+SSID-open-core ist eines von fünf Repositories im SSID Ökosystem. Es dient als **Public SDK** und Sanitized Export Layer zwischen dem Private SSID Core und Public Developers.
+
+Für Context wie SSID-open-core in die breiter 5-Repo Topologie passt, einschließlich ihrer Relationen zu SSID, SSID-EMS, SSID-orchestrator und SSID-docs, siehe [5-Repo System Topologie](./5-repo-topology).
+
+---
+
+Derived from local SoT, SSID_opencore_structure_level3.

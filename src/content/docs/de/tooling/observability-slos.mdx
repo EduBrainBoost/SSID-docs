@@ -1,0 +1,54 @@
+---
+title: "Service Level Objectives"
+description: "SLO Definitionen mit Error Budgets für SSID Infrastructure Services"
+---
+
+## SLO Definitionen
+
+| SLO | Target | Window | Error Budget |
+|-----|--------|--------|-------------|
+| Gate Chain Latency | < 5 min (p95) | 30 Tage | 5% der Runs dürfen überschreiten |
+| Check-Run Success Rate | > 95% | 7 Tage | 5% Fehler erlaubt |
+| Evidence Write Success | 100% | 30 Tage | Zero Tolerance |
+| Secret Scan Coverage | 100% of PRs | 30 Tage | Zero Tolerance |
+| Claude API Availability | > 99% | 30 Tage | ~7.2h Downtime erlaubt |
+
+## Error Budget Policy
+
+Wenn das Error Budget eines SLO erschöpft ist:
+
+1. **Gate Chain Latency**: Pause Nicht-Kritische Gate Additionen, untersuche Bottleneck
+2. **Check-Run Success**: Friere Deployments, Root-Cause fehlende Checks
+3. **Evidence Write**: P0 Incident, All Hands bis resolved
+4. **Secret Scan**: Blockiere alle PR Merges bis Scanner operativ
+5. **Claude API**: Switch zu Fallback Mode, queue Non-Urgent Requests
+
+## Alert Rules
+
+```yaml
+# Prometheus Alerting Rules
+groups:
+  - name: ssid-slos
+    rules:
+      - alert: GateChainLatencyBreach
+        expr: histogram_quantile(0.95, rate(gate_duration_ms_bucket[30m])) > 300000
+        for: 5m
+        labels:
+          severity: warning
+
+      - alert: EvidenceWriteFailure
+        expr: evidence_write_success_ratio < 1.0
+        for: 0s
+        labels:
+          severity: critical
+
+      - alert: SecretScanGap
+        expr: secret_scan_coverage_ratio < 1.0
+        for: 1m
+        labels:
+          severity: critical
+```
+
+## Measurement
+
+SLOs werden gemessen via Prometheus Metriken exportiert durch das OpenTelemetry SDK. Grafana Dashboards visualisieren aktuelle Burn Rate und verbleibende Error Budget.
