@@ -26,8 +26,8 @@ description: Production-Deployment-Timeline, Gates, Anforderungen und Go-Live-Kr
 
 **Anforderung:** Alle Core-Flows stabil auf Sepolia + Mumbai fuer >=2 Wochen  
 **Erfolgskriterien:**
-- ✅ DID-Registrierung und -Aufloesung <100ms Latenz
-- ✅ VC-Ausstellungs-Zyklus <5s End-to-End
+- ✅ DID-Registrierung und -Aufloesung &lt;100ms Latenz
+- ✅ VC-Ausstellungs-Zyklus &lt;5s End-to-End
 - ✅ Verifizierungs-Erfolgsrate >=99,9%
 - ✅ Null kritische Bugs in Integration-Test-Suite (18+ Tests)
 - ✅ Orchestrator-Uptime >=99,95%
@@ -112,8 +112,8 @@ description: Production-Deployment-Timeline, Gates, Anforderungen und Go-Live-Kr
 - [ ] Alle Services zu Mainnet deployed (Non-Production)
 - [ ] Contracts auf Etherscan / PolygonScan verifiziert
 - [ ] Monitoring-Dashboards live und gruen
-- [ ] Load-Test: 1000 concurrent Users, Pass <1% Error-Rate
-- [ ] Backup-Restore-Test: RTO <1 Stunde, RPO <15 Min
+- [ ] Load-Test: 1000 concurrent Users, Pass &lt;1% Error-Rate
+- [ ] Backup-Restore-Test: RTO &lt;1 Stunde, RPO &lt;15 Min
 - [ ] SSL-Zertifikate gueltig und Auto-Renewal konfiguriert
 
 ### Sicherheit (1 Woche vor Launch)
@@ -157,14 +157,14 @@ description: Production-Deployment-Timeline, Gates, Anforderungen und Go-Live-Kr
 ### Initial Launch Phase (Monat 1–3)
 
 - **Support-Stunden:** 24/7 On-Call fuer kritische Issues
-- **Response-Zeit:** <15 Min fuer P0 (System Down), <1h fuer P1 (Significant Degradation)
+- **Response-Zeit:** &lt;15 Min fuer P0 (System Down), &lt;1h fuer P1 (Significant Degradation)
 - **Status-Seite:** Echtzeit-Updates auf https://status.ssid.dev (Beispiel)
 - **Escalation:** Dedizierter Slack-Kanal fuer Community Critical Issues
 
 ### Steady State (Monat 4+)
 
 - **Support-Stunden:** Business Hours (9-17 UTC) fuer allgemeine Anfragen; 24/7 fuer Security Incidents
-- **Response-Zeit:** <1h fuer Critical, <24h fuer Non-Critical
+- **Response-Zeit:** &lt;1h fuer Critical, &lt;24h fuer Non-Critical
 - **Community:** Self-Service Dokumentation, Discord/Forum Support
 
 ## Post-Launch Roadmap (Indikativ)
