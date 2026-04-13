@@ -1,0 +1,52 @@
+---
+title: Non-Custodial Design
+description: Users kontrollieren immer ihre eigenen Keys und Tokens — SSID hält niemals Custody.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Non-Custodial Design
+
+SSID folgt einem strikten **Non-Custodial Modell**: Das System hält, speichert oder hat niemals Zugang zu User Private Keys oder Tokens.
+
+## Prinzipien
+
+| Prinzip | Implementierung |
+|---------|-----------------|
+| **User-gehaltene Keys** | Private Keys werden lokal im User's Wallet generiert und gespeichert |
+| **Kein Key Escrow** | SSID Infrastruktur hat keinen Key Recovery Mechanismus nach Design |
+| **Self-Custody** | Users sind verantwortlich für ihr eigenes Key Management und Backup |
+| **Kein Intermediary** | Token Transfers und Governance Votes sind Peer-to-Peer |
+
+## Wallet Architektur
+
+```
+User Device
+├── Wallet Runtime (lokal)
+│   ├── Key Store (verschlüsselt, lokal nur)
+│   ├── DID Documents
+│   ├── Verifiable Credentials
+│   └── Token Balance (derived from Chain State)
+└── Recovery
+    ├── Seed Phrase (User-managed)
+    └── Social Recovery (optional, verteilt)
+```
+
+<Aside type="note">
+Die Wallet Runtime läuft vollständig auf dem User's Device. Kein Cloud Backup von Private Keys wird angeboten oder ist möglich durch SSID.
+</Aside>
+
+## Social Recovery (Optional)
+
+Für Users die zusätzliche Sicherheit wünschen:
+
+1. **Threshold Scheme** — Recovery verteilt über vertrauenswürdige Kontakte
+2. **Kein Single Point of Failure** — Mehrere Guardians erforderlich
+3. **Privacy-Preserving** — Guardians lernen den Key nicht
+4. **User-initiated** — Nur der User kann Recovery triggern
+
+## Implikationen
+
+- **Verlorene Keys = verlorener Zugang** — SSID kann Keys für Users nicht recover
+- **Volle Souveränität** — Keine Autorität kann Tokens frieren oder beschlagnahmen
+- **Regulatory Clarity** — Non-Custodial Design vereinfacht Regulatory Positioning

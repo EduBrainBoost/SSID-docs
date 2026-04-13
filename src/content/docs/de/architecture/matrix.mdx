@@ -1,0 +1,87 @@
+---
+title: 24×16 Matrix
+description: Die Grundstruktur von SSID — 24 Roots mit 16 Shards.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# 24×16 Matrix Architektur
+
+SSID nutzt eine deterministische **24 Root × 16 Shard** Matrix zur Organisation aller Systemkomponenten.
+
+## Roots (24 Top-Level Domains)
+
+Jeder Root repräsentiert eine distinct funktionale Domäne:
+
+| # | Root | Zweck |
+|---|------|-------|
+| 01 | `01_ai_layer` | KI-Modell Integrations-Gateway |
+| 02 | `02_audit_logging` | WORM-konforme Evidence-Speicherung |
+| 03 | `03_core` | Core Identity und DID Lifecycle |
+| 04 | `04_deployment` | CI/CD, Container, Rollouts |
+| 05 | `05_documentation` | Docs-Generierung und Schemas |
+| 06 | `06_data_pipeline` | ETL und Stream-Verarbeitung |
+| 07 | `07_governance_legal` | Policy Gates, Voting, Jura |
+| 08 | `08_identity_score` | Trust-Scoring und Reputation |
+| 09 | `09_meta_identity` | Cross-Chain Identity Aggregation |
+| 10 | `10_interoperability` | Protokoll-Bridging und Standards |
+| 11 | `11_test_simulation` | Test-Framework und Simulationen |
+| 12 | `12_tooling` | CLI, Dispatcher, Dev Tools |
+| 13 | `13_ui_layer` | Frontend-Komponenten und Views |
+| 14 | `14_zero_time_auth` | Instant-Authentifizierung |
+| 15 | `15_infra` | Infrastruktur und Provisioning |
+| 16 | `16_codex` | Knowledge Base und Rulesets |
+| 17 | `17_observability` | Metriken, Traces, Health Checks |
+| 18 | `18_data_layer` | Persistierung und Data Access |
+| 19 | `19_adapters` | Externe System Connectors |
+| 20 | `20_foundation` | Gemeinsame Primitive und Crypto |
+| 21 | `21_post_quantum_crypto` | Quanten-resistente Kryptographie |
+| 22 | `22_datasets` | Trainings- und Referenzdaten |
+| 23 | `23_compliance` | Regulatory Mapping und Enforcement |
+| 24 | `24_meta_orchestration` | Task Registry, MAOS Dispatcher |
+
+## Shards (16 Cross-Cutting Concerns)
+
+Jeder Shard wird über alle Roots angewendet:
+
+| Shard | Zweck |
+|-------|-------|
+| `config` | Konfigurations-Schemas |
+| `schema` | Datenmodelle, Validierung |
+| `logic` | Business-Logik |
+| `handlers` | Event/Request Handler |
+| `middleware` | Processing Pipeline |
+| `validators` | Input/Output Validierung |
+| `transformers` | Datentransformation |
+| `adapters` | Externe System Adapter |
+| `repositories` | Data Access Layer |
+| `services` | Service Layer |
+| `controllers` | Request Orchestrierung |
+| `events` | Event-Definitionen |
+| `errors` | Error-Typen und Handling |
+| `types` | Type-Definitionen |
+| `constants` | Statische Werte |
+| `utils` | Gemeinsame Utilities |
+
+## Hybrid Charts / Manifests
+
+Jede Root×Shard Intersection wird durch ein **Hybrid Chart** verfolgt — ein deterministisches JSON Manifest, das deklariert:
+
+- Abhängigkeiten zwischen Komponenten
+- Hash des aktuellen Artifact-Status
+- Policy Gates erforderlich für Änderungen
+- Evidence Trail Referenzen
+
+<Aside type="tip">
+Die Matrix ist nicht nur organisatorisch — sie ist die **Enforcement Layer** für deterministische Builds und Audit-Compliance.
+</Aside>
+
+```json
+{
+  "root": "02_audit_logging",
+  "shard": "repositories",
+  "artifact_hash": "sha256:a1b2c3...",
+  "policy_gates": ["pr_review", "evidence_append"],
+  "dependencies": ["20_foundation/services"]
+}
+```

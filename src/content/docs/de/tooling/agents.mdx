@@ -1,0 +1,62 @@
+---
+title: Agent Rollen
+description: KI und Automation Agents im SSID Ökosystem und ihre Verantwortlichkeiten.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Agent Rollen
+
+SSID nutzt einen strukturierten Set von **Agent Rollen** zur Automatisierung von Operationen mit Governance Control.
+
+## Agent Typen
+
+| Agent | Scope | Capabilities |
+|-------|-------|-------------|
+| **Dispatcher** | Task Execution | Führt TaskSpecs aus, erzwingt Gates |
+| **Auditor** | Evidence Verification | Validiert WORM Logs, Hash Chains |
+| **Builder** | CI/CD | Kompiliert, testet, produziert Artefakte |
+| **Scanner** | Security | Secret Detection, Dependency Audit |
+| **Reviewer** | Code Quality | Automated Code Review Suggestions |
+
+## Agent Prinzipien
+
+<Aside type="caution">
+Agents operieren unter strikten Constraints. Kein Agent kann:
+- Policy Gates bypass
+- Direkt zu Protected Branches committen
+- Auf Secrets zugreifen oder diese generieren
+- Evidence Logs modifizieren
+</Aside>
+
+## Human-Agent Boundary
+
+| Action | Agent | Human |
+|--------|-------|-------|
+| Run Automated Checks | Ja | — |
+| Generate Evidence Entries | Ja | — |
+| Approve PRs | — | Ja |
+| Override Policy Gates | — | Nein (by Design) |
+| Create TaskSpecs | Suggest | Approve |
+| Deploy to Production | Prepare | Authorize |
+
+## AI Text Generation
+
+Wenn KI für Content Generation genutzt wird:
+
+1. **No Auto-Publish** — AI-generierter Text erfordert PR Review
+2. **Hash Tracking** — Input Hash, Prompt Hash, Model ID und Output Hash werden aufgezeichnet
+3. **Deterministic Caching** — Gleiche Inputs produzieren gecachte Results
+4. **Manual Trigger Only** — `workflow_dispatch` mit Environment Approval
+
+```json
+{
+  "generation_record": {
+    "input_hash": "sha256:abc...",
+    "prompt_hash": "sha256:def...",
+    "model_id": "claude-opus-4-6",
+    "output_hash": "sha256:ghi...",
+    "approved_by": "human_reviewer"
+  }
+}
+```

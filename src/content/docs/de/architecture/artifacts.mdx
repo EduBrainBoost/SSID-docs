@@ -1,0 +1,64 @@
+---
+title: Deterministische Artefakte
+description: Wie SSID sicherstellt, dass jeder Build Output reproduzierbar und auditable ist.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Deterministische Artefakte
+
+Jede State-Änderung in SSID produziert ein **deterministisches Artefakt** — einen verifizierbaren Output dessen Hash unabhängig von seinen Inputs berechnet werden kann.
+
+## Artefakt-Eigenschaften
+
+| Eigenschaft | Beschreibung |
+|-------------|-------------|
+| **Hash-verlinkt** | Jedes Artefakt trägt einen SHA-256 Hash seines Inhalts |
+| **Append-Only** | Artefakte werden niemals modifiziert, nur superseded |
+| **Traceable** | Jedes Artefakt referenziert den PR, Commit und Policy Gates der es produziert haben |
+| **Reproduzierbar** | Mit gleichen Inputs und Toolchain-Version wird der gleiche Hash produziert |
+
+## Artefakt-Typen
+
+### Source Artefakte
+Generiert aus Source Code Änderungen:
+- Kompilierte Outputs
+- Schema Validierungen
+- Test Results
+
+### Evidence Artefakte
+Generiert durch das Audit System:
+- Policy Gate Check Results
+- PR Review Records
+- WORM Log Einträge
+
+### Configuration Artefakte
+Generiert aus Manifest Änderungen:
+- Hybrid Chart Updates
+- Dependency Graph Snapshots
+- Root/Shard Intersection Manifests
+
+## Artefakt Lifecycle
+
+```
+Source Change → PR Review → Policy Gate Check → Build → Hash Computation → Evidence Write → Artifact Stored
+```
+
+<Aside type="tip">
+Artefakte werden zusammen mit ihrer Evidence im `02_audit_logging` Root gespeichert. Das Evidence Directory nutzt WORM (Write Once Read Many) Semantics.
+</Aside>
+
+## Verifikation
+
+Jedes Artefakt kann verifiziert werden durch:
+
+1. Checkout des referenzierten Commits
+2. Durchführung des deterministischen Builds
+3. Vergleich des Output Hash mit dem gespeicherten Artefakt Hash
+
+```bash
+# Artefakt verifizieren
+ssid verify --artifact-ref 02_audit_logging/evidence/build/artifact_v1.0.0.json
+```
+
+Wenn Hashes übereinstimmen, ist das Artefakt authentisch und unverfälscht.
