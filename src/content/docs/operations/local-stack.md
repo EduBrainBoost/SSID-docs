@@ -52,12 +52,7 @@ If a port is occupied, check with `netstat -ano | findstr :<PORT>` and terminate
 
 ## Workspace Configuration
 
-The local stack runs in the **G-workspace** environment under:
-```
-C:\Users\bibel\SSID-Workspace\SSID-Arbeitsbereich\Github\
-```
-
-All 5 repositories must be cloned here for proper local development:
+The local stack runs in the **G-workspace** environment. All 5 repositories must be cloned into the same workspace directory for proper local development:
 - SSID (private, source of truth)
 - SSID-EMS (private, control plane)
 - SSID-orchestrator (private, runtime engine)
