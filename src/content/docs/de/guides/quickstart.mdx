@@ -1,0 +1,139 @@
+---
+title: "Developer Quickstart"
+description: "Starten Sie die SSID-Entwicklungsumgebung in weniger als 10 Minuten"
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+# Developer Quickstart
+
+Diese Anleitung führt Sie durch die Einrichtung einer lokalen SSID-Entwicklungsumgebung.
+
+## Voraussetzungen
+
+- **Node.js** >= 20 LTS
+- **Python** >= 3.11
+- **Git** >= 2.40
+- **Docker** >= 24 (optional, für vollständigen Stack)
+- Ein GitHub-Konto mit Zugriff auf die SSID-Organisation
+
+## Repositories klonen
+
+<Steps>
+
+1. **Klonen Sie das Haupt-SSID-Repository**
+
+   ```bash
+   git clone https://github.com/<org>/SSID.git
+   cd SSID
+   ```
+
+2. **Klonen Sie das EMS-Portal** (wenn Sie an Frontend/Backend arbeiten)
+
+   ```bash
+   git clone https://github.com/<org>/SSID-EMS.git
+   ```
+
+3. **Klonen Sie die Dokumentationsseite** (wenn Sie zur Dokumentation beitragen)
+
+   ```bash
+   git clone https://github.com/<org>/SSID-docs.git
+   ```
+
+</Steps>
+
+## Port-Matrix
+
+SSID verwendet eine feste Port-Matrix. Erfinden Sie keine eigenen Ports.
+
+| Dienst | Lokal (C) | Dev (G) |
+|--------|-----------|---------|
+| EMS Frontend | 3000 | 3100 |
+| EMS Backend | 8000 | 8100 |
+| Legacy Website | 3001 | 3101 |
+| Docs (Docusaurus) | 3002 | 3102 |
+| Orchestrator API | 3210 | 3310 |
+| Orchestrator UI | 5173 | 5273 |
+| SSID-docs (Starlight) | 4321 | 4331 |
+| CCT Dashboard | 4322 | 4332 |
+
+<Aside type="danger">
+Ports sind unveränderlich. Weisen Sie niemals benutzerdefinierte Ports zu. Die kanonische Matrix ist in `port-policy.json` definiert.
+</Aside>
+
+## Starten Sie das EMS-Portal
+
+<Tabs>
+  <TabItem label="Frontend">
+    ```bash
+    cd SSID-EMS/frontend
+    npm install
+    npm run dev
+    # → http://localhost:3000
+    ```
+  </TabItem>
+  <TabItem label="Backend">
+    ```bash
+    cd SSID-EMS/backend
+    pip install -r requirements.txt
+    uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    # → http://localhost:8000/docs
+    ```
+  </TabItem>
+</Tabs>
+
+<Aside type="tip">
+Verwenden Sie immer `localhost` (nicht `127.0.0.1`) für den Browserzugriff, um CORS- und Cookie-Probleme zu vermeiden.
+</Aside>
+
+## Starten Sie die Dokumentationsseite
+
+```bash
+cd SSID-docs
+npm install
+npm run dev
+# → http://localhost:4321
+```
+
+## Projektstruktur (Root-24)
+
+Das Haupt-SSID-Repository verwendet genau 24 kanonische Stammordner. Weitere Details finden Sie unter [ROOT-24 Architecture](/de/architecture/root24/).
+
+```
+SSID/
+├── 01_ai_layer/
+├── 02_audit_logging/
+├── 03_core/           ← DID-Verwaltung, Identity-Logik
+├── ...
+├── 16_codex/          ← Source of Truth
+├── ...
+├── 24_meta_orchestration/
+```
+
+<Aside type="caution">
+Die ROOT-24-LOCK-Invariante verbietet das Erstellen, Umbenennen oder Löschen von Stammordnern. Alle Änderungen müssen durch den RFC-Prozess erfolgen.
+</Aside>
+
+## Entwicklungsregeln
+
+1. **Keine Secrets im Code** — Verwenden Sie die Vault-Integration für alle Anmeldedaten
+2. **Keine hartcodierten API-Endpunkte** — Konfiguration über Umgebungsvariablen
+3. **Nur additive Schreibvorgänge** — SAFE-FIX-Durchsetzung erfordert SHA-256-Nachweise
+4. **Branch-Workflow** — Alle Änderungen über PR; direkte Pushes zu `main` sind blockiert
+5. **Non-Custodial** — Speichern Sie niemals PII; verwenden Sie nur SHA3-256-Hashes
+
+## Authentifizierungsstack
+
+SSID verwendet ein mehrschichtiges Auth-Modell:
+
+- **mTLS** — Gegenseitiges TLS für Service-to-Service-Kommunikation
+- **JWT** — Session-Token für API-Zugriff
+- **DID Session Tokens** — Dezentralisierte Identity-gebundene Sessions
+- **Post-Quantum Crypto** — Kyber (KEM) und Dilithium (Signaturen) für Zukunftssicherheit
+
+## Nächste Schritte
+
+- [DID Method Specification](/de/identity/did-method/) — Verstehen Sie `did:ssid:polygon`
+- [VC Lifecycle](/de/identity/vc-lifecycle/) — VC-Lebenszyklus
+- [ROOT-24 Architecture](/de/architecture/root24/) — Tiefe Systemarchitektur
+- [EMS Architecture](/de/architecture/ems/) — Frontend/Backend-Design

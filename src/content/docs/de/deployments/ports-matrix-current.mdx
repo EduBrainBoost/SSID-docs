@@ -1,0 +1,161 @@
+---
+title: Port Matrix (Aktuell)
+description: Vollständige Port-Zuordnung für G-Workspace (Entwicklung) und C-Canonical (Produktion) Umgebungen.
+---
+
+# Port Matrix (Aktuell)
+
+Das SSID-Ökosystem verwendet eine **kanonische Port-Matrix**, um konsistente Service-Discovery in Entwicklungs- und Produktionsumgebungen zu gewährleisten. Diese Seite dokumentiert die **aktuellen G-Workspace (Entwicklungs)**-Ports.
+
+## G-Workspace Ports (Entwicklung)
+
+**Umgebung:** Lokale Entwicklung, CI/CD-Runner, Staging  
+**Domain:** localhost:PORT  
+**Verwendung:** Entwicklermaschinen, Tests, Integrations-Umgebungen
+
+| Dienst | Port | Protokoll | Komponente | Zweck |
+|--------|------|----------|-----------|---------|
+| **EMS Portal Frontend** | 3100 | HTTP | SSID-EMS | React UI für Kontrollplane, Dashboards, Einstellungen |
+| **EMS Backend API** | 8100 | HTTP/REST | SSID-EMS | ssidctl CLI Backend, Portal API Endpunkte |
+| **SSID-docs** | 4331 | HTTP | SSID-docs | Astro Dokumentations-Site (diese Site) |
+| **Orchestrator API** | 3310 | HTTP/REST | SSID-orchestrator | Task-Dispatch, Workflow-Ausführung, Session-Verwaltung |
+| **Orchestrator Web UI** | 5273 | HTTP | SSID-orchestrator | Echtzeit-Überwachung, Logs, Status-Dashboards |
+| **Reserve (Zukünftig)** | 3102 | HTTP | Nicht zugeordnet | Legacy/zukünftige Dienste |
+| **Reserve (Zukünftig)** | 4332 | HTTP | Nicht zugeordnet | CCT-Dashboard oder Monitoring |
+
+## C-Canonical Ports (Produktion)
+
+**Umgebung:** Produktion, Release-Builds, Audit-Referenz  
+**Domain:** api.ssid.domain oder orchestrator.domain (TBD)  
+**Verwendung:** Mainnet, Produktions-Deployments, gehärtete Infrastruktur
+
+| Dienst | Port | Protokoll | Komponente | Zweck |
+|--------|------|----------|-----------|---------|
+| **EMS Portal Frontend** | 3000 | HTTPS | SSID-EMS | Produktions-Web-UI hinter Reverse Proxy |
+| **EMS Backend API** | 8000 | HTTPS | SSID-EMS | Produktions-API, Authentifizierung, Autorisierung |
+| **SSID-docs** | 4321 | HTTPS | SSID-docs | Produktions-Dokumentation (CDN/statisch) |
+| **Orchestrator API** | 3210 | HTTPS | SSID-orchestrator | Produktions Task-Dispatch |
+| **Orchestrator Web UI** | 5173 | HTTPS | SSID-orchestrator | Produktions Monitoring UI |
+| **Legacy Website** | 3001 | HTTPS | SSID | Historischer Bezug |
+| **CCT Dashboard** | 4322 | HTTPS | Compliance/Governance | Produktions-Observabilität |
+
+## Workspace-Konfiguration
+
+### Entwicklungs-Setup (G-Ports)
+
+Das `astro.config.mjs` in SSID-docs gibt folgende Spezifikation an:
+
+```javascript
+export default defineConfig({
+  site: 'https://edubrainboost.github.io',
+  base: '/SSID-docs/',
+  server: { port: 4331 },  // ← G-Port für Docs
+  // ...
+});
+```
+
+### Dienste lokal ausführen
+
+Beim Starten des vollständigen lokalen Stack verwenden Sie PM2 oder manuellen Start mit diesen **G-Port-Einstellungen**:
+
+```bash
+# EMS Services (G-Ports)
+npm run dev --prefix SSID-EMS  # Frontend:3100, Backend:8100
+
+# Orchestrator (G-Ports)
+npm run dev --prefix SSID-orchestrator  # API:3310, UI:5273
+
+# Dokumentation (G-Port)
+pnpm dev  # SSID-docs auf 4331
+
+# Überprüfen Sie alle Dienste
+curl http://localhost:3100    # EMS Portal
+curl http://localhost:8100/health  # EMS API
+curl http://localhost:3310/health  # Orchestrator API
+curl http://localhost:4331    # Docs Site
+```
+
+## Port Matrix Validierung
+
+Alle Entwicklungs-Codes und CI/CD müssen **G-Ports** verwenden, nicht C-Ports:
+
+✅ **KORREKT:**
+- `http://localhost:3100` (EMS Portal)
+- `http://localhost:8100` (EMS API)
+- `http://localhost:4331` (Docs)
+
+❌ **FALSCH (Legacy):**
+- `http://localhost:3000` (C-Port, nur Produktion)
+- `http://localhost:8000` (C-Port, nur Produktion)
+
+Wenn Sie C-Ports (3000, 8000) in Entwicklungsdokumentation oder Code sehen, ist das veraltet und sollte auf G-Ports (3100, 8100) korrigiert werden.
+
+## Cross-Service-Kommunikation
+
+### EMS → Orchestrator
+
+```
+EMS (localhost:8100)
+  ↓ POST /dispatch
+Orchestrator API (localhost:3310)
+```
+
+### Orchestrator → Logs
+
+```
+Orchestrator Web UI (localhost:5273)
+  ← Real-time WebSocket
+Orchestrator Backend (localhost:3310)
+```
+
+### Dokumentation → Open-Core
+
+```
+SSID-docs (localhost:4331)
+  ← Ingest von SSID-open-core Repo
+  (keine aktive Port-Bindung; statischer Export)
+```
+
+## Umgebungsvariablen
+
+Setzen Sie diese in `.env.development` oder `astro.config.mjs` für G-Workspace:
+
+```bash
+# EMS Frontend
+VITE_EMS_API_URL=http://localhost:8100
+VITE_ORCHESTRATOR_API_URL=http://localhost:3310
+
+# Orchestrator
+ORCH_API_PORT=3310
+ORCH_WEB_PORT=5273
+ORCH_EMS_URL=http://localhost:8100
+
+# Docs
+ASTRO_PORT=4331
+```
+
+## Fehlerbehebung
+
+**Port wird bereits verwendet:**
+```bash
+# Finden Sie Prozess auf Port 3100
+lsof -i :3100
+# Bei Bedarf beenden (vorsichtig!)
+kill -9 <PID>
+```
+
+**Dienst antwortet nicht:**
+- Stellen Sie sicher, dass der Prozess läuft: `pm2 list`
+- Überprüfen Sie, ob die Firewall Localhost-Verbindungen zulässt
+- Stellen Sie sicher, dass die richtige Umgebung verwendet wird (G vs. C)
+
+**Port-Mismatch-Fehler:**
+- Wenn Sie "connection refused" auf 3000/8000 sehen, sind Sie in der Entwicklung — verwenden Sie stattdessen 3100/8100
+- Überprüfen Sie, dass astro.config.mjs Ihrer Umgebung entspricht
+
+---
+
+Siehe auch:
+- [5-Repo System Topology](../architecture/5-repo-topology) für Service-Beziehungen
+- [Local Stack Setup](../operations/local-stack) für vollständiges Entwicklungs-Umgebungs-Handbuch
+- [EMS Control Plane](../tooling/ems-control-plane) für CLI- und API-Details

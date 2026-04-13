@@ -1,0 +1,311 @@
+---
+title: 5-Repo System Topology
+description: Wie die SSID-Ökosystem-Repositories zusammenpassen — Rollen, Abhängigkeiten und Integrationspunkte.
+---
+
+# 5-Repo System Topology
+
+Die SSID-Plattform ist als **5-Repository-Ökosystem** organisiert, wobei jedes Repository eine unterschiedliche Rolle und einen unterschiedlichen Umfang hat. Das Verständnis dieser Repositories und ihrer Abhängigkeiten ist für Entwickler, Betreiber und Mitarbeiter von Bedeutung.
+
+## Repository-Übersicht
+
+| Repository | Sichtbarkeit | Tech Stack | Primäre Rolle | Status |
+|------------|-----------|------------|--------------|--------|
+| **SSID** | Privat | Python 3.11+, OPA, Git worktrees | Core-Plattform-Kernel, ROOT-24-Enforcer, SoT-Quelle | Operativ (Phase 7–8) |
+| **SSID-EMS** | Privat | Python (FastAPI), React/Next.js, PM2 | Kontrollplane: CLI (ssidctl), Portal UI, Evidence-Verwaltung | Operativ (Phase 5+) |
+| **SSID-orchestrator** | Privat | Python 3.11+, Node.js 22+, React/Vite | Runtime-Dispatch-Engine, Workflow-Ausführung, Session-Verwaltung | Operativ (Phase 2) |
+| **SSID-open-core** | Öffentlich | Python 3.11+, git export | Public SDK: 5 exportierte Roots für externe Entwickler | Operativ |
+| **SSID-docs** | Öffentlich | Astro 5, Starlight 0.37, Node.js 22, pnpm | Öffentliche Dokumentation, Tutorials, Architektur, Guides | Operativ |
+
+## Abhängigkeitsfluss
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                      SSID (Privat)                     │
+│          Core Platform • ROOT-24 Enforcer              │
+│        SoT Validator • Smart Contracts • Identity      │
+└────────┬─────────────────────────────────────────────┬──┘
+         │                                             │
+    ┌────▼─────────────┐                    ┌─────────▼────────┐
+    │   SSID-EMS       │                    │ SSID-Orchestrator│
+    │  (Privat)        │                    │   (Privat)       │
+    │                  │                    │                  │
+    │ Control Plane:   │                    │ Runtime Engine:  │
+    │ • ssidctl CLI    │                    │ • Dispatch       │
+    │ • Portal UI      │                    │ • Workflows      │
+    │ • Evidence Mgmt  │                    │ • Sessions       │
+    └────────┬─────────┘                    └──────────┬───────┘
+             │                                        │
+             │  (Kommuniziert mit Core)               │
+             │                                        │
+             └────────────┬──────────────────────────┘
+                          │
+                          ▼
+             ┌──────────────────────────┐
+             │   SSID-open-core         │
+             │  (Public Export)         │
+             │                          │
+             │ Sanitized SDK:           │
+             │ • 03_core (SoT)          │
+             │ • 12_tooling (CLI)       │
+             │ • 16_codex (ADRs)        │
+             │ • 23_compliance (OPA)    │
+             │ • 24_meta_orchestration  │
+             └────────────┬─────────────┘
+                          │
+                          ▼
+             ┌──────────────────────────┐
+             │      SSID-docs           │
+             │   (Public Docs Site)     │
+             │                          │
+             │ Auto-ingest from:        │
+             │ • SSID-open-core         │
+             │                          │
+             │ Manual refs to:          │
+             │ • SSID architecture      │
+             │ • EMS/Orchestrator       │
+             │   (sanitized)            │
+             └──────────────────────────┘
+```
+
+## Detaillierte Rollen
+
+### SSID (Core)
+**Sichtbarkeit:** Privat  
+**Zweck:** Der kanonische Plattform-Kernel, der alle zentrale Logik, Smart Contracts und Identity-Primitive enthält.
+
+**Wichtige Komponenten:**
+- **01–24:** Root-Module (ROOT-24-LOCK durchgesetzt)
+  - 03_core: Identity-Verträge, Resolver, Dispatcher
+  - 12_tooling: CLI-Tools, Gates, Validatoren
+  - 16_codex: Architekturentscheidungen, SoT-Verträge
+  - 23_compliance: OPA-Richtlinien
+  - 24_meta_orchestration: Dispatcher, Registry
+- **SoT (Source of Truth):** Definitiver Datensatz für alle Regeln, Verträge und Richtlinien
+- **Evidence:** Unveränderliches WORM-Ledger aller Änderungen
+- **Policy Gates:** Secret-Scan, Dependency-Audit, Struktur-Guard, CODEOWNERS
+
+**Zugriff:** Privat; nur sanitierte Exporte über SSID-open-core
+
+---
+
+### SSID-EMS (External Management System)
+**Sichtbarkeit:** Privat  
+**Zweck:** Kontrollplane für die Verwaltung von SSID-Updates, Evidence-Logging und Policy-Durchsetzung.
+
+**Wichtige Komponenten:**
+- **ssidctl CLI:** Kommandozeilen-Interface für die Systemverwaltung
+  - `bootstrap`: EMS-Status initialisieren
+  - `validate`: SoT-Validator ausführen
+  - `dispatch`: Dispatcher-Aufgaben ausführen
+  - `evidence`: Evidence-Log anzeigen/verwalten
+  - `gates`: Policy-Gate-Status überprüfen
+- **EMS Portal:** Web UI für Dashboard, Workflows, Einstellungen
+  - URL: `http://localhost:3100` (dev, G-Port)
+  - Login-basierte Zugriffskontrolle
+- **3-Plane-Modell:**
+  - **Control Plane:** EMS (dieses Repository)
+  - **Data Plane:** SSID-Core (über PR-Only-Workflow)
+  - **Evidence Plane:** WORM-Store (Append-Only)
+
+**Interaktionen:**
+- Lesezugriff auf SSID (Richtlinien, Verträge)
+- Triggert Dispatcher-Aufgaben
+- Protokolliert Evidence in externem Store
+- Bietet Operatoren Sichtbarkeit in die Systemgesundheit
+
+---
+
+### SSID-Orchestrator (Runtime)
+**Sichtbarkeit:** Privat  
+**Zweck:** Ausführungs-Engine für Workflows, Task-Dispatch und Session-Verwaltung.
+
+**Wichtige Komponenten:**
+- **Dispatcher:** Leitet Aufgaben an Agents und Services weiter
+- **Workflows:** Mehrstufige Prozesse (Identity-Verifizierung, KYC, etc.)
+- **Sessions:** Isolierte Ausführungskontexte mit Timeout/Retry-Richtlinien
+- **Web UI:** Echtzeit-Workflow-Überwachung und Logs
+  - URL: `http://localhost:5273` (dev, G-Port)
+- **REST API:** Programmgesteuerte Workflow-Ausführung
+  - URL: `http://localhost:3310` (dev, G-Port)
+
+**Interaktionen:**
+- Empfängt Dispatch-Anfragen von EMS
+- Führt in SSID definierte Workflows aus
+- Meldet Status und Fehler an EMS zurück
+- Verwaltet isolierte Sessions für jede Aufgabe
+
+---
+
+### SSID-open-core (Public SDK)
+**Sichtbarkeit:** Öffentlich  
+**Zweck:** Sichere, sanitierte Export-Version der SSID-Funktionalität zur öffentlichen Nutzung.
+
+**Exportierte Roots (nur 5):**
+- **03_core:** SoT-Validator, Identity-Primitive (keine Kryptoschlüssel)
+- **12_tooling:** CLI-Tool-Quelle (öffentliche Teilmenge), Guard-Skripte
+- **16_codex:** Architecture Decision Records (ADRs), Design-Docs
+- **23_compliance:** OPA-Richtlinienregeln (keine internen Overrides)
+- **24_meta_orchestration:** Dispatcher-Interface, kanonische Routen (keine Ausführung)
+
+**Gerüstet (Nur Struktur, Kein Inhalt):**
+- Roots 01–02, 04–11, 13–15, 17–22: Verzeichnisstruktur für Vollständigkeit bewahrt
+- Kein öffentlicher Inhalt in diesen Roots
+
+**Export-Validierung:**
+- Automatischer Scan auf Anmeldedaten, absolute Pfade, interne Referenzen
+- `build_public_export.py`: Deterministische Grenzendurchsetzung
+- Kein manuelles Code-Kopieren; nur Diff-Updates
+
+**Use Cases:**
+- Externe Entwickler, die auf SSID aufbauen
+- Öffentliche Verifizierung von Regeln und Verträgen
+- Integration mit Drittanbieter-Systemen
+
+---
+
+### SSID-docs (Public Documentation)
+**Sichtbarkeit:** Öffentlich  
+**Zweck:** Vollständige, benutzerfreundliche Dokumentation von SSID-Architektur, -Betrieb und -Governance.
+
+**Inhaltsumfang:**
+- Architektur und System-Topologie
+- Identity und Verifiable Credentials
+- Governance und Policy Gates
+- Compliance-Frameworks (GDPR, eIDAS, MiCA)
+- Bereitstellungshandbücher (lokal, Testnet, Mainnet-Readiness)
+- Operational Runbooks
+- API-Referenz (auto-generiert aus OpenAPI)
+
+**Ingest-Regeln:**
+- **Automatischer Ingest:** Nur SSID-open-core (5 Roots)
+- **Manuelle Refs:** Architektur- und Governance-Beschreibungen von SSID abgeleitet
+- **Kein Mirroring:** Kein Massen-Copy, Sync-All oder Filter-Repo-Operationen
+- **Sanitization:** Entfernen von absoluten Pfaden, Anmeldedaten, internen Details
+
+**CI/CD Gates:**
+- Build: Type-Check, Astro-Build, Test-Suite
+- Secret-Scan: Regex-Muster für Anmeldedaten
+- Denylist: Verbotene Dateitypen, Pfade, lokale Pfade, Private-Repo-Refs
+
+---
+
+## Kommunikation zwischen Repositories
+
+### SSID ↔ SSID-EMS
+- **Richtung:** EMS liest von SSID (Richtlinien, Verträge via git clone)
+- **Mechanismus:** git worktrees + PR-Review + Evidence Logging
+- **Häufigkeit:** On-Demand via ssidctl CLI
+- **Beispiel:** `ssidctl validate` lädt neuestes SSID herunter und validiert SoT
+
+### SSID ↔ SSID-Orchestrator
+- **Richtung:** Bidirektional
+- **Mechanismus:** REST API + Dispatch-Routing
+- **Häufigkeit:** Echtzeit während Workflow-Ausführung
+- **Beispiel:** EMS dispatcht Task → Orchestrator führt aus → Meldet Status
+
+### SSID ↔ SSID-open-core
+- **Richtung:** SSID → open-core (Einweg-Export)
+- **Mechanismus:** `build_public_export.py`-Skript läuft auf SSID
+- **Häufigkeit:** Nächtlich oder auf Anfrage
+- **Beispiel:** Neue Richtlinie in SSID → Exportiert zu open-core → Auto-veröffentlicht auf GitHub
+
+### SSID-open-core ↔ SSID-docs
+- **Richtung:** open-core → docs (Einweg-Ingest)
+- **Mechanismus:** `tools/ingest.mjs` + automatisierte Allowlist-Validierung
+- **Häufigkeit:** Manuelle Auslöser (CI Gate validiert jeden PR)
+- **Beispiel:** Richtlinien-Dokumentation in open-core → Auto-ingested zu docs → Erscheint auf Public-Site
+
+### SSID-EMS ↔ SSID-docs
+- **Richtung:** EMS → docs (manuell, sanitiert)
+- **Mechanismus:** Manuelle Dokumentation + kein automatisierter Sync
+- **Häufigkeit:** Nach Bedarf während Feature-Releases
+- **Beispiel:** Neuer ssidctl-Command → Dokumentiert im Docs-Guide → Kein Code-Copy, nur Beschreibung
+
+### SSID-Orchestrator ↔ SSID-docs
+- **Richtung:** Orchestrator → docs (manuell, sanitiert)
+- **Mechanismus:** Manuelle Dokumentation + kein automatisierter Sync
+- **Häufigkeit:** Nach Bedarf bei Dispatch-Änderungen
+- **Beispiel:** Neuer Workflow hinzugefügt → Dokumentiert im Orchestrator-Guide → Kein Code-Copy, nur Workflow-Struktur
+
+---
+
+## Public Export Boundary
+
+### Was ist öffentlich?
+- ✅ Architektur-Beschreibungen und Diagramme
+- ✅ Richtlinienregeln und Governance-Strukturen
+- ✅ Compliance-Frameworks und Standards-Ausrichtung
+- ✅ CLI-Tool-Dokumentation und Beispiele
+- ✅ Workflow-Beschreibungen (abstrakt)
+- ✅ DID-Methode und VC-Spezifikationen
+- ✅ Bereitstellungshandbücher und Fehlerbehebung
+
+### Was ist privat?
+- ❌ Smart-Contract-Quellcode (sofern nicht auf öffentlicher Chain)
+- ❌ Detaillierte WORM/Evidence-Implementierung
+- ❌ Interne OPA-Regel-Overrides und Ausnahmen
+- ❌ EMS-Dispatcher-Scheduling-Algorithmus
+- ❌ Orchestrator-Session-Persistierungs-Schicht
+- ❌ Private Signaturschlüssel und Anmeldedaten
+- ❌ Interne Test-Daten und Fixtures
+
+### Feste Grenzen (im Code)
+| Element | Erlaubt | Verboten |
+|---------|---------|-----------|
+| **02_audit_logging** | Konzept (WORM) | Implementierungsdetails, Pfade |
+| **Registry/Internal** | Public-Export-Manifest | Interne Task-Verfolgung |
+| **Credentials** | Keine | Alle (PII, Schlüssel, Tokens) |
+| **Absolute Paths** | Keine | Windows-Pfade, Home-Dirs |
+| **Private Repo Refs** | Keine | `clone`, `sync.all`, `mirror` |
+
+---
+
+## Development Workflow
+
+### Für Mitwirkende an SSID (Privat)
+1. SSID klonen (privat, nur mit Einladung)
+2. Feature-Branch erstellen
+3. Änderungen vornehmen (Code, Tests, Docs)
+4. PR-Review + CI Gates PASS (Struktur, Secret-Scan, CODEOWNERS)
+5. Zu main mergen
+6. Änderungen werden automatisch zu SSID-open-core exportiert (nächtlich)
+
+### Für externe Entwickler mit SSID-open-core
+1. SSID-open-core klonen (öffentlich)
+2. 5 exportierte Roots in Ihr Projekt importieren
+3. Öffentliche APIs, Richtlinien und Tools verwenden
+4. Kein Zugriff auf privates SSID-Repository
+
+### Für Dokumentations-Leser
+1. SSID-docs-Site besuchen (öffentlich)
+2. Tutorials, Architektur, Governance lesen
+3. Links zu SSID-open-core für Implementierungsdetails folgen
+4. Keine privaten SSID-Repository-Details geleakt
+
+---
+
+## Port-Matrix (Kurzreferenz)
+
+| Dienst | Port | Umgebung | Zweck |
+|--------|------|-------------|---------|
+| EMS Portal Frontend | 3100 | G (Dev) | Web UI für Control Plane |
+| EMS API Backend | 8100 | G (Dev) | REST API für ssidctl und Portal |
+| Orchestrator API | 3310 | G (Dev) | Dispatch und Workflow-Ausführung |
+| Orchestrator Web UI | 5273 | G (Dev) | Echtzeit-Überwachung und Logs |
+| SSID-docs | 4331 | G (Dev) | Dokumentations-Site (Astro) |
+
+Siehe [Port Matrix (Aktuell)](../deployments/ports-matrix-current) für vollständige Referenz.
+
+---
+
+## Zusammenfassung
+
+Das SSID-Ökosystem ist eine **mehrschichtige, datenschutzbewusste Architektur**:
+- **SSID (Privat):** Kanonischer Plattform-Kernel
+- **EMS (Privat):** Control Plane für Betrieb
+- **Orchestrator (Privat):** Ausführungs-Engine für Workflows
+- **open-core (Öffentlich):** Sanitiertes SDK für Entwickler
+- **docs (Öffentlich):** Vollständige, benutzerfreundliche Dokumentation
+
+Jedes Repository hat eine **klare Grenze**: Private Repos speichern sensible Logik, während öffentliche Repos sichere, verifiable Abstraktionen exportieren. Dieses Design ermöglicht **offene Governance** (Richtlinien und Regeln sind öffentlich), während es **proprietäre Implementierung** (Verträge und Algorithmen bleiben privat bis zur Audit-Freigabe) schützt.
