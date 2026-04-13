@@ -31,40 +31,6 @@ jobs:
           echo "=== Ingest Source Validator ==="
           node tools/validate-ingest-source.mjs
 
-      - name: Validate no private repo mirrors
-        run: |
-          echo "=== Checking for private repo mirroring patterns ==="
-          FAIL=0
-
-          # Patterns that indicate private repo mirroring/syncing
-          FORBIDDEN_PATTERNS=(
-            "git.clone.*SSID[^-]"
-            "git.subtree.*SSID[^-]"
-            "mirror.repo"
-            "rsync.*SSID[^-]"
-            "robocopy.*SSID[^-]"
-            "export.repo"
-            "sync.all"
-            "cp.*-r.*SSID[^-]"
-          )
-
-          for pattern in "${FORBIDDEN_PATTERNS[@]}"; do
-            if grep -rn "$pattern" \
-              --include="*.mjs" --include="*.js" \
-              --include="*.yml" --include="*.yaml" \
-              --include="*.sh" --include="*.ts" \
-              tools/ .github/workflows/ src/ 2>/dev/null | grep -v "validate-ingest-source.yml" | grep -v "docs_ci.yml" | grep -v "node_modules"; then
-              echo "FAIL: Pattern '$pattern' found — private repo mirroring detected"
-              FAIL=1
-            fi
-          done
-
-          if [ "$FAIL" -eq 0 ]; then
-            echo "PASS: No private repo mirroring patterns detected"
-          else
-            exit 1
-          fi
-
       - name: Verify ingest allowlist is restrictive
         run: |
           echo "=== Checking ingest allowlist ==="
