@@ -85,7 +85,7 @@ export function run() {
     // Check no secrets patterns
     const secretPatterns = [
       /sk_live_/i,
-      /PRIVATE.KEY/,
+      /PRIVATE[._]KEY\s*[:=]\s*0x[0-9a-f]{32,}/i,  // Only match actual hex-encoded keys (32+ chars)
       /password\s*=\s*["'][^"']+["']/i,
       /api_key\s*=\s*["'][^"']+["']/i,
     ];

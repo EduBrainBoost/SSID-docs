@@ -61,8 +61,9 @@ export function run() {
       if (entry.isDirectory()) {
         scanDir(full);
       } else if (/\.(mjs|js|ts|yml|yaml|sh|ps1)$/.test(entry.name)) {
-        // Skip CI workflow files — they contain patterns as scan rules, not real references
-        if (entry.name === 'docs_ci.yml') continue;
+        // Skip pattern definition files — they contain patterns as scan rules, not real references
+        // Per ADR-0001: Workflow File Exclusion from CI Gate Pattern Scans
+        if (entry.name === 'docs_ci.yml' || entry.name === 'validate-ingest-source.mjs' || entry.name === 'validate-ingest-source.yml') continue;
         scanFileForPatterns(full);
       }
     }

@@ -1,0 +1,407 @@
+---
+title: EMS Control Plane (CLI)
+description: Command-line interface (ssidctl) and Portal UI for SSID system administration and operator visibility.
+---
+
+# EMS Control Plane (CLI)
+
+The **External Management System (EMS)** is the control plane for SSID, providing both a command-line interface (**ssidctl**) and a web Portal UI for system administration, evidence management, and policy enforcement.
+
+## Architecture Overview
+
+SSID uses a **3-Plane Model** for operational control:
+
+```
+┌─────────────────────────────────────────────┐
+│         Control Plane (EMS)                 │
+│  ┌─────────────────────────────────────┐   │
+│  │ ssidctl CLI + Portal UI             │   │
+│  │ • Policy enforcement                │   │
+│  │ • Evidence logging                  │   │
+│  │ • Dispatch coordination             │   │
+│  └─────────────────────────────────────┘   │
+└──────────────────┬──────────────────────────┘
+                   │
+         ┌─────────┴─────────┐
+         │                   │
+         ▼                   ▼
+┌──────────────────┐  ┌──────────────────┐
+│  Data Plane      │  │ Evidence Plane   │
+│  (SSID Core)     │  │ (WORM Ledger)    │
+│  • Smart Ctrs.   │  │ • Immutable Log  │
+│  • Policies      │  │ • Hash Chain     │
+│  • Identity      │  │ • Audit Trail    │
+└──────────────────┘  └──────────────────┘
+```
+
+**Control Plane:** EMS (this service) — policy enforcement, operator commands  
+**Data Plane:** SSID Core (git + smart contracts) — canonical platform logic  
+**Evidence Plane:** WORM Store (append-only) — immutable audit trail
+
+## ssidctl CLI
+
+**ssidctl** is the primary command-line tool for SSID operators. It communicates with the EMS backend (port 8100) via REST API.
+
+### Installation
+
+```bash
+# Option 1: From npm registry (recommended)
+npm install -g @ssid/ems-cli
+ssidctl --version
+
+# Option 2: From source (development)
+cd SSID-EMS
+npm install
+npm link
+ssidctl --version
+
+# Option 3: Docker
+docker run -it ssid/ems:latest ssidctl --help
+```
+
+### Configuration
+
+ssidctl reads configuration from `~/.ssid/config.json`:
+
+```json
+{
+  "apiUrl": "http://localhost:8100",
+  "authMethod": "jwt",
+  "token": "eyJhbGciOiJIUzI1NiIs...",
+  "workspace": "default",
+  "verbosity": "info"
+}
+```
+
+**Or use environment variables:**
+
+```bash
+export SSID_API_URL=http://localhost:8100
+export SSID_TOKEN=eyJhbGciOiJIUzI1NiIs...
+ssidctl status
+```
+
+### Core Commands
+
+#### 1. Bootstrap (Initialize EMS state)
+
+```bash
+ssidctl bootstrap --environment local
+
+# Output:
+# ✓ EMS database initialized
+# ✓ Root certificate generated
+# ✓ Policy engine initialized
+# ✓ Evidence chain created
+# ✓ Ready for commands
+```
+
+**Options:**
+- `--environment local|staging|production` — Target environment
+- `--vault-addr URL` — Vault instance address (optional)
+- `--tls-cert FILE` — TLS certificate (production)
+
+#### 2. Validate (Run SoT validator against SSID core)
+
+```bash
+ssidctl validate
+
+# Output:
+# Validating SSID core policies...
+# ✓ 03_core: Identity contracts OK (24 validators)
+# ✓ 12_tooling: CLI guards OK (8 gates)
+# ✓ 16_codex: ADRs OK (root structure valid)
+# ✓ 23_compliance: OPA policies OK (7 rules)
+# ✓ 24_meta_orchestration: Dispatcher OK (registry synced)
+#
+# Overall: PASS (5/5 roots, 0 critical issues)
+```
+
+**Options:**
+- `--strict` — Fail on warnings (default: warnings only)
+- `--roots COMMA_LIST` — Validate specific roots only (e.g., `03_core,12_tooling`)
+- `--json` — Machine-readable output
+
+#### 3. Dispatch (Execute a task via Orchestrator)
+
+```bash
+ssidctl dispatch create --workflow identity-verification \
+  --input-file user-data.json \
+  --priority high
+
+# Output:
+# Task created: task-2026-04-13-001
+# Workflow: identity-verification
+# Status: PENDING
+# Expected duration: ~30s
+# View progress: ssidctl dispatch logs task-2026-04-13-001
+```
+
+**Options:**
+- `--workflow WORKFLOW_NAME` — Workflow to execute
+- `--input-file FILE` — Input data (JSON)
+- `--priority low|normal|high` — Task priority (default: normal)
+- `--timeout SECONDS` — Task timeout (default: 3600)
+
+**Monitor a task:**
+
+```bash
+ssidctl dispatch logs task-2026-04-13-001
+
+# Output:
+# [14:22:45] Task started
+# [14:22:46] Step 1/3: User data validation... OK
+# [14:22:50] Step 2/3: KYC provider request... OK
+# [14:22:55] Step 3/3: VC issuance... OK
+# [14:23:00] Task completed successfully
+```
+
+#### 4. Gates (Policy gate status)
+
+```bash
+ssidctl gates list
+
+# Output:
+# NAME                  STATUS     LAST_RUN          FAILURES
+# secret-scan           ✓ PASS     2026-04-13 14:00  0
+# denylist-gate         ✓ PASS     2026-04-13 14:00  0
+# structure-guard       ✓ PASS     2026-04-13 13:58  0
+# dependency-audit      ✓ PASS     2026-04-13 13:55  0
+```
+
+**Run a specific gate:**
+
+```bash
+ssidctl gates run secret-scan
+
+# Output:
+# Running gate: secret-scan
+# Scanning SSID core for credential patterns...
+# ✓ No secrets found
+# ✓ PASS
+```
+
+#### 5. Evidence (View/export audit trail)
+
+```bash
+ssidctl evidence list --limit 20
+
+# Output:
+# TIME                 AGENT        OPERATION       FILE           SHA256
+# 2026-04-13 14:22:50  orchestrator  deploy         03_core/...    a1b2c3...
+# 2026-04-13 14:15:32  validation    validate       12_tooling/... d4e5f6...
+# 2026-04-13 14:08:10  dispatch      task-complete  session/...    g7h8i9...
+```
+
+**Export evidence chain:**
+
+```bash
+ssidctl evidence export --format json --output evidence.json
+
+# Creates: evidence.json with full chain including hashes
+```
+
+#### 6. Status (System health)
+
+```bash
+ssidctl status
+
+# Output:
+# ========== SSID SYSTEM STATUS ==========
+#
+# Control Plane (EMS):
+#   API: ✓ UP (8100)
+#   Portal: ✓ UP (3100)
+#   Database: ✓ UP
+#
+# Data Plane (SSID Core):
+#   Git Repo: ✓ SYNCED (commit abc123d)
+#   Contracts: ✓ DEPLOYED (Sepolia)
+#   Identity Registry: ✓ OK
+#
+# Evidence Plane:
+#   WORM Store: ✓ UP
+#   Hash Chain: ✓ VALID
+#   Anchor (Ethereum): ✓ OK
+#
+# Runtime (Orchestrator):
+#   API: ✓ UP (3310)
+#   Workers: ✓ 4 healthy
+#   Queue: 0 pending tasks
+#
+# Overall: ✓ HEALTHY
+```
+
+### Advanced Commands
+
+**Sync with SSID core:**
+
+```bash
+ssidctl sync --source git@github.com:EduBrainBoost/SSID.git
+
+# Output:
+# Fetching latest SSID core...
+# ✓ Updated to commit abc123d (5 files changed)
+# ✓ Re-validating policies...
+# ✓ Synced successfully
+```
+
+**Generate test DID:**
+
+```bash
+ssidctl did generate --method ssid --network sepolia
+
+# Output:
+# DID: did:ssid:sepolia:0x1234567890abcdef...
+# Key Material (keep secure!):
+#   Public Key: 0xabcd...
+#   Private Key: (stored in Vault)
+# Document: ./did-document.json
+```
+
+## Portal UI
+
+The **EMS Portal** is a web interface for operators, available at `http://localhost:3100` (development).
+
+### Accessing the Portal
+
+1. **Open browser:** http://localhost:3100
+2. **Login:** Use your SSID account (OAuth, LDAP, or local credentials)
+3. **Dashboard:** Overview of system health and recent activities
+
+### Portal Features
+
+#### Policies Dashboard
+
+View and audit all active policies:
+
+- **Policy Rules:** All 23_compliance OPA rules with descriptions
+- **Policy History:** Changes over time with evidence links
+- **Policy Tests:** Run compliance checks against current state
+- **Export:** Download policy manifest as JSON/YAML
+
+#### Evidence Viewer
+
+Browse immutable audit trail:
+
+- **Filter:** By date, agent, operation type, severity
+- **Details:** Hash chain validation, signature verification
+- **Export:** Download evidence as JSON, CSV, or PDF
+
+#### Dispatch Monitor
+
+Real-time task and workflow monitoring:
+
+- **Active Tasks:** See running workflows with progress
+- **Task History:** Completed tasks with logs and results
+- **Workflow Templates:** Available workflows with parameter forms
+- **Queue Stats:** Task count by priority, average duration, error rate
+
+#### System Status
+
+Real-time health overview:
+
+- **Services:** Status of EMS API, Portal, Orchestrator, SSID Core
+- **Metrics:** Request latency (P50, P95, P99), error rates, throughput
+- **Alerts:** Active incidents, threshold violations, recommendations
+- **Logs:** Searchable audit logs with structured fields
+
+### Portal Workflows
+
+#### Run Identity Verification
+
+1. Click **"Dispatch"** → **"New Workflow"**
+2. Select **"identity-verification"** from dropdown
+3. Upload user data (JSON or form)
+4. Set priority and timeout
+5. Click **"Submit"**
+6. Monitor progress in **"Active Tasks"** panel
+7. Download results (VC credential, verification status)
+
+#### Audit a Policy
+
+1. Click **"Policies"** → Select a policy (e.g., "secret-scan")
+2. Click **"Run Audit"**
+3. Review results: **✓ PASS** or **❌ FAIL** with details
+4. Click **"Remediate"** to auto-fix (if available) or **"Approve Override"** (with evidence)
+
+## 3-Plane Workflow Example
+
+### Full Identity Verification Flow
+
+**User:** Operator via ssidctl or Portal
+
+**Step 1: Control Plane (EMS)**
+```bash
+ssidctl dispatch create --workflow identity-verification \
+  --input-file kyc-data.json
+```
+
+**Step 2: Dispatch Routing**
+- EMS routes task to Orchestrator
+- Orchestrator checks policies (23_compliance gates)
+- Passes through secret-scan, denylist-gate ✓
+
+**Step 3: Data Plane Execution**
+- Orchestrator calls identity-verification workflow
+- SSID Core processes KYC data
+- Issues VC credential (signed with 03_core contracts)
+- Returns credential to Orchestrator
+
+**Step 4: Evidence Logging**
+- EMS logs entire flow to WORM store
+- Hash chain recorded: task → policies → credential → hash
+- Audit trail immutable
+
+**Step 5: Operator Feedback**
+```bash
+ssidctl evidence export --format json
+
+# Output contains full chain with all hashes
+```
+
+## API Reference
+
+For programmatic access, EMS exposes REST API on port 8100:
+
+### Health Check
+
+```bash
+GET /health
+# Response: 200 OK { "status": "healthy" }
+```
+
+### Policy Validation
+
+```bash
+POST /validate
+# Body: { "roots": ["03_core", "12_tooling"] }
+# Response: 200 OK { "result": "PASS", "details": [...] }
+```
+
+### Dispatch Task
+
+```bash
+POST /dispatch/tasks
+# Body: {
+#   "workflow": "identity-verification",
+#   "input": {...},
+#   "priority": "high"
+# }
+# Response: 201 CREATED { "taskId": "...", "status": "PENDING" }
+```
+
+### Evidence Export
+
+```bash
+GET /evidence?format=json&limit=100
+# Response: 200 OK { "events": [...], "chainValid": true }
+```
+
+---
+
+See also:
+- [5-Repo System Topology](../architecture/5-repo-topology) — EMS role and interactions
+- [Orchestrator Runtime](./orchestrator-runtime) — Task execution engine
+- [Port Matrix (Current)](../deployments/ports-matrix-current) — API endpoints
+- [Local Stack Setup](../deployments/local-stack) — Getting started

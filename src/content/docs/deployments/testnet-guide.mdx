@@ -1,0 +1,264 @@
+---
+title: Testnet Deployment Guide
+description: Deploy and test SSID services on Ethereum Sepolia and Polygon Mumbai testnets.
+---
+
+# Testnet Deployment Guide
+
+This guide covers deploying SSID contracts, services, and identity flows on **public testnets** for development and integration testing before mainnet.
+
+## Supported Testnets
+
+### Ethereum Sepolia
+
+- **Network ID:** 11155111
+- **RPC Endpoint:** https://sepolia.infura.io/v3/YOUR_INFURA_KEY
+- **Block Explorer:** https://sepolia.etherscan.io
+- **Faucet:** https://sepoliafaucet.com (requires Alchemy signup) or https://www.alchemy.com/faucets/ethereum-sepolia
+- **Native Token:** Sepolia ETH (free, request from faucet)
+- **Chain Duration:** Permanent testnet (no reset schedule)
+
+**Use for:**
+- Smart contract testing (identity contracts, governance tokens)
+- KYC/KYB flow validation
+- WORM ledger anchor validation (optional)
+
+### Polygon Mumbai
+
+- **Network ID:** 80001
+- **RPC Endpoint:** https://rpc-mumbai.maticvigil.com or https://mumbai.infura.io/v3/YOUR_INFURA_KEY
+- **Block Explorer:** https://mumbai.polygonscan.com
+- **Faucet:** https://faucet.polygon.technology/ (requires Twitter/GitHub)
+- **Native Token:** Polygon Mumbai MATIC (free, request from faucet)
+- **Chain Duration:** Permanent testnet (no reset schedule)
+
+**Use for:**
+- Multi-chain identity testing
+- Cross-chain DID resolution (bridge testing)
+- VC issuance across EVM chains
+
+## Prerequisites
+
+1. **Wallet:** MetaMask or equivalent (test account with private key stored securely in Vault)
+2. **Testnet Funds:** Request from faucets (Sepolia ETH, Mumbai MATIC — free, no mainnet risk)
+3. **RPC Credentials:** Infura, Alchemy, or public node (in `.env`, never committed)
+4. **Git:** Clone SSID-open-core for contract ABIs and deployment scripts
+
+## Environment Setup
+
+### 1. Install Dependencies
+
+```bash
+cd SSID-orchestrator  # or deployment service
+npm install hardhat @nomicfoundation/hardhat-toolbox ethers
+pnpm install --frozen-lockfile
+```
+
+### 2. Configure Testnet RPC
+
+Create `.env.testnet` (never commit):
+
+```bash
+# Sepolia
+SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/YOUR_INFURA_KEY
+SEPOLIA_PRIVATE_KEY=0x...  # Test account only, no mainnet keys
+
+# Mumbai
+MUMBAI_RPC_URL=https://mumbai.infura.io/v3/YOUR_INFURA_KEY
+MUMBAI_PRIVATE_KEY=0x...   # Test account only, no mainnet keys
+
+# Vault (production reference)
+VAULT_ADDR=https://vault.ssid.dev  # Staging, not prod
+VAULT_TOKEN=hvs_...  # Staging token only
+```
+
+### 3. Request Testnet Funds
+
+**Sepolia ETH:**
+```bash
+# Visit https://sepoliafaucet.com
+# Paste your wallet address
+# Receive 0.5 ETH (can repeat daily)
+# Verify in block explorer: https://sepolia.etherscan.io/address/YOUR_ADDRESS
+```
+
+**Mumbai MATIC:**
+```bash
+# Visit https://faucet.polygon.technology/
+# Select Mumbai (Polygon Testnet)
+# Paste your wallet address
+# Receive 0.5 MATIC (can repeat every 24h)
+# Verify: https://mumbai.polygonscan.com/address/YOUR_ADDRESS
+```
+
+## Deploy Identity Contracts
+
+### Sepolia Deployment
+
+```bash
+# 1. Compile contracts
+npx hardhat compile --network sepolia
+
+# 2. Deploy identity resolver
+npx hardhat run scripts/deploy-identity.js --network sepolia
+
+# 3. Verify on block explorer
+# (Contract address printed to stdout)
+# Visit: https://sepolia.etherscan.io/address/0x...
+```
+
+**Expected Output:**
+```
+IdentityResolver deployed to: 0x1234567890abcdef...
+  Network: Sepolia (11155111)
+  Transaction: 0xabcd...
+  Gas Used: ~1.2M
+```
+
+### Mumbai Deployment
+
+```bash
+# 1. Deploy on Mumbai
+npx hardhat run scripts/deploy-identity.js --network mumbai
+
+# 2. Verify
+# Visit: https://mumbai.polygonscan.com/address/0x...
+```
+
+## Register DIDs on Testnet
+
+After deployment, register identity contracts on-chain:
+
+```bash
+# 1. Generate test DID
+node scripts/generate-test-did.js --network sepolia
+
+# 2. Anchor DID to Sepolia
+npx hardhat run scripts/anchor-did.js --network sepolia \
+  --did did:ssid:sepolia:0x1234567890abcdef... \
+  --resolver 0xresolver... \
+  --key-material-hash sha3(...) \
+  --did-document ./test-did.json
+
+# 3. Verify DID resolution
+curl -X GET http://localhost:3310/did-resolution \
+  -H "Content-Type: application/json" \
+  -d '{"did":"did:ssid:sepolia:0x1234567890abcdef..."}'
+
+# Expected: 200 OK with DID document, public key material
+```
+
+## Run Integration Tests
+
+### Full Flow Test (Sepolia + Mumbai)
+
+```bash
+# 1. Set environment
+export TESTNET=sepolia,mumbai
+export RPC_SEPOLIA=https://sepolia.infura.io/v3/YOUR_KEY
+export RPC_MUMBAI=https://mumbai.infura.io/v3/YOUR_KEY
+
+# 2. Run full identity flow
+pnpm test:integration --testnet
+
+# 3. Expected results:
+#   ✓ DID generation
+#   ✓ Sepolia contract deploy
+#   ✓ Mumbai cross-chain anchor
+#   ✓ VC issuance
+#   ✓ Verification
+```
+
+### KYC/KYB Flow (Sepolia Only)
+
+```bash
+pnpm test:kyc --network sepolia
+
+# Steps tested:
+# - Compliance check
+# - KYC provider callback (Sumsub/iDenfy/etc. staging)
+# - VC credential issuance
+# - Verification
+```
+
+## Health Checks
+
+### Service Health
+
+```bash
+# Orchestrator (must be running on 3310)
+curl -X GET http://localhost:3310/health
+
+# Expected: 200 OK
+{
+  "status": "healthy",
+  "services": {
+    "ethereum": { "network": "sepolia", "synced": true },
+    "polygon": { "network": "mumbai", "synced": true },
+    "identity_resolver": { "deployed": true, "address": "0x..." }
+  }
+}
+```
+
+### Contract Verification
+
+```bash
+# Check Sepolia resolver is deployed
+curl -X GET https://sepolia.etherscan.io/api \
+  -d "module=contract&action=getabi&address=0x..."
+
+# Check Mumbai resolver
+curl -X GET https://mumbai.polygonscan.com/api \
+  -d "module=contract&action=getabi&address=0x..."
+```
+
+## Testnet Limitations & Notes
+
+⚠️ **No Guarantees:**
+- Testnet state can be reset without notice (historically uncommon for Sepolia/Mumbai)
+- Transaction finality may be slower than mainnet
+- Gas estimation may vary
+
+⚠️ **Not for Production:**
+- All testnet funds are worthless (no mainnet equivalent)
+- Private keys should be test-only, never reuse mainnet keys
+- No SLA or guarantee of uptime
+
+✅ **Testing Best Practices:**
+- Always test full flows end-to-end (DID → VC → Verification)
+- Verify contracts on block explorer after deploy
+- Use Vault staging for credential testing (never prod credentials)
+- Keep testnet deployments separate from mainnet in configuration
+
+## Troubleshooting
+
+**Contract Deploy Fails: "Insufficient gas"**
+```bash
+# Increase gas limit
+npx hardhat run scripts/deploy-identity.js --network sepolia \
+  --gas-limit 2000000
+```
+
+**DID Resolution Returns 404**
+```bash
+# Verify contract is deployed
+curl https://sepolia.etherscan.io/api?module=account&action=getcode&address=0x...
+
+# If code is empty, contract didn't deploy
+# Rerun deployment and check transaction status
+```
+
+**Testnet Faucet Rate Limited**
+```bash
+# Wait 24 hours between requests, or
+# Use multiple wallet addresses for testing
+# Or request funds in project Discord/community channels
+```
+
+---
+
+See also:
+- [Mainnet Readiness Roadmap](./mainnet-readiness) — Next steps toward production
+- [Port Matrix (Current)](./ports-matrix-current) — Service endpoints
+- [Local Stack Setup](./local-stack) — Offline testing before testnet
+- [Testnet Addresses & RPC](./testnet-addresses) — Contract ABIs and network configs
