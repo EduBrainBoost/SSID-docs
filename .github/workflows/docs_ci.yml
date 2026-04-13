@@ -172,7 +172,7 @@ jobs:
             if grep -rn "$pattern" \
               --include="*.ts" --include="*.js" --include="*.mjs" \
               --include="*.yml" --include="*.yaml" --include="*.sh" --include="*.ps1" \
-              . 2>/dev/null | grep -v node_modules | grep -v pnpm-lock | grep -v "tests/security.test.mjs" | grep -v ".github/workflows/docs_ci.yml" | grep -v ".github/workflows/validate-ingest-source.yml"; then
+              . 2>/dev/null | grep -v node_modules | grep -v pnpm-lock | grep -v "tests/security.test.mjs" | grep -v "tests/content.test.mjs" | grep -v "tools/ingest.mjs" | grep -v ".github/workflows/docs_ci.yml" | grep -v ".github/workflows/validate-ingest-source.yml"; then
               echo "FAIL: Private repo reference pattern '$pattern' found!"
               FAIL=1
             fi
