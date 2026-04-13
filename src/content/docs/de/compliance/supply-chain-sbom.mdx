@@ -1,0 +1,65 @@
+---
+title: "SBOM-Generierung"
+description: "Software Bill of Materials Generierung mit SPDX und CycloneDX Standards"
+---
+
+## Ueberblick
+
+Eine Software Bill of Materials (SBOM) bietet einen maschinenlesbaren Bestand aller Komponenten, Bibliotheken und Abhaengigkeiten im SSID-Oekosystem.
+
+## Standards-Vergleich
+
+| Feature | SPDX (ISO 5962:2021) | CycloneDX (ECMA-424) |
+|---------|----------------------|---------------------|
+| Standardisierung | ISO-Standard | ECMA-Standard |
+| Fokus | Lizenz-Compliance | Sicherheit und Risiko |
+| Vulnerability-Verknuepfung | Via externe Tools | Native VEX-Unterstuetzung |
+| Tooling-Reife | Gereift | Schnell wachsend |
+| SSID-Empfehlung | Sekundaer | **Primaer** |
+
+## Generierung
+
+### Von Python-Abhaengigkeiten
+
+```bash
+# CycloneDX aus Requirements
+pip install cyclonedx-bom
+cyclonedx-py requirements -i requirements.lock -o sbom.json --format json
+
+# SPDX aus pip
+pip install spdx-tools
+python -m spdx_tools.cli generate -i requirements.lock -o sbom.spdx.json
+```
+
+### CI-Artefakt-Integration
+
+```yaml
+- name: Generiere SBOM
+  run: cyclonedx-py requirements -i requirements.lock -o sbom.cdx.json --format json
+
+- name: Lade SBOM als Artefakt hoch
+  uses: actions/upload-artifact@v4
+  with:
+    name: sbom-${{ github.sha }}
+    path: sbom.cdx.json
+    retention-days: 365
+```
+
+## Verifizierung
+
+```bash
+# Validiere SBOM-Schema
+cyclonedx validate --input-file sbom.cdx.json --input-format json
+
+# Pruefe auf bekannte Sicherheitsluecken
+grype sbom:sbom.cdx.json
+```
+
+## Inhalt
+
+Das SBOM enthaelt fuer jede Abhaengigkeit:
+- Paket-Name und Version
+- SHA-256-Hash
+- Lizenz-Identifier (SPDX-Format)
+- Source-Repository-URL
+- Abhaengigkeits-Beziehung (direkt vs transitiv)

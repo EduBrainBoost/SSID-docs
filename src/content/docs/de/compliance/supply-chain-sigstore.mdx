@@ -1,0 +1,60 @@
+---
+title: "Artifact-Signatur mit Sigstore"
+description: "Schluessellose Signatur und Verifizierung mit Cosign, Fulcio und Rekor"
+---
+
+## Ueberblick
+
+[Sigstore](https://sigstore.dev/) bietet schluessellose Code-Signatur — keine langlebigen Schluessel zum Verwalten, Rotieren oder Schuetzen.
+
+## Komponenten
+
+| Komponente | Zweck |
+|-----------|---------|
+| **Cosign** | Signiere und verifiziere Artefakte (Container, Blobs, SBOMs) |
+| **Fulcio** | Stelle kurzlebige Signaturzertifikate via OIDC aus |
+| **Rekor** | Unveraenderliches Transparenz-Log fuer Signatur-Events |
+
+## Signatur-Workflow
+
+```bash
+# Installiere cosign
+go install github.com/sigstore/cosign/v2/cmd/cosign@latest
+
+# Schluessellose Signatur (oeffnet Browser fuer OIDC-Auth)
+cosign sign-blob --bundle artifact.bundle artifact.tar.gz
+
+# Container-Image-Signatur
+cosign sign ghcr.io/edubrainboost/ssid-ems:latest
+```
+
+## Verifizierung
+
+```bash
+# Verifiziere Blob-Signatur
+cosign verify-blob \
+  --bundle artifact.bundle \
+  --certificate-identity user@example.com \
+  --certificate-oidc-issuer https://accounts.google.com \
+  artifact.tar.gz
+
+# Verifiziere Container-Image
+cosign verify \
+  --certificate-identity-regexp '.*@edubrainboost.*' \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+  ghcr.io/edubrainboost/ssid-ems:latest
+```
+
+## CI-Integration
+
+```yaml
+- name: Signiere Artefakt
+  uses: sigstore/cosign-installer@v3
+- run: cosign sign-blob --yes --bundle evidence.bundle evidence.zip
+  env:
+    COSIGN_EXPERIMENTAL: "1"
+```
+
+## Transparenz-Log
+
+Alle Signatur-Events werden in [Rekor](https://rekor.sigstore.dev/) aufgezeichnet — ein manipulationsfestes, append-only Log. Durchsuche Eintraege unter `rekor.sigstore.dev/api/v1/log/entries`.
