@@ -1,0 +1,67 @@
+---
+title: "Observability"
+description: "Monitoring, Metriken, Logging und Health Checks für das SSID Ökosystem."
+---
+
+Observability sichert Operational Visibility in die Gesundheit und Performance der SSID Infrastruktur.
+
+## Aktueller State: CLI-Basierte Health Checks
+
+Der `ssidctl doctor` Befehl bietet umfassende Health Verifikation:
+
+```
+$ ssidctl doctor
+  Tools:
+  OK    python: Python 3.14.3 (min: 3.11.0)
+  OK    git: git version 2.53.0 (min: 2.40.0)
+  OK    gh: gh version 2.87.3 (min: 2.40.0)
+  OK    ruff: ruff 0.15.4 (min: 0.9.0)
+  OK    mypy: mypy 1.19.1 (min: 1.10.0)
+
+  Paths:
+  OK    ssid_repo, ems_repo, state_dir, evidence_dir, vault_dir
+
+  State subdirs:
+  OK    11/11 subdirectories present
+
+  Result: PASS
+```
+
+## CI-Basiertes Monitoring
+
+GitHub Actions Workflows bieten automatisiertes Monitoring:
+
+| Workflow | Schedule | Checks |
+|----------|----------|--------|
+| `ssid_ci` | Every push/PR | Full gate chain + tests + secret scan |
+| `cron_daily_structure_gate` | Daily 02:00 UTC | ROOT-24-LOCK Validierung |
+| `cron_daily_sanctions` | Daily 03:15 UTC | Sanctions List Aktualität |
+| `cron_quarterly_audit` | Quarterly | Umfassender Audit Report |
+
+## Geplant: OpenTelemetry Integration
+
+Der Ziel-Observability Stack folgt dem [OpenTelemetry](https://opentelemetry.io/) Standard:
+
+| Layer | Technology | Zweck |
+|-------|-----------|-------|
+| Traces | OpenTelemetry SDK | End-to-End Request Tracing |
+| Metrics | Prometheus | Time-Series Metriken Collection |
+| Logs | Grafana Loki | Log Aggregation (Label-Indexed) |
+| Dashboards | Grafana | Visualisierung und Alerting |
+
+### Geplante SLOs
+
+| SLO | Target | Measurement |
+|-----|--------|-------------|
+| Gate Chain Latency | < 5 min (p95) | CI Workflow Duration |
+| Check-Run Success Rate | > 95% | Passing / Total Runs |
+| Evidence Write Success | 100% | WORM Write Operations |
+| Secret Scan Coverage | 100% of PRs | CI Run Count vs PR Count |
+| Claude API Availability | > 99% | Successful / Total Invocations |
+
+### Geplante Dashboards
+
+1. **Gate Performance**: Webhook Latency, Queue Depth, Check-Run Success Rate
+2. **Runner Health**: Pipeline Duration, Cache Hit Rate, Utilization
+3. **Evidence Integrity**: Write Success, WORM Retention Status, Hash Chain Validity
+4. **AI Gateway**: Request Correlation, Rate-Limit Hits, Spend Consumption

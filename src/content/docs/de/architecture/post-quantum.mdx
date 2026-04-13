@@ -1,0 +1,49 @@
+---
+title: "Post-Quantum Kryptographie"
+description: "Quantum-sichere Algorithmen und Migrationsstrategie in SSID (Root 21)."
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<Aside type="caution">
+Diese Seite ist ein **Draft Shell**. Root 21 befindet sich in geplant/Entwicklungs-Status. Inhalt wird erweitert wenn Implementation fortschreitet.
+</Aside>
+
+# Post-Quantum Kryptographie
+
+Root 21 (`post_quantum_crypto`) führt Quantum-sichere Kryptographische Primitive in SSID ein, nach dem NIST Post-Quantum Cryptography Standardisierungsprozess.
+
+## NIST PQC Algorithmen
+
+| Standard | Zweck | Ersetzt |
+|----------|-------|---------|
+| **ML-KEM** (FIPS 203) | Key Encapsulation | ECDH, RSA-KEM |
+| **ML-DSA** (FIPS 204) | Digital Signatures | ECDSA, EdDSA |
+| **SLH-DSA** (FIPS 205) | Stateless Hash-Based Signatures | — |
+
+## Migrationsphasen
+
+Der Übergang von Klassischer zu Post-Quantum Kryptographie folgt drei Phasen:
+
+1. **Hybrid** — Klassische und PQC Algorithmen laufen parallel. Beide müssen erfolgreich sein für einen Handshake oder Signature.
+2. **PQC-bevorzugt** — PQC ist der Standard. Klassische Algorithmen bleiben als Fallback für Interoperabilität verfügbar.
+3. **PQC-only** — Klassische Algorithmen sind deprecated und werden aus der Allowlist entfernt.
+
+<Aside type="note">
+Das Create-on-Use Pattern wird angewendet. PQC Primitive werden instantiiert wenn ein konsumierender Root oder Shard sie referenziert.
+</Aside>
+
+## Enterprise Tier
+
+Die **Global Proof Suite** (2000 EUR/month) enthält Zugang zu NIST PQC Algorithmen mit 10-Jahr Evidence Retention.
+
+## Developer Reward Allocation
+
+| Share | Percentage |
+|-------|------------|
+| Developer | 0.70% |
+| System | 2.30% |
+
+---
+
+Draft Shell — derived from local SoT, Inhalt unterliegt Erweiterung wenn Root 21 reift.

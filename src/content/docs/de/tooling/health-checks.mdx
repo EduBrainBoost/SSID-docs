@@ -1,0 +1,70 @@
+---
+title: Health Checks
+description: Lokale und CI Health Checks zur Verifikation von SSID System-Integrität.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Health Checks
+
+SSID bietet Health Checks auf mehreren Levels zur Verifikation der System-Integrität ohne Exposition von Secrets.
+
+## Lokale Health Checks
+
+Ausgeführt vom SSID Repository Root:
+
+```bash
+# Vollständiger System Health Check
+python 12_tooling/cli/ssid_health.py --check all
+
+# Spezifischen Root checken
+python 12_tooling/cli/ssid_health.py --check root:02_audit_logging
+
+# Evidence Chain Integrität verifizieren
+python 12_tooling/cli/ssid_health.py --check evidence-chain
+```
+
+## Check Kategorien
+
+| Check | Was es Verifiziert |
+|-------|------------------|
+| **Structure** | Alle 24 Roots und 16 Shards existieren mit korrektem Layout |
+| **Manifests** | Hybrid Charts sind valid JSON und Schema-konform |
+| **Hashes** | Artefakt Hashes stimmen mit berechneten Werten überein |
+| **Evidence** | WORM Log Einträge sind Append-Only, keine Lücken |
+| **Dependencies** | Alle deklarierten Abhängigkeiten resolven |
+| **Secrets** | Keine Zugangsdaten in Source Dateien erkannt |
+
+## CI Health Checks
+
+Diese laufen automatisch bei jedem PR:
+
+```yaml
+jobs:
+  health:
+    steps:
+      - name: Structure check
+        run: python 12_tooling/cli/ssid_health.py --check structure
+      - name: Secret scan
+        run: python 12_tooling/cli/ssid_health.py --check secrets
+      - name: Manifest validation
+        run: python 12_tooling/cli/ssid_health.py --check manifests
+```
+
+<Aside type="tip">
+Health Checks produzieren Machine-Readable JSON Output für Integration mit Monitoring Systemen. Nutze `--format json` Flag.
+</Aside>
+
+## Health Report Format
+
+```json
+{
+  "timestamp_utc": "2026-02-28T12:00:00Z",
+  "checks": [
+    { "name": "structure", "result": "PASS", "details": "24/24 roots valid" },
+    { "name": "secrets", "result": "PASS", "details": "0 secrets found" },
+    { "name": "evidence", "result": "PASS", "details": "chain intact" }
+  ],
+  "overall": "PASS"
+}
+```

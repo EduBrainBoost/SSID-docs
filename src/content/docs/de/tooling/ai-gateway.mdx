@@ -1,0 +1,82 @@
+---
+title: "AI Gateway"
+description: "Kontrollierte Claude Integration mit Model Allowlist, Prompt Redaction, Rate Limiting und Output Guard."
+---
+
+Das AI Gateway kontrolliert alle Interaktionen zwischen dem EMS und Claude, erzwingt Security, Cost und Governance Policies.
+
+## Architektur
+
+```
+Prompt → Pre-flight Redaction → Model Allowlist → Rate Limiter → Claude CLI → Output Guard → Response
+```
+
+Jeder Schritt wird erzwungen durch das `subprocess_driver.py` Modul in `ssidctl`.
+
+## Model Allowlist
+
+Nur genehmigte Modelle können aufgerufen werden:
+
+| Model ID | Use Case |
+|----------|----------|
+| `claude-sonnet-4-6` | Standard: Code Review, PR Summaries |
+| `claude-opus-4-6` | Complex Analysis, Architecture Review |
+| `claude-haiku-4-5-20251001` | Fast, Kosteneffektiv Routine Checks |
+
+Requests mit unautorisierten Modellen geben Exit Code -3 zurück (blocked).
+
+## Pre-Flight Prompt Redaction
+
+Bevor ein Prompt das LLM erreicht:
+
+1. `contains_secrets(prompt)` scannt nach API Keys, Tokens, PII, Paths
+2. Falls gefunden: `sanitize_text(prompt)` ersetzt mit sicheren Platzhaltern
+3. Original Prompt Hash (`sha256:...`) geloggt für Audit Trail
+4. Redacted Prompt an Claude gesendet
+
+Dies verhindert versehentliche Secret Leakage zum LLM Provider.
+
+## Rate Limiting
+
+| Limit | Default | Configurable |
+|-------|---------|-------------|
+| Per Minute | 10 Calls | `claude.rate_limit_per_minute` |
+| Per Hour | 100 Calls | `claude.rate_limit_per_hour` |
+
+Überschrittene Limits geben Exit Code -4 mit beschreibendem Error zurück.
+
+## Output Guard
+
+LLM Responses werden auf gefährliche Patterns gescannt bevor sie verwendet werden:
+
+- `rm -rf`, `DROP TABLE`, `DELETE FROM`
+- `git push --force`, `git reset --hard`
+- `--no-verify`, `sudo rm`, `format c:`
+
+Gekennzeichnete Patterns werden in `output_guard_flags` aufgezeichnet aber **nicht** blockiert. LLM Output wird niemals direkt ausgeführt — es wird als Vorschlag für Human Review geschrieben.
+
+## OWASP LLM Top 10 Alignment
+
+| Risk | Mitigation |
+|------|-----------|
+| LLM01: Prompt Injection | Pre-flight Redaction, Kein direktes Output Execution |
+| LLM02: Insecure Output | Output Guard Flags, Human Review erforderlich |
+| LLM03: Training Data Poisoning | Anthropic API (Managed), Kein Fine-Tuning |
+| LLM06: Sensitive Info Disclosure | Prompt Redaction, Hash-only Evidence |
+| LLM08: Excessive Agency | Tool/Action Allowlisting via EMS Scope Firewall |
+
+## Graceful Degradation
+
+Wenn Claude nicht verfügbar ist (Quota überschritten, API Outage):
+- Alle CI Gates funktionieren weiterhin (Python/OPA, nicht LLM-abhängig)
+- AI-unterstützte Features deaktiviert (Code Review, PR Summaries)
+- **Kein Merge Block**: Claude Unavailability blockiert nicht Merges
+
+## NIST AI RMF Alignment
+
+Das AI Gateway implementiert Controls aus dem [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework):
+
+- **Govern**: Model Allowlist, Rate Limits, Spend Controls
+- **Map**: Risk Assessment für Prompt Injection, Data Leakage
+- **Measure**: Output Guard Metriken, Rate Limit Tracking
+- **Manage**: Graceful Degradation, Incident Response (RB-005)

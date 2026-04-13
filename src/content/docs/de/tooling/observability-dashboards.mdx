@@ -1,0 +1,56 @@
+---
+title: "Grafana Dashboard Spezifikationen"
+description: "Dashboard Definitionen für Gate Performance, Runner Health, Evidence Integrität und AI Gateway Monitoring"
+---
+
+## Dashboard Übersicht
+
+Vier primäre Dashboards bieten Operational Visibility über das SSID Ökosystem.
+
+## 1. Gate Performance Dashboard
+
+Überwacht Webhook Intake, Gate Execution und Check-Run Outcomes.
+
+| Panel | Metric | Alert Threshold |
+|-------|--------|-----------------|
+| Webhook Latency | `gate.webhook_latency_ms` (p95) | > 5000ms |
+| Queue Depth | `gate.queue_depth` | > 50 |
+| Check-Run Success Rate | `gate.check_run_success_ratio` | < 0.95 |
+| Gate Duration | `gate.duration_ms` Histogram | p99 > 300000ms |
+
+## 2. Runner Health Dashboard
+
+Pipeline Execution und Resource Utilization.
+
+| Panel | Metric | Alert Threshold |
+|-------|--------|-----------------|
+| Pipeline Duration | `runner.pipeline_duration_ms` | p95 > 600000ms |
+| Cache Hit Rate | `runner.cache_hit_ratio` | < 0.5 |
+| Utilization | `runner.cpu_utilization_percent` | > 90% sustained |
+| Active Runs | `runner.active_runs` Gauge | > 10 |
+
+## 3. Evidence Integrität Dashboard
+
+WORM Storage, Hash Chain und Evidence Write Monitoring.
+
+| Panel | Metric | Alert Threshold |
+|-------|--------|-----------------|
+| Write Success | `evidence.write_success_ratio` | < 1.0 (any failure = P0) |
+| WORM Retention | `evidence.worm_retention_days` | < 365 |
+| Hash Chain Validity | `evidence.chain_valid` Boolean | false = P0 |
+| Chain Length | `evidence.chain_block_count` | Gauge |
+
+## 4. AI Gateway Dashboard
+
+Claude API Usage, Rate Limiting und Spend Tracking.
+
+| Panel | Metric | Alert Threshold |
+|-------|--------|-----------------|
+| Request Correlation | `ai.request_correlation_id` | - |
+| Rate Limit Hits | `ai.rate_limit_hits_total` | > 10/min |
+| Spend (USD) | `ai.spend_usd_total` | > Daily Budget |
+| Response Latency | `ai.response_latency_ms` | p95 > 30000ms |
+
+## Provisioning
+
+Dashboards werden bereitgestellt via Grafana JSON Dateien in `config/grafana/dashboards/`.
