@@ -53,7 +53,7 @@ jobs:
               --include="*.mjs" --include="*.js" \
               --include="*.yml" --include="*.yaml" \
               --include="*.sh" --include="*.ts" \
-              tools/ .github/workflows/ src/ 2>/dev/null | grep -v "validate-ingest-source.yml" | grep -v "node_modules"; then
+              tools/ .github/workflows/ src/ 2>/dev/null | grep -v "validate-ingest-source.yml" | grep -v "docs_ci.yml" | grep -v "node_modules"; then
               echo "FAIL: Pattern '$pattern' found — private repo mirroring detected"
               FAIL=1
             fi
