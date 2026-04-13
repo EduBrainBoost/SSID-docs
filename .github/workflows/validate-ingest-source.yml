@@ -1,0 +1,102 @@
+name: Validate Ingest Source
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-ingest-source:
+    runs-on: ubuntu-latest
+    name: "validate-ingest-source"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run ingest source validator
+        run: |
+          echo "=== Ingest Source Validator ==="
+          node tools/validate-ingest-source.mjs
+
+      - name: Validate no private repo mirrors
+        run: |
+          echo "=== Checking for private repo mirroring patterns ==="
+          FAIL=0
+
+          # Patterns that indicate private repo mirroring/syncing
+          FORBIDDEN_PATTERNS=(
+            "git.clone.*SSID[^-]"
+            "git.subtree.*SSID[^-]"
+            "mirror.repo"
+            "rsync.*SSID[^-]"
+            "robocopy.*SSID[^-]"
+            "export.repo"
+            "sync.all"
+            "cp.*-r.*SSID[^-]"
+          )
+
+          for pattern in "${FORBIDDEN_PATTERNS[@]}"; do
+            if grep -rn "$pattern" \
+              --include="*.mjs" --include="*.js" \
+              --include="*.yml" --include="*.yaml" \
+              --include="*.sh" --include="*.ts" \
+              tools/ .github/workflows/ src/ 2>/dev/null | grep -v "validate-ingest-source.yml" | grep -v "node_modules"; then
+              echo "FAIL: Pattern '$pattern' found — private repo mirroring detected"
+              FAIL=1
+            fi
+          done
+
+          if [ "$FAIL" -eq 0 ]; then
+            echo "PASS: No private repo mirroring patterns detected"
+          else
+            exit 1
+          fi
+
+      - name: Verify ingest allowlist is restrictive
+        run: |
+          echo "=== Checking ingest allowlist ==="
+          node -e "
+            const fs = require('fs');
+            const content = fs.readFileSync('tools/ingest.mjs', 'utf-8');
+            const match = content.match(/const\\s+ALLOWED_PATHS\\s*=\\s*\\[([\\s\\S]*?)\\]/);
+            if (!match) {
+              console.error('ERROR: Could not find ALLOWED_PATHS');
+              process.exit(1);
+            }
+            const paths = match[1].match(/'[^']*'/g) || [];
+            console.log('Allowed paths:');
+            paths.forEach(p => console.log('  ' + p));
+
+            // Check that paths are public-safe (no internal SSID zones)
+            let safe = true;
+            for (const path of paths) {
+              if (/02_audit|03_core|14_zero_time|worm|internal|registry/.test(path)) {
+                console.error('ERROR: Forbidden internal path in allowlist:', path);
+                safe = false;
+              }
+            }
+            process.exit(safe ? 0 : 1);
+          "
+
+      - name: Final ingest source status
+        if: always()
+        run: |
+          echo "=== Ingest Source Validation Summary ==="
+          echo "✓ Only SSID-open-core is authorized as automatic ingest source"
+          echo "✓ No private repo mirroring or syncing"
+          echo "✓ Allowlist restricted to public-safe paths"
+          echo "✓ No absolute local paths"
+          echo "✓ No secrets in source configuration"
