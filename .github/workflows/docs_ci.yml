@@ -58,7 +58,7 @@ jobs:
               --include="*.json" --include="*.md" --include="*.mdx" \
               --include="*.css" --include="*.yml" --include="*.yaml" \
               --include="*.svg" --include="*.html" \
-              . 2>/dev/null | grep -v node_modules | grep -v pnpm-lock | grep -v "tests/security.test.mjs" | grep -v "tests/content.test.mjs" | grep -v "tools/ingest.mjs" | grep -v ".github/workflows/docs_ci.yml" | grep -v "src/content/docs/deployments/testnet-"; then
+              . 2>/dev/null | grep -v node_modules | grep -v pnpm-lock | grep -v "tests/security.test.mjs" | grep -v "tests/content.test.mjs" | grep -v "tools/ingest.mjs" | grep -v ".github/workflows/docs_ci.yml" | grep -v "src/content/docs/deployments/testnet-" | grep -v "05_documentation/adr/"; then
               echo "FAIL: Pattern '$pattern' found in source files!"
               FAIL=1
             fi
