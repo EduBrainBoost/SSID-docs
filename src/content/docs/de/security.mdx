@@ -1,0 +1,39 @@
+---
+title: Sicherheit & Responsible Disclosure
+description: Wie Sicherheitsluecken im SSID-Projekt gemeldet werden.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Sicherheitsluecke melden
+
+<Aside type="caution">
+**Erstellen Sie KEIN** oeffentliches GitHub-Issue fuer Sicherheitsluecken.
+</Aside>
+
+Falls Sie eine Sicherheitsluecke in einem SSID-Repository entdecken, melden Sie diese bitte verantwortungsvoll:
+
+1. Nutzen Sie [GitHubs private Sicherheitsmeldung](https://github.com/EduBrainBoost/SSID-docs/security/advisories/new)
+2. Fuegen Sie eine klare Beschreibung und Reproduktionsschritte bei
+3. Geben Sie angemessene Zeit fuer einen Fix vor oeffentlicher Bekanntmachung
+
+Wir bestaetigen Meldungen innerhalb von **48 Stunden** und liefern eine Fix-Zeitschiene innerhalb von **7 Tagen**.
+
+## Geltungsbereich
+
+| Repository | Bereich | Hinweise |
+|------------|---------|----------|
+| **SSID-docs** | Oeffentliche Dokumentationsseite | Keine Secrets, keine Credentials |
+| **SSID-open-core** | Oeffentlicher bereinigter Export | Deny-Glob + Secret-Scan erzwungen |
+| **SSID** (privat) | Kern-Identitaetssystem | Zusaetzliche Sicherheitskontrollen |
+| **EMS** (privat) | External Management System | Evidence-Store, Guard/Gate-Matrix |
+
+## Sicherheitskontrollen
+
+Diese Dokumentationsseite erzwingt:
+
+- **Secret-Scanning** bei jedem PR (musterbasierte Erkennung)
+- **Denylist-Gate** blockiert verbotene Dateitypen, Pfade und absolute Pfad-Leaks
+- **Ingest-Validierung** stellt sicher, dass nur SSID-open-core (oeffentlich) als Quelle dient
+- **Keine direkten Commits** auf `main` (PR-Only-Governance)
+- **WORM-Evidence** fuer alle Merge-Ereignisse

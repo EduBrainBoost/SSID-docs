@@ -8,6 +8,9 @@ const tests = [
   { name: 'Content Tests', module: './content.test.mjs' },
   { name: 'Theme Tests', module: './theme.test.mjs' },
   { name: 'Security Tests', module: './security.test.mjs' },
+  { name: 'Sidebar Completeness Tests', module: './sidebar-completeness.test.mjs' },
+  { name: 'Locale Tests', module: './locale.test.mjs' },
+  { name: 'Befund Validation Stress Tests', module: './stress-befund-validation.test.mjs' },
 ];
 
 let passed = 0;

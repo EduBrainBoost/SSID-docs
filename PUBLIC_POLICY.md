@@ -34,7 +34,7 @@ SSID-docs is a **public** repository. Every file is world-readable.
 - `**/*credential*`, `**/*secret*` (credential files)
 
 ### Content patterns — never include in any file
-- Absolute local paths: `C:\Users\...`, `/home/.../SSID`
+- Absolute local paths: `<WINDOWS_HOME_PATH>`, `/home/.../<PROJECT>`
 - Private keys, API keys, tokens, passwords
 - GitHub personal access tokens (`ghp_*`, `gho_*`)
 - References to private SSID repo internals
