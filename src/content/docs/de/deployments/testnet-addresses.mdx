@@ -1,0 +1,264 @@
+---
+title: Testnet Adressen & RPC
+description: Contract Adressen, RPC Endpoints und ABI References für Ethereum Sepolia und Polygon Mumbai.
+---
+
+# Testnet Adressen & RPC
+
+Vollständige Referenz für deployed Contract Adressen, RPC Endpoints und ABI Dokumentation auf Public Testnets.
+
+## RPC Endpoints
+
+### Ethereum Sepolia
+
+| Provider | RPC URL | Rate Limit | Status |
+|----------|---------|-----------|--------|
+| **Infura** | `https://sepolia.infura.io/v3/{PROJECT_ID}` | 10K req/day free | ✅ Aktiv |
+| **Alchemy** | `https://eth-sepolia.g.alchemy.com/v2/{API_KEY}` | 300 req/sec | ✅ Aktiv |
+| **QuickNode** | `https://withered-compatible-isle.quiknode.pro/...` | 500K req/month | ✅ Aktiv |
+| **Public (unstable)** | `https://rpc.sepolia.org` | Limited | ⚠️ Unstabil |
+
+**Chain ID:** 11155111  
+**Gas Token:** Sepolia ETH  
+**Block Time:** ~12 Sekunden  
+**Faucet:** https://sepoliafaucet.com
+
+### Polygon Mumbai
+
+| Provider | RPC URL | Rate Limit | Status |
+|----------|---------|-----------|--------|
+| **Infura** | `https://mumbai.infura.io/v3/{PROJECT_ID}` | 10K req/day free | ✅ Aktiv |
+| **Alchemy** | `https://polygon-mumbai.g.alchemy.com/v2/{API_KEY}` | 300 req/sec | ✅ Aktiv |
+| **MaticVigil** | `https://rpc-mumbai.maticvigil.com` | Public | ✅ Aktiv |
+| **Public** | `https://rpc.ankr.com/polygon_mumbai` | Limited | ⚠️ Unstabil |
+
+**Chain ID:** 80001  
+**Gas Token:** Polygon Mumbai MATIC  
+**Block Time:** ~2 Sekunden  
+**Faucet:** https://faucet.polygon.technology
+
+## Deployed Contract Adressen
+
+### Sepolia Contracts
+
+**Hinweis:** Contract Adressen sind Deployment-spezifisch. Verwenden Sie den Block Explorer, um aktuellen Status zu verifizieren.
+
+| Contract | Adresse | Block | ABI | Quelle |
+|----------|---------|-------|-----|--------|
+| **IdentityResolver** | `0x...` | TBD | [view](../architecture/open-core) | 03_core |
+| **VerifiableCredential** | `0x...` | TBD | [view](../architecture/open-core) | 03_core |
+| **GovernanceToken (SSID)** | `0x...` | TBD | [view](../architecture/open-core) | 20_foundation |
+| **DAO Treasury** | `0x...` | TBD | [view](../architecture/open-core) | 20_foundation |
+
+**Explorer:** https://sepolia.etherscan.io
+
+### Mumbai Contracts
+
+| Contract | Adresse | Block | ABI | Quelle |
+|----------|---------|-------|-----|--------|
+| **IdentityResolver (Mumbai)** | `0x...` | TBD | [view](../architecture/open-core) | 03_core |
+| **Cross-Chain Bridge** | `0x...` | TBD | [view](../architecture/open-core) | 10_interoperability |
+| **GovernanceToken (SSID)** | `0x...` | TBD | [view](../architecture/open-core) | 20_foundation |
+
+**Explorer:** https://mumbai.polygonscan.com
+
+## ABI References
+
+Alle Contract ABIs sind verfügbar in **SSID-open-core** unter `03_core/contracts/abi/`:
+
+### IdentityResolver ABI
+
+```json
+{
+  "contractName": "IdentityResolver",
+  "abi": [
+    {
+      "name": "resolveDID",
+      "inputs": [{"name": "did", "type": "string"}],
+      "outputs": [{"name": "document", "type": "bytes"}],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "name": "registerDID",
+      "inputs": [
+        {"name": "did", "type": "string"},
+        {"name": "documentHash", "type": "bytes32"},
+        {"name": "publicKeyMaterial", "type": "bytes"}
+      ],
+      "outputs": [{"name": "success", "type": "bool"}],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
+}
+```
+
+**Vollständiges ABI:** [03_core/contracts/abi/IdentityResolver.json](https://github.com/EduBrainBoost/SSID-open-core/blob/main/03_core/contracts/abi/IdentityResolver.json)
+
+### VerifiableCredential ABI
+
+```json
+{
+  "contractName": "VerifiableCredential",
+  "abi": [
+    {
+      "name": "issueCredential",
+      "inputs": [
+        {"name": "issuer", "type": "address"},
+        {"name": "subject", "type": "string"},
+        {"name": "credentialHash", "type": "bytes32"}
+      ],
+      "outputs": [{"name": "credentialId", "type": "bytes32"}],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "name": "verifyCredential",
+      "inputs": [
+        {"name": "credentialId", "type": "bytes32"},
+        {"name": "proof", "type": "bytes"}
+      ],
+      "outputs": [{"name": "valid", "type": "bool"}],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+}
+```
+
+**Vollständiges ABI:** [03_core/contracts/abi/VerifiableCredential.json](https://github.com/EduBrainBoost/SSID-open-core/blob/main/03_core/contracts/abi/VerifiableCredential.json)
+
+## Network Konfiguration
+
+### Hardhat Config für Testnets
+
+```javascript
+module.exports = {
+  networks: {
+    sepolia: {
+      url: process.env.SEPOLIA_RPC_URL,
+      accounts: [process.env.SEPOLIA_PRIVATE_KEY],
+      chainId: 11155111,
+    },
+    mumbai: {
+      url: process.env.MUMBAI_RPC_URL,
+      accounts: [process.env.MUMBAI_PRIVATE_KEY],
+      chainId: 80001,
+    },
+  },
+};
+```
+
+### Web3 Provider Setup (Node.js)
+
+```javascript
+const { ethers } = require('ethers');
+
+const sepolia = new ethers.providers.JsonRpcProvider(
+  'https://sepolia.infura.io/v3/YOUR_KEY'
+);
+
+const mumbai = new ethers.providers.JsonRpcProvider(
+  'https://mumbai.infura.io/v3/YOUR_KEY'
+);
+
+// Get Contract Instanz
+const contract = new ethers.Contract(
+  '0xcontractaddress',
+  IdentityResolverABI,
+  sepolia
+);
+```
+
+### Ethers.js Web (Browser)
+
+```javascript
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+// User verbindet Wallet (MetaMask)
+await provider.send('eth_requestAccounts', []);
+
+// Get Signer für Transaktionen
+const signer = provider.getSigner();
+
+const contract = new ethers.Contract(
+  '0xcontractaddress',
+  IdentityResolverABI,
+  signer
+);
+
+// Execute Transaktion
+const tx = await contract.registerDID(did, docHash, keyMaterial);
+await tx.wait();
+```
+
+## Block Explorers
+
+### Ethereum Sepolia Explorer
+
+- **URL:** https://sepolia.etherscan.io
+- **Suche:** Adressen, Transaktionen, Blöcke, Contracts
+- **Contract Verifikation:** Source Code Verifikation verfügbar
+- **API:** https://sepolia.etherscan.io/apis (Rate Limited)
+
+### Polygon Mumbai Explorer
+
+- **URL:** https://mumbai.polygonscan.com
+- **Suche:** Adressen, Transaktionen, Blöcke, Contracts
+- **Contract Verifikation:** Source Code Verifikation verfügbar
+- **API:** https://mumbai.polygonscan.com/apis (Rate Limited)
+
+## Health Check Scripts
+
+### Verify RPC Connectivity
+
+```bash
+# Sepolia
+curl -X POST https://sepolia.infura.io/v3/YOUR_KEY \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "method": "eth_blockNumber",
+    "params": [],
+    "id": 1
+  }'
+
+# Expected: {"jsonrpc":"2.0","result":"0x...","id":1}
+
+# Mumbai
+curl -X POST https://mumbai.infura.io/v3/YOUR_KEY \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "method": "eth_blockNumber",
+    "params": [],
+    "id": 1
+  }'
+```
+
+### Check Gas Prices
+
+```bash
+# Node.js
+const provider = new ethers.providers.JsonRpcProvider(sepoliaRPC);
+const gasPrice = await provider.getGasPrice();
+console.log(`Current gas: ${ethers.utils.formatUnits(gasPrice, 'gwei')} gwei`);
+```
+
+## Migration von Testnet zu Mainnet
+
+Wenn Sie bereit sind, auf Mainnet zu deployen:
+
+1. **Ersetzen Sie RPC Endpoints** mit Mainnet Providern (gleiche Infura/Alchemy Projekte)
+2. **Redeploy Contracts** auf Mainnet Chain IDs (1 für Ethereum, 137 für Polygon)
+3. **Update Contract Adressen** in Frontend und Backend Konfiguration
+4. **Verwenden Sie Mainnet Wallets** mit echten Mitteln (in Vault, nie Code)
+5. **Aktivieren Sie Mainnet Audits** und Security Gates per [Mainnet Readiness Roadmap](./mainnet-readiness)
+
+---
+
+Siehe auch:
+- [Testnet Deployment Guide](./testnet-guide) — Wie Sie bereitstellen und testen
+- [Mainnet Readiness Roadmap](./mainnet-readiness) — Produktions-Deployment Timeline
+- [5-Repo System Topology](../architecture/5-repo-topology) — Contract Ursprünge in SSID-open-core
