@@ -1,0 +1,77 @@
+---
+title: Evidence & WORM
+description: Append-Only Audit-Logs, die sicherstellen, dass jede Aktion dauerhaft aufgezeichnet wird.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Evidence & WORM Logging
+
+SSID verwendet **WORM (Write Once Read Many)**-Semantik für alle Audit-Evidence. Einmal geschrieben, können Evidence-Einträge nicht geändert oder gelöscht werden.
+
+## WORM Prinzipien
+
+| Prinzip | Implementierung |
+|-----------|---------------|
+| **Write Once** | Evidence-Dateien sind Append-Only; keine Overwrite-Operationen |
+| **Read Many** | Jede autorisierte Partei kann Evidence jederzeit verifizieren |
+| **Tamper-Evident** | Hash-Ketten erkennen unbefugte Änderungen |
+| **Time-Stamped** | UTC-Zeitstempel auf jedem Eintrag |
+
+## Evidence Struktur
+
+```
+02_audit_logging/evidence/
+├── builds/
+│   ├── build_2026-02-28T12-00-00Z.json
+│   └── build_2026-02-28T13-00-00Z.json
+├── pr_reviews/
+│   ├── pr_001.json
+│   └── pr_002.json
+├── policy_gates/
+│   └── gate_check_2026-02-28.json
+└── docs_site/
+    ├── phase0/evidence.json
+    └── phase1/evidence.json
+```
+
+## Evidence Entry Format
+
+```json
+{
+  "timestamp_utc": "2026-02-28T12:00:00Z",
+  "event_type": "policy_gate_check",
+  "task_id": "TASK_EXAMPLE",
+  "result": "PASS",
+  "actor": "ci-system",
+  "artifact_hashes": {
+    "input": "sha256:abc...",
+    "output": "sha256:def..."
+  },
+  "notes": ["All gates passed", "No secrets detected"]
+}
+```
+
+<Aside type="note">
+Evidence-Einträge referenzieren Artefakt-Hashes, nicht die Artefakte selbst. Dies hält das Evidence-Log leicht, während vollständige Nachverfolgung beibehalten wird.
+</Aside>
+
+## Verifizierung
+
+Zur Überprüfung der Evidence-Integrität:
+
+1. Berechnen Sie den Hash jeder Evidence-Datei
+2. Vergleichen Sie gegen die Hash-Kette
+3. Wenn ein Hash nicht übereinstimmt, ist die Kette unterbrochen — Manipulation erkannt
+
+```bash
+ssid audit --verify-chain 02_audit_logging/evidence/
+```
+
+## Aufbewahrung
+
+Evidence wird unbegrenzt aufbewahrt. Die WORM-Richtlinie bedeutet:
+
+- Es gibt keine Lösch-Skripte in der Codebase
+- Keine API-Endpunkte für Evidence-Löschung
+- Dateisystem-Berechtigungen erzwingen Read-Only nach dem Schreiben

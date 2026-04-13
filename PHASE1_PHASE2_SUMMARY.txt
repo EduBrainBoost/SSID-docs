@@ -1,0 +1,181 @@
+═══════════════════════════════════════════════════════════════════════════════
+                          PHASE 1 ANALYSIS — SUMMARY OUTPUT
+═══════════════════════════════════════════════════════════════════════════════
+
+BEFUND (Findings)
+
+✓ SSID-docs ist operational mit 66 dokumentierten Seiten
+✓ PUBLIC_POLICY.md definiert strikte Security Gates (secret-scan, denylist-gate)
+✓ CI/CD Gates sind aktiv: build, secret-scan, denylist-gate (4 Sub-Gates)
+✓ Test Suite ist umfangreich (18+ Tests: build-stress, content, security, stress-*)
+
+⚠ KRITISCHE LÜCKEN (P0):
+  ❌ 5-Repo-Systemtopologie nicht dokumentiert (nur open-core kurz erwähnt)
+  ❌ Port Matrix FALSCH: Verwendet C-Ports (3000, 8000) statt G-Ports (3100, 8100)
+  ❌ EMS Control Plane stark unterdokumentiert (nur "Mission Control" Seite)
+  ❌ Orchestrator Integration minimal dokumentiert (nur "Dispatcher" Seite)
+  ❌ Testnet Deployment Guide fehlt komplett
+  ❌ Mainnet Readiness Roadmap fehlt komplett
+
+⚠ WICHTIGE LÜCKEN (P1):
+  ❌ Evidence Export dokumentation fehlt (Governance/evidence nur Übersicht)
+  ❌ Local CI/CD Reproduction nicht dokumentiert
+  ❌ Deployment Pipeline (lokal/testnet/mainnet) nicht dokumentiert
+  ❌ Sidebar fehlen 4-5 kritische Kategorien (Deployments, Networks, Contracts, Status)
+  ❌ Status Page ist veraltet (Last Updated: 2026-03-02 = 41 Tage alt)
+
+⚠ POLICY-KONFLIKTE:
+  ❌ Kein Auto-Update Mechanismus für Status-Seite
+  ⚠ Port Matrix Validierung in CI fehlt (keine Prüfung auf G-Ports)
+  ⚠ Sidebar Completeness Test validiert nicht SOLL-Kategorien
+
+───────────────────────────────────────────────────────────────────────────────
+
+GAP-MATRIX (IST vs. SOLL)
+
+| Category               | IST Seiten | SOLL Seiten | Gap | Priority |
+|-----------------------|-----------|-----------|-----|----------|
+| System Topology       | 0          | 1          | -1  | P0       |
+| Port Matrix           | 1 (FALSCH) | 1          | -1  | P0       |
+| EMS Control Plane     | 1 (minimal)| 2-3        | -2  | P0       |
+| Orchestrator Runtime  | 1 (minimal)| 2-3        | -2  | P0       |
+| Deployment (Local)    | 1          | 1          |  0  | ✓        |
+| Deployment (Testnet)  | 0          | 1          | -1  | P0       |
+| Deployment (Mainnet)  | 0          | 1          | -1  | P0       |
+| Smart Contracts       | 0          | 1 (if pub.)| -1  | P1       |
+| Evidence Export       | 0.5 (ref)  | 1          | -0.5| P1       |
+| Sidebar Categories    | 11         | 15         | -4  | P0       |
+
+Current: 66 pages → Target: ~75 pages (+ 9 neue Seiten)
+
+───────────────────────────────────────────────────────────────────────────────
+
+DATEIPLAN (Files to Create/Update)
+
+NEUE DATEIEN (7 P0 Dateien):
+  1. src/content/docs/architecture/5-repo-topology.mdx (500–700 Wörter)
+  2. src/content/docs/deployments/ports-matrix-current.mdx (400–500 Wörter, KRITISCH: G-Ports!)
+  3. src/content/docs/deployments/testnet-guide.mdx (600–800 Wörter)
+  4. src/content/docs/deployments/testnet-addresses.mdx (300–400 Wörter, auto-generiert)
+  5. src/content/docs/deployments/mainnet-readiness.mdx (800–1000 Wörter, kein "Live"!)
+  6. src/content/docs/tooling/ems-control-plane.mdx (1000–1200 Wörter)
+  7. src/content/docs/tooling/orchestrator-runtime.mdx (900–1100 Wörter)
+
+AKTUALISIERTE DATEIEN (5 Dateien):
+  • src/content/docs/operations/local-stack.md → C-Ports zu G-Ports + Workspace Config
+  • src/content/docs/status.mdx → Stale Date beheben + Auto-Update dokumentieren
+  • src/content/docs/tooling/mission-control.mdx → Merge zu ems-control-plane oder Redirect
+  • src/content/docs/tooling/dispatcher.mdx → Link zu orchestrator-runtime.mdx hinzufügen
+  • src/content/docs/architecture/open-core.mdx → Forward Ref zu 5-repo-topology.mdx
+
+CONFIG ÄNDERUNGEN:
+  • astro.config.mjs → Sidebar: 4 neue Top-Level-Kategorien (+30 Zeilen)
+  • .github/workflows/docs_ci.yml → Neue Gates: deployment-docs, port-matrix-validation (+40 Zeilen)
+
+───────────────────────────────────────────────────────────────────────────────
+
+TESTPLAN (Test Coverage)
+
+NEUE TESTS (4 Tests):
+  1. tests/ports-matrix-validator.test.mjs
+     → Validiert: G-Ports (3100, 8100) nicht C-Ports (3000, 8000)
+
+  2. tests/sidebar-soll-completeness.test.mjs
+     → Validiert: Alle 14 SOLL-Kategorien in astro.config.mjs present
+
+  3. tests/deployment-docs-presence.test.mjs
+     → Validiert: 4 Deployment Docs existieren (local, testnet, mainnet, ports)
+
+  4. tests/evidence-export-docs.test.mjs
+     → Validiert: evidence-export.mdx existiert mit korrekten Begriffen
+
+Total Tests: 13 (existing) + 4 (new) = 17 tests
+
+BUILD REQUIREMENTS:
+  pnpm install --frozen-lockfile  → Must succeed
+  pnpm astro check                → Must PASS
+  pnpm build                      → Must generate 75+ pages
+  pnpm test                       → Must PASS 100% (17/17)
+
+SECURITY AUDIT:
+  ❌ No C-ports (3000, 8000) in new docs
+  ❌ No Windows paths (C:\Users\)
+  ❌ No secrets (sk_live_, ghp_)
+
+───────────────────────────────────────────────────────────────────────────────
+
+PUBLIC/PRIVATE BOUNDARY
+
+✅ Architecture — Öffentlich (beschreibend, kein Mirroring)
+✅ Governance — Öffentlich (Policies, nicht Implementierung)
+✅ EMS/Orchestrator — Sanitisiert (CLI/Workflow OK, nicht internals)
+✅ Compliance — Öffentlich (Regeln OK, nicht Audit-Details)
+⚠️  Smart Contracts — WENN public, dann dokumentieren
+⚠️  WORM Details — Nur Struktur (immutable), nicht Implementierung
+
+KEIN VERSTOSS ERWARTET: Phase 2 erstellt keine Hard-Deny-Patterns.
+
+───────────────────────────────────────────────────────────────────────────────
+
+POLICY-KONFLIKTE (Dokumentiert)
+
+| Konflikt                    | Status Aktuell | Enforcement | Fix Phase 2 |
+|-----------------------------|----------------|-------------|------------|
+| Port Matrix Korrektheit     | C-Ports statt G| ❌ Keine CI | ✅ Gate    |
+| Status Page Frische         | 41 Tage alt    | ❌ Keine CI | ✅ Doku    |
+| Sidebar SOLL Vollständigkeit| 11/14 Kategorien| ⚠️  Schwach | ✅ Test    |
+| Deployment Docs Existenz    | Unvollständig  | ❌ Keine CI | ✅ Gate    |
+| Private Content Detection   | Pattern-based  | ✓ OK       | ✓ Adequate |
+| Secret Scanning             | Regex patterns | ✓ OK       | ✓ Strong   |
+
+RESOLVED NACH PHASE 2: Alle Konflikte durch Tests/Gates verschärft.
+
+───────────────────────────────────────────────────────────────────────────────
+
+ERFOLGSKRITERIEN (Phase 2 EXIT)
+
+✅ Alle P0 Gaps geschlossen (7 neue Dateien)
+✅ Sidebar um 4 Kategorien erweitert (11 → 15)
+✅ Port Matrix auf G-Ports korrigiert (3100/8100 statt 3000/8000)
+✅ EMS & Orchestrator je ≥ 2 Seiten dokumentiert
+✅ Testnet Deployment Guide vorhanden
+✅ Mainnet Roadmap klar als "nicht live" gekennzeichnet
+✅ 4 neue Tests hinzugefügt (alle PASS)
+✅ CI Gates erweitert
+✅ pnpm build erfolgreich (75+ Seiten)
+✅ pnpm test 100% PASS (17/17 Tests)
+✅ Keine Secrets/Paths/Private-Refs in git diff
+
+───────────────────────────────────────────────────────────────────────────────
+
+ARTEFAKTE (IM REPO ERSTELLT)
+
+✅ PHASE1_SYSTEM_ANALYSIS.md (15 KB, 600 Zeilen)
+   → Vollständige Analyse: 5-Repo-Topologie, IST-Zustand, Gap-Matrix
+
+✅ PHASE2_IMPLEMENTATION_PLAN.md (25 KB, 1100 Zeilen)
+   → Detaillierter Implementierungsplan mit allen Dateien, Tests, CI-Updates
+
+✅ PHASE1_PHASE2_SUMMARY.txt (dieser Text)
+   → Strukturierte Ausgabe für Terminal-Review
+
+═══════════════════════════════════════════════════════════════════════════════
+
+PHASE 1 STATUS: ✅ ANALYSIS_COMPLETE
+
+Beide Artefakte befinden sich in SSID-docs Repo:
+  • PHASE1_SYSTEM_ANALYSIS.md
+  • PHASE2_IMPLEMENTATION_PLAN.md
+  • PHASE1_PHASE2_SUMMARY.txt (diese Datei)
+
+Nächster Schritt: PHASE 2 PLAN REVIEW
+
+═══════════════════════════════════════════════════════════════════════════════
+
+APPLY FREIGEGEBEN (bereit für Umsetzung nach Genehmigung)
+
+Stellung: 🟡 PLAN_READY_FOR_REVIEW (wartend auf Freigabe)
+  → Falls APPROVED: Starten Sie "PHASE 2 IMPLEMENTATION (APPLY)"
+  → Falls CHANGES: Aktualisieren Sie PHASE2_IMPLEMENTATION_PLAN.md
+
+═══════════════════════════════════════════════════════════════════════════════

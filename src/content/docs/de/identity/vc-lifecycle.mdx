@@ -1,0 +1,198 @@
+---
+title: "Verifiable Credentials Lifecycle"
+description: "Vollständiger VC Lifecycle in SSID — Issue, Hold, Present, Verify, Revoke"
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+# Verifiable Credentials Lifecycle
+
+SSID implementiert das W3C Verifiable Credentials Data Model v2.0. Dieses Dokument beschreibt den vollständigen Credential Lifecycle: **Issue → Hold → Present → Verify → Revoke**.
+
+## Actors
+
+| Actor | Rolle | SSID Komponente |
+|-------|-------|-----------------|
+| **Issuer** | Erstellt und signiert Credentials | `03_core` + `08_identity_score` |
+| **Holder** | Speichert und präsentiert Credentials | Client Wallet (Non-Custodial) |
+| **Verifier** | Validiert Credential Proofs | `14_zero_time_auth` |
+| **Revocation Registry** | Verfolgt Credential Status | `18_data_layer` + Polygon Anker |
+
+## Phase 1 — Issue
+
+<Steps>
+
+1. **Issuer authentifiziert** sich via `did:ssid:polygon` DID
+2. **Identity Score Check** — `08_identity_score` bewertet Trust Metriken des Subjects
+3. **Credential Konstruktion** — Claims werden pro Schema aus `16_codex` zusammengestellt
+4. **Signing** — Issuer signiert mit Dilithium (ML-DSA-65) Key aus `21_post_quantum_crypto`
+5. **Anchoring** — Credential Hash wird auf Polygon verankert für Tamper Evidence
+6. **Evidence Logging** — Issuance Event aufgezeichnet in `02_audit_logging`
+7. **Delivery** — Credential wird via encrypted DIDComm Channel an Holder gesendet
+
+</Steps>
+
+### Credential Struktur
+
+```json
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://ssid.example/context/v1"
+  ],
+  "type": ["VerifiableCredential", "SSIDIdentityCredential"],
+  "issuer": "did:ssid:polygon:mainnet:0x7a3b...c4f2",
+  "validFrom": "2026-04-01T00:00:00Z",
+  "validUntil": "2027-04-01T00:00:00Z",
+  "credentialSubject": {
+    "id": "did:ssid:polygon:mainnet:0x9e1d...a8b3",
+    "identityScore": 87,
+    "kycLevel": "enhanced",
+    "jurisdiction": "EU"
+  },
+  "credentialStatus": {
+    "id": "https://status.ssid.example/v1/credentials/12345",
+    "type": "StatusList2021Entry",
+    "statusPurpose": "revocation",
+    "statusListIndex": "42",
+    "statusListCredential": "https://status.ssid.example/v1/list/1"
+  },
+  "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "dilithium-jcs-2024",
+    "verificationMethod": "did:ssid:polygon:mainnet:0x7a3b...c4f2#key-1",
+    "proofPurpose": "assertionMethod",
+    "created": "2026-04-01T00:00:00Z",
+    "proofValue": "<base64url-encoded-signature>"
+  }
+}
+```
+
+<Aside type="tip">
+Credentials enthalten niemals rohe PII. Persönliche Daten werden als Hashed Claims (SHA3-256) oder Zero-Knowledge Proofs dargestellt. Das Non-Custodial Prinzip gilt in jeder Phase.
+</Aside>
+
+## Phase 2 — Hold
+
+Der Holder speichert Credentials in ihrem **Non-Custodial Wallet**:
+
+- Private Keys verlassen Holder's Device niemals
+- Credentials sind at Rest mit Holder's Key verschlüsselt
+- Die Wallet unterstützt Selective Disclosure via Zero-Knowledge Proofs
+- Keine Server-seitige Speicherung von Credential Inhalten
+
+<Aside type="danger">
+SSID ist strikt Non-Custodial. Die Plattform speichert, cached oder hat niemals Zugriff auf Holder's Private Keys oder unverschlüsselte Credential Daten.
+</Aside>
+
+## Phase 3 — Present
+
+Wenn ein Verifier Proof anfordert:
+
+<Steps>
+
+1. **Verifier sendet eine Presentation Request** mit erforderlichen Claims
+2. **Holder reviewed** die Request in ihrem Wallet
+3. **Selective Disclosure** — Holder erstellt eine Verifiable Presentation nur mit erforderlichen Claims
+4. **Zero-Knowledge Proof** (Optional) — Für Prädikate wie "age >= 18" ohne Wert offenzulegen
+5. **Signing** — Holder signiert die Presentation mit ihrem DID Key
+6. **Transmission** — Presentation wird via encrypted DIDComm Channel gesendet
+
+</Steps>
+
+### Verifiable Presentation
+
+```json
+{
+  "@context": ["https://www.w3.org/ns/credentials/v2"],
+  "type": ["VerifiablePresentation"],
+  "holder": "did:ssid:polygon:mainnet:0x9e1d...a8b3",
+  "verifiableCredential": ["<credential>"],
+  "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "dilithium-jcs-2024",
+    "verificationMethod": "did:ssid:polygon:mainnet:0x9e1d...a8b3#key-1",
+    "proofPurpose": "authentication",
+    "challenge": "<verifier-nonce>",
+    "created": "2026-04-01T12:00:00Z",
+    "proofValue": "<base64url-encoded-signature>"
+  }
+}
+```
+
+## Phase 4 — Verify
+
+Der Verifier validiert die Presentation durch `14_zero_time_auth`:
+
+<Steps>
+
+1. **Resolve Issuer DID** — Fetch Issuer's DID Document via `did:ssid:polygon`
+2. **Verify Issuer Signature** — Validiere Credential Proof gegen Issuer's Public Key
+3. **Resolve Holder DID** — Fetch Holder's DID Document
+4. **Verify Holder Signature** — Validiere Presentation Proof
+5. **Check Revocation Status** — Query StatusList2021 Revocation Registry
+6. **Check Expiry** — Validiere `validFrom` und `validUntil` Timestamps
+7. **Trust Score Evaluation** — `08_identity_score` bietet Risk Assessment
+8. **Return Verification Result** — Accept oder Reject mit detaillierter Evidence
+
+</Steps>
+
+<Aside type="caution">
+Verifikation muss alle 8 Schritte durchlaufen. Ein Credential, das Signature Verifikation bestanden hat, aber revoked ist, muss abgelehnt werden. Partielle Verifikation ist niemals ausreichend.
+</Aside>
+
+## Phase 5 — Revoke
+
+Credential Revocation wird über den StatusList2021 Mechanismus gehandhabt:
+
+<Steps>
+
+1. **Issuer authentifiziert** mit ihrem DID
+2. **Set Revocation Bit** in der StatusList2021 Bitstring
+3. **Anchor Update** — Neuer Status List Hash verankert auf Polygon
+4. **Evidence Logging** — Revocation Event aufgezeichnet in `02_audit_logging` (WORM)
+5. **Propagation** — Verifier holen sich aktualisierte Status List auf nächstem Check
+
+</Steps>
+
+<Aside type="danger">
+Revocation ist irreversibel. Einmal revoked, kann ein Credential nicht un-revoked werden. Der Issuer muss ein neues Credential issuen falls nötig.
+</Aside>
+
+## Lifecycle State Diagramm
+
+```
+  ┌──────────┐
+  │  ISSUE   │
+  └────┬─────┘
+       ▼
+  ┌──────────┐
+  │   HOLD   │◄─────────────────┐
+  └────┬─────┘                  │
+       ▼                        │
+  ┌──────────┐    ┌──────────┐  │
+  │ PRESENT  │───►│  VERIFY  │──┘
+  └──────────┘    └──────────┘
+                       │
+                       ▼ (if revoked)
+                  ┌──────────┐
+                  │  REVOKE  │
+                  └──────────┘
+```
+
+## Compliance Mapping
+
+| Standard | Coverage |
+|----------|----------|
+| **W3C VC Data Model v2.0** | Vollständige Konformität |
+| **W3C DID Core v1.0** | Via `did:ssid:polygon` Methode |
+| **eIDAS 2.0** | EU Digital Identity Wallet kompatibel |
+| **GDPR Art. 17** | Recht auf Vergessenwerden — Holder kontrolliert Credential Lifecycle |
+| **MiCA** | Crypto-Asset Identity Anforderungen abgedeckt |
+| **EU AI Act** | AI-basiertes Scoring dokumentiert und auditable |
+
+## Verwandt
+
+- [DID Method](/de/identity/did-method/) — `did:ssid:polygon` Spezifikation
+- [ROOT-24 Architecture](/de/architecture/root24/) — System Kontext
+- [GDPR Compliance](/de/compliance/gdpr/) — Data Protection Details

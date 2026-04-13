@@ -1,0 +1,68 @@
+---
+title: Shards & Hybrid Charts
+description: Wie Shards sich mit Roots schneiden und wie Hybrid Charts Determinismus durchsetzen.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Shards & Hybrid Charts
+
+## Was sind Shards?
+
+Shards sind **Cross-Cutting Architectural Concerns**, die einheitlich über alle 24 Roots hinweg angewendet werden. Sie sichern konsistente Struktur und erzwingen Separation of Concerns.
+
+## Shard Anatomie
+
+Jeder Shard innerhalb eines Roots folgt einer vorhersehbaren Dateistruktur:
+
+```
+{root_number}_{root_name}/{shard_name}/
+├── index.ts          # Public API
+├── {shard}.impl.ts   # Implementierung
+├── {shard}.test.ts   # Tests
+├── {shard}.schema.ts # Validierungs-Schema
+└── manifest.json     # Hybrid Chart Eintrag
+```
+
+## Hybrid Charts
+
+Ein Hybrid Chart ist ein **deterministisches Manifest**, das eine Root×Shard Intersection an ihre bindet:
+
+1. **Content Hash** — SHA-256 aller Source Dateien in der Intersection
+2. **Policy Gates** — Erforderliche Reviews/Checks vor Änderung
+3. **Dependency Graph** — Andere Intersections auf die dies eine angewiesen ist
+4. **Evidence Pointers** — Links zu Audit Log Einträgen
+
+<Aside type="note">
+Hybrid Charts werden auto-generiert durch den SSID Dispatcher. Manuelles Editing triggert eine Policy Verletzung.
+</Aside>
+
+## Deterministische Eigenschaften
+
+| Eigenschaft | Garantie |
+|----------|-----------|
+| **Reproducibility** | Gleiche Inputs erzeugen immer gleiches Artifact Hash |
+| **Traceability** | Jede Änderung linked zu PR, Evidence Eintrag und Policy Gate Check |
+| **Isolation** | Shards innerhalb eines Roots können unabhängig getestet werden |
+| **Composability** | Jedes Root×Shard kann Dependencies auf andere Intersections deklarieren |
+
+## Beispiel: Audit Logging × Repositories
+
+```json
+{
+  "root": "02_audit_logging",
+  "shard": "repositories",
+  "version": "1.0.0",
+  "artifact_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb924...",
+  "policy_gates": [
+    "pr_review_required",
+    "evidence_append_only",
+    "no_direct_commit"
+  ],
+  "dependencies": [
+    "03_crypto_primitives/services",
+    "09_storage/adapters"
+  ],
+  "evidence_ref": "02_audit_logging/evidence/shard_repos/latest.json"
+}
+```
