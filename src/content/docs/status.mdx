@@ -8,7 +8,7 @@ import LiveDashboard from '../../components/LiveDashboard.astro';
 
 <Aside type="note">
 This page shows the status of **public-facing** SSID infrastructure only.
-All data is derived from the SSID-open-core public export. Last updated: 2026-03-02.
+All data is derived from the SSID-open-core public export. For real-time CI status, see the repository Actions tabs on GitHub.
 </Aside>
 
 ## Live Dashboard
@@ -36,14 +36,14 @@ All data is derived from the SSID-open-core public export. Last updated: 2026-03
 
 ## EMS Health
 
-| Component | Status | Last Verified |
-|-----------|--------|---------------|
-| `ssidctl` CLI | Operational | 2026-03-02 |
-| 3-Worktree Model | Operational | 2026-03-02 |
-| Guard/Gate Matrix (7+6) | All passing | 2026-03-02 |
-| Evidence Store | Operational | 2026-03-02 |
-| pytest Suite | 575 passed, 1 skipped | 2026-03-02 |
-| `public-status export` | Operational | 2026-03-02 |
+| Component | Status | Notes |
+|-----------|--------|-------|
+| `ssidctl` CLI | Operational | Control plane command-line interface |
+| 3-Plane Model | Operational | Control / Data / Evidence planes |
+| Guard/Gate Matrix (7+6) | All passing | Policy enforcement active |
+| Evidence Store | Operational | WORM ledger for audit trail |
+| pytest Suite | Passing | See CI/CD for latest results |
+| `public-status export` | Operational | Sanitized public data export |
 
 ## Development Progress (Now / Next / Later)
 
@@ -69,7 +69,7 @@ This section shows **aggregate counts and topic tags only**. No internal identif
   </Card>
 </CardGrid>
 
-*Last generated: 2026-03-02. Schema version: 1.0.0.*
+*Data sourced from SSID-open-core public export. For automated updates, see CI/CD pipeline.*
 
 ## Public Export Pipeline
 

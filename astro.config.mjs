@@ -41,8 +41,9 @@ export default defineConfig({
           ],
         },
         {
-          label: 'Architecture',
+          label: 'System Architecture & Integration',
           items: [
+            { label: '5-Repo System Topology', slug: 'architecture/5-repo-topology' },
             { label: 'Root-24 Architecture', slug: 'architecture/roots' },
             { label: 'Root-24 Details', slug: 'architecture/root24' },
             { label: '24x16 Matrix', slug: 'architecture/matrix' },
@@ -91,8 +92,10 @@ export default defineConfig({
           ],
         },
         {
-          label: 'Tooling',
+          label: 'Integration & Tools',
           items: [
+            { label: 'EMS Control Plane (CLI)', slug: 'tooling/ems-control-plane' },
+            { label: 'Orchestrator Runtime', slug: 'tooling/orchestrator-runtime' },
             { label: 'Dispatcher Workflow', slug: 'tooling/dispatcher' },
             { label: 'Agent Roles', slug: 'tooling/agents' },
             { label: 'Mission Control (EMS)', slug: 'tooling/mission-control' },
@@ -124,9 +127,13 @@ export default defineConfig({
           ],
         },
         {
-          label: 'Operations',
+          label: 'Deployments & Networks',
           items: [
             { label: 'Local Stack Setup', slug: 'operations/local-stack' },
+            { label: 'Port Matrix (Current)', slug: 'deployments/ports-matrix-current' },
+            { label: 'Testnet Deployment Guide', slug: 'deployments/testnet-guide' },
+            { label: 'Testnet Addresses & RPC', slug: 'deployments/testnet-addresses' },
+            { label: 'Mainnet Readiness Roadmap', slug: 'deployments/mainnet-readiness' },
           ],
         },
         {
@@ -143,10 +150,16 @@ export default defineConfig({
           ],
         },
         {
+          label: 'System Status & Evidence',
+          items: [
+            { label: 'Live Dashboard', slug: 'status' },
+            { label: 'Public Evidence Export', slug: 'governance/evidence-export' },
+          ],
+        },
+        {
           label: 'Project',
           items: [
             { label: 'Roadmap', slug: 'roadmap' },
-            { label: 'Status', slug: 'status' },
             { label: 'Changelog', slug: 'changelog' },
             { label: 'Security & Disclosure', slug: 'security' },
             { label: 'Export Transparency', slug: 'exports' },

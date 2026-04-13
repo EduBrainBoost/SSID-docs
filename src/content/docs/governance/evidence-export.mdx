@@ -1,0 +1,270 @@
+---
+title: Public Evidence Export
+description: Access SSID's immutable audit trail and evidence ledger for transparency and compliance.
+---
+
+# Public Evidence Export
+
+SSID maintains a **public evidence export** of all governance decisions, policy gates, and critical system operations. This ledger is immutable (WORM - Write-Once-Read-Many) and cryptographically verifiable.
+
+## What is Evidence?
+
+**Evidence** is the immutable audit trail of every significant operation in SSID:
+
+- **Policy Gate Results:** Every gate execution (secret-scan, denylist-gate, structure-guard, etc.)
+- **Policy Changes:** Every update to OPA rules, compliance templates, and governance policies
+- **Smart Contract Deployments:** On-chain anchors and contract deployment records
+- **Release Decisions:** Every approval, merge, and release gate
+- **Incident Responses:** Incident reports, resolutions, and post-mortems
+- **Compliance Audits:** Audit runs, findings, and remediation records
+
+## Accessing the Public Evidence Log
+
+The **public evidence export** is available as a sanitized JSON/CSV export:
+
+```bash
+# Download evidence export
+curl -X GET https://ssid-docs.github.io/evidence-export.json
+
+# Or via SSID-open-core
+git clone https://github.com/EduBrainBoost/SSID-open-core.git
+cat public-export/evidence-manifest.json
+```
+
+## Evidence Structure
+
+Each evidence entry has:
+
+```json
+{
+  "timestamp_utc": "2026-04-13T14:22:45Z",
+  "agent_id": "orchestrator",
+  "operation": "policy-gate-executed",
+  "gate_name": "secret-scan",
+  "result": "PASS",
+  "scope": "SSID-core",
+  "files_checked": 42,
+  "secrets_detected": 0,
+  "hash_before": "a1b2c3d4...",
+  "hash_after": "e5f6g7h8...",
+  "evidence_hash": "sha256:xyz...",
+  "parent_evidence_hash": "sha256:prev...",
+  "signature": "-----BEGIN SIGNATURE-----...",
+  "notes": [
+    "Structure guard passed",
+    "No PII detected"
+  ]
+}
+```
+
+## Hash Chain Verification
+
+Every evidence entry is linked to the previous one via a **hash chain**. You can verify the entire audit trail:
+
+```bash
+# Verify hash chain integrity
+python verify-evidence-chain.py evidence-export.json
+
+# Output:
+# ✓ Entry 1: hash valid, linked to parent
+# ✓ Entry 2: hash valid, linked to parent
+# ...
+# ✓ Chain integrity: VERIFIED
+# Total entries: 1,234
+```
+
+## Policy Gate Results (Public)
+
+All gate execution results are logged:
+
+| Gate | Result | Files | Notes |
+|------|--------|-------|-------|
+| secret-scan | PASS | 42 | No credentials detected |
+| denylist-gate | PASS | 42 | No forbidden patterns |
+| structure-guard | PASS | 24-root layout valid | ROOT-24 enforced |
+| dependency-audit | PASS | No vulnerabilities | npm audit clean |
+
+## Compliance Audit Records
+
+Regular compliance audits are recorded and exported:
+
+- **GDPR Audit:** Quarterly; checks for PII handling compliance
+- **eIDAS Audit:** Semi-annual; validates identity infrastructure
+- **MiCA Audit:** Semi-annual; checks token classification rules
+- **Security Audit:** Post-incident; documents findings and remediation
+
+Example audit record:
+
+```json
+{
+  "audit_id": "AUDIT-2026-Q2-001",
+  "audit_type": "GDPR",
+  "timestamp": "2026-04-13T10:00:00Z",
+  "scope": "SSID-core identity module",
+  "finding_count": 0,
+  "recommendation_count": 2,
+  "status": "PASS",
+  "next_audit": "2026-07-13",
+  "auditor": "external-counsel"
+}
+```
+
+## Smart Contract Evidence (On-Chain)
+
+Smart contract deployments and upgrades are anchored on-chain:
+
+**Ethereum Sepolia (Testnet):**
+```
+TxHash: 0xabcd1234...
+Block: 5123456
+Contract: IdentityResolver at 0x...
+Evidence Hash: sha256:abcd...
+Timestamp: 2026-04-13 14:22:45 UTC
+```
+
+**Polygon Mumbai (Testnet):**
+```
+TxHash: 0xefgh5678...
+Block: 45678901
+Contract: VCRegistry at 0x...
+Evidence Hash: sha256:efgh...
+Timestamp: 2026-04-13 14:23:10 UTC
+```
+
+## Release Evidence
+
+Every production release is documented:
+
+```json
+{
+  "release_id": "release-2026-04-13-001",
+  "version": "2.1.0",
+  "timestamp": "2026-04-13T16:00:00Z",
+  "approved_by": ["steering-committee", "security-lead"],
+  "gates_passed": [
+    "audit-approval",
+    "compliance-sign-off",
+    "operational-readiness",
+    "board-vote"
+  ],
+  "artifacts": {
+    "docker_image": "sha256:xyz...",
+    "helm_chart": "sha256:abc...",
+    "documentation": "sha256:def..."
+  },
+  "rollback_plan": "Blue-green rollback to v2.0.1",
+  "status": "DEPLOYED"
+}
+```
+
+## Incident Response Records
+
+Incident reports are logged with full traceability:
+
+```json
+{
+  "incident_id": "INC-2026-001",
+  "severity": "P1",
+  "detected_at": "2026-04-13T14:00:00Z",
+  "root_cause": "Contract upgrade introduced state inconsistency",
+  "resolution": "Rollback to v2.0.0, remediation PR #445",
+  "post_mortem_link": "governance/incident-response#inc-2026-001",
+  "impact": "5 min service disruption, 100 affected users",
+  "lessons_learned": [
+    "Add state validation test",
+    "Implement canary deployment"
+  ]
+}
+```
+
+## Verifying Evidence Authenticity
+
+All evidence is signed using SSID's root keys:
+
+```bash
+# Verify a single entry
+gpg --verify evidence-entry-123.json.sig evidence-entry-123.json
+
+# Batch verification
+openssl dgst -sha256 -verify public-key.pem \
+  -signature evidence-entry-123.sig \
+  evidence-entry-123.json
+
+# Output: Verified OK
+```
+
+## Evidence Export Formats
+
+**JSON (Detailed):**
+```bash
+curl https://ssid-docs.github.io/evidence-export.json | jq '.[] | select(.gate_name=="secret-scan")'
+```
+
+**CSV (Spreadsheet-friendly):**
+```bash
+curl https://ssid-docs.github.io/evidence-export.csv | head -10
+```
+
+**JSONL (Streaming):**
+```bash
+curl https://ssid-docs.github.io/evidence-export.jsonl | wc -l
+# 1234 entries
+```
+
+## Privacy & Sanitization
+
+The public evidence export contains **no sensitive data:**
+
+✅ **What is exported:**
+- Gate names and results (PASS/FAIL)
+- File counts, not file names
+- Timestamp and agent ID
+- Hash values (for verification, not content)
+- Compliance findings (redacted)
+
+❌ **What is NOT exported:**
+- PII (names, emails, addresses)
+- Private keys, credentials, API keys
+- Internal IP addresses or hostnames
+- Vulnerability details (before public disclosure)
+- Customer data or transaction IDs
+
+## Compliance & Audits
+
+The evidence ledger supports compliance verification:
+
+| Framework | Usage |
+|-----------|-------|
+| **GDPR** | Demonstrates data handling audit trail, consent records |
+| **eIDAS** | Proves identity verification gate compliance, VC issuance logs |
+| **MiCA** | Documents token classification decisions, governance records |
+| **SOC 2** | Provides change control, access, and incident evidence |
+
+## Access & Availability
+
+- **Public Access:** https://ssid-docs.github.io/evidence-export.json (rate limited)
+- **GitHub Releases:** Bundled with each release under "Evidence Manifest"
+- **IPFS:** Distributed copy via IPFS for decentralized access
+- **Archive:** 10-year retention (per GDPR/eIDAS requirements)
+
+## Questions & Verification
+
+To verify specific evidence or request evidence about a particular incident:
+
+```bash
+# Query evidence by date range
+curl "https://ssid-docs.github.io/evidence-export.json?from=2026-01-01&to=2026-04-13"
+
+# Query by gate name
+curl "https://ssid-docs.github.io/evidence-export.json?gate=secret-scan"
+
+# Query by operation type
+curl "https://ssid-docs.github.io/evidence-export.json?operation=policy-update"
+```
+
+---
+
+See also:
+- [Evidence & WORM](./evidence) — Technical implementation details
+- [Policy Gates](./policy-gates) — Gate enforcement overview
+- [Governance Framework](./pr-only) — PR-only workflow documentation

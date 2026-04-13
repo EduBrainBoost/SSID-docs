@@ -1,0 +1,478 @@
+---
+title: Orchestrator Runtime
+description: Task dispatch engine, workflow execution, and session management for SSID runtime operations.
+---
+
+# Orchestrator Runtime
+
+The **SSID Orchestrator** is the execution engine that dispatches tasks, manages workflows, and maintains isolated execution sessions. It bridges the control plane (EMS) with the data plane (SSID Core).
+
+## Architecture
+
+```
+┌──────────────────────────────────────────┐
+│       EMS Control Plane (8100)           │
+│  dispatch create --workflow identity...  │
+└──────────────┬──────────────────────────┘
+               │ REST API
+               ▼
+┌──────────────────────────────────────────┐
+│   Orchestrator (3310 API, 5273 UI)       │
+│                                          │
+│  ┌──────────────────────────────────┐   │
+│  │ Dispatcher                       │   │
+│  │ • Route tasks                    │   │
+│  │ • Load balance across workers    │   │
+│  │ • Handle retries & failures      │   │
+│  └──────────────────────────────────┘   │
+│  ┌──────────────────────────────────┐   │
+│  │ Workflow Engine                  │   │
+│  │ • Execute multi-step flows       │   │
+│  │ • Fork/join parallelization      │   │
+│  │ • Conditional logic              │   │
+│  └──────────────────────────────────┘   │
+│  ┌──────────────────────────────────┐   │
+│  │ Session Manager                  │   │
+│  │ • Isolate execution contexts     │   │
+│  │ • Manage state & secrets         │   │
+│  │ • Timeout & retry logic          │   │
+│  └──────────────────────────────────┘   │
+└──────────────┬──────────────────────────┘
+               │
+       ┌───────┴────────┐
+       │                │
+       ▼                ▼
+┌──────────────┐  ┌──────────────────┐
+│ SSID Core    │  │ External Services│
+│ • Contracts  │  │ • KYC Providers  │
+│ • Identity   │  │ • Payment APIs   │
+│ • Policies   │  │ • Notaries       │
+└──────────────┘  └──────────────────┘
+```
+
+## Core Concepts
+
+### Dispatcher
+
+The **Dispatcher** is the task router that:
+- Receives tasks from EMS
+- Routes to available workers
+- Manages task queue and priorities
+- Handles retries and circuit breakers
+
+**Routing Rules:**
+- **Priority:** High → Normal → Low (FIFO per level)
+- **Affinity:** Some tasks require specific workers (e.g., KYC tasks with provider API keys)
+- **Timeout:** Default 3600s, configurable per task
+- **Retry:** Exponential backoff (1s, 2s, 4s, 8s, max 60s)
+
+### Workflows
+
+A **Workflow** is a multi-step process with branching and parallelization.
+
+**Built-in Workflows:**
+
+| Workflow | Steps | Purpose | Example |
+|----------|-------|---------|---------|
+| `identity-verification` | 3–5 | Create and verify identity | KYC flow |
+| `credential-issuance` | 2–3 | Issue verifiable credential | VC issuance |
+| `credential-revocation` | 1–2 | Revoke issued credential | Credential lifecycle |
+| `did-registration` | 1–2 | Register DID on-chain | DID setup |
+| `policy-audit` | 1 | Audit compliance policies | Governance |
+
+**Workflow DSL (YAML Example):**
+
+```yaml
+name: identity-verification
+steps:
+  - id: validate-input
+    type: validation
+    timeout: 30s
+    next: [check-kyc-provider]
+    
+  - id: check-kyc-provider
+    type: external-api
+    provider: sumsub  # or iDenfy, Onfido, etc.
+    timeout: 300s
+    retry: 3
+    next: [issue-credential, on-failure: manual-review]
+    
+  - id: issue-credential
+    type: ssid-contract
+    contract: VerifiableCredential
+    timeout: 120s
+    next: [complete]
+    
+  - id: manual-review
+    type: human
+    escalate: true
+    timeout: 86400s
+    
+  - id: complete
+    type: end-state
+    outputs: [credential-id, verification-status]
+```
+
+### Sessions
+
+A **Session** is an isolated execution context for a task with:
+- Unique session ID
+- Scoped environment variables
+- Secrets management (via Vault)
+- State persistence
+- Timeout and cleanup policies
+
+**Session Lifecycle:**
+
+```
+CREATE (allocate resources)
+  ↓
+READY (environment set up)
+  ↓
+RUNNING (executing steps)
+  ↓
+CLEANUP (remove session state)
+  ↓
+CLOSED (resources released)
+```
+
+**Session Isolation:**
+
+```bash
+session-123
+├── .env (scoped variables)
+├── .secrets/ (Vault-mounted)
+├── state.json (execution state)
+├── logs/ (stderr, stdout)
+└── output/ (results)
+```
+
+## REST API
+
+### Orchestrator Base URL
+
+**Development:** `http://localhost:3310`  
+**Production:** `https://orchestrator.api.ssid.dev` (TBD)
+
+### Core Endpoints
+
+#### Health Check
+
+```bash
+GET /health
+
+Response (200 OK):
+{
+  "status": "healthy",
+  "version": "2.1.0",
+  "workers": 4,
+  "queue": {
+    "pending": 2,
+    "running": 3,
+    "failed": 0
+  }
+}
+```
+
+#### Create Task
+
+```bash
+POST /dispatch/tasks
+Content-Type: application/json
+
+Request:
+{
+  "workflow": "identity-verification",
+  "priority": "high",
+  "timeout": 3600,
+  "input": {
+    "user_id": "user-123",
+    "kyc_data": {...}
+  },
+  "callbackUrl": "https://example.com/webhook"  # optional
+}
+
+Response (201 Created):
+{
+  "taskId": "task-2026-04-13-001",
+  "workflow": "identity-verification",
+  "status": "PENDING",
+  "createdAt": "2026-04-13T14:22:45Z",
+  "estimatedDuration": "45s"
+}
+```
+
+#### Get Task Status
+
+```bash
+GET /dispatch/tasks/task-2026-04-13-001
+
+Response (200 OK):
+{
+  "taskId": "task-2026-04-13-001",
+  "workflow": "identity-verification",
+  "status": "RUNNING",
+  "progress": {
+    "step": "check-kyc-provider",
+    "percentage": 50,
+    "message": "KYC provider validation in progress..."
+  },
+  "startedAt": "2026-04-13T14:22:45Z",
+  "updatedAt": "2026-04-13T14:23:10Z"
+}
+```
+
+#### List Workflows
+
+```bash
+GET /workflows
+
+Response (200 OK):
+{
+  "workflows": [
+    {
+      "name": "identity-verification",
+      "version": "1.2.0",
+      "steps": 5,
+      "averageDuration": "42s"
+    },
+    {
+      "name": "credential-issuance",
+      "version": "1.0.0",
+      "steps": 2,
+      "averageDuration": "15s"
+    },
+    ...
+  ]
+}
+```
+
+#### Get Workflow Details
+
+```bash
+GET /workflows/identity-verification
+
+Response (200 OK):
+{
+  "name": "identity-verification",
+  "description": "Multi-step KYC and identity verification flow",
+  "version": "1.2.0",
+  "steps": [
+    {
+      "id": "validate-input",
+      "type": "validation",
+      "timeout": 30,
+      "description": "Validate user input format"
+    },
+    {
+      "id": "check-kyc-provider",
+      "type": "external-api",
+      "provider": "sumsub",
+      "timeout": 300,
+      "description": "Call KYC provider API"
+    },
+    ...
+  ],
+  "inputSchema": {...},
+  "outputSchema": {...}
+}
+```
+
+#### Stream Task Logs
+
+```bash
+GET /dispatch/tasks/task-2026-04-13-001/logs
+Accept: text/event-stream
+
+Response (200 OK, streaming):
+data: {"timestamp":"2026-04-13T14:22:45Z","level":"INFO","message":"Task started"}
+data: {"timestamp":"2026-04-13T14:22:46Z","level":"INFO","message":"Step 1: Validating input..."}
+data: {"timestamp":"2026-04-13T14:22:47Z","level":"INFO","message":"Step 1: PASS"}
+data: {"timestamp":"2026-04-13T14:23:00Z","level":"INFO","message":"Step 2: KYC provider request..."}
+...
+```
+
+#### Cancel Task
+
+```bash
+POST /dispatch/tasks/task-2026-04-13-001/cancel
+
+Response (200 OK):
+{
+  "taskId": "task-2026-04-13-001",
+  "status": "CANCELLED",
+  "reason": "user requested"
+}
+```
+
+## Web UI
+
+**URL:** `http://localhost:5273` (development)
+
+### Dashboard
+
+Real-time overview of orchestrator health:
+
+- **Workers:** Number and status (healthy/degraded/down)
+- **Queue:** Pending tasks by priority
+- **Throughput:** Tasks/min, average duration, error rate (P95)
+- **Alerts:** Critical issues and recommendations
+
+### Task Monitor
+
+Browse active and completed tasks:
+
+- **Task List:** Filter by workflow, status, date range
+- **Task Details:** Full task metadata, inputs, outputs, logs
+- **Live Logs:** Stream task logs in real-time
+- **Retry:** Manually retry failed tasks
+- **Cancel:** Stop running tasks
+
+### Workflow Viewer
+
+Explore workflow definitions:
+
+- **Workflow Graph:** Visual DAG of steps
+- **Step Details:** Description, timeout, retry policy
+- **Example Runs:** Past executions with metrics
+- **Metrics:** Average duration, success rate, error types
+
+## Integration Example
+
+### Complete Identity Verification Flow
+
+```bash
+# 1. Create task via API
+curl -X POST http://localhost:3310/dispatch/tasks \
+  -H "Content-Type: application/json" \
+  -d '{
+    "workflow": "identity-verification",
+    "priority": "high",
+    "input": {
+      "user_id": "user-123",
+      "kyc_data": {
+        "first_name": "Alice",
+        "last_name": "Smith",
+        "email": "alice@example.com",
+        "country": "DE"
+      }
+    }
+  }'
+
+# Response: { "taskId": "task-001", "status": "PENDING" }
+
+# 2. Monitor progress
+curl -X GET http://localhost:3310/dispatch/tasks/task-001
+
+# Response:
+# {
+#   "status": "RUNNING",
+#   "progress": { "step": "check-kyc-provider", "percentage": 50 }
+# }
+
+# 3. Wait for completion (polling or webhook)
+# When complete, receive:
+# {
+#   "status": "COMPLETED",
+#   "output": {
+#     "credential_id": "cred-abc123def",
+#     "verification_status": "verified",
+#     "vc_json": {...}
+#   }
+# }
+
+# 4. Access the issued credential
+curl -X GET http://localhost:3310/credentials/cred-abc123def
+# Returns: Full verifiable credential (signed, on-chain anchored)
+```
+
+## Configuration
+
+### Environment Variables
+
+```bash
+# Dispatcher
+ORCHESTRATOR_WORKERS=4           # Number of worker processes
+ORCHESTRATOR_QUEUE_SIZE=1000     # Max pending tasks
+ORCHESTRATOR_TIMEOUT_DEFAULT=3600 # Default task timeout (seconds)
+
+# Workflows
+ORCHESTRATOR_WORKFLOW_PATH=/app/workflows  # Workflow definitions
+ORCHESTRATOR_PLUGIN_PATH=/app/plugins      # Custom step plugins
+
+# External Services
+KYC_PROVIDER=sumsub              # Identity verification provider
+KYC_API_KEY=... (in Vault)      # KYC provider credentials
+SSID_CORE_URL=http://localhost:8080  # SSID Core service
+
+# Sessions
+SESSION_ISOLATION=true           # Enable session isolation
+SESSION_TTL=7200                 # Session lifetime (seconds)
+SESSION_CLEANUP_INTERVAL=300     # Cleanup check interval (seconds)
+
+# Web UI
+ORCHESTRATOR_WEB_PORT=5273      # UI server port
+ORCHESTRATOR_API_PORT=3310      # API server port
+```
+
+### Vault Integration
+
+All sensitive data (API keys, private keys) is stored in Vault:
+
+```bash
+# Orchestrator has Vault token scoped to:
+# secret/orchestrator/kyc-provider
+# secret/orchestrator/ssid-signer
+# secret/data/vc-private-key
+
+# No secrets in code or .env files
+```
+
+## Troubleshooting
+
+**Task Stuck in PENDING**
+
+```bash
+# Check worker health
+curl http://localhost:3310/health
+
+# If workers=0, restart orchestrator:
+pm2 restart orchestrator
+
+# If workers>0, task may be waiting for resources:
+curl http://localhost:3310/dispatch/tasks/task-id/logs | head -20
+```
+
+**External Service Timeout (KYC Provider)**
+
+```bash
+# KYC provider slow; increase timeout:
+POST /dispatch/tasks
+{
+  "workflow": "identity-verification",
+  "timeout": 600  # increase from 300s to 600s
+}
+```
+
+**Session Isolation Error**
+
+```bash
+# Session couldn't isolate; check Vault connectivity:
+curl http://localhost:3310/health
+
+# Verify Vault token:
+echo $VAULT_TOKEN | base64 -d
+
+# Re-authenticate if needed:
+vault login -method=approle \
+  role_id=$VAULT_ROLE_ID \
+  secret_id=$VAULT_SECRET_ID
+```
+
+---
+
+See also:
+- [5-Repo System Topology](../architecture/5-repo-topology) — Orchestrator role
+- [EMS Control Plane](./ems-control-plane) — Task creation and monitoring
+- [Port Matrix (Current)](../deployments/ports-matrix-current) — Service endpoints
+- [Dispatcher Workflow](./dispatcher) — Dispatch routing details

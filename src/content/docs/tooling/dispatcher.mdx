@@ -48,7 +48,9 @@ Every operation in SSID is defined as a **TaskSpec** — a JSON document that de
 5. **Evidence Write** — Record PASS/FAIL results in WORM log
 
 <Aside type="note">
-The dispatcher is located at `12_tooling/cli/ssid_dispatcher.py` in the SSID repository.
+The SSID dispatcher is located at `12_tooling/cli/ssid_dispatcher.py` in the SSID repository. This is a low-level orchestration tool for SSID internal operations.
+
+For runtime task dispatch and workflow execution across the full SSID ecosystem (EMS ↔ SSID-Orchestrator), see [Orchestrator Runtime](./orchestrator-runtime).
 </Aside>
 
 ## Running a Task
