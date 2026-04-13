@@ -1,0 +1,204 @@
+---
+title: Mainnet Readiness Roadmap
+description: Production deployment timeline, gates, requirements, and go-live criteria.
+---
+
+# Mainnet Readiness Roadmap
+
+⚠️ **IMPORTANT: SSID mainnet deployment is NOT LIVE.** This page describes the **planned** production readiness gates and timeline. No SSID services are currently operating on Ethereum mainnet or Polygon mainnet. All current testing is on **Sepolia and Mumbai testnets only.**
+
+## Current Status
+
+| Phase | Timeline | Status | Notes |
+|-------|----------|--------|-------|
+| **Phase 0: Planning** | Q1 2026 | ✅ Complete | Roadmap defined, gate structure finalized |
+| **Phase 1: Testnet** | Q2 2026 | 🟡 In Progress | Sepolia/Mumbai deployments, integration testing |
+| **Phase 2: Audit & Security** | Q3 2026 | ❌ Not Started | Third-party smart contract audit (3-4 weeks) |
+| **Phase 3: Mainnet Prep** | Q4 2026 | ❌ Not Started | Mainnet contract deployments (non-production) |
+| **Phase 4: Soft Launch** | Q1 2027 | ❌ Not Started | Limited mainnet rollout, community validator set |
+| **Phase 5: Full Launch** | TBD | ❌ Not Started | General availability on mainnet |
+
+**No go-live date is set. Mainnet launch requires passing all gates in Phase 2–4.**
+
+## Mainnet Readiness Gates
+
+### Gate 1: Testnet Stability (Q2 2026)
+
+**Requirement:** All core flows stable on Sepolia + Mumbai for ≥2 weeks  
+**Success Criteria:**
+- ✅ DID registration and resolution &lt;100ms latency
+- ✅ VC issuance cycle &lt;5s end-to-end
+- ✅ Verification success rate ≥99.9%
+- ✅ Zero critical bugs in integration test suite (18+ tests)
+- ✅ Orchestrator uptime ≥99.95%
+- ✅ All API endpoints pass contract tests
+
+**Owner:** Platform Engineering  
+**Approval:** Technical Steering Committee
+
+### Gate 2: Security Audit (Q3 2026)
+
+**Requirement:** Independent third-party smart contract audit  
+**Success Criteria:**
+- ✅ Audit firm selected (reputable: OpenZeppelin, Trail of Bits, CertiK, or equivalent)
+- ✅ Audit scope: 100% of contracts in 03_core and 20_foundation
+- ✅ No critical/high-severity issues remaining
+- ✅ Audit report published (redacted version in docs)
+- ✅ All recommendations addressed or documented with risk acceptance
+
+**Estimated Cost:** $25K–$75K USD  
+**Estimated Duration:** 3–4 weeks  
+**Owner:** Security & Compliance  
+**Approval:** Board + Legal
+
+### Gate 3: Regulatory Compliance (Q3–Q4 2026)
+
+**Requirement:** Compliance with eIDAS, MiCA, GDPR, and jurisdiction-specific rules  
+**Success Criteria:**
+- ✅ eIDAS Annex I alignment documented (qualified trust services)
+- ✅ MiCA classification (token = transferable; governance = utility)
+- ✅ GDPR data processing agreement (DPA) finalized
+- ✅ Identity verification flow meets KYC thresholds
+- ✅ AML/CFT screening integrated (Sumsub, iDenfy, or equivalent)
+- ✅ Privacy impact assessment (PIA) completed
+
+**Owner:** Legal & Compliance  
+**Approval:** External Counsel + Regulatory Advisor
+
+### Gate 4: Operational Readiness (Q4 2026)
+
+**Requirement:** Production infrastructure and runbooks in place  
+**Success Criteria:**
+- ✅ Kubernetes cluster configured for mainnet (HA, auto-scaling, monitoring)
+- ✅ Vault instance hardened (HSM, backup, disaster recovery)
+- ✅ Observability stack live (Prometheus, Grafana, OpenTelemetry, alerts)
+- ✅ Incident response runbooks documented and tested
+- ✅ On-call rotation established (24/7 coverage)
+- ✅ Backup and recovery procedures tested monthly
+
+**Owner:** DevOps & Infrastructure  
+**Approval:** VP Operations
+
+### Gate 5: Go-Live Approval (Q1 2027)
+
+**Requirement:** Executive and stakeholder sign-off  
+**Success Criteria:**
+- ✅ All prior gates (1–4) passed
+- ✅ Risk register reviewed and accepted
+- ✅ Insurance/indemnity arrangements finalized
+- ✅ Launch communications and support plan approved
+- ✅ Soft-launch success (validators, early partners)
+- ✅ Board/DAO vote for full launch (if applicable)
+
+**Owner:** Executive Leadership  
+**Approval:** CEO, Board, Community (DAO vote)
+
+## Mainnet Contract Addresses (When Deployed)
+
+**These are placeholder values. Actual mainnet addresses will be announced post-launch.**
+
+| Contract | Ethereum Mainnet | Polygon Mainnet |
+|----------|------------------|-----------------|
+| IdentityResolver | TBD | TBD |
+| VerifiableCredential | TBD | TBD |
+| GovernanceToken (SSID) | TBD | TBD |
+| DAO Treasury | TBD | TBD |
+| Cross-Chain Bridge | TBD | TBD |
+
+## Pre-Launch Checklist
+
+### Infrastructure (2 weeks before launch)
+
+- [ ] All services deployed to mainnet (non-production)
+- [ ] Contracts verified on Etherscan / PolygonScan
+- [ ] Monitoring dashboards live and green
+- [ ] Load test: 1000 concurrent users, pass &lt;1% error rate
+- [ ] Backup restore test: RTO &lt;1 hour, RPO &lt;15 min
+- [ ] SSL certificates valid and auto-renewal configured
+
+### Security (1 week before launch)
+
+- [ ] Penetration test completed
+- [ ] OWASP Top 10 scan: zero critical/high findings
+- [ ] Secrets rotation: all API keys, DB passwords, private keys regenerated
+- [ ] Audit logs enabled and monitored
+- [ ] Rate limiting configured (API 1000 req/sec per user)
+- [ ] DDoS mitigation in place (Cloudflare, AWS Shield, or equivalent)
+
+### Legal & Compliance (2 weeks before launch)
+
+- [ ] Terms of Service finalized
+- [ ] Privacy Policy approved
+- [ ] Smart contract license (MIT/Apache/GPL)
+- [ ] Liability waiver (if required by jurisdiction)
+- [ ] Support SLA documented
+
+### Communications (3 weeks before launch)
+
+- [ ] Launch announcement drafted
+- [ ] Mainnet documentation complete (you are here)
+- [ ] Help desk trained on common issues
+- [ ] Social media coordination (Discord, Twitter, etc.)
+- [ ] Community office hours scheduled
+
+## Risk Register (High-Level)
+
+| Risk | Impact | Mitigation |
+|------|--------|-----------|
+| Smart contract exploit | Critical | Third-party audit, formal verification (optional) |
+| Regulatory action | High | Compliance gate (Gate 3), legal review |
+| Network downtime | High | HA infrastructure, automatic failover, SLA monitoring |
+| Liquidity shortage | Medium | DAO governance, token distribution plan |
+| User loss of keys | Medium | Education, non-custodial design, recovery options |
+| Reputational damage | High | Transparent roadmap, security-first culture, incident response |
+
+## Mainnet Support Model
+
+### Initial Launch Phase (Month 1–3)
+
+- **Support Hours:** 24/7 on-call for critical issues
+- **Response Time:** &lt;15 min for P0 (system down), &lt;1h for P1 (significant degradation)
+- **Status Page:** Real-time updates on https://status.ssid.dev (example)
+- **Escalation:** Dedicated Slack channel for community critical issues
+
+### Steady State (Month 4+)
+
+- **Support Hours:** Business hours (9-17 UTC) for general inquiries; 24/7 for security incidents
+- **Response Time:** &lt;1h for critical, &lt;24h for non-critical
+- **Community:** Self-service documentation, Discord/forum support
+
+## Post-Launch Roadmap (Indicative)
+
+After successful mainnet launch, planned improvements:
+
+- **M+1:** Layer 2 support (Arbitrum, Optimism) for lower fees
+- **M+3:** Cross-chain atomic swaps for seamless multi-chain identity
+- **M+6:** Decentralized identity reputation (with privacy preservation)
+- **M+9:** Integration with other SSI platforms (Hyperledger Indy, W3C VC Hub)
+
+---
+
+## Frequently Asked Questions
+
+**Q: When is mainnet launching?**  
+A: No launch date is set. All phases must complete successfully. Target range is Q1–Q2 2027, but dates may slip if gates are not passed.
+
+**Q: Can I use SSID on mainnet now?**  
+A: No. SSID is testnet-only (Sepolia/Mumbai). Mainnet deployment is under development.
+
+**Q: How much will mainnet cost?**  
+A: Gas fees depend on network conditions. Initial estimates: $0.10–$1.00 USD per operation (DID registration, VC issuance).
+
+**Q: Will my testnet DIDs work on mainnet?**  
+A: No. Testnet and mainnet are separate. You will need to re-register on mainnet after launch.
+
+**Q: What if a gate fails?**  
+A: The timeline slips. We will not launch without passing all gates, even if it means delaying months.
+
+---
+
+See also:
+- [Testnet Deployment Guide](./testnet-guide) — Testing before mainnet
+- [Testnet Addresses & RPC](./testnet-addresses) — Current testnet contracts
+- [5-Repo System Topology](../architecture/5-repo-topology) — Contract source code
+- [Compliance Framework](../compliance/audit-framework) — Regulatory overview
