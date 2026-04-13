@@ -1,0 +1,56 @@
+---
+title: General FAQ
+description: Häufig gestellte Fragen zu SSID, seinem Zweck und wie es funktioniert.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# General FAQ
+
+## Was ist SSID?
+
+SSID ist eine **Self-Sovereign Identity**-Infrastruktur — ein Governance-First-System für die Verwaltung dezentralisierter Identifikatoren (DIDs) und verifizierbarer Credentials (VCs).
+
+## Ist SSID eine Blockchain?
+
+Nein. SSID ist eine Identity-Infrastruktur, die sich mit Blockchains integrieren kann, aber nicht unbedingt eine benötigt. Das Kernsystem läuft auf deterministischen, Hash-verknüpften Artefakt-Ketten.
+
+## Ist SSID eine Kryptowährung?
+
+Nein. SSID hat einen optionalen Utility-Token für Governance und Anreiz-Ausrichtung, aber der Token ist keine Kryptowährung, kein Zahlungsinstrument und kein Anlageprodukt.
+
+## Brauche ich Tokens, um SSID zu verwenden?
+
+Nein. Core Identity-Features (DID-Erstellung, Credential-Ausstellung, Verifizierung) sind kostenlos und erfordern keine Token-Besitztümer.
+
+## Wer kontrolliert meine Daten?
+
+**Sie tun das.** SSID folgt Self-Sovereign-Prinzipien — Ihre Identity-Daten bleiben in Ihrer Wallet auf Ihrem Gerät. Keine zentrale Autorität hat Zugriff.
+
+## Ist SSID Open Source?
+
+SSID folgt einem **Open-Core-Modell**:
+- Öffentlicher Code und Dokumentation sind in [SSID-open-core](https://github.com/EduBrainBoost/SSID-open-core)
+- Die vollständige Implementierung und das Audit-System befinden sich in einem privaten Repository
+- Diese Dokumentations-Site ist öffentlich
+
+## Wie wird SSID regiert?
+
+Durch ein **PR-Only-Governance-Modell** mit:
+- Alle Änderungen erfordern Pull-Request-Review
+- Policy Gates erzwingen Qualität und Sicherheit
+- Evidence wird in Append-Only WORM-Logs protokolliert
+- Token-Holder können über Governance-Proposals abstimmen
+
+## Welche Standards verwendet SSID?
+
+| Standard | Zweck |
+|----------|---------|
+| W3C DID | Dezentralisierte Identifikatoren |
+| W3C VC | Verifiable Credentials |
+| DIDComm | Sichere Nachrichten |
+| SD-JWT | Selective Disclosure |
+
+<Aside type="tip">
+Kann Ihre Frage nicht finden? Überprüfen Sie die [Token Disambiguation](/de/faq/token-disambiguation)-Seite für Fragen zum SSID-Token.
+</Aside>
