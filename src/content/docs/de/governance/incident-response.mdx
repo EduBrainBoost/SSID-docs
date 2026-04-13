@@ -1,0 +1,58 @@
+---
+title: "Incident Response & DR"
+description: "Incident Response Verfahren abgestimmt mit NIST SP 800-61r3, BSI DER und DORA für das SSID Ökosystem."
+---
+
+Das SSID Incident Response Framework abdeckt Detection, Containment, Eradication und Recovery für Sicherheits- und Operational Incidents.
+
+## Reference Frameworks
+
+| Framework | Scope | Anwendung |
+|-----------|-------|-----------|
+| NIST SP 800-61r3 | Incident Response | IR Lifecycle, CSF 2.0 Integration |
+| BSI DER.2.1 | Security Incident Handling | Deutsche regulatorische Ausrichtung |
+| BSI DER.4 | Emergency Management | Business Continuity |
+| DORA | Digital Operational Resilience | EU Finanzsektor Anforderungen |
+
+## Incident Classes
+
+| Klasse | Beispiel | Severity | Response |
+|--------|---------|----------|----------|
+| Webhook Spoofing | Signature Verification Failure Spike | HIGH | Block Intake, Verify HMAC Secrets |
+| Policy Bypass | Manipulierte Check Conclusions | CRITICAL | Block Merges, Audit Trail Review |
+| Runner Compromise | Artefakt Tampering (SLSA/Signing Mismatch) | CRITICAL | Isolate Runner, Re-Verify Artifacts |
+| Evidence Failure | WORM Write Errors, Retention Misconfiguration | CRITICAL | Fail-Closed: Block Merges |
+| Prompt Injection | OWASP LLM01 Pattern in Claude Interaction | HIGH | Disable AI Assist, Review Output |
+
+## Quarantine
+
+Quarantine ist ausschließlich für Sicherheits-Incidents reserviert:
+- Malware oder compromittierte Binaries
+- Aktives Exploit Risk
+- DMCA Takedown
+
+Quarantine Pfad: `02_audit_logging/quarantine/singleton/quarantine_store/`
+Evidence Hashes: `23_compliance/evidence/malware_quarantine_hashes/`
+
+Structure/Policy Violations verursachen Gate FAIL, nicht Quarantine.
+
+## Operational Runbooks
+
+Fünf Runbooks decken die kritischsten Operational Scenarios ab:
+
+1. **RB-001**: Webhook Intake degradiert
+2. **RB-002**: Required Checks stecken
+3. **RB-003**: Evidence Write Failure
+4. **RB-004**: Key/Secret Rotation
+5. **RB-005**: Claude Quota überschritten
+
+## Disaster Recovery
+
+| Komponente | Backup Strategie | Recovery Target |
+|-----------|------------------|-----------------|
+| Event Store | Append-Only JSONL, Filesystem Backup | RPO: Letztes Event |
+| WORM Evidence | Sealed, Immutable, Cross-Location Copy | RPO: Zero (Immutable) |
+| Key Material | KMS/HSM-Gestitzt (geplant) | Break-Glass dokumentiert |
+| Configuration | Git-Versioniert (ems.schema.yaml) | Restore aus Repo |
+
+DR Übungen: Quartalsweise Tabletop + jährlicher vollständiger Restore Test (per DORA Resilience Anforderungen).

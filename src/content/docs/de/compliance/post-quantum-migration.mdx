@@ -1,0 +1,49 @@
+---
+title: "Post-Quantum Kryptographie Migration"
+description: "Migrationspfad von klassischen zu quantenresistenten Kryptographischen Algorithmen"
+---
+
+## Quantum Threat Timeline
+
+Aktuelle kryptographische Algorithmen werden durch den Fortschritt von Quantum Computern obsolet:
+
+| Algorithmus | Typ | Quantum Verwundbar | SSID Nutzung |
+|-----------|-----|-------------------|------------|
+| RSA-2048 | Asymmetrisch | Ja (Shor's) | TLS, Git Signing |
+| ECDSA P-256 | Signatur | Ja (Shor's) | Evidence Signing |
+| SHA-256 | Hash | Teilweise (Grover's, immer noch 128-bit) | Hash Chains, WORM |
+| AES-256 | Symmetrisch | Teilweise (Grover's, immer noch 128-bit) | Encryption at Rest |
+
+## NIST Post-Quantum Standards
+
+| Standard | Algorithmus | Typ | Anwendungsfall |
+|----------|------------|-----|----------------|
+| FIPS 203 | ML-KEM (Kyber) | Key Encapsulation | TLS, Key Exchange |
+| FIPS 204 | ML-DSA (Dilithium) | Digital Signatur | Evidence Signing, Git |
+| FIPS 205 | SLH-DSA (SPHINCS+) | Hash-basierte Signatur | Langzeit-Verifikation |
+
+## Migration Phasen
+
+### Phase 1: Inventur und Bewertung (Aktuell)
+- Katalogisiere alle kryptographischen Nutzungen im SSID Ökosystem
+- Identifiziere Quantum-Verwundbarkeiungen
+- Dokumentiere in `21_post_quantum_crypto/migration_roadmap.md`
+
+### Phase 2: Hybrid Deployment
+- Deploy Hybrid Signaturen (Klassisch + PQC) für Evidence Chain
+- Nutze ML-DSA neben ECDSA für Dual Signing
+- Behalte Rückwärts-Kompatibilität
+
+### Phase 3: PQC Primary
+- ML-KEM für alle neuen Key Exchanges
+- ML-DSA als primärer Signaturalgorithmus
+- SLH-DSA für Archiv/Langzeit-Evidence
+
+### Phase 4: Klassische Deprecation
+- Entferne klassisch-nur Code Pfade
+- Mandate PQC für alle neuen Deployments
+- Re-signiere historische Evidence mit PQC
+
+## Hash Chain Implikationen
+
+SHA-256 bleibt gegen Quantum Angriffe auf 128-bit Sicherheitsniveau sicher (Grover's Algorithmus halbiert effektive Schlüssellänge). Keine sofortige Migration nötig für Hash Chains, aber Überwachung der NIST Richtlinie für zukünftigen SHA-3 Übergang.

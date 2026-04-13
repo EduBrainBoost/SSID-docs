@@ -1,0 +1,57 @@
+---
+title: "Audit Framework"
+description: "Audit Schedule, Evidence Chain und CI Validierungs Gates in SSID."
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Diese Seite dokumentiert den Audit-Plan, CI/CD-Validierungs-Gates und die unveränderliche Evidence Chain, die Compliance über das SSID-Ökosystem durchsetzt.
+
+## Audit-Plan
+
+| Kadenz | Reviewer | Scope |
+|--------|----------|-------|
+| Monatlich | Internes Compliance Team | Merged Changes Review |
+| Quartalsweise | Senior Compliance Officer + unabhängiger Auditor | Deep Audit |
+| Halbjährlich | Executive Compliance Committee + Legal | Governance Review |
+| Jährlich | Externer Third-Party + Board Zertifizierung | Full Audit |
+
+## CI/CD Validierungs Gates
+
+Vier Gate-Level werden sequenziell ausgeführt. Ein Fehler auf jeder Ebene produziert **Exit Code 24** und blockiert den Branch.
+
+<Aside type="danger">Exit Code 24 triggert automatischen Branch Protection. Der verletzte Commit kann nicht mergen, bis alle Gates bestanden sind.</Aside>
+
+| Level | Name | Prüfungen |
+|-------|------|-----------|
+| 1 | Structure | Verify genau 24 Root Directories, erlaubte Ausnahmen, MUST/OPTIONAL Folder Structure |
+| 2 | Content | `chart.yaml` Validierung (16 Shards pro Root), `manifest.yaml` Structure, Dependency Graph Validierung |
+| 3 | Policy | Compliance Matrix Version Kompatibilität, Evidence Chain Integrität, Governance Approval Status |
+| 4 | Anti-Gaming | Badge Integrität Signatur Validierung, Zirkular Dependency Detection, Review Compliance Status |
+
+<Aside type="tip">Führen Sie die vollständige Gate Chain lokal vor dem Pushing aus, um Branch-Lock Verzögerungen zu vermeiden.</Aside>
+
+## Unveränderliche Evidence Chain
+
+Alle Audit-Artefakte folgen Append-Only Semantik mit WORM (Write Once Read Many) Eigenschaften.
+
+| Komponente | Verhalten |
+|-----------|-----------|
+| Hash-Ledger | Append-Only; SHA-256 Chain aller Gate Results |
+| Quartalsweise Compliance Reports | Automatisch generiert aus Ledger-Daten |
+| Evidence Quarantine | WORM-Sealed; keine rückwirkende Änderung |
+| Version-spezifische Validität | Jeder Evidence-Datensatz ist an seine Source-Version gebunden |
+
+## Registry Lock
+
+Die Compliance Registry erzwingt strikte Schreibkontrollen:
+
+- **Write-Once / Append-Only** Hash Chain verhindert Manipulation.
+- **Dual Approval** erforderlich für jede Änderung (Owner + Compliance Officer).
+- **Keine rückwirkenden Änderungen** zulässig unter jeder Umständigkeit.
+
+<Aside type="caution">Das Umgehen des Registry Lock annulliert die Evidence Chain für die betroffene Version. Eine vollständige Re-Audit ist erforderlich, um Compliance Status wiederherzustellen.</Aside>
+
+---
+
+Abgeleitet von lokalem SoT, SSID_structure_level3_part3_MAX.

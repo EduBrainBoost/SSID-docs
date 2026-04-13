@@ -1,0 +1,68 @@
+---
+title: Policy Gates
+description: Automatisierte Prüfungen, die erfolgreich sein müssen, bevor eine Änderung akzeptiert wird.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Policy Gates
+
+Policy Gates sind **automatisierte Durchsetzungspunkte**, die Änderungen validieren, bevor sie in das System gelangen.
+
+## Gate-Typen
+
+| Gate | Trigger | Prüfungen |
+|------|---------|-----------|
+| **Build Gate** | Jeden PR | Code kompiliert, keine Typfehler |
+| **Test Gate** | Jeden PR | Alle Tests bestanden, Coverage-Schwelle erfüllt |
+| **Secret Scan** | Jeden PR | Keine Zugangsdaten, API-Schlüssel oder Private Keys in Diff |
+| **Dependency Audit** | Jeden PR | Keine bekannten CVEs in Abhängigkeitsbaum |
+| **Schema Validation** | Manifest-Änderungen | Hybrid-Charts entsprechen Schema |
+| **Hash Verification** | Artefakt-Erstellung | Output-Hash stimmt mit erwartet überein |
+| **CODEOWNERS** | Jeden PR | Erforderliche Reviewer haben genehmigt |
+
+## Gate-Ergebnisse
+
+Jedes Gate produziert ein PASS- oder FAIL-Ergebnis:
+
+```json
+{
+  "gate": "secret_scan",
+  "result": "PASS",
+  "details": {
+    "files_scanned": 42,
+    "secrets_found": 0,
+    "patterns_checked": ["api_key", "private_key", "password", "token"]
+  }
+}
+```
+
+<Aside type="caution">
+Ein einzelnes FAIL blockiert den gesamten PR von der Zusammenführung. Es gibt keine Überschreibungen — beheben Sie das Problem oder liefern Sie Nachweis, dass es ein falsches Positiv ist.
+</Aside>
+
+## Nicht verhandelbar
+
+Diese Policy Gates können niemals deaktiviert werden:
+
+1. **`safe_fix`** — Änderungen dürfen bestehende Funktionalität nicht unterbrechen
+2. **`root_24_lock`** — Root 24 (Meta-Orchestrierung) erfordert erweiterte Überprüfung
+3. **`no_secrets_in_repo`** — Null-Toleranz für Zugangsdaten im Quellcode
+4. **`no_scores`** — Keine willkürlichen Bewertungssysteme in der Governance
+
+## Custom Gates
+
+Teams können zusätzliche Gates in ihrer Root-Konfiguration definieren:
+
+```json
+{
+  "root": "04_credential_engine",
+  "custom_gates": [
+    {
+      "name": "credential_schema_validation",
+      "script": "scripts/validate_cred_schema.sh",
+      "required": true
+    }
+  ]
+}
+```

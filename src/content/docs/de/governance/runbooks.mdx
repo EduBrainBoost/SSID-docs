@@ -1,0 +1,97 @@
+---
+title: "Operational Runbooks"
+description: "Schritt-für-Schritt-Verfahren für kritische Incident Response Szenarien"
+---
+
+## RB-001: Webhook Intake Degradiert
+
+**Symptome**: Gate Checks werden nicht ausgelöst, PR Status Checks stecken fest als "pending"
+
+**Diagnose**:
+1. Überprüfe GitHub Webhook Delivery Log: Settings → Webhooks → Recent Deliveries
+2. Verifiziere EMS Backend läuft: `curl http://localhost:8000/health`
+3. Überprüfe Webhook Signature Validierung in Logs
+
+**Lösung**:
+1. Wenn Backend ausfällt: `bash scripts/dev-start.sh`
+2. Wenn Webhook Delivery fehlschlägt: Re-deliver aus GitHub UI
+3. Wenn Signature Mismatch: Rotiere Webhook Secret in GitHub + EMS Config
+
+**Prävention**: Richte Uptime Monitoring auf `/health` Endpoint auf
+
+---
+
+## RB-002: Required Checks Stecken Fest
+
+**Symptome**: PR zeigt "Expected — Waiting for status to be reported"
+
+**Diagnose**:
+1. Überprüfe GitHub Actions Tab auf Running/Queued Workflows
+2. Verifiziere Branch Protection Rules: Settings → Branches → Protection Rules
+3. Überprüfe, ob Required Check Name genau mit Workflow Job Name übereinstimmt
+
+**Lösung**:
+1. Wenn Workflow Queued: Warten oder Cancel/Re-run
+2. Wenn Check Name Mismatch: Update Branch Protection Rule zum Match
+3. Wenn Runner Offline: Überprüfe Self-Hosted Runner Status
+4. Notfall: Admin kann Merge umgehen (erfordert OWNER Genehmigung)
+
+**Prävention**: Überwache GitHub Actions Runner Health
+
+---
+
+## RB-003: Evidence Write Failure
+
+**Symptome**: Gate bestanden aber Evidence nicht aufgezeichnet, Hash Chain Gap
+
+**Diagnose**:
+1. Überprüfe Evidence Directory Berechtigungen: `ls -la $SSID_EVIDENCE/`
+2. Verifiziere Disk Space: `df -h`
+3. Überprüfe Hash Chain Integrität: `python 12_tooling/cli/evidence_chain.py scan`
+
+**Lösung**:
+1. Wenn Permission Error: Behebe Directory Ownership
+2. Wenn Disk Voll: Räume alte Artefakte auf, expand Volume
+3. Wenn Chain Gebrochen: Führe Backfill aus `evidence_chain.py backfill-merges`
+4. Wenn WORM Backend Fehler: Überprüfe Cloud Storage Konnektivität
+
+**Prävention**: Überwache Disk Space, setze Alerts auf Evidence Write Failures
+
+---
+
+## RB-004: Key/Secret Rotation
+
+**Symptome**: Geplante Rotation, Compromised Credential oder Expiring Certificate
+
+**Verfahren**:
+1. **GitHub PAT**: Generiere neuen Token → Update Repository Secrets → Verifiziere CI
+2. **Webhook Secret**: Generiere neuen Secret → Update GitHub + EMS Config → Test Delivery
+3. **API Keys**: Rotiere im Provider Dashboard → Update `.env` → Restart Services
+4. **TLS Certificates**: Issue neues Cert → Deploy → Verifiziere HTTPS
+
+**Post-Rotation**:
+- Verifiziere alle abhängigen Services funktionieren noch
+- Protokolliere Rotation Event in Audit Trail
+- Update Secret Inventory Dokumentation
+
+---
+
+## RB-005: Claude Quota Überschritten
+
+**Symptome**: Agent Dispatch fehlgeschlagen mit Rate Limit oder Quota Error
+
+**Diagnose**:
+1. Überprüfe aktuelle Nutzung: Anthropic Console → Usage
+2. Verifiziere Rate Limits: Überprüfe `429` Responses in Logs
+3. Überprüfe Spend Limits in `config/autopilot_limits.yaml`
+
+**Lösung**:
+1. Wenn Rate Limited: Warte auf Cooldown (normalerweise 1 Minute)
+2. Wenn Daily Quota Hit: Pausiere nicht-kritische Operationen bis Reset
+3. Wenn Monthly Quota Hit: Fordere Quota Increase an oder wechsel zu Lower-Tier Model
+4. Wenn API Key Invalid: Regeneriere in Anthropic Console → Update Config
+
+**Prävention**:
+- Setze konservative Spend Limits pro Agent Rolle
+- Überwache Nutzungstrends mit AI Gateway Dashboard
+- Queue Non-Urgent Requests während High-Usage Perioden

@@ -1,0 +1,67 @@
+---
+title: PR-Only Workflow
+description: Alle Änderungen an SSID erfordern Pull Request Review — ohne Ausnahmen.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# PR-Only Workflow
+
+SSID erzwingt ein striktes **PR-Only Governance Modell**. Keine direkten Commits zu geschützten Branches sind zulässig.
+
+## Regeln
+
+1. **Alle Änderungen** müssen durch einen Pull Request erfolgen
+2. **Mindestens ein Reviewer** muss vor dem Merge genehmigen
+3. **CI Checks** müssen bestanden sein (Build, Tests, Policy Gates)
+4. **CODEOWNERS** werden automatisch zur Überprüfung angefordert
+5. **Squash Merges** sind bevorzugt für saubere History
+
+<Aside type="caution">
+Direkte Pushes zu `main` sind auf Repository-Ebene blockiert. Dies wird durch GitHub Branch Protection Rules durchgesetzt.
+</Aside>
+
+## Warum PR-Only?
+
+| Vorteil | Beschreibung |
+|--------|-------------|
+| **Audit-Barkeit** | Jede Änderung hat einen Review-Datensatz |
+| **Verantwortlichkeit** | Reviewer und Author sind protokolliert |
+| **Qualität** | Automatisierte Checks fangen Regressionen auf |
+| **Evidence** | PR Metadaten füttern WORM Audit Logs |
+| **Compliance** | Erfüllt regulatorische Anforderungen für Change Management |
+
+## PR Workflow
+
+```
+Author erstellt Branch → Schreibt Code → Öffnet PR → CI läuft →
+Reviewer genehmigt → Policy Gates überprüft → Squash Merge → Evidence geschrieben
+```
+
+## Policy Gates auf PRs
+
+Bevor ein PR zusammengeführt werden kann, muss er bestehen:
+
+- Build Gate (Code kompiliert, keine Fehler)
+- Test Gate (alle Tests bestanden)
+- Secret Scan (keine Zugangsdaten in Diff)
+- Dependency Audit (keine bekannten Schwachstellen)
+- CODEOWNERS Genehmigung
+
+## Evidence Generierung
+
+Wenn ein PR zusammengeführt wird, generiert das System automatisch:
+
+```json
+{
+  "event": "pr_merged",
+  "pr_number": 42,
+  "author": "developer",
+  "reviewer": "reviewer",
+  "commit_hash": "abc123...",
+  "policy_gates_passed": ["build", "test", "secret_scan", "dep_audit"],
+  "timestamp_utc": "2026-02-28T12:00:00Z"
+}
+```
+
+Diese Evidence wird zum WORM Log hinzugefügt und kann nicht geändert werden.

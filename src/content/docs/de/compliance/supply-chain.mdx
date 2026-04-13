@@ -1,0 +1,57 @@
+---
+title: "Supply-Chain Security"
+description: "SLSA Provenance, SBOM Generierung, Artifact Signing und Reproducible Builds für das SSID Ökosystem."
+---
+
+Supply-Chain Security sichert, dass jedes von SSID produzierte Artefakt zur Quelle zurückverfolgbar ist, auf Integrität verifiziert wird und unabhängig reproduzierbar ist.
+
+## Aktueller Status
+
+SSID erzwingt Supply-Chain Integrität durch:
+
+- **8-Gate Blocking Chain**: Jeder PR muss Structure, SoT, Policy und QA Gates bestehen
+- **Secret Scan**: Gitleaks (SSID) / Grep-basierte Muster (open-core, docs) in CI
+- **Hash-Only Evidence**: SHA-256 Hashes für alle Artefakte, WORM-Sealed
+- **Dependency Pinning**: OPA v1.0.0, Python 3.11, Gitleaks v8.21.2 pinned in CI
+
+## Geplante Verbesserungen
+
+### SLSA Level 3 Provenance
+
+[SLSA](https://slsa.dev/) definiert Supply-Chain Security Level. Level 3 erfordert:
+
+- Isolierte, hermetic Builds
+- Signierte Provenance Attestationen
+- Non-Falsifiable Build Metadaten
+
+**Roadmap**: Integriere `slsa-verifier` und GitHub's offizielle SLSA Provenance Generatoren in CI.
+
+### SBOM (Software Bill of Materials)
+
+Zwei Standards werden evaluiert:
+
+| Standard | Fokus | Format |
+|----------|-------|--------|
+| SPDX (ISO/IEC 5962:2021) | License Compliance | Tag-Value, JSON, RDF |
+| CycloneDX (ECMA-424) | Security/Vulnerability Tracking | JSON, XML |
+
+**Roadmap**: Generiere SBOM als CI Artefakt neben Gate Evidence.
+
+### Artifact Signing (Sigstore)
+
+- **Cosign**: Keyless Signing mit Fulcio (Kurz-lebige Zertifikate aus OIDC Identität)
+- **Rekor**: Transparenz Log für Audit Trail aller Signing Events
+- **Verifikation**: `cosign verify` gegen Rekor Transparenz Log
+
+### Reproducible Builds
+
+Ziel: Gegeben die gleichen Source Inputs, produziere Bit-identische Outputs.
+
+Aktuelle Maßnahmen:
+- Pinned Tool Versionen in CI (Python, OPA, Gitleaks)
+- Frozen Lockfiles (`pnpm-lock.yaml` für Docs)
+- Deterministic Gate Chain (Stop-on-First-Fail, kein Random Ordering)
+
+Geplant:
+- Nix oder Container-basierte Hermetic Build Umgebung
+- Build Reproducibility Verifikation als CI Gate
