@@ -1,106 +1,64 @@
 ---
-title: "Token Distribution"
-description: "SSID token distribution model, fairness signals, sink mechanics, and SBT roles"
+title: "Token Distribution & Fairness"
+description: "POFI mechanism, impact-token binding, and fair distribution in SSID."
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
-# Token Distribution
+# Token Distribution & Fairness
 
-The SSID token is a **utility and governance token** — not an investment instrument. Its distribution model is designed for ecosystem participation, long-term sustainability, and fair access rather than speculative extraction.
+This page documents the fair-distribution rule: how SSID allocates rewards based on verified impact rather than capital concentration.
+
+## POFI (Proof of Fairness Indicator)
+
+POFI determines priority for discretionary reward pools.
+
+**Formula:** `POFI = Historical Activity Level / Lifetime Rewards Accumulated`
+
+| POFI value | Meaning | Effect |
+|------------|---------|--------|
+| **High** | Much activity, low rewards received | Higher priority for airdrops and bonuses |
+| **Low** | High rewards already accumulated | Lower priority |
+
+**Applies to:** community bonus pools, growth incentives, education grants.
+
+**Does NOT affect:** governance voting rights or validator reward payouts.
+
+## Impact-token binding
+
+Rewards scale with verified impact, not capital.
+
+| Property | Detail |
+|----------|--------|
+| **Bound metrics** | Education completion, energy savings, CO2 reduction |
+| **Concentration prevention** | Rewards scale with verified impact, not capital |
+| **Configurability** | Governance votes can add, modify, or retire metrics |
+| **Verification** | Outcomes attested via verifiable credentials |
+
+## Enterprise distribution
+
+Revenue split per 1,000 EUR enterprise subscription payment:
+
+| Recipient | Amount | Share |
+|-----------|--------|-------|
+| Core Team / Dev | 300 EUR | 30% |
+| DAO Treasury | 500 EUR | 50% |
+| Node Rewards | 100 EUR | 10% |
+| Community Bonus | 100 EUR | 10% |
+
+## MiCA positioning
+
+| Area | Status |
+|------|--------|
+| **Prohibited jurisdictions** | Token not offered in prohibited jurisdictions |
+| **Regulatory monitoring** | Ongoing; classification reviewed quarterly |
+| **DORA alignment** | Incident response procedures aligned with DORA |
+| **Stablecoin reserve testing** | (hypothetical regulatory mapping -- no stablecoin features are currently planned) |
 
 <Aside type="caution">
-The SSID token does not represent equity, debt, or any guaranteed financial claim. There is no redemption at par, no guaranteed buyback, and no profit distribution to holders.
+**Legal safe harbor** -- Token value may decline to zero. The token is provided AS-IS with no warranties. Jurisdictional restrictions apply. Nothing in this documentation constitutes legal, financial, or investment advice.
 </Aside>
 
-## Token Classification
+---
 
-| Property | Value |
-|----------|-------|
-| **Primary function** | Utility access + governance voting |
-| **Investment product?** | No |
-| **Redemption at par?** | No |
-| **Profit distribution?** | No — `treasury_nonprofit_only` |
-| **Custody model** | Non-custodial (user-held keys) |
-| **Transfer restrictions** | Peer-to-peer, no intermediary |
-
-## Sink Model
-
-SSID uses a sink model for treasury management:
-
-- System fees flow into the non-profit treasury
-- Treasury funds are allocated exclusively to ecosystem operations
-- The treasury operates under `treasury_nonprofit_only` constraints
-- No profit extraction, dividend, or buyback mechanisms exist
-
-```text
-Transaction Fee (3%)
-    ├── 2% → Non-Profit Treasury (sink)
-    │         ├── Infrastructure
-    │         ├── Security Audits
-    │         ├── Open-Source Maintenance
-    │         └── Compliance
-    └── 1% → Developer Rewards (autonomous routing)
-```
-
-## Fairness Signals
-
-Beyond the base sink model, SSID can use governance-defined fairness indicators for discretionary or programmatic community allocations.
-
-One example is a **Proof of Fairness Indicator (POFI)** style signal that prioritizes verified impact over capital concentration.
-
-- High contribution and low historical reward can increase priority for ecosystem programs
-- Already saturated reward histories can lower priority for discretionary pools
-- Such signals do not override governance rights or protocol safety constraints
-
-## Impact-Linked Programs
-
-Where governance approves outcome-based programs, distribution may be linked to verifiable impact rather than capital size alone. Typical examples include:
-
-- Education completion
-- Energy savings
-- CO2 reduction
-- Other attestable public-good metrics
-
-These programs must remain auditable, configurable through governance, and backed by verifiable credentials or equivalent evidence.
-
-## SBT Roles
-
-SSID uses **Soulbound Tokens (SBTs)** for role-based access control. SBTs are non-transferable tokens bound to a DID.
-
-| SBT Role | Purpose | Transferable? |
-|----------|---------|---------------|
-| `SBT_CONTRIBUTOR` | Marks verified code contributors | No |
-| `SBT_AUDITOR` | Grants audit and evidence review access | No |
-| `SBT_GOVERNOR` | Enables governance proposal creation | No |
-| `SBT_VALIDATOR` | Authorizes node validation | No |
-| `SBT_REVIEWER` | Grants PR review authority | No |
-
-### Properties
-
-- **Non-transferable** — SBTs cannot be sold, traded, or transferred
-- **DID-bound** — Each SBT is cryptographically linked to a self-sovereign DID
-- **Revocable** — Governance can revoke SBTs through the standard proposal process
-- **Auditable** — All SBT issuance and revocation is logged in the evidence trail
-
-## No Redemption at Par
-
-<Aside type="danger">
-The SSID token has no redemption mechanism:
-
-- No guaranteed exchange rate
-- No buyback program
-- No par value
-- No fixed redemption into fiat, assets, or other tokens
-</Aside>
-
-## Governance Participation
-
-Token holders participate in governance through:
-
-1. Proposal voting
-2. Policy gate approval
-3. Budget allocation within non-profit constraints
-4. Module-level policy changes
-
-Governance scope and restrictions are defined in the [DAO documentation](/governance/dao).
+Derived from local SoT.

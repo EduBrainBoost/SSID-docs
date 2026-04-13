@@ -1,52 +1,27 @@
 ---
-title: "DAO Governance"
-description: "SSID DAO governance structure, scope, change process, and restrictions"
+title: "DAO Governance & Change Process"
+description: "Decentralized governance model, MoSCoW framework, and promotion rules in SSID."
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
-# DAO Governance
+# DAO Governance & Change Process
 
-SSID governance is implemented as a **Decentralized Autonomous Organization (DAO)** with strictly scoped authority. The DAO governs system parameters and policy; it does not create a custodial control layer over user funds.
+This page defines the governance roles, change classification framework, and voting rules that control how SSID evolves.
 
-## Governance Scope
-
-| Area | Examples |
-|------|----------|
-| **System parameters** | Fee thresholds, rate limits, timeout values |
-| **Policy gates** | Adding or removing required review gates |
-| **Module policies** | Per-root access control, contribution requirements |
-| **Budget allocation** | Treasury spending within non-profit constraints |
-| **SBT issuance** | Granting and revoking Soulbound Token roles |
-| **Protocol upgrades** | Smart contract and governance process upgrades |
-
-## Governance Roles
+## Governance roles
 
 | Role | Scope | Responsibilities |
 |------|-------|------------------|
-| **Owner (Per Shard)** | Single shard | Development, quality, release readiness |
-| **Architecture Board** | Cross-root | Strategic decisions, API contracts, breaking changes |
+| **Owner (Per Shard)** | Single Shard | Development, quality, release readiness |
+| **Architecture Board** | Cross-Root | Strategic decisions, API contracts, breaking changes |
 | **Compliance Team** | Org-wide | Regulatory oversight, policy enforcement, audit trail |
 | **Security Team** | Org-wide | Vulnerability management, incident response, pentesting |
 | **DAO / Community** | Protocol-wide | Non-critical governance, treasury allocation, grants |
 
-## Non-Votable Parameters
+## MoSCoW change framework
 
-<Aside type="danger">
-The following parameters are immutable and cannot be changed by governance vote:
-
-- `profit_distribution` — No profit distribution mechanism may be introduced
-- `redemption` — No token redemption at par may be created
-- `treasury_extraction` — No extraction of treasury funds for profit
-- `fee_increase_beyond_cap` — Fee percentages cannot exceed hard-coded caps
-- `root_structure` — The 24-root structure is locked
-- `evidence_deletion` — WORM evidence logs cannot be deleted or modified
-- `custody_model` — The non-custodial design cannot be changed to custodial
-</Aside>
-
-## Change Classification
-
-Every proposed change is classified using a governance priority framework:
+Every proposed change receives one of four priority classifications:
 
 | Priority | Meaning | Example |
 |----------|---------|---------|
@@ -55,33 +30,34 @@ Every proposed change is classified using a governance priority framework:
 | **COULD** | Nice-to-have, lower priority | Dashboard cosmetic improvement |
 | **WOULD** | Future consideration, not currently planned | Experimental DID method support |
 
-## Proposal Lifecycle
+## Promotion and deprecation rules
 
-```text
-1. DRAFT     → Proposer creates proposal
-2. REVIEW    → Community review period
-3. VOTING    → Token-weighted voting period
-4. TIMELOCK  → Mandatory delay before execution
-5. EXECUTION → Proposal is executed on-chain
-```
+Changes move between priority levels under strict conditions:
 
-<Aside type="note">
-The review period ensures that proposals receive community scrutiny before voting begins. Emergency processes may exist, but they operate under stricter thresholds and narrower scope.
+| Transition | Requirements |
+|------------|--------------|
+| SHOULD to MUST | 99.5%+ SLA achieved, security audit passed, 3 independent implementations exist |
+| HAVE to SHOULD | 6-month advance notice, replacement path documented |
+| MUST to Deprecated | Compliance Committee approval + legal review + 12-month wind-down period |
+
+<Aside type="caution">
+Deprecating a MUST-level rule requires legal review. Do not begin a wind-down without written Compliance Committee approval.
 </Aside>
 
-## Treasury Rules
+## DAO voting parameters
 
-The DAO treasury operates under strict non-profit constraints:
+| Parameter | Value |
+|-----------|-------|
+| **Voting period** | 14 days |
+| **Quorum threshold** | 67% |
+| **Fee range** | 0.05% -- 0.5% (adjustable by vote) |
+| **Distribution ratios** | Tunable per governance proposal |
 
-| Rule | Enforcement |
-|------|-------------|
-| No profit extraction | Smart contract invariant |
-| Spending requires vote | Governance approval required |
-| Operational use only | Infrastructure, audits, maintenance, compliance |
-| Transparent accounting | Treasury movements are auditable |
-| No investment activity | No yield, lending, or trading deployment |
+<Aside type="note">
+Fee range and distribution ratios require a passing vote before any adjustment takes effect.
+</Aside>
 
-## Review Structure
+## Maintainer review structure
 
 | Layer | Role | Review cadence |
 |-------|------|----------------|
@@ -90,10 +66,4 @@ The DAO treasury operates under strict non-profit constraints:
 | 3 | External Compliance Expert Pool | Annual |
 | 4 | Board Compliance Committee | Escalation only |
 
-## Governance Restrictions Summary
-
-- **Can** adjust scoped system parameters, approve upgrades, and allocate operational budgets
-- **Cannot** introduce profit distribution, change custody model, or modify root structure
-- **Cannot** delete evidence logs, bypass policy gates, or override security invariants
-
-This design keeps governance effective without undermining the system’s foundational guarantees.
+Derived from local SoT.

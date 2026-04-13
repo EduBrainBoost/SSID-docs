@@ -1,0 +1,34 @@
+---
+title: DSGVO / GDPR
+description: Wie SSID die Datenschutz-Grundverordnung einhält.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# DSGVO-Konformitaet
+
+SSID ist nach den Grundsaetzen **Privacy by Design** und **Privacy by Default** konzipiert — Kernanforderungen der EU-Datenschutz-Grundverordnung (DSGVO).
+
+## Kernzuordnungen
+
+| DSGVO-Grundsatz | SSID-Umsetzung |
+|---------------|---------------------|
+| **Datenminimierung** | Nur wesentliche Identitaetsattribute werden gespeichert |
+| **Zweckbindung** | Nachweise definieren erlaubte Anwendungsfaelle |
+| **Recht auf Loeschung** | Nutzer koennen Nachweise widerrufen und Wallet-Daten loeschen |
+| **Recht auf Portabilitaet** | Standard-DID/VC-Formate ermoeglichen Interoperabilitaet |
+| **Privacy by Design** | Architektur erzwingt Datenschutz von Grund auf |
+| **Einwilligung** | Nachweis-Weitergabe erfordert explizite Nutzerzustimmung |
+
+## Selbstbestimmung und DSGVO
+
+SSI ist von Natur aus DSGVO-freundlich, weil:
+
+1. **Der Nutzer ist Verantwortlicher** — er entscheidet, was geteilt wird
+2. **Keine zentrale Datenbank** — personenbezogene Daten werden nicht aggregiert
+3. **Selective Disclosure** — nur benoetigte Attribute teilen, nicht vollstaendige Nachweise
+4. **Widerrufbarkeit** — Nachweise koennen jederzeit widerrufen werden
+
+<Aside type="note">
+SSID speichert keine personenbezogenen Daten on-chain oder in oeffentlichen Repositories. Alle personenbezogenen Daten verbleiben im Wallet des Nutzers unter dessen Kontrolle.
+</Aside>

@@ -13,13 +13,12 @@
     "test:structure": "node tests/structure.test.mjs",
     "test:content": "node tests/content.test.mjs",
     "test:theme": "node tests/theme.test.mjs",
-    "ingest": "node tools/ingest.mjs",
-    "start:runtime": "astro preview --port 4331"
+    "ingest": "node tools/ingest.mjs"
   },
   "keywords": ["ssid", "ssi", "documentation", "astro", "starlight"],
   "author": "SSID Project",
   "license": "MIT",
-  "packageManager": "pnpm@10.30.3",
+  "packageManager": "pnpm@10.33.0",
   "pnpm": {
     "onlyBuiltDependencies": ["esbuild", "sharp"]
   },

@@ -1,111 +1,57 @@
 ---
-title: "Root-24 Architecture"
-description: "The 24 canonical root modules of SSID"
+title: "24 Root Modules"
+description: "Reference of all 24 Root modules forming the SSID architecture foundation."
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
-# Root-24 Architecture
+# 24 Root Modules
 
-SSID is organized into exactly **24 canonical root modules**. This structure is enforced by the **ROOT-24-LOCK** invariant and anchors the broader 24x16 matrix architecture.
+This page documents every Root module in the SSID 24x16 matrix architecture.
 
-## The 24 Roots
+## Root directory
 
-| # | Root | Purpose |
-|---|------|---------|
-| 01 | `01_ai_layer` | AI model integration, inference pipelines, bias audits |
-| 02 | `02_audit_logging` | WORM-compliant evidence storage, audit trail |
-| 03 | `03_core` | Core identity logic, DID management, key lifecycle |
-| 04 | `04_deployment` | CI/CD pipelines, container definitions, infra-as-code |
-| 05 | `05_documentation` | Internal documentation generation and schemas |
-| 06 | `06_data_pipeline` | Data ingestion, transformation, ETL flows |
-| 07 | `07_governance_legal` | Legal compliance mapping, governance policies |
-| 08 | `08_identity_score` | Identity scoring models, trust metrics |
-| 09 | `09_meta_identity` | Meta-identity aggregation, cross-context identity |
-| 10 | `10_interoperability` | Cross-chain bridges, DIDComm, protocol adapters |
-| 11 | `11_test_simulation` | Test framework, simulation environments, fixtures |
-| 12 | `12_tooling` | CLI tools, dispatcher, developer utilities |
-| 13 | `13_ui_layer` | Frontend components, UI runtime |
-| 14 | `14_zero_time_auth` | Zero-knowledge auth, instant verification |
-| 15 | `15_infra` | Infrastructure definitions, cloud configuration |
-| 16 | `16_codex` | Source of Truth — canonical schemas, system contracts |
-| 17 | `17_observability` | Health checks, metrics, alerting |
-| 18 | `18_data_layer` | Persistence layer, database schemas, storage |
-| 19 | `19_adapters` | External system adapters, third-party connectors |
-| 20 | `20_foundation` | Base libraries, shared utilities, common types |
-| 21 | `21_post_quantum_crypto` | Post-quantum cryptographic primitives (Kyber, Dilithium) |
-| 22 | `22_datasets` | Training data, benchmark datasets, test fixtures |
-| 23 | `23_compliance` | Regulatory compliance (GDPR, eIDAS, MiCA, EU AI Act) |
-| 24 | `24_meta_orchestration` | Task registry, MAOS dispatcher, agent orchestration |
+| # | Root | Description |
+|---|------|-------------|
+| 01 | `01_ai_layer` | AI/ML governance layer enforcing EU AI Act compliance. Provides drift detection, model safety frameworks, and risk classification for all AI-driven components. |
+| 02 | `02_audit_logging` | Append-only audit trails stored in WORM-compliant backends. Covers DORA incident response logging and DAO governance audit records. |
+| 03 | `03_core` | Central business logic including domain services, public APIs, and tokenomics schemas. All other Roots depend on contracts defined here. |
+| 04 | `04_deployment` | Release management and CI/CD pipeline definitions. Handles infrastructure provisioning, rollout strategies, and environment promotion. |
+| 05 | `05_documentation` | Developer guides, user manuals, API reference docs, and onboarding materials. Source of truth for all published documentation artifacts. |
+| 06 | `06_data_pipeline` | ETL processes, ML/AI data feeds, and analytics pipelines. Manages data ingestion, transformation, and delivery to downstream consumers. |
+| 07 | `07_governance_legal` | DAO governance rules, voting mechanisms, and legal framework definitions. Links regulatory requirements to enforceable policy gates. |
+| 08 | `08_identity_score` | Identity scoring algorithms and reputation metrics. Computes trust scores through multi-factor risk assessment across identity dimensions. |
+| 09 | `09_meta_identity` | Cross-system identity linking and federation. Enables identity portability across chains, protocols, and external verification systems. |
+| 10 | `10_interoperability` | API portability contracts, export/import frameworks, and data federation protocols. Ensures SSID components integrate with external ecosystems. |
+| 11 | `11_test_simulation` | Testing frameworks, simulation harnesses, and chaos engineering tooling. Provides deterministic replay and fault injection capabilities. |
+| 12 | `12_tooling` | Developer tools, CLI utilities, and SDKs. Includes the dispatcher, code generators, and local development environment setup. |
+| 13 | `13_ui_layer` | Dashboards, compliance UIs, and frontend components. Renders identity, scoring, and governance data for end users and administrators. |
+| 14 | `14_zero_time_auth` | DID-bound session tokens, passwordless authentication, and zero-trust verification flows. Eliminates credential-based auth entirely. |
+| 15 | `15_infra` | Infrastructure definitions, DevOps tooling, and cloud-agnostic deployment manifests. Manages networking, secrets, and environment configuration. |
+| 16 | `16_codex` | Specification library containing reference implementations, license fee matrices, and canonical rule definitions. Acts as the system's knowledge base. |
+| 17 | `17_observability` | Telemetry collection, metrics aggregation, and monitoring dashboards. Provides health checks, alerting rules, and distributed tracing. |
+| 18 | `18_data_layer` | Storage backends, data adapters, and schema management. Abstracts persistence so upper Roots remain storage-agnostic. |
+| 19 | `19_adapters` | Identity and verification adapters bridging SSID to external ecosystems. Each adapter implements a standardized connector interface. |
+| 20 | `20_foundation` | Universal utilities, security libraries, and tokenomics core primitives. Shared dependency for all other Roots. |
+| 21 | `21_post_quantum_crypto` | NIST PQC algorithm implementations and quantum-safe key exchange protocols. Provides the cryptographic substrate for long-term security. |
+| 22 | `22_datasets` | Reference data, standards catalogs, and example implementations. Supplies seed data for testing, compliance validation, and onboarding. |
+| 23 | `23_compliance` | Global compliance matrix mapping regulations to evidence storage. Includes anti-gaming detection and enforcement logic. |
+| 24 | `24_meta_orchestration` | Top-level system orchestration, service registry, and version management. Controls CI gates and cross-Root dependency resolution. |
 
-## ROOT-24-LOCK Invariant
-
-<Aside type="danger">
-The ROOT-24-LOCK is an immutable system invariant. No agent, process, or human may:
-
-- **Create** new root-level folders
-- **Rename** existing roots
-- **Delete** any root
-- **Restructure** the root hierarchy
-
-Every write operation is validated against the canonical root list before execution.
-</Aside>
-
-The lock is enforced at multiple levels:
-
-1. **Path Guard** — Blocks file system writes outside the 24 roots
-2. **Scope Router** — Assigns each agent to specific root(s) at session start
-3. **PR Gates** — Reject pull requests that modify root structure
-4. **Evidence Logging** — All write operations are logged with SHA-256 hashes
-
-## Structural Properties
+## Structural properties
 
 <Aside type="note">
 Every Root contains exactly 16 Shards, producing 384 Root x Shard reference points across the full matrix. See [Shards & Hybrid Charts](/architecture/shards/) for shard details.
 </Aside>
 
-Three roots act as universal architectural baselines:
+**Create-on-use pattern.** Root directories and their shard subdirectories are generated on demand when first referenced by the dispatcher. Empty Roots carry no runtime cost.
+
+**Universal dependencies.** Three Roots are imported by all others and form the architectural baseline:
 
 | Root | Role |
 |------|------|
 | `20_foundation` | Shared primitives, crypto, utilities |
-| `23_compliance` | Regulatory gates applied across domains |
-| `24_meta_orchestration` | Registry, versioning, and orchestration control |
+| `23_compliance` | Regulatory gates applied to every domain |
+| `24_meta_orchestration` | Registry, versioning, CI gate enforcement |
 
-## Common-MUST Structure
-
-Every root module **must** contain the following directory structure:
-
-```text
-XX_root_name/
-├── module.yaml       # Module manifest (dependencies, version, policy gates)
-├── README.md         # Module-level documentation
-├── docs/             # Detailed design docs and ADRs
-├── src/              # Source code
-└── tests/            # Unit and integration tests
-```
-
-### `module.yaml`
-
-The `module.yaml` file declares the module's metadata, dependencies, and policy requirements:
-
-```yaml
-name: 03_core
-version: 0.1.0
-description: Core identity logic
-dependencies:
-  - 21_post_quantum_crypto
-  - 18_data_layer
-policy_gates:
-  - pr_review
-  - evidence_append
-  - security_scan
-```
-
-<Aside type="tip">
-The Common-MUST structure ensures that every root is self-documenting, testable, and auditable regardless of which team or agent maintains it.
-</Aside>
-
-## Source of Truth
-
-The canonical definition of all 24 roots lives in **`16_codex`**. All other systems — agents, CI/CD, documentation, and runtime guards — derive their root list from this single source.
+Derived from local SoT, ssid_master_definition_corrected_v1.1.1.

@@ -1,76 +1,104 @@
 ---
-title: "Fee Models"
-description: "Deterministic protocol fees, developer rewards, and enterprise overlays in the SSID ecosystem"
+title: "Fee & Subscription Models"
+description: "Transaction fees, enterprise subscription tiers, and revenue distribution in SSID."
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
-# Fee Models
+# Fee & Subscription Models
 
-SSID implements a transparent, non-custodial fee model that routes protocol fees and developer rewards through deterministic rules. Commercial overlays such as enterprise subscriptions may exist, but they must not violate the non-custodial or non-profit constraints of the base protocol.
+This page documents the three-layer fee architecture: per-transaction fees, enterprise subscription tiers, and the hybrid fiat/token payout model.
 
 <Aside type="caution">
-SSID fees are not profit, yield, or APR. They are service fees routed by protocol rules. No party receives a guaranteed financial return.
+All fee routing in SSID is **non-custodial**. No intermediary holds funds at any point. There is no escrow and no temporary custody. The fee is deducted at execution time, and the user never transfers more than the net amount.
 </Aside>
 
-## Protocol Fee Distribution
+## Layer 1: Transaction fees
 
-All on-chain transactions that interact with SSID identity services are subject to a total fee of **3%**, split as follows:
+Every transaction incurs an average fee of **0.12%**. The fee is split at execution time into three non-custodial streams.
 
-| Component | Rate | Destination |
-|-----------|------|-------------|
-| System Fee | 2% | Non-profit treasury (`treasury_nonprofit_only`) |
-| Developer Reward | 1% | Contributing developer wallets |
-| **Total** | **3%** | |
+| Recipient | Share | Description |
+|-----------|-------|-------------|
+| **User retained** | 97.00% | Remains in the user wallet. Only the 3% fee is deducted at execution. |
+| **Developer reward** | 1.00% | Distributed automatically to the module developer. Non-custodial. |
+| **System pool** | 2.00% | Split across four sub-pools (see below). |
 
-### System Fee
+### System pool breakdown
 
-The system fee funds:
+| Sub-pool | Share of transaction |
+|----------|---------------------|
+| DAO Treasury | 0.50% |
+| Node / Validators | 0.35% |
+| Stability Fund | 0.25% |
+| Community Bonus | 0.10% |
 
-- Infrastructure operation costs
-- Security audits and bug bounties
-- Open-source maintenance
-- Compliance and legal requirements
+### Developer reward tiers by root
 
-### Developer Reward
+Developer and system shares vary depending on which module root processes the transaction.
 
-The developer reward is distributed to contributors whose code is deployed in the active system. Distribution is calculated from the `license_fee_matrix.yaml`, which maps contributions across the active roots.
+| Root | Developer share | System share |
+|------|----------------|--------------|
+| `03_core` | 1.00% | 2.00% |
+| `16_codex` | 0.80% | 2.20% |
+| `17_observability` | 0.75% | 2.25% |
+| `18_data_layer` | 0.75% | 2.25% |
+| `19_adapters` | 0.80% | 2.20% |
+| `20_foundation` | 0.60% | 2.40% |
+| `21_pqc` | 0.70% | 2.30% |
 
 <Aside type="note">
-Every root that contains deployed production code can generate reward eligibility for its contributors.
+The combined developer + system share always equals 3.00%. When the developer share decreases, the difference flows to the system pool.
 </Aside>
 
-## Fee Routing
+## Layer 2: Enterprise subscription tiers
 
-The fee routing logic is designed to be:
+Four subscription tiers cover different organizational sizes and compliance requirements.
 
-- **Immutable** — Core percentages are protocol-governed, not operator-controlled
-- **Non-custodial** — Fees route directly to destination wallets or protocol sinks
-- **Autonomous** — No manual intervention is required for routine distribution
-- **Deterministic** — Given the same input, the same routing outcome is produced
+| Tier | Name | Price (EUR/month) | API access | Tx limit / month | Included users | Token-preference adjustment | Additional |
+|------|------|--------------------|------------|-------------------|----------------|----------------------------|------------|
+| 1 | Small Business | 100 -- 500 | Core API | 1M | 2 | -- | -- |
+| 2 | Mid-Market | 500 -- 2,500 | Advanced API | 50M | 10 | 1.05x | -- |
+| 3 | Enterprise | 2,500 -- 10,000 | Full API | Unlimited | Unlimited | 1.10x | DAO advisory seat |
+| 4 | Global Proof Suite | 2,000 | Full API | Unlimited | Unlimited | -- | Post-quantum proofs (NIST algorithms), 10-year proof retention |
 
-## Enterprise Overlays
-
-Enterprise deployments can layer subscriptions, service packaging, and payout preferences on top of the protocol fee model, provided they remain consistent with SSID’s constraints:
-
-- No custody or escrow implication
-- No investment-style framing
-- No guaranteed returns
-- No override of protocol safety, governance, or compliance rules
-
-Typical overlays may include:
-
-- Subscription tiers for support or throughput
-- Governance-approved payout preferences
-- Post-quantum or compliance-focused service bundles
-
-## What This Is Not
-
-<Aside type="danger">
-The SSID fee model is not:
-
-- An investment return or yield mechanism
-- A profit-sharing arrangement
-- An APR/APY product
-- A staking reward in the DeFi sense
+<Aside type="tip">
+Tier 4 (Global Proof Suite) is designed for organizations that require post-quantum cryptographic proofs with long-term retention. It can be combined with Tier 2 or Tier 3.
 </Aside>
+
+## Layer 3: Hybrid fiat/token payout
+
+Payouts to developers and contributors follow a hybrid model. The payout currency defaults based on the amount, and each participant can override the default.
+
+| Payout amount | Default currency | Conversion incentive offset |
+|---------------|------------------|-----------------------------|
+| Up to 100 EUR | Fiat | -- |
+| Above 100 EUR | Token | 1.1x conversion incentive offset applied |
+
+### Opt-out options
+
+| Choice | Behavior |
+|--------|----------|
+| Full fiat | Payout in fiat. No conversion incentive offset applied. |
+| Full token | Payout in token. Conversion incentive offset applied. |
+
+<Aside type="note">
+The conversion incentive offset compensates for token volatility and lock-up considerations. It is a token-preference adjustment, not a guaranteed return.
+</Aside>
+
+## Governance parameters
+
+The DAO can modify fee parameters through on-chain governance.
+
+| Parameter | Constraint |
+|-----------|------------|
+| Fee range | 0.05% -- 0.50% |
+| Voting period | 14 days |
+| Quorum requirement | 67% |
+
+<Aside type="caution">
+Any fee change requires a 14-day voting period and 67% quorum. Changes take effect at the next epoch boundary after the vote concludes.
+</Aside>
+
+---
+
+Derived from local SoT, SSID_structure_gebuehren_abo_modelle.

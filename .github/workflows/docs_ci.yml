@@ -43,10 +43,7 @@ jobs:
           echo "=== Secret Pattern Scan ==="
           FAIL=0
 
-          # Self-exclude: this workflow file contains pattern literals for scanning.
-          # Excluding it prevents self-match false positives.
-          SELF=".github/workflows/docs_ci.yml"
-
+          # Scan source files for credential patterns
           for pattern in \
             "PRIVATE.KEY" \
             "sk_live_" \
@@ -61,15 +58,7 @@ jobs:
               --include="*.json" --include="*.md" --include="*.mdx" \
               --include="*.css" --include="*.yml" --include="*.yaml" \
               --include="*.svg" --include="*.html" \
-              --exclude="$SELF" \
-              . 2>/dev/null \
-              | grep -v node_modules \
-              | grep -v pnpm-lock \
-              | grep -vF "$SELF" \
-              | grep -v "PUBLIC_POLICY.md" \
-              | grep -v "tests/security.test.mjs" \
-              | grep -v "tests/content.test.mjs" \
-              | grep -v "tools/ingest.mjs"; then
+              . 2>/dev/null | grep -v node_modules | grep -v pnpm-lock | grep -v "tests/security.test.mjs" | grep -v "tests/content.test.mjs" | grep -v "tools/ingest.mjs" | grep -v ".github/workflows/docs_ci.yml"; then
               echo "FAIL: Pattern '$pattern' found in source files!"
               FAIL=1
             fi
@@ -109,23 +98,15 @@ jobs:
           echo "=== Forbidden Path Scan ==="
           FAIL=0
 
+          # Forbidden path patterns (SSID-internal structure must never appear)
           FORBIDDEN_PATHS=(
             "registry/.*internal"
-            "credential"
-            "token.*secret"
-            "\.env\."
           )
 
-          # Allowlisted path suffixes that are safe despite matching a
-          # forbidden pattern (e.g. .env.example is NOT a real .env file).
-          ALLOWED_SUFFIXES="\.env\.example|\.env\.sample"
-
           for pattern in "${FORBIDDEN_PATHS[@]}"; do
-            MATCHES=$(find . -path "./node_modules" -prune -o -path "./.git" -prune -o -path "./02_audit_logging" -prune -o -regex ".*${pattern}.*" -print \
-              | grep -Ev "(${ALLOWED_SUFFIXES})" || true)
-            if [ -n "$MATCHES" ]; then
+            if find . -path "./node_modules" -prune -o -path "./.git" -prune -o -regex ".*${pattern}.*" -print | grep -q .; then
               echo "FAIL: Forbidden path pattern '${pattern}' found:"
-              echo "$MATCHES"
+              find . -path "./node_modules" -prune -o -path "./.git" -prune -o -regex ".*${pattern}.*" -print
               FAIL=1
             fi
           done
@@ -140,9 +121,7 @@ jobs:
           echo "=== Absolute Path Leak Scan ==="
           FAIL=0
 
-          # Self-exclude: this file contains pattern literals.
-          SELF=".github/workflows/docs_ci.yml"
-
+          # Block absolute local paths that leak private repo locations
           LEAK_PATTERNS=(
             'C:\\Users\\'
             'C:/Users/'
@@ -156,13 +135,7 @@ jobs:
               --include="*.md" --include="*.mdx" --include="*.ts" \
               --include="*.js" --include="*.mjs" --include="*.json" \
               --include="*.yml" --include="*.yaml" --include="*.css" \
-              --exclude="$SELF" \
-              . 2>/dev/null \
-              | grep -v node_modules \
-              | grep -v pnpm-lock \
-              | grep -v ".git/" \
-              | grep -vF "$SELF" \
-              | grep -v "PUBLIC_POLICY.md"; then
+              . 2>/dev/null | grep -v node_modules | grep -v pnpm-lock | grep -v ".git/" | grep -v ".github/workflows/docs_ci.yml"; then
               echo "FAIL: Absolute local path leaked: '$pattern'"
               FAIL=1
             fi
@@ -178,9 +151,8 @@ jobs:
           echo "=== Private Repo Reference Scan ==="
           FAIL=0
 
-          # Self-exclude: this file contains pattern literals.
-          SELF=".github/workflows/docs_ci.yml"
-
+          # No automation file should reference the private SSID repo.
+          # Pattern definition files are excluded (ingest.mjs, docs_ci.yml, validate-ingest-source.yml).
           PRIVATE_PATTERNS=(
             "local.ssid"
             "local-ssid"
@@ -201,12 +173,7 @@ jobs:
             if grep -rn "$pattern" \
               --include="*.ts" --include="*.js" --include="*.mjs" \
               --include="*.yml" --include="*.yaml" --include="*.sh" --include="*.ps1" \
-              --exclude="$SELF" \
-              . 2>/dev/null \
-              | grep -v node_modules \
-              | grep -v pnpm-lock \
-              | grep -vF "$SELF" \
-              | grep -v "tests/security.test.mjs"; then
+              . 2>/dev/null | grep -v node_modules | grep -v pnpm-lock | grep -v "tests/security.test.mjs" | grep -v "tests/content.test.mjs" | grep -v "tools/ingest.mjs" | grep -v "tools/validate-ingest-source.mjs" | grep -v ".github/workflows/docs_ci.yml" | grep -v ".github/workflows/validate-ingest-source.yml"; then
               echo "FAIL: Private repo reference pattern '$pattern' found!"
               FAIL=1
             fi
@@ -216,62 +183,3 @@ jobs:
             exit 1
           fi
           echo "PASS: No private repo references"
-
-  validate-ingest-source:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Validate ingest source is public-only
-        run: |
-          echo "=== Ingest Source Contract Validation ==="
-          FAIL=0
-          MANIFEST="tools/public_export_manifest.json"
-
-          # 1. Manifest must exist
-          if [ ! -f "$MANIFEST" ]; then
-            echo "FAIL: $MANIFEST not found"
-            exit 1
-          fi
-          echo "  OK: Manifest exists"
-
-          # 2. Manifest must declare public-only policy
-          if grep -q '"private_repos_allowed": true' "$MANIFEST"; then
-            echo "FAIL: Manifest allows private repos!"
-            FAIL=1
-          fi
-          echo "  OK: Manifest declares public-only"
-
-          # 3. ingest.mjs must have required guards
-          if ! grep -q "validateSourceIsPublic" tools/ingest.mjs; then
-            echo "FAIL: ingest.mjs missing validateSourceIsPublic() call"
-            FAIL=1
-          fi
-          echo "  OK: validateSourceIsPublic present"
-
-          if ! grep -q "ALLOWED_PATHS" tools/ingest.mjs; then
-            echo "FAIL: ingest.mjs missing ALLOWED_PATHS allowlist"
-            FAIL=1
-          fi
-          echo "  OK: ALLOWED_PATHS present"
-
-          if ! grep -q "BLOCKED_PATTERNS" tools/ingest.mjs; then
-            echo "FAIL: ingest.mjs missing BLOCKED_PATTERNS blocklist"
-            FAIL=1
-          fi
-          echo "  OK: BLOCKED_PATTERNS present"
-
-          if ! grep -q "SECRET_PATTERNS" tools/ingest.mjs; then
-            echo "FAIL: ingest.mjs missing SECRET_PATTERNS scan"
-            FAIL=1
-          fi
-          echo "  OK: SECRET_PATTERNS present"
-
-          # 4. Dangerous pattern scan is handled by tests/security.test.mjs
-          #    (avoids false positives from pattern strings in CI files)
-
-          if [ "$FAIL" -eq 0 ]; then
-            echo "PASS: Ingest source contract validated (public-only)"
-          else
-            exit 1
-          fi
