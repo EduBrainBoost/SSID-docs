@@ -32,3 +32,30 @@ SSI ist von Natur aus DSGVO-freundlich, weil:
 <Aside type="note">
 SSID speichert keine personenbezogenen Daten on-chain oder in oeffentlichen Repositories. Alle personenbezogenen Daten verbleiben im Wallet des Nutzers unter dessen Kontrolle.
 </Aside>
+
+## Verarbeitungsregister
+
+| Entity | Rolle | Verarbeitungsumfang |
+|--------|-------|-------------------|
+| **Nutzer** | Verantwortlicher | Besitzt DID, Wallet, Credential-Speicher |
+| **SSID-Netzwerk** | Auftragsverarbeiter | Koordiniert Verifizierungsablaeufe, erteilt signierte Nachweise |
+| **Evidence Layer** | Externer WORM-Speicher | Speichert Hashes + Compliance-Bescheinigungen (keine PII) |
+
+**Konformitaetsmodell:** SSID fungiert als **Auftragsverarbeiter im Auftrag von Verantwortlichen** (Nutzern) und ist niemals selbst Verantwortlicher. Nutzer behalten volle Kontrolle ueber ihre Identitaetsdaten.
+
+## Verantwortlicher vs. Auftragsverarbeiter
+
+### Nutzer als Verantwortlicher
+- **Verantwortung:** Legale Grundlage fuer die Ausstellung von Nachweisen, Nutzerzustimmung
+- **Rechte:** Recht auf Zugriff, Berichtigung, Loeschung eigener Identitaetsdaten
+- **Durchsetzung:** Verwalten ueber lokale DID-Wallet; SSID bietet keine zentrale Verwaltung
+
+### SSID als Auftragsverarbeiter
+- **Verantwortung:** Technische Schutzmaßnahmen (Verschluesselung in Transit/Ruhe, Zugriffskontrolle)
+- **Verarbeitungsaktivitaeten:**
+  - Akzeptieren von Nachweis-Uebermittlungen von Ausstellern
+  - Ueberpruefen der Aussteller-Autorisierung (Policy Gates)
+  - Koordinierung von Verifizierungsablaeufen (ZTA-Ablauf)
+  - Generierung signierter Nachweise (Evidence Chain)
+  - **NIEMALS personenbezogene Daten speichern; nur Hashes und Audit-Logs**
+- **Datenverarbeitungsvereinbarung (DPA):** Standardbedingungen gelten; Nutzer akzeptieren ueber Nutzungsbedingungen
