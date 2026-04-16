@@ -1,6 +1,6 @@
 # SSID-docs Directory Index
 
-Generated: 2026-04-01
+Generated: 2026-04-16
 
 ## Structure
 
@@ -61,6 +61,7 @@ src/content/docs/
 
 ## Summary
 
-- **Total files**: 41
-- **Sections**: 11 (architecture, compliance, faq, governance, guides, identity, operations, research, token, tooling, root-level)
-- **New in this commit**: 4 files (root24.mdx, quickstart.mdx, did-method.mdx, vc-lifecycle.mdx)
+- **Total files**: 136 (68 English + 68 German translations)
+- **Sections**: 13 (architecture, compliance, faq, governance, guides, identity, operations, research, token, tooling, deployments, root-level)
+- **Localization**: Full German (de/) mirror complete at 100% coverage
+- **Latest updates**: Wave A remediation (A6) + German translation parity fixes (2026-04-16)
