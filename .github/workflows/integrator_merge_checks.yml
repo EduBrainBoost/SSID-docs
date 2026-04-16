@@ -53,6 +53,7 @@ jobs:
             "public/"
             "src/"
             "tests/"
+            "sws/"
             "tools/"
           )
           ALLOWED_ROOT_FILES=(
