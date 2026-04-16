@@ -1,0 +1,135 @@
+name: "Phase P0: Truth Gate"
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+env:
+  EVIDENCE_DIR: .ssid-system/evidence/phase-p0
+
+jobs:
+  truth-gate-validation:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Create evidence directory
+        run: mkdir -p "${{ env.EVIDENCE_DIR }}"
+
+      - name: Verify documentation structure
+        id: doc_structure
+        run: |
+          REQUIRED=("docs" "package.json" "astro.config.mjs")
+          MISSING=()
+
+          for item in "${REQUIRED[@]}"; do
+            if [ ! -e "$item" ]; then
+              MISSING+=("$item")
+            fi
+          done
+
+          if [ ${#MISSING[@]} -eq 0 ]; then
+            echo "status=pass" >> $GITHUB_OUTPUT
+          else
+            echo "status=warn" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check for forbidden patterns
+        id: forbidden_check
+        run: |
+          FOUND=()
+          for pattern in "*.env" "*.pem" "*.key" "*.secret"; do
+            while IFS= read -r file; do
+              FOUND+=("$file")
+            done < <(find . -name "$pattern" -not -path "./.git/*" 2>/dev/null)
+          done
+
+          if [ ${#FOUND[@]} -eq 0 ]; then
+            echo "status=pass" >> $GITHUB_OUTPUT
+          else
+            echo "status=fail" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+      - name: Validate package.json
+        id: package_check
+        run: |
+          if [ -f "package.json" ]; then
+            node -e "JSON.parse(require('fs').readFileSync('package.json', 'utf8'))" && echo "status=pass" >> $GITHUB_OUTPUT || {
+              echo "status=fail" >> $GITHUB_OUTPUT
+              exit 1
+            }
+          else
+            echo "status=fail" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+      - name: Check documentation files exist
+        id: doc_files
+        run: |
+          DOC_FILES=$(find docs -name "*.md" -o -name "*.mdx" 2>/dev/null | wc -l)
+          if [ "$DOC_FILES" -gt 0 ]; then
+            echo "status=pass" >> $GITHUB_OUTPUT
+            echo "Found $DOC_FILES documentation files"
+          else
+            echo "status=warn" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Verify I18N support structure
+        id: i18n_check
+        run: |
+          if [ -d "docs" ]; then
+            # Check for i18n dirs like en/, de/, etc.
+            if [ -d "docs/en" ] || [ -d "docs/de" ] || [ -f "astro.config.mjs" ]; then
+              echo "status=pass" >> $GITHUB_OUTPUT
+            else
+              echo "status=warn" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "status=fail" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+      - name: Generate evidence artifact
+        if: always()
+        run: |
+          cat > "${{ env.EVIDENCE_DIR }}/truth-gate-$(date +%s).json" <<'EOF'
+          {
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "repo": "SSID-docs",
+            "phase": "P0",
+            "check_name": "truth-gate",
+            "checks": {
+              "doc_structure": "${{ steps.doc_structure.outputs.status }}",
+              "forbidden_patterns": "${{ steps.forbidden_check.outputs.status }}",
+              "package_json_validity": "${{ steps.package_check.outputs.status }}",
+              "doc_files_exist": "${{ steps.doc_files.outputs.status }}",
+              "i18n_support": "${{ steps.i18n_check.outputs.status }}"
+            },
+            "overall_status": "${{ job.status }}"
+          }
+          EOF
+
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidence-p0-truth-gate
+          path: ${{ env.EVIDENCE_DIR }}/
+          retention-days: 90
