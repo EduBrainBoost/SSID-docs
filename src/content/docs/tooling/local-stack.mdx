@@ -26,7 +26,7 @@ All services are loopback-only. Never expose them to external networks.
 ## Preconditions
 
 - SSID repo on `main`, clean and up-to-date
-- SSID-EMS on `master` with Stack CLI (PR#26+)
+- SSID-EMS on its active mainline branch with `ssidctl stack up`, `health`, `status`, and `down` available locally
 - Evidence root directory exists (e.g. `SSID_EVIDENCE/` at your configured path)
 - Node.js services: `pnpm install` run in respective repos
 - Python services: virtualenv active with `pip install -e .`
@@ -87,8 +87,15 @@ are installed (e.g., `pnpm install` for Node.js services).
 **Health check fails:** The service may still be starting. Wait a few seconds
 and retry. Check the service logs in the evidence directory.
 
-**EMS Stack CLI missing:** Align `origin/master` with Stack CLI code
-(see SSID-EMS PR#26).
+**EMS Stack CLI missing:** Update the active SSID-EMS checkout until
+`ssidctl stack --help` exposes `up`, `health`, `status`, and `down`.
+This documentation assumes those commands exist, but does not require a
+specific historical PR number.
+
+**Docs and runtime appear out of sync:** This is not automatically a blocker.
+`SSID-docs` can document sanitized control-plane and runtime behavior ahead of
+or behind the currently checked-out EMS/Orchestrator branches. The local stack
+depends on runnable repo state, not on equal maturity across all repos.
 
 ## Verification
 
