@@ -38,8 +38,6 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -233,6 +231,7 @@ jobs:
       - name: Generate evidence artifact
         if: always()
         run: |
+          mkdir -p "${{ env.EVIDENCE_DIR }}"
           cat > "${{ env.EVIDENCE_DIR }}/docs-build-$(date +%s).json" <<EOF
           {
             "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
@@ -267,4 +266,3 @@ jobs:
           name: docs-build-dist
           path: dist/
           retention-days: 7
-
