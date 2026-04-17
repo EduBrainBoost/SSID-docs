@@ -35,7 +35,7 @@ jobs:
       - name: Verify documentation structure
         id: doc_structure
         run: |
-          REQUIRED=("docs" "package.json" "astro.config.mjs")
+          REQUIRED=("src/content/docs" "docs" "package.json" "astro.config.mjs" "pnpm-lock.yaml")
           MISSING=()
 
           for item in "${REQUIRED[@]}"; do
@@ -83,7 +83,7 @@ jobs:
       - name: Check documentation files exist
         id: doc_files
         run: |
-          DOC_FILES=$(find docs -name "*.md" -o -name "*.mdx" 2>/dev/null | wc -l)
+          DOC_FILES=$(find docs src/content/docs \( -name "*.md" -o -name "*.mdx" \) 2>/dev/null | wc -l)
           if [ "$DOC_FILES" -gt 0 ]; then
             echo "status=pass" >> $GITHUB_OUTPUT
             echo "Found $DOC_FILES documentation files"
@@ -94,9 +94,9 @@ jobs:
       - name: Verify I18N support structure
         id: i18n_check
         run: |
-          if [ -d "docs" ]; then
-            # Check for i18n dirs like en/, de/, etc.
-            if [ -d "docs/en" ] || [ -d "docs/de" ] || [ -f "astro.config.mjs" ]; then
+          if [ -d "src/content/docs" ]; then
+            # Check for locale subdirectories in the Starlight content tree.
+            if [ -d "src/content/docs/de" ] || [ -d "src/content/docs/en" ]; then
               echo "status=pass" >> $GITHUB_OUTPUT
             else
               echo "status=warn" >> $GITHUB_OUTPUT
@@ -109,7 +109,7 @@ jobs:
       - name: Generate evidence artifact
         if: always()
         run: |
-          cat > "${{ env.EVIDENCE_DIR }}/truth-gate-$(date +%s).json" <<'EOF'
+          cat > "${{ env.EVIDENCE_DIR }}/truth-gate-$(date +%s).json" <<EOF
           {
             "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
             "repo": "SSID-docs",
