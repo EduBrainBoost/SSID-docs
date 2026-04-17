@@ -50,8 +50,12 @@ jobs:
             "02_audit_logging/"
             "05_documentation/"
             "docs/"
+            "governance/"
+            "intro/"
             "public/"
             "src/"
+            "sws/"
+            "team/"
             "tests/"
             "tools/"
           )

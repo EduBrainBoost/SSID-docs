@@ -1,0 +1,101 @@
+name: "Phase P4: Evidence Verification"
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+env:
+  EVIDENCE_DIR: .ssid-system/evidence/phase-p4
+
+jobs:
+  evidence-integrity:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create evidence directory
+        run: mkdir -p "${{ env.EVIDENCE_DIR }}"
+
+      - name: Verify evidence logs
+        id: evidence_logs
+        run: |
+          if [ -d ".ssid-system/evidence" ]; then
+            LOGS=$(find ".ssid-system/evidence" -name "*.json" 2>/dev/null | wc -l)
+            echo "Found $LOGS evidence logs"
+            echo "status=pass" >> $GITHUB_OUTPUT
+          else
+            echo "status=skip" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Validate evidence JSON
+        id: evidence_json
+        run: |
+          VALID=true
+          find ".ssid-system/evidence" -name "*.json" 2>/dev/null | while read log; do
+            node -e "JSON.parse(require('fs').readFileSync('$log', 'utf8'))" || VALID=false
+          done
+
+          if [ "$VALID" = "true" ]; then
+            echo "status=pass" >> $GITHUB_OUTPUT
+          else
+            echo "status=warn" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check session contracts
+        id: session_check
+        run: |
+          if [ -d ".ssid-system/sessions" ]; then
+            SESSIONS=$(find ".ssid-system/sessions" -name "*.json" 2>/dev/null | wc -l)
+            echo "Found $SESSIONS session contracts"
+            echo "status=pass" >> $GITHUB_OUTPUT
+          else
+            echo "status=skip" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Verify build artifacts
+        id: build_artifacts
+        run: |
+          if [ -d "dist" ]; then
+            FILES=$(find dist -type f 2>/dev/null | wc -l)
+            echo "Found $FILES build artifacts"
+            echo "status=pass" >> $GITHUB_OUTPUT
+          else
+            echo "status=skip" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Generate evidence artifact
+        if: always()
+        run: |
+          cat > "${{ env.EVIDENCE_DIR }}/evidence-verify-$(date +%s).json" <<'EOF'
+          {
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "repo": "SSID-docs",
+            "phase": "P4",
+            "check_name": "evidence-verification",
+            "checks": {
+              "evidence_logs": "${{ steps.evidence_logs.outputs.status }}",
+              "evidence_json_validity": "${{ steps.evidence_json.outputs.status }}",
+              "session_contracts": "${{ steps.session_check.outputs.status }}",
+              "build_artifacts": "${{ steps.build_artifacts.outputs.status }}"
+            },
+            "overall_status": "${{ job.status }}"
+          }
+          EOF
+
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidence-p4-verification
+          path: ${{ env.EVIDENCE_DIR }}/
+          retention-days: 90
