@@ -11,6 +11,10 @@ This page shows the status of **public-facing** SSID infrastructure only.
 All data is derived from the SSID-open-core public export. For real-time CI status, see the repository Actions tabs on GitHub.
 </Aside>
 
+<Aside type="caution">
+Zero public queue counts do **not** mean the broader SSID ecosystem has no remaining work. They only reflect the sanitized export visible to the public status feed.
+</Aside>
+
 ## Live Dashboard
 
 <LiveDashboard />
@@ -23,6 +27,17 @@ All data is derived from the SSID-open-core public export. For real-time CI stat
 | **SSID-open-core** (public) | `main` | Operational | Sanitized export from SSID |
 | **SSID-docs** (public) | `main` | Operational | Starlight site, deterministic ingest |
 | **EMS** (private) | `master` | Operational | CLI control plane, pytest passing |
+| **Orchestrator** (private) | Active runtime branch | Operational (Phase 2) | Runtime foundation active, docs integration remains manual |
+
+## Cross-Repo Readiness
+
+| Area | Status | Notes |
+|------|--------|-------|
+| Canonical export chain | Operational | `SSID -> SSID-open-core -> SSID-docs` remains one-way and deterministic |
+| Docs publication | Operational | Public docs can be ahead of private runtime details because EMS/Orchestrator updates are manual |
+| EMS local-stack readiness | Conditional | Requires the Stack CLI commands to exist in the active EMS checkout |
+| Orchestrator runtime maturity | In progress | Runtime exists, but the repo is documented at an earlier phase than core/docs |
+| Cyclic repo dependency | Not expected | Current architecture is upstream/downstream, not mutual lockstep |
 
 ## Governance Gates
 

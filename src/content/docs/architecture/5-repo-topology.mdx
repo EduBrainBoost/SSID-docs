@@ -7,6 +7,8 @@ description: How the SSID ecosystem repositories fit together—roles, dependenc
 
 The SSID platform is organized as a **5-repository ecosystem**, each with a distinct role and scope. Understanding these repositories and their dependencies is essential for developers, operators, and contributors.
 
+> The repositories do **not** advance in lockstep. The canonical publication chain is `SSID -> SSID-open-core -> SSID-docs`. EMS and Orchestrator documentation is added manually and in sanitized form, so documentation maturity and runtime maturity can differ without implying a cyclic merge deadlock.
+
 ## Repository Overview
 
 | Repository | Visibility | Tech Stack | Primary Role | Status |
@@ -16,6 +18,18 @@ The SSID platform is organized as a **5-repository ecosystem**, each with a dist
 | **SSID-orchestrator** | Private | Python 3.11+, Node.js 22+, React/Vite | Runtime dispatch engine, workflow execution, session management | Operational (Phase 2) |
 | **SSID-open-core** | Public | Python 3.11+, git export | Public SDK: 5 exported roots for external developers | Operational |
 | **SSID-docs** | Public | Astro 5, Starlight 0.37, Node.js 22, pnpm | Public documentation, tutorials, architecture, guides | Operational |
+
+## Readiness Model
+
+The five repositories serve different layers of the system and therefore carry different readiness expectations:
+
+| Layer | Repositories | Readiness Rule |
+|-------|--------------|----------------|
+| **Canonical source** | `SSID` | Defines the SoT and exports approved public subsets |
+| **Automated publication chain** | `SSID-open-core`, `SSID-docs` | Must remain deterministic and one-way |
+| **Operational control/runtime** | `SSID-EMS`, `SSID-orchestrator` | Can trail the docs layer because integration is manual and sanitized |
+
+This means a public docs page can exist before all corresponding private runtime features are equally mature. The intended model is **upstream/downstream**, not mutual repo lockstep.
 
 ## Dependency Flow
 
@@ -309,3 +323,5 @@ The SSID ecosystem is a **layered, privacy-conscious architecture**:
 - **docs (Public):** Complete, user-friendly documentation
 
 Each repository has a **clear boundary**: private repos store sensitive logic, while public repos export safe, verifiable abstractions. This design enables **open governance** (policies, rules are public) while protecting **proprietary implementation** (contracts, algorithms remain private until audit-cleared).
+
+The practical consequence is simple: there can be **open expansion work** in EMS and Orchestrator even when `SSID-open-core` and `SSID-docs` are already operational. That is an expected asymmetry, not by itself evidence of a circular wait state.
