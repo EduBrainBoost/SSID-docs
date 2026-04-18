@@ -2,10 +2,10 @@
 
 ## Overview
 
-SSID operates under a 8-Seat operative governance model, supplemented by 4 external specialist mandates. This structure ensures domain expertise, clear accountability, and distributed decision-making across critical functions.
+SSID operates under a binding 8-Seat operative governance model, supplemented by 4 external review mandates. The model fixes repo ownership, gate authority, decision rights, and hard separation rules across the full SSID stack.
 
-**Current Phase:** Closed Pilot Transition (2026-04-16)  
-**Target Production:** 2026-05-01
+**Current Phase:** Internal operations baseline active  
+**Public Production:** blocked until 6/6 gates PASS plus separate S1 release
 
 ---
 
@@ -45,7 +45,7 @@ Establishes security architecture, manages compliance frameworks (EU AI Act, reg
 ---
 
 ### S4 — Crypto & PQC Lead
-External specialist focused on post-quantum cryptography standards (Kyber, Dilithium), advanced key derivation, and quantum-safety architecture. Ensures long-term cryptographic resilience.
+Internal operative seat for post-quantum cryptography, key lifecycle, and crypto architecture integration. Works in enforced separation from the external crypto reviewer.
 
 **Key Responsibilities:**
 - Post-quantum cryptography standards
@@ -89,7 +89,7 @@ Drives product strategy, API design, developer onboarding, and documentation qua
 ---
 
 ### S8 — Economics & Governance Lead
-External specialist designing tokenomics, DAO governance framework, treasury management, and long-term economic sustainability.
+Internal operative seat for tokenomics, DAO governance, incentives, abuse resistance, and long-term economic sustainability.
 
 **Key Responsibilities:**
 - Tokenomics modeling & simulation
@@ -107,11 +107,11 @@ Provides legal interpretation of EU financial regulations (MiCA, PSD2, GDPR, DLT
 ### EX-P — Privacy Engineer (Critical)
 Designs GDPR-compliant architecture, conducts privacy impact assessments, and ensures privacy-by-design principles.
 
-### EX-C — Crypto Research Advisor (Optional)
-Advisory role for academic cryptography research partnerships and emerging standards monitoring.
+### EX-C — Crypto & PQC Reviewer (Critical)
+External veto owner for cryptography, key management, and PQC changes.
 
-### EX-M — Economics Research Advisor (Optional)
-Advisory role for market research, tokenomics peer review, and competitive analysis.
+### EX-M — Mechanism Designer / Economics Auditor (Critical)
+External veto owner for fee, reward, and mechanism changes.
 
 ---
 
@@ -121,40 +121,36 @@ SSID uses 6 critical gates to control major decisions:
 
 | Gate | Owner | Approval Required For |
 |---|---|---|
-| **Crypto** | S2 / S4 | Protocol changes, cryptographic decisions |
-| **Regulatory** | S3 / EX-L | Compliance policies, regulatory alignment |
-| **Privacy** | S3 / EX-P | Data handling changes, GDPR implications |
-| **Product** | S7 | Feature launches, API changes |
-| **DevOps** | S6 | Infrastructure changes, deployment strategy |
-| **Evidence** | S5 | Audit trail changes, documentation |
-| **Steering** | S1 / S8 | Strategic direction, governance rules |
+| **Crypto** | EX-C | Cryptography, key management, PQC |
+| **Regulatory** | EX-L | Compliance policies, legal classification, external claims |
+| **Privacy** | EX-P | Data handling changes, GDPR implications |
+| **Product** | S7 | Feature launches, API changes, docs scope |
+| **Operations** | S6 | Infrastructure, runtime, ports, deploy strategy |
+| **Evidence** | S5 | Audit trail changes, evidence, WORM |
 
 ---
 
 ## Operational Status
 
-**Internal Seats (to be filled):**
-- S1 (Founder) — occupied
-- S2 (Core Protocol) — recruiting
-- S3 (Security & Compliance) — recruiting
-- S5 (Audit & Evidence) — recruiting
-- S6 (Platform Ops) — recruiting
-- S7 (Product & DX) — recruiting
+**Binding baseline:**
+- 8 operative seats
+- 4 external veto mandates
+- fixed repo and gate assignment
+- fail-closed release logic
+- workspace-only operative execution
 
-**External Mandates (to be engaged):**
-- S4 (Crypto & PQC) — RFP in progress
-- S8 (Economics & Governance) — RFP in progress
-- EX-L (EU FinReg Counsel) — RFP in progress
-- EX-P (Privacy Engineer) — RFP in progress
+**Hard runtime rule:**
+- `SSID-Workspace/SSID-Arbeitsbereich/Github/...` is the only operative zone
+- `Documents/Github/...` is reserved canonical / mirror zone and is not used by AI for operative work
 
 ---
 
 ## How We Work
 
 ### Decision-Making
-- **Default:** Consent-based (all 8 seats agree on governance changes)
-- **Gate-Based:** Specialized gates require domain expert approval
-- **Escalation:** Unresolved disputes go to S1; if unavailable, Emergency Council convenes
+- **Default:** seat/gate authority per the canonical RACI matrix
+- **Gate-Based:** crypto, regulatory, privacy, product, evidence, and operations are fail-closed
+- **Escalation:** unresolved disputes go to S1; external veto owners remain authoritative in their domains
 
 ### Transparency
 - All decisions documented in audit trails
@@ -173,8 +169,9 @@ SSID uses 6 critical gates to control major decisions:
 ## Contact & More Information
 
 For detailed role responsibilities, gate ownership, and collaboration rules, see:
-- **Internal:** SSID/16_codex/SEAT_RESPONSIBILITIES.md
-- **Internal:** SSID/16_codex/ORGANIGRAMM_8SEATS_CURRENT.md
+- **Internal:** `SSID/16_codex/SEAT_RESPONSIBILITIES.md`
+- **Internal:** `SSID/16_codex/ORGANIGRAMM_8SEATS_CURRENT.md`
+- **Internal:** `SSID/16_codex/governance/WORKSPACE_RUNTIME_BOUNDARY.md`
 
 For product-related questions, contact S7 (Product & DX Lead).  
 For security or compliance questions, contact S3 (Security & Compliance Lead).  
@@ -185,6 +182,6 @@ For technical protocol questions, contact S2 (Core Protocol Lead).
 ## Documentation Record
 
 **Created:** 2026-04-16  
-**Version:** 1.0  
-**Status:** Closed Pilot Transition Phase  
-**Next Review:** 2026-05-01 (Production Release)
+**Version:** 2.0  
+**Status:** Operative governance baseline  
+**Next Review:** on gate/status change

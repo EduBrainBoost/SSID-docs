@@ -34,13 +34,13 @@ SSID operates on a non-custodial principle where:
 
 **Timeline**
 - Controlled Pilot target close: 2026-04-22
-- Public Production launch: Conditional on all 6 gates PASS
-  - Crypto Gate (EX-C)
-  - Legal/Regulatory Gate (EX-L)
-  - Privacy Gate (EX-P)
-  - Product Gate (S7)
-  - Operations Gate (S1)
-  - Evidence Gate (S2)
+- Public Production launch: Conditional on all 6 gates PASS plus separate S1 release
+  - Crypto Gate (EX-C accountable; S4/S2 execute)
+  - Legal/Regulatory Gate (EX-L accountable; S3 executes)
+  - Privacy Gate (EX-P accountable; S3 executes)
+  - Product Gate (S7 accountable)
+  - Operations Gate (S6 accountable)
+  - Evidence Gate (S5 accountable)
 
 ## Core Flows (Validated)
 
@@ -122,5 +122,5 @@ Product feature claims owned by S7 (Product Lead). Product Gate must PASS before
 - Operations Readiness: [S1 Operations Lead]
 
 **Status**: Controlled Pilot Mode
-**Last Updated**: 2026-04-16
-**Authority**: S1, S7, EX-L, EX-C, EX-P
+**Last Updated**: 2026-04-18
+**Authority**: S1, S2, S3, S5, S6, S7, EX-C, EX-L, EX-P

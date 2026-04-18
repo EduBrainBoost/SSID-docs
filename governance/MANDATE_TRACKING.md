@@ -1,5 +1,10 @@
 # External Mandate Status Tracking
 
+Binding seat, repo, gate, and decision authority lives in
+`SSID/16_codex/SEAT_RESPONSIBILITIES.md`.
+This page tracks mandate execution status only; it does not override the canonical
+RACI baseline.
+
 **Last Updated:** 2026-04-16  
 **Pilot Phase:** Closed Pilot (April 22 - May 1, 2026)  
 **Tracking Purpose:** Public visibility into external mandate execution and gate status
@@ -10,10 +15,10 @@
 
 | Mandate | Role | Status | Gate | Target Date | Owner |
 |---------|------|--------|------|-------------|-------|
-| **EX-C** | Crypto & PQC Lead | **ACTIVE** | Crypto Gate | 2026-04-22 | External Counsel |
+| **EX-C** | Crypto & PQC Reviewer | **ACTIVE** | Crypto Gate | 2026-04-22 | External Counsel |
 | **EX-L** | EU FinReg Counsel | **ACTIVE** | Regulatory Gate | 2026-04-22 | External Counsel |
 | **EX-P** | Privacy Engineer | **ACTIVE** | Privacy Gate | 2026-04-22 | External Counsel |
-| **EX-M / S8** | Economics Auditor | **PENDING** (depends on Crypto/Regulatory/Privacy PASS) | Economics Freeze | 2026-04-29 | External + Internal |
+| **EX-M / S8** | Mechanism Design / Economics Audit | **PENDING** (depends on Crypto/Regulatory/Privacy PASS) | Economics Freeze | 2026-04-29 | External + Internal |
 
 ---
 
@@ -31,7 +36,7 @@
 | Key Lifecycle ADR | In Progress | 2026-04-22 | `16_codex/crypto/KEY_LIFECYCLE_ADR.md` |
 | Algorithm Whitelist | In Progress | 2026-04-22 | `16_codex/crypto/ALGORITHM_WHITELIST.json` |
 
-**Gate Owner:** Crypto Gate  
+**Gate Owner:** Crypto Gate (accountable: EX-C; execution path: S4 + S2)  
 **Gating Logic:** Crypto Gate PASS when all three deliverables reviewed and approved by EX-C  
 **SLA:** Deliverables due by 2026-04-22 EOD
 
@@ -44,7 +49,7 @@
 | Legal Boundary Memo | In Progress | 2026-04-22 | `16_codex/regulatory/LEGAL_BOUNDARY_MEMO.md` |
 | MiCA / eIDAS Mapping | In Progress | 2026-04-22 | `16_codex/regulatory/MICA_EIDAS_MAPPING.json` |
 
-**Gate Owner:** Regulatory Gate  
+**Gate Owner:** Regulatory Gate (accountable: EX-L; execution path: S3)  
 **Gating Logic:** Regulatory Gate PASS when all Tier 1 blockers identified + mitigation plans provided  
 **SLA:** Deliverables due by 2026-04-22 EOD  
 **External Liaisons:** EBA, ESMA, National FIUs (ongoing)
@@ -59,7 +64,7 @@
 | Data Flow Map | In Progress | 2026-04-22 | `16_codex/privacy/DATA_FLOW_MAP.md` |
 | Minimization Matrix | In Progress | 2026-04-22 | `16_codex/privacy/MINIMIZATION_MATRIX.json` |
 
-**Gate Owner:** Privacy Gate  
+**Gate Owner:** Privacy Gate (accountable: EX-P; execution path: S3)  
 **Gating Logic:** Privacy Gate PASS when all processing has documented lawful basis + deletion procedures defined  
 **SLA:** Deliverables due by 2026-04-22 EOD
 
@@ -77,7 +82,7 @@
 | Abuse & Sybil Resistance Audit | **PENDING** | 2026-04-29 | `16_codex/economics/ABUSE_SYBIL_AUDIT.md` |
 | Token Economics Audit | **PENDING** | 2026-04-29 | `16_codex/economics/TOKEN_ECONOMICS_AUDIT.md` |
 
-**Gate Owner:** Economics Freeze control owner  
+**Gate Owner:** Economics Freeze control owner (accountable: EX-M; internal counterpart: S8)  
 **Gating Logic:** Economics Freeze PASS when all three deliverables reviewed + no critical exploits remain unmitigated  
 **SLA:** Activation on Apr 23 (after Crypto/Reg/Privacy PASS); deliverables due by 2026-04-29 EOD  
 **Dependency:** Economics Gate opens ONLY AFTER all three P0 gates PASS
