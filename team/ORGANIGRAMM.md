@@ -140,8 +140,8 @@ SSID uses 6 critical gates to control major decisions:
 - workspace-only operative execution
 
 **Hard runtime rule:**
-- `C:\Users\bibel\SSID-Workspace\SSID-Arbeitsbereich\Github\...` is the only operative zone
-- `C:\Users\bibel\Documents\Github\...` is reserved canonical / mirror zone and is not used by AI for operative work
+- `SSID-Workspace/SSID-Arbeitsbereich/Github/...` is the only operative zone
+- `Documents/Github/...` is reserved canonical / mirror zone and is not used by AI for operative work
 
 ---
 
