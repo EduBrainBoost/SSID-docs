@@ -22,7 +22,7 @@ Enforced by `SSID-EMS/portal/backend/core/sws/retention_scheduler.py`.
 ## Scheduler Invocation
 
 ```
-python -m core.sws.retention_scheduler --manifest-root C:/Users/bibel/SSID-Workspace/SSID-Arbeitsbereich/sws_jobs
+python -m core.sws.retention_scheduler --manifest-root <sws_jobs_path>
 # Optional:
 python -m core.sws.retention_scheduler --manifest-root <path> --dry-run
 ```

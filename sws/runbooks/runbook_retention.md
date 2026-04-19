@@ -32,7 +32,7 @@ Output is JSON: `{ts, total, deleted:[...], kept:[...], errors:[...]}`.
 
 ### Windows — Task Scheduler
 - Trigger: every 15 minutes, starting at system start, indefinitely.
-- Action: `python.exe -m core.sws.retention_scheduler --manifest-root C:/Users/bibel/SSID-Workspace/SSID-Arbeitsbereich/sws_jobs`
+- Action: `python.exe -m core.sws.retention_scheduler --manifest-root <sws_jobs_path>`
 - Run whether user is logged on or not. Run with highest privileges = NO (read/delete on workspace is enough).
 
 ## Alerts
