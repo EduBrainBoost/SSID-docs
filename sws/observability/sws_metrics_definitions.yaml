@@ -1,0 +1,61 @@
+version: "1.0"
+scope: SWS V1.0 / V1.5
+format: openmetrics
+exporter_target: "http://127.0.0.1:9464/metrics"   # Prometheus-compatible scrape
+
+metrics:
+  - name: sws_jobs_submitted_total
+    type: counter
+    help: Total number of analyze/rebuild jobs submitted.
+    labels: [mode, rights_class]     # mode = analyze_url | analyze_file | rebuild
+  - name: sws_jobs_completed_total
+    type: counter
+    help: Total number of job attempts that finished (succeeded, failed, quarantined).
+    labels: [mode, status, failed_stage]
+  - name: sws_stage_duration_seconds
+    type: histogram
+    help: Wall-clock duration of each pipeline stage.
+    labels: [mode, stage]
+    buckets: [0.1, 0.5, 1, 2, 5, 10, 30, 60, 300, 900]
+  - name: sws_stage_failures_total
+    type: counter
+    help: Failures per stage with error_code label.
+    labels: [stage, error_code]
+  - name: sws_rights_decisions_total
+    type: counter
+    help: Rights decisions recorded by the gate.
+    labels: [rights_class, action, allowed]
+  - name: sws_retention_deletions_total
+    type: counter
+    help: Source files deleted by the retention scheduler.
+    labels: [retention_class]
+  - name: sws_retention_errors_total
+    type: counter
+    help: Filesystem errors during retention sweeps.
+    labels: [kind]
+  - name: sws_audit_chain_verified_total
+    type: counter
+    help: Audit-log chain verifications run, split by outcome.
+    labels: [result]                 # ok | tampered
+  - name: sws_dlq_enqueued_total
+    type: counter
+    help: Attempts landing in the DLQ.
+    labels: [failed_stage, error_code, severity]
+  - name: sws_wave_gate_total
+    type: counter
+    help: WAVE gate runs.
+    labels: [wave_id, result]        # result = pass | fail
+
+alerts:
+  - name: SWSWaveGateFailing
+    expr: rate(sws_wave_gate_total{result="fail"}[30m]) > 0
+    severity: page
+  - name: SWSRetentionBacklog
+    expr: sws_retention_errors_total > 10
+    severity: warn
+  - name: SWSAuditChainTamper
+    expr: sws_audit_chain_verified_total{result="tampered"} > 0
+    severity: page
+  - name: SWSRightsR4SpikeBursts
+    expr: rate(sws_rights_decisions_total{rights_class="R4"}[10m]) > 1
+    severity: info
