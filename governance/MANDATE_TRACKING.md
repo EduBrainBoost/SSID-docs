@@ -5,6 +5,11 @@ Binding seat, repo, gate, and decision authority lives in
 This page tracks mandate execution status only; it does not override the canonical
 RACI baseline.
 
+**Truth order:** `SEAT_ASSIGNMENT_BOARD.md` > `GATE_STATUS_MEASURED_2026-04-18.md` >
+`SEAT_ACTIVATION_STATUS_MEASURED_2026-04-19.md` > `MANDATE_TRACKING.md`
+
+If this page and the canonical activation files disagree, the canonical activation files win.
+
 **Last Updated:** 2026-04-16  
 **Pilot Phase:** Closed Pilot (April 22 - May 1, 2026)  
 **Tracking Purpose:** Public visibility into external mandate execution and gate status
@@ -15,14 +20,16 @@ RACI baseline.
 
 | Mandate | Role | Status | Gate | Target Date | Owner |
 |---------|------|--------|------|-------------|-------|
-| **EX-C** | Crypto & PQC Reviewer | **ACTIVE** | Crypto Gate | 2026-04-22 | External Counsel |
-| **EX-L** | EU FinReg Counsel | **ACTIVE** | Regulatory Gate | 2026-04-22 | External Counsel |
-| **EX-P** | Privacy Engineer | **ACTIVE** | Privacy Gate | 2026-04-22 | External Counsel |
+| **EX-C** | Crypto & PQC Reviewer | **TRACKING_ACTIVE_CANONICAL_PENDING** | Crypto Gate | 2026-04-22 | External Counsel |
+| **EX-L** | EU FinReg Counsel | **TRACKING_ACTIVE_CANONICAL_PENDING** | Regulatory Gate | 2026-04-22 | External Counsel |
+| **EX-P** | Privacy Engineer | **TRACKING_ACTIVE_CANONICAL_PENDING** | Privacy Gate | 2026-04-22 | External Counsel |
 | **EX-M / S8** | Mechanism Design / Economics Audit | **PENDING** (depends on Crypto/Regulatory/Privacy PASS) | Economics Freeze | 2026-04-29 | External + Internal |
 
 ---
 
 ## Detailed Mandate Timeline
+
+**Canonical note:** The workstreams below may be active as preparation streams. This does not mean the mandate is canonically activated for seat-assignment purposes until the assignment board is updated accordingly.
 
 ### Phase 1: Immediate (P0) — April 16–22
 
