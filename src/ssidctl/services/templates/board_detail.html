@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Task {{ task.task_id }}{% endblock %}
+{% block content %}
+<p><a href="/board">&larr; Back to Board</a></p>
+<h1>{{ task.task_id }}</h1>
+
+<div class="card">
+  <table>
+    <tr><th style="width:140px;">Title</th><td>{{ task.title }}</td></tr>
+    <tr><th>Status</th><td><span class="badge badge-{{ task.status|lower }}">{{ task.status }}</span></td></tr>
+    <tr><th>Priority</th><td>{{ task.priority }}</td></tr>
+    <tr><th>Module</th><td>{{ task.module }}</td></tr>
+    <tr><th>Owner</th><td>{{ task.owner }}</td></tr>
+    <tr><th>Created</th><td class="meta">{{ task.created_utc }}</td></tr>
+    <tr><th>Updated</th><td class="meta">{{ task.updated_utc }}</td></tr>
+    {% if task.deadline_utc %}
+    <tr><th>Deadline</th><td class="meta">{{ task.deadline_utc }}</td></tr>
+    {% endif %}
+  </table>
+</div>
+
+{% if task.links %}
+<h2>Links</h2>
+<div class="card">
+  <table>
+    {% if task.links.pr %}<tr><th>PR</th><td>{{ task.links.pr }}</td></tr>{% endif %}
+    {% if task.links.run_id %}<tr><th>Run ID</th><td class="meta">{{ task.links.run_id }}</td></tr>{% endif %}
+    {% if task.links.evidence %}<tr><th>Evidence</th><td class="meta">{{ task.links.evidence }}</td></tr>{% endif %}
+  </table>
+</div>
+{% endif %}
+
+{% if task.notes_hash %}
+<h2>Notes</h2>
+<div class="card">
+  <p class="meta">Hash: {{ task.notes_hash }}</p>
+</div>
+{% endif %}
+{% endblock %}

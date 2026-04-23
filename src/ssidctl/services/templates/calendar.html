@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Calendar{% endblock %}
+{% block content %}
+<h1>Calendar <span class="meta">({{ jobs|length }} jobs)</span></h1>
+
+{% if jobs %}
+<table>
+  <thead>
+    <tr>
+      <th>Cron ID</th>
+      <th>Schedule</th>
+      <th>Job</th>
+      <th>Enabled</th>
+      <th>Last Run</th>
+      <th>Last Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for job in jobs %}
+    <tr>
+      <td><strong>{{ job.cron_id }}</strong></td>
+      <td class="meta">{{ job.schedule }}</td>
+      <td>{{ job.job }}</td>
+      <td>
+        {% if job.enabled %}
+        <span class="badge badge-pass">ON</span>
+        {% else %}
+        <span class="badge badge-cancelled">OFF</span>
+        {% endif %}
+      </td>
+      <td class="meta">{{ job.last_run or '—' }}</td>
+      <td>
+        {% if job.last_status %}
+        <span class="badge badge-{{ 'pass' if job.last_status == 'OK' else 'doing' }}">{{ job.last_status }}</span>
+        {% else %}
+        —
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<div class="empty">No cron jobs configured.</div>
+{% endif %}
+{% endblock %}

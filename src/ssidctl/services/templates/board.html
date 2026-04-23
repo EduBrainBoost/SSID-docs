@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Board{% endblock %}
+{% block content %}
+<h1>Board <span class="meta">({{ total }} tasks)</span></h1>
+
+{% for status in statuses %}
+{% set tasks = grouped[status] %}
+{% if tasks %}
+<h2>{{ status }} <span class="meta">({{ tasks|length }})</span></h2>
+<div class="grid">
+  {% for task in tasks %}
+  <a href="/board/{{ task.task_id }}" class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+      <span class="badge badge-{{ status|lower }}">{{ status }}</span>
+      <span class="badge" style="background: rgba(255,170,0,0.15); color: var(--amber);">{{ task.priority }}</span>
+    </div>
+    <strong>{{ task.task_id }}</strong>
+    <p style="margin-top: 0.25rem;">{{ task.title }}</p>
+    <div class="meta" style="margin-top: 0.5rem;">
+      {{ task.owner }} &middot; {{ task.module }}
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% endif %}
+{% endfor %}
+
+{% if total == 0 %}
+<div class="empty">No tasks on the board.</div>
+{% endif %}
+{% endblock %}

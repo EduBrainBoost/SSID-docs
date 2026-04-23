@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Memory{% endblock %}
+{% block content %}
+<h1>Memory Vault <span class="meta">({{ docs|length }} documents)</span></h1>
+
+{% if docs %}
+<div class="grid">
+  {% for doc in docs %}
+  <a href="/memory/{{ doc.doc_id }}" class="card">
+    <strong>{{ doc.title }}</strong>
+    <div class="meta" style="margin-top: 0.25rem;">{{ doc.doc_id }}</div>
+    {% if doc.tags %}
+    <div style="margin-top: 0.5rem;">
+      {% for tag in doc.tags %}
+      <span class="badge badge-doing">{{ tag }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+    <div class="meta" style="margin-top: 0.5rem;">
+      {{ doc.owner }} &middot; {{ doc.created }}
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty">No documents in the memory vault.</div>
+{% endif %}
+{% endblock %}

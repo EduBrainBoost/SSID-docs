@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+<div class="stat-grid">
+  <div class="stat-card">
+    <div class="number">{{ summary.tasks }}</div>
+    <div class="label">Total Tasks</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">{{ summary.tasks_doing }}</div>
+    <div class="label">In Progress</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">{{ summary.jobs }}</div>
+    <div class="label">Cron Jobs</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">{{ summary.content }}</div>
+    <div class="label">Content Items</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">{{ summary.memory }}</div>
+    <div class="label">Memory Docs</div>
+  </div>
+</div>
+
+<h2>Quick Links</h2>
+<div class="grid">
+  <a href="/board" class="card">
+    <h2>Board</h2>
+    <p>Kanban task management — track tasks through BACKLOG to DONE.</p>
+  </a>
+  <a href="/calendar" class="card">
+    <h2>Calendar</h2>
+    <p>Cron jobs and scheduled tasks with run history.</p>
+  </a>
+  <a href="/content" class="card">
+    <h2>Content</h2>
+    <p>Content pipeline — IDEA through PUBLISH to POSTMORTEM.</p>
+  </a>
+  <a href="/memory" class="card">
+    <h2>Memory</h2>
+    <p>Knowledge vault — indexed markdown documents.</p>
+  </a>
+</div>
+{% endblock %}

@@ -1,0 +1,81 @@
+/* Custom styles for SSID Documentation */
+
+/* Root variables */
+:root {
+  --ssid-primary: #3b82f6;
+  --ssid-secondary: #64748b;
+  --ssid-success: #22c55e;
+  --ssid-warning: #f59e0b;
+  --ssid-danger: #ef4444;
+}
+
+/* Custom callout styles */
+.starlight-aside--caution {
+  border-color: var(--ssid-warning);
+}
+
+.starlight-aside--danger {
+  border-color: var(--ssid-danger);
+}
+
+.starlight-aside--warning {
+  border-color: var(--ssid-warning);
+}
+
+/* Table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background-color: var(--sl-color-gray-6);
+  font-weight: 600;
+}
+
+/* Status indicators */
+.status-operational {
+  color: var(--ssid-success);
+}
+
+.status-down {
+  color: var(--ssid-danger);
+}
+
+.status-pending {
+  color: var(--ssid-warning);
+}
+
+/* Evidence block */
+.evidence-block {
+  background-color: var(--sl-color-gray-6);
+  border-left: 4px solid var(--ssid-primary);
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+/* Code blocks */
+pre {
+  border-radius: 0.5rem;
+}
+
+/* ASCII art blocks */
+.ascii-art {
+  font-family: monospace;
+  white-space: pre;
+  background-color: var(--sl-color-gray-6);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+/* Print styles */
+@media print {
+  .sidebar {
+    display: none;
+  }
+
+  .main-frame {
+    margin-left: 0;
+  }
+}

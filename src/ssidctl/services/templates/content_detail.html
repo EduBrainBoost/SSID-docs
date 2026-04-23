@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}{{ item.content_id }}{% endblock %}
+{% block content %}
+<p><a href="/content">&larr; Back to Content</a></p>
+<h1>{{ item.content_id }}</h1>
+
+<div class="card">
+  <table>
+    <tr><th style="width:140px;">Title</th><td>{{ item.title }}</td></tr>
+    <tr>
+      <th>Stage</th>
+      <td>
+        {% set stage_class = 'pass' if item.stage in ['PUBLISH', 'ARCHIVE'] else 'doing' if item.stage in ['REVIEW', 'ASSETS'] else 'ready' %}
+        <span class="badge badge-{{ stage_class }}">{{ item.stage }}</span>
+      </td>
+    </tr>
+    <tr><th>Channel</th><td>{{ item.channel }}</td></tr>
+    <tr><th>Owner</th><td>{{ item.owner }}</td></tr>
+    <tr><th>Tags</th><td>{{ item.tags|join(', ') or '—' }}</td></tr>
+    <tr><th>Created</th><td class="meta">{{ item.created_utc }}</td></tr>
+    <tr><th>Updated</th><td class="meta">{{ item.updated_utc }}</td></tr>
+    {% if item.publish_date %}
+    <tr><th>Publish Date</th><td>{{ item.publish_date }}</td></tr>
+    {% endif %}
+  </table>
+</div>
+
+{% if item.attachments %}
+<h2>Attachments</h2>
+<div class="card">
+  <table>
+    <thead><tr><th>Path</th><th>MIME</th><th>Hash</th></tr></thead>
+    <tbody>
+      {% for att in item.attachments %}
+      <tr>
+        <td>{{ att.path }}</td>
+        <td class="meta">{{ att.mime }}</td>
+        <td class="meta">{{ att.hash[:24] }}...</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+{% if item.checklist %}
+<h2>Checklist</h2>
+<div class="card">
+  <ul>
+    {% for check in item.checklist %}
+    <li>{{ check }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<h2>Hashes</h2>
+<div class="card">
+  <table>
+    {% if item.script_hash %}<tr><th>Script</th><td class="meta">{{ item.script_hash }}</td></tr>{% endif %}
+    {% if item.assets_hash %}<tr><th>Assets</th><td class="meta">{{ item.assets_hash }}</td></tr>{% endif %}
+  </table>
+</div>
+{% endblock %}
