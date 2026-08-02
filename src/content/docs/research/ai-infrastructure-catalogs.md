@@ -1,6 +1,6 @@
 ---
 title: "AI Infrastructure Catalogs"
-description: "Unified overview of 100 AI business models and 100 AI skills for AI agents."
+description: "Gemeinsame Übersicht über 100 KI-Business-Modelle und 100 KI-Skills für KI-Agenten."
 sidebar:
   label: "AI Infrastructure Catalogs"
   order: 1
