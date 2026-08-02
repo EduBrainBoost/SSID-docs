@@ -2,6 +2,8 @@
 // HeroLanding.astro — Full-width hero for the SSID documentation site
 // Works inside Starlight's splash layout
 // All styles are scoped; animations respect prefers-reduced-motion
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <section class="hero-wrapper" aria-label="SSID Hero">
@@ -23,8 +25,8 @@
 
     <!-- CTA buttons -->
     <nav class="hero-cta" aria-label="Primary actions">
-      <a href="/overview/" class="btn btn-primary">Get Started</a>
-      <a href="/architecture/matrix/" class="btn btn-ghost">Architecture</a>
+      <a href={`${base}/overview/`} class="btn btn-primary">Get Started</a>
+      <a href={`${base}/architecture/matrix/`} class="btn btn-ghost">Architecture</a>
     </nav>
 
   </div>
