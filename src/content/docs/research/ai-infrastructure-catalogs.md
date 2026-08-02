@@ -1,6 +1,6 @@
 ---
 title: "AI Infrastructure Catalogs"
-description: "Gemeinsame Übersicht über 100 KI-Business-Modelle und 100 KI-Skills für KI-Agenten."
+description: "Unified overview of 100 AI business models and 100 AI skills for AI agents."
 sidebar:
   label: "AI Infrastructure Catalogs"
   order: 1
@@ -10,50 +10,50 @@ sidebar:
 
 ![AI Infrastructure Stack](/SSID-docs/images/research/ai-infrastructure/ai-infrastructure-stack.png)
 
-Dieser Bereich verbindet zwei zusammengehörige Forschungspakete zu einem gemeinsamen Infrastrukturmodell:
+This section connects two complementary research packages into a unified infrastructure model:
 
-- **100 Business-Modelle** beschreiben die wirtschaftlichen Märkte und Plattformchancen.
-- **100 KI-Skills** beschreiben die technischen, regulatorischen und operativen Bausteine, mit denen diese Plattformen umgesetzt werden.
+- **100 Business Models** describe economic markets and platform opportunities.
+- **100 AI Skills** describe the technical, regulatory, and operational components with which these platforms are implemented.
 
-Jeder Skill referenziert konkrete Business-Modell-Nummern (soweit im Quell-PDF ausgewiesen); jedes Business-Modell lässt sich auf den gemeinsamen technischen Skill-Stack zurückführen.
+Each skill references specific business model numbers (as indicated in the source PDF); each business model can be traced back to the shared technical skill stack.
 
-## Business-Modelle
+## Business Models
 
-![100 KI-Business-Modelle](/SSID-docs/images/research/ai-infrastructure/business-models-social-card.png)
+![100 AI Business Models](/SSID-docs/images/research/ai-infrastructure/business-models-landscape.png)
 
-**Anzahl:** 100
+**Count:** 100
 
-Strategischer Chancen-, Plattform- und Infrastrukturatlas mit 100 analytisch abgeleiteten Geschäftsmodellen nach dem Infrastrukturmuster: kleine Anbieter, fragmentierte Märkte, hohe Ausgabenströme — von Gesundheit über Bau/Handwerk bis Energie, Versicherung, Logistik und öffentliche Beschaffung.
+Strategic market, platform, and infrastructure atlas comprising 100 analytically derived AI business models based on the infrastructure pattern: small providers, fragmented markets, high spending streams — from healthcare through construction/trades to energy, insurance, logistics, and public procurement.
 
-Wichtigste Cluster: Gesundheit/Pflege, Bau/Handwerk/Wohnen, Insurance/Payments, Energie/Flexibilität, öffentliche Beschaffung, KMU-Services.
+Key clusters: Healthcare/Care, Construction/Trades/Housing, Insurance/Payments, Energy/Flexibility, Public Procurement, SME Services.
 
-- [Detailseite: Hundert KI-gestützte Business-Modelle](/research/100-ai-business-models-infrastructure-pattern/)
+- [Detail Page: Hundred AI-Driven Business Models](/research/100-ai-business-models-infrastructure-pattern/)
 - [PDF](/SSID-docs/downloads/research/ai-infrastructure/100-ai-business-models-infrastructure-pattern.pdf) · [SHA-256](/SSID-docs/downloads/research/ai-infrastructure/100-ai-business-models-infrastructure-pattern.pdf.sha256)
-- [JSON-Datensatz](/SSID-docs/downloads/research/ai-infrastructure/catalog-manifest.json)
+- [JSON Dataset](/SSID-docs/downloads/research/ai-infrastructure/catalog-manifest.json)
 
-## KI-Skills
+## AI Skills
 
-![100 KI-Skills für KI-Agents](/SSID-docs/images/research/ai-infrastructure/skills-social-card.png)
+![100 AI Skills for AI Agents](/SSID-docs/images/research/ai-infrastructure/skills-capability-map.png)
 
-**Anzahl:** 100
+**Count:** 100
 
-Architektur- und Umsetzungskatalog mit 100 messbaren, versionierten und auditierbaren KI-Skills für KI-Agenten, organisiert in zehn Skill-Familien:
+Architecture and implementation catalog with 100 measurable, versioned, and auditable AI skills for AI agents, organized into ten skill families:
 
-A) Intake & Dokumentenverarbeitung · B) Verständnis & Klassifikation · C) Matching & Routing · D) Prognose & Prognostik · E) Optimierung & Orchestrierung · F) Abrechnung, Settlement & Metering · G) Compliance, Audit & Reporting · H) Human-in-the-loop & Quality Control · I) Agentic Orchestration & Tool-Use · J) Domain-specific Skills
+A) Intake & Document Processing · B) Understanding & Classification · C) Matching & Routing · D) Forecasting & Prediction · E) Optimization & Orchestration · F) Billing, Settlement & Metering · G) Compliance, Audit & Reporting · H) Human-in-the-Loop & Quality Control · I) Agentic Orchestration & Tool-Use · J) Domain-Specific Skills
 
-- [Detailseite: Katalog von hundert KI-Skills für KI-Skills und KI-Agents](/research/katalog-100-ki-skills-und-ki-agents/)
+- [Detail Page: Catalog of Hundred AI Skills for AI Agents](/research/katalog-100-ki-skills-und-ki-agents/)
 - [PDF](/SSID-docs/downloads/research/ai-infrastructure/katalog-100-ki-skills-und-ki-agents.pdf) · [SHA-256](/SSID-docs/downloads/research/ai-infrastructure/katalog-100-ki-skills-und-ki-agents.pdf.sha256)
-- [JSON-Datensatz](/SSID-docs/downloads/research/ai-infrastructure/catalog-manifest.json)
+- [JSON Dataset](/SSID-docs/downloads/research/ai-infrastructure/catalog-manifest.json)
 
-## Gemeinsames Architekturmodell
+## Shared Architecture Model
 
 ```
-Marktproblem
+Market Problem
   → Intake
-  → Verständnis
+  → Understanding
   → Matching
-  → Prognose
-  → Orchestrierung
+  → Forecasting
+  → Orchestration
   → Metering
   → Settlement
   → Compliance
@@ -61,24 +61,32 @@ Marktproblem
   → Agent Runtime
 ```
 
-Dieser Fluss verbindet die 100 Business-Modelle (das "Was" — welcher Markt, welcher Schmerzpunkt, welche Monetarisierung) mit den 100 KI-Skills (das "Wie" — welche technischen Bausteine den jeweiligen Schritt umsetzen).
+This flow connects the 100 business models (the "What" — which market, which pain point, which monetization) with the 100 AI skills (the "How" — which technical components implement each step).
 
-## Verknüpfung
+## Linkage
 
-In der Skills-Tabelle referenziert die Spalte „Anwendungsfälle (Modell-Nr.)" die Nummern der 100 Business-Modelle. So lässt sich für jeden Skill nachvollziehen, welche Business-Modelle ihn benötigen, und umgekehrt für jedes Business-Modell ableiten, welche Skills es technisch trägt. Diese Zuordnung ist im maschinenlesbaren [Skill-Modell-Matrix-Datensatz](/SSID-docs/downloads/research/ai-infrastructure/catalog-manifest.json) sowie in `src/data/research/ai-infrastructure/skill-model-matrix.json` strukturiert verfügbar.
+In the skills table, the "Use Cases (Model #)" column references the numbers of the 100 business models. This allows tracing, for each skill, which business models require it, and conversely for each business model, which skills provide its technical foundation. This mapping is available in machine-readable form in the [Skill-Model Matrix Dataset](/SSID-docs/downloads/research/ai-infrastructure/catalog-manifest.json) and in `src/data/research/ai-infrastructure/skill-model-matrix.json`.
 
 ## Downloads
 
-| Artefakt | Link |
+| Artifact | Link |
 |---|---|
-| Business-Modelle PDF | [100-ai-business-models-infrastructure-pattern.pdf](/SSID-docs/downloads/research/ai-infrastructure/100-ai-business-models-infrastructure-pattern.pdf) |
-| Business-Modelle SHA-256 | [100-ai-business-models-infrastructure-pattern.pdf.sha256](/SSID-docs/downloads/research/ai-infrastructure/100-ai-business-models-infrastructure-pattern.pdf.sha256) |
-| KI-Skills PDF | [katalog-100-ki-skills-und-ki-agents.pdf](/SSID-docs/downloads/research/ai-infrastructure/katalog-100-ki-skills-und-ki-agents.pdf) |
-| KI-Skills SHA-256 | [katalog-100-ki-skills-und-ki-agents.pdf.sha256](/SSID-docs/downloads/research/ai-infrastructure/katalog-100-ki-skills-und-ki-agents.pdf.sha256) |
+| Business Models PDF | [100-ai-business-models-infrastructure-pattern.pdf](/SSID-docs/downloads/research/ai-infrastructure/100-ai-business-models-infrastructure-pattern.pdf) |
+| Business Models SHA-256 | [100-ai-business-models-infrastructure-pattern.pdf.sha256](/SSID-docs/downloads/research/ai-infrastructure/100-ai-business-models-infrastructure-pattern.pdf.sha256) |
+| AI Skills PDF | [katalog-100-ki-skills-und-ki-agents.pdf](/SSID-docs/downloads/research/ai-infrastructure/katalog-100-ki-skills-und-ki-agents.pdf) |
+| AI Skills SHA-256 | [katalog-100-ki-skills-und-ki-agents.pdf.sha256](/SSID-docs/downloads/research/ai-infrastructure/katalog-100-ki-skills-und-ki-agents.pdf.sha256) |
 | Manifest (JSON) | [catalog-manifest.json](/SSID-docs/downloads/research/ai-infrastructure/catalog-manifest.json) |
+| Business Models Landscape | [business-models-landscape.svg](/SSID-docs/images/research/ai-infrastructure/business-models-landscape.svg) |
+| Skills Capability Map | [skills-capability-map.svg](/SSID-docs/images/research/ai-infrastructure/skills-capability-map.svg) |
+| Model-Skill Matrix | [model-skill-matrix.svg](/SSID-docs/images/research/ai-infrastructure/model-skill-matrix.svg) |
 
 ## Status
 
-**DOCUMENTED:** Beide Kataloge wurden vollständig aus ihren jeweiligen Quellartefakten (Markdown-Ausgangstext bzw. PDF) in dieses Dokumentationssystem integriert.
+**DOCUMENTED:** Both catalogs have been fully integrated from their respective source artifacts (markdown source text and PDF) into this documentation system.
 
-**INFERENCE:** Die Business-Modelle sind eine analytische Markt- und Plattformableitung. Die Skills sind eine analytische Architektur-Synthese. Die Integration beweist nicht, dass alle Modelle und Skills bereits implementiert sind.
+**INFERENCE:** The business models represent an analytical market and platform derivation. The skills represent an analytical architecture synthesis. The integration does not prove that all models and skills are already implemented.
+
+## Localization
+
+- **Root (/research/)**: English language
+- **German (/de/research/)**: German language (Deutsch)

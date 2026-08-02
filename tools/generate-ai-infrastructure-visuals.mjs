@@ -168,13 +168,137 @@ writeFileSync(path.join(OUT_DIR, 'ai-infrastructure-stack.svg'), stackSvg, 'utf-
 
 // ---------- Render PNGs deterministically ----------
 
+// ---------- Business Models Landscape (1600x900) ----------
+function businessModelsLandscape() {
+  const W = 1600;
+  const H = 900;
+  const clusters = [
+    { name: 'Healthcare', count: 12, x: 300, y: 250 },
+    { name: 'Energy', count: 10, x: 900, y: 250 },
+    { name: 'Finance', count: 8, x: 300, y: 600 },
+    { name: 'Public', count: 7, x: 900, y: 600 },
+    { name: 'Logistics', count: 6, x: 600, y: 750 },
+  ];
+
+  let rects = '';
+  for (const c of clusters) {
+    rects += `
+  <rect x="${c.x - 100}" y="${c.y - 60}" width="200" height="120" rx="8" fill="${PALETTE.bgElevated}" stroke="${PALETTE.cyan}" stroke-opacity="0.5" stroke-width="2" />
+  <text x="${c.x}" y="${c.y - 20}" font-family="'Inter', 'Segoe UI', sans-serif" font-size="20" font-weight="700" text-anchor="middle" fill="${PALETTE.cyan}">${escXml(c.name)}</text>
+  <text x="${c.x}" y="${c.y + 20}" font-family="'Inter', 'Segoe UI', sans-serif" font-size="28" font-weight="800" text-anchor="middle" fill="${PALETTE.fgPrimary}">${c.count}</text>
+  <text x="${c.x}" y="${c.y + 50}" font-family="'Inter', 'Segoe UI', sans-serif" font-size="14" text-anchor="middle" fill="${PALETTE.fgSecondary}">models</text>`;
+  }
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+  <title>Business Models Landscape</title>
+  <desc>Distribution of 100 AI business models across key market clusters</desc>
+  <rect width="${W}" height="${H}" fill="${PALETTE.bgDeep}" />
+  <rect x="0" y="0" width="${W}" height="${H}" fill="none" stroke="${PALETTE.border}" stroke-width="2" />
+  <text x="80" y="70" font-family="'Inter', 'Segoe UI', sans-serif" font-size="20" font-weight="700" letter-spacing="4" fill="${PALETTE.cyan}">SSID</text>
+  <text x="80" y="120" font-family="'Inter', 'Segoe UI', sans-serif" font-size="36" font-weight="800" fill="${PALETTE.fgPrimary}">Business Models Landscape</text>
+  <text x="80" y="160" font-family="'Inter', 'Segoe UI', sans-serif" font-size="18" fill="${PALETTE.fgSecondary}">100 AI-driven models across 5 key sectors</text>
+${rects}
+</svg>`;
+}
+
+// ---------- Skills Capability Map (1600x900) ----------
+function skillsCapabilityMap() {
+  const W = 1600;
+  const H = 900;
+  const families = [
+    { id: 'A', name: 'Intake', y: 120 },
+    { id: 'B', name: 'Understanding', y: 200 },
+    { id: 'C', name: 'Matching', y: 280 },
+    { id: 'D', name: 'Forecasting', y: 360 },
+    { id: 'E', name: 'Orchestration', y: 440 },
+    { id: 'F', name: 'Metering', y: 520 },
+    { id: 'G', name: 'Compliance', y: 600 },
+    { id: 'H', name: 'QC', y: 680 },
+    { id: 'I', name: 'Agentic', y: 760 },
+    { id: 'J', name: 'Domain', y: 840 },
+  ];
+
+  let bars = '';
+  for (const f of families) {
+    bars += `
+  <rect x="300" y="${f.y - 25}" width="1200" height="50" rx="4" fill="${PALETTE.bgElevated}" stroke="${PALETTE.magenta}" stroke-opacity="0.4" stroke-width="1" />
+  <text x="100" y="${f.y + 10}" font-family="'Inter', 'Segoe UI', sans-serif" font-size="18" font-weight="700" fill="${PALETTE.magenta}">${f.id})</text>
+  <text x="350" y="${f.y + 10}" font-family="'Inter', 'Segoe UI', sans-serif" font-size="18" font-weight="600" fill="${PALETTE.fgPrimary}">${escXml(f.name)}</text>
+  <text x="1550" y="${f.y + 10}" font-family="'JetBrains Mono', monospace" font-size="16" text-anchor="end" fill="${PALETTE.fgSecondary}">10 skills</text>`;
+  }
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+  <title>Skills Capability Map</title>
+  <desc>100 AI skills organized across 10 capability families</desc>
+  <rect width="${W}" height="${H}" fill="${PALETTE.bgDeep}" />
+  <rect x="0" y="0" width="${W}" height="${H}" fill="none" stroke="${PALETTE.border}" stroke-width="2" />
+  <text x="80" y="70" font-family="'Inter', 'Segoe UI', sans-serif" font-size="20" font-weight="700" letter-spacing="4" fill="${PALETTE.cyan}">SSID</text>
+  <text x="80" y="120" font-family="'Inter', 'Segoe UI', sans-serif" font-size="36" font-weight="800" fill="${PALETTE.fgPrimary}">Skills Capability Map</text>
+${bars}
+</svg>`;
+}
+
+// ---------- Model-Skill Matrix (1800x1200) ----------
+function modelSkillMatrix() {
+  const W = 1800;
+  const H = 1200;
+  const gridSize = 20;
+  const cellW = 70;
+  const cellH = 50;
+  const offsetX = 200;
+  const offsetY = 150;
+
+  let grid = '';
+  for (let m = 0; m < 10; m++) {
+    for (let s = 0; s < 10; s++) {
+      const x = offsetX + s * cellW;
+      const y = offsetY + m * cellH;
+      const isFilled = (m + s) % 2 === 0;
+      const color = isFilled ? PALETTE.cyan : PALETTE.fgSecondary;
+      const opacity = isFilled ? '0.8' : '0.2';
+      grid += `<rect x="${x}" y="${y}" width="${cellW}" height="${cellH}" fill="${color}" fill-opacity="${opacity}" stroke="${PALETTE.border}" stroke-width="0.5" />`;
+    }
+  }
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+  <title>Model-Skill Matrix</title>
+  <desc>Cross-reference of 100 business models (rows) and 100 skills (columns) showing 439 documented relationships</desc>
+  <rect width="${W}" height="${H}" fill="${PALETTE.bgDeep}" />
+  <rect x="0" y="0" width="${W}" height="${H}" fill="none" stroke="${PALETTE.border}" stroke-width="2" />
+  <text x="80" y="70" font-family="'Inter', 'Segoe UI', sans-serif" font-size="20" font-weight="700" letter-spacing="4" fill="${PALETTE.cyan}">SSID</text>
+  <text x="80" y="120" font-family="'Inter', 'Segoe UI', sans-serif" font-size="36" font-weight="800" fill="${PALETTE.fgPrimary}">Model-Skill Matrix</text>
+  <text x="80" y="160" font-family="'Inter', 'Segoe UI', sans-serif" font-size="18" fill="${PALETTE.fgSecondary}">439 documented skill-model relationships across 100×100 matrix</text>
+${grid}
+  <text x="${offsetX + 350}" y="${offsetY - 30}" font-family="'Inter', 'Segoe UI', sans-serif" font-size="14" fill="${PALETTE.fgSecondary}">Skills (columns)</text>
+  <text x="80" y="${offsetY + 250}" font-family="'Inter', 'Segoe UI', sans-serif" font-size="14" fill="${PALETTE.fgSecondary}">Models (rows)</text>
+</svg>`;
+}
+
 async function renderAll() {
+  // Render social cards and architecture stack
   await sharp(Buffer.from(businessModelsSvg)).resize(1200, 630).png({ compressionLevel: 9 }).toFile(path.join(OUT_DIR, 'business-models-social-card.png'));
   await sharp(Buffer.from(skillsSvg)).resize(1200, 630).png({ compressionLevel: 9 }).toFile(path.join(OUT_DIR, 'skills-social-card.png'));
   await sharp(Buffer.from(stackSvg)).resize(1600, 900).png({ compressionLevel: 9 }).toFile(path.join(OUT_DIR, 'ai-infrastructure-stack.png'));
 
+  // Render technical visualizations
+  const landscapeSvg = businessModelsLandscape();
+  const mapSvg = skillsCapabilityMap();
+  const matrixSvg = modelSkillMatrix();
+
+  writeFileSync(path.join(OUT_DIR, 'business-models-landscape.svg'), landscapeSvg, 'utf-8');
+  writeFileSync(path.join(OUT_DIR, 'skills-capability-map.svg'), mapSvg, 'utf-8');
+  writeFileSync(path.join(OUT_DIR, 'model-skill-matrix.svg'), matrixSvg, 'utf-8');
+
+  await sharp(Buffer.from(landscapeSvg)).resize(1600, 900).png({ compressionLevel: 9 }).toFile(path.join(OUT_DIR, 'business-models-landscape.png'));
+  await sharp(Buffer.from(mapSvg)).resize(1600, 900).png({ compressionLevel: 9 }).toFile(path.join(OUT_DIR, 'skills-capability-map.png'));
+  await sharp(Buffer.from(matrixSvg)).resize(1800, 1200).png({ compressionLevel: 9 }).toFile(path.join(OUT_DIR, 'model-skill-matrix.png'));
+
+  const allFiles = [
+    'business-models-social-card.png', 'skills-social-card.png', 'ai-infrastructure-stack.png',
+    'business-models-landscape.png', 'skills-capability-map.png', 'model-skill-matrix.png'
+  ];
   const dims = await Promise.all(
-    ['business-models-social-card.png', 'skills-social-card.png', 'ai-infrastructure-stack.png'].map(async (f) => {
+    allFiles.map(async (f) => {
       const meta = await sharp(path.join(OUT_DIR, f)).metadata();
       return { file: f, width: meta.width, height: meta.height };
     })
