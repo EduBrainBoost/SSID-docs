@@ -1,0 +1,27 @@
+{
+  "module": "ai-infrastructure-catalogs",
+  "version": "1.0.0",
+  "catalogs": [
+    {
+      "id": "business-models",
+      "count": 100,
+      "page": "/research/100-ai-business-models-infrastructure-pattern/",
+      "page_de": "/de/research/100-ai-business-models-infrastructure-pattern/",
+      "pdf": "/SSID-docs/downloads/research/ai-infrastructure/100-ai-business-models-infrastructure-pattern.pdf",
+      "sha256": "cac1d409df28dec54a170f31d4943d071ccaff63c87350c0e2b3b5da74366085"
+    },
+    {
+      "id": "skills",
+      "count": 100,
+      "page": "/research/katalog-100-ki-skills-und-ki-agents/",
+      "page_de": "/de/research/katalog-100-ki-skills-und-ki-agents/",
+      "pdf": "/SSID-docs/downloads/research/ai-infrastructure/katalog-100-ki-skills-und-ki-agents.pdf",
+      "sha256": "5d534f595b960a8e37434cee889ab1f60b67be3b4ff272d488afbbb1a294d89d"
+    }
+  ],
+  "visuals": [
+    "/SSID-docs/images/research/ai-infrastructure/business-models-social-card.png",
+    "/SSID-docs/images/research/ai-infrastructure/skills-social-card.png",
+    "/SSID-docs/images/research/ai-infrastructure/ai-infrastructure-stack.png"
+  ]
+}
