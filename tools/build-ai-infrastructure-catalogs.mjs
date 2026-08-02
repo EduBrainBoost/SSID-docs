@@ -1,0 +1,298 @@
+#!/usr/bin/env node
+// Parses the canonical AI infrastructure documentation pages and regenerates
+// the structured JSON catalogs, matrix, and manifest. Source of truth is the
+// markdown under src/content/docs/research/ — this script must not invent data.
+
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+
+function fail(message) {
+  console.error(`BLOCKED: ${message}`);
+  process.exit(1);
+}
+
+function readText(relPath) {
+  const p = path.join(ROOT, relPath);
+  if (!existsSync(p)) fail(`Missing required file: ${relPath}`);
+  return readFileSync(p, 'utf-8');
+}
+
+function sha256(relPath) {
+  const p = path.join(ROOT, relPath);
+  if (!existsSync(p)) fail(`Missing required artifact: ${relPath}`);
+  return createHash('sha256').update(readFileSync(p)).digest('hex');
+}
+
+function splitRow(line) {
+  // Splits a markdown table row "| a | b | c |" into ["a","b","c"], trimmed.
+  const trimmed = line.trim().replace(/^\|/, '').replace(/\|$/, '');
+  const cells = [];
+  let cur = '';
+  let escaped = false;
+  for (const ch of trimmed) {
+    if (escaped) {
+      cur += ch;
+      escaped = false;
+      continue;
+    }
+    if (ch === '\\') {
+      escaped = true;
+      continue;
+    }
+    if (ch === '|') {
+      cells.push(cur.trim());
+      cur = '';
+      continue;
+    }
+    cur += ch;
+  }
+  cells.push(cur.trim());
+  return cells;
+}
+
+// ---------- Business models ----------
+
+function parseBusinessModels() {
+  const md = readText('src/content/docs/research/100-ai-business-models-infrastructure-pattern.md');
+  const lines = md.split('\n');
+  const models = [];
+  for (const line of lines) {
+    if (!/^\|\s*\d+\s*\|/.test(line)) continue;
+    const cells = splitRow(line);
+    if (cells.length < 6) continue;
+    const id = Number(cells[0]);
+    if (!Number.isInteger(id) || id < 1 || id > 100) continue;
+    const [, market, painPoint, aiSolution, monetization, marketComment] = cells;
+
+    const maturityMatch = marketComment.match(/Reife:\s*([^.]+)\./);
+    const status = /^VERIFIED:/.test(marketComment)
+      ? 'VERIFIED'
+      : /^Proxy:/.test(marketComment)
+        ? 'INFERENCE'
+        : /unspezifiziert/i.test(marketComment)
+          ? 'UNKNOWN'
+          : 'INFERENCE';
+
+    models.push({
+      id,
+      market: market,
+      pain_point: painPoint,
+      ai_solution: aiSolution,
+      monetization: monetization,
+      market_comment: marketComment,
+      maturity: maturityMatch ? maturityMatch[1].trim() : 'UNKNOWN',
+      status,
+    });
+  }
+  return models;
+}
+
+// ---------- Skills ----------
+
+const FAMILIES = {
+  A: 'Intake & Dokumentenverarbeitung',
+  B: 'Verständnis & Klassifikation',
+  C: 'Matching & Routing',
+  D: 'Prognose & Prognostik',
+  E: 'Optimierung & Orchestrierung',
+  F: 'Abrechnung, Settlement & Metering',
+  G: 'Compliance, Audit & Reporting',
+  H: 'Human-in-the-loop & Quality Control',
+  I: 'Agentic Orchestration & Tool-Use',
+  J: 'Domain-specific Skills',
+};
+
+function splitInputsOutputs(cell) {
+  // Source column format: "In: <inputs>. Out: <outputs>."
+  const m = cell.match(/^In:\s*(.*?)\.?\s*Out:\s*(.*)$/s);
+  if (!m) return { inputs: [], outputs: [] };
+  const listify = (s) =>
+    s
+      .replace(/\.\s*$/, '')
+      .split(',')
+      .map((x) => x.trim())
+      .filter(Boolean);
+  return { inputs: listify(m[1]), outputs: listify(m[2]) };
+}
+
+function parseSkills() {
+  const md = readText('src/content/docs/research/katalog-100-ki-skills-und-ki-agents.md');
+  const lines = md.split('\n');
+  const skills = [];
+  let currentFamily = null;
+
+  for (const line of lines) {
+    if (!line.trim().startsWith('|')) continue;
+    const cells = splitRow(line);
+
+    // Family header row: | **A** | **Family Name** | | | | | |
+    const familyMatch = cells[0] && cells[0].match(/^\*\*([A-J])\*\*$/);
+    if (familyMatch) {
+      currentFamily = familyMatch[1];
+      continue;
+    }
+
+    if (!/^\d{1,3}$/.test(cells[0])) continue;
+    const id = Number(cells[0]);
+    if (id < 1 || id > 100) continue;
+    if (cells.length < 8) fail(`Skill row ${id} has ${cells.length} columns, expected 8.`);
+
+    const [, name, description, inputsOutputs, technologiesRaw, modelTypesRaw, modelRefsRaw, hintRaw] = cells;
+    const businessModelIds = (modelRefsRaw.match(/\d+/g) || []).map(Number);
+    const technologies = technologiesRaw.split(',').map((s) => s.trim()).filter(Boolean);
+    const modelTypes = modelTypesRaw.split(',').map((s) => s.trim()).filter(Boolean);
+    const hint = hintRaw === '—' ? '' : hintRaw;
+    const { inputs, outputs } = splitInputsOutputs(inputsOutputs);
+
+    skills.push({
+      id,
+      family: currentFamily,
+      name,
+      description,
+      inputs,
+      outputs,
+      inputs_outputs: inputsOutputs,
+      technologies,
+      model_types: modelTypes,
+      business_model_ids: businessModelIds,
+      implementation_note: hint,
+    });
+  }
+  return skills;
+}
+
+// ---------- Build ----------
+
+function build() {
+  const models = parseBusinessModels();
+  if (models.length !== 100) fail(`Expected 100 business models, parsed ${models.length}.`);
+  const modelIds = models.map((m) => m.id).sort((a, b) => a - b);
+  for (let i = 0; i < 100; i++) {
+    if (modelIds[i] !== i + 1) fail(`Business model ID mismatch at position ${i}: expected ${i + 1}, got ${modelIds[i]}.`);
+  }
+
+  const skills = parseSkills();
+  if (skills.length !== 100) fail(`Expected 100 skills, parsed ${skills.length}.`);
+  const skillIds = skills.map((s) => s.id).sort((a, b) => a - b);
+  for (let i = 0; i < 100; i++) {
+    if (skillIds[i] !== i + 1) fail(`Skill ID mismatch at position ${i}: expected ${i + 1}, got ${skillIds[i]}.`);
+  }
+  for (const s of skills) {
+    if (!s.family || !FAMILIES[s.family]) fail(`Skill ${s.id} has invalid or missing family "${s.family}".`);
+    if (!s.name) fail(`Skill ${s.id} has an empty name.`);
+    if (!s.technologies.length) fail(`Skill ${s.id} has no technologies.`);
+    if (!s.model_types.length) fail(`Skill ${s.id} has no model types.`);
+    if (!s.inputs.length) fail(`Skill ${s.id} has no parsed inputs.`);
+    if (!s.outputs.length) fail(`Skill ${s.id} has no parsed outputs.`);
+    for (const ref of s.business_model_ids) {
+      if (ref < 1 || ref > 100) fail(`Skill ${s.id} references out-of-range business model ID ${ref}.`);
+    }
+  }
+  const familiesPresent = new Set(skills.map((s) => s.family));
+  for (const fam of Object.keys(FAMILIES)) {
+    if (!familiesPresent.has(fam)) fail(`Skill family ${fam} has no members.`);
+  }
+
+  // business-models.json
+  const businessModelsDoc = {
+    catalog_id: 'ai-infrastructure-business-models-100',
+    title: 'Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster',
+    language: 'de',
+    count: models.length,
+    models,
+  };
+
+  // skills.json
+  const skillsDoc = {
+    catalog_id: 'ai-agent-skills-100',
+    title: 'Katalog von hundert KI-Skills für KI-Skills und KI-Agents',
+    language: 'de',
+    count: skills.length,
+    families: Object.entries(FAMILIES).map(([id, name]) => ({ id, name })),
+    skills,
+  };
+
+  // skill-model-matrix.json
+  const links = skills.map((s) => ({ skill_id: s.id, business_model_ids: s.business_model_ids }));
+  const skillsByBusinessModel = {};
+  for (const s of skills) {
+    for (const modelId of s.business_model_ids) {
+      const key = String(modelId);
+      if (!skillsByBusinessModel[key]) skillsByBusinessModel[key] = [];
+      skillsByBusinessModel[key].push(s.id);
+    }
+  }
+  const businessModelsBySkillFamily = {};
+  for (const s of skills) {
+    if (!businessModelsBySkillFamily[s.family]) businessModelsBySkillFamily[s.family] = new Set();
+    for (const modelId of s.business_model_ids) businessModelsBySkillFamily[s.family].add(modelId);
+  }
+  const businessModelsBySkillFamilyOut = Object.fromEntries(
+    Object.entries(businessModelsBySkillFamily).map(([k, v]) => [k, [...v].sort((a, b) => a - b)])
+  );
+
+  const matrixDoc = {
+    business_model_count: models.length,
+    skill_count: skills.length,
+    links,
+    skills_by_business_model: skillsByBusinessModel,
+    business_models_by_skill_family: businessModelsBySkillFamilyOut,
+  };
+
+  // PDF hashes
+  const businessPdfHash = sha256('public/downloads/research/ai-infrastructure/100-ai-business-models-infrastructure-pattern.pdf');
+  const skillsPdfHash = sha256('public/downloads/research/ai-infrastructure/katalog-100-ki-skills-und-ki-agents.pdf');
+  const expectedSkillsHash = '5d534f595b960a8e37434cee889ab1f60b67be3b4ff272d488afbbb1a294d89d';
+  if (skillsPdfHash !== expectedSkillsHash) {
+    fail(`Skills PDF hash mismatch: expected ${expectedSkillsHash}, got ${skillsPdfHash}.`);
+  }
+
+  const manifestDoc = {
+    module: 'ai-infrastructure-catalogs',
+    version: '1.0.0',
+    catalogs: [
+      {
+        id: 'business-models',
+        count: models.length,
+        page: '/research/100-ai-business-models-infrastructure-pattern/',
+        page_de: '/de/research/100-ai-business-models-infrastructure-pattern/',
+        pdf: '/SSID-docs/downloads/research/ai-infrastructure/100-ai-business-models-infrastructure-pattern.pdf',
+        sha256: businessPdfHash,
+      },
+      {
+        id: 'skills',
+        count: skills.length,
+        page: '/research/katalog-100-ki-skills-und-ki-agents/',
+        page_de: '/de/research/katalog-100-ki-skills-und-ki-agents/',
+        pdf: '/SSID-docs/downloads/research/ai-infrastructure/katalog-100-ki-skills-und-ki-agents.pdf',
+        sha256: skillsPdfHash,
+      },
+    ],
+    visuals: [
+      '/SSID-docs/images/research/ai-infrastructure/business-models-social-card.png',
+      '/SSID-docs/images/research/ai-infrastructure/skills-social-card.png',
+      '/SSID-docs/images/research/ai-infrastructure/ai-infrastructure-stack.png',
+    ],
+  };
+
+  const dataDir = 'src/data/research/ai-infrastructure';
+  mkdirSync(path.join(ROOT, dataDir), { recursive: true });
+  writeFileSync(path.join(ROOT, dataDir, 'business-models.json'), JSON.stringify(businessModelsDoc, null, 2) + '\n', 'utf-8');
+  writeFileSync(path.join(ROOT, dataDir, 'skills.json'), JSON.stringify(skillsDoc, null, 2) + '\n', 'utf-8');
+  writeFileSync(path.join(ROOT, dataDir, 'skill-model-matrix.json'), JSON.stringify(matrixDoc, null, 2) + '\n', 'utf-8');
+  writeFileSync(path.join(ROOT, dataDir, 'catalog-manifest.json'), JSON.stringify(manifestDoc, null, 2) + '\n', 'utf-8');
+
+  const publicManifestPath = 'public/downloads/research/ai-infrastructure/catalog-manifest.json';
+  writeFileSync(path.join(ROOT, publicManifestPath), JSON.stringify(manifestDoc, null, 2) + '\n', 'utf-8');
+
+  console.log(`VERIFIED: business-models.json — ${models.length} models, IDs 1-100 complete.`);
+  console.log(`VERIFIED: skills.json — ${skills.length} skills, IDs 1-100 complete, families A-J present.`);
+  console.log(`VERIFIED: skill-model-matrix.json — ${links.length} links.`);
+  console.log(`VERIFIED: catalog-manifest.json (internal + public) — business PDF sha256=${businessPdfHash}, skills PDF sha256=${skillsPdfHash}.`);
+}
+
+build();

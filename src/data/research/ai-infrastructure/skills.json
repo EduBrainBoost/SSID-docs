@@ -1,0 +1,3336 @@
+{
+  "catalog_id": "ai-agent-skills-100",
+  "title": "Katalog von hundert KI-Skills für KI-Skills und KI-Agents",
+  "language": "de",
+  "count": 100,
+  "families": [
+    {
+      "id": "A",
+      "name": "Intake & Dokumentenverarbeitung"
+    },
+    {
+      "id": "B",
+      "name": "Verständnis & Klassifikation"
+    },
+    {
+      "id": "C",
+      "name": "Matching & Routing"
+    },
+    {
+      "id": "D",
+      "name": "Prognose & Prognostik"
+    },
+    {
+      "id": "E",
+      "name": "Optimierung & Orchestrierung"
+    },
+    {
+      "id": "F",
+      "name": "Abrechnung, Settlement & Metering"
+    },
+    {
+      "id": "G",
+      "name": "Compliance, Audit & Reporting"
+    },
+    {
+      "id": "H",
+      "name": "Human-in-the-loop & Quality Control"
+    },
+    {
+      "id": "I",
+      "name": "Agentic Orchestration & Tool-Use"
+    },
+    {
+      "id": "J",
+      "name": "Domain-specific Skills"
+    }
+  ],
+  "skills": [
+    {
+      "id": 1,
+      "family": "A",
+      "name": "Multimodal Intake Gateway",
+      "description": "Einheitlicher Eingang für Text, PDF, Bild, Formular, Chat und Voice; erzeugt aus rohem Input einen normierten Case.",
+      "inputs": [
+        "Dateien",
+        "Nachrichten",
+        "Audio",
+        "Metadaten"
+      ],
+      "outputs": [
+        "case_id",
+        "Kanal",
+        "Rohartefakte",
+        "Vor-Metadaten"
+      ],
+      "inputs_outputs": "In: Dateien, Nachrichten, Audio, Metadaten. Out: case_id, Kanal, Rohartefakte, Vor-Metadaten.",
+      "technologies": [
+        "LLM",
+        "VLM",
+        "OCR",
+        "ASR"
+      ],
+      "model_types": [
+        "Healthcare Intake",
+        "Claims",
+        "Public Services"
+      ],
+      "business_model_ids": [],
+      "implementation_note": ""
+    },
+    {
+      "id": 2,
+      "family": "A",
+      "name": "OCR- und Layout-Parser",
+      "description": "Extrahiert Text, Tabellen, Felder und Seitenlogik aus PDFs/Scans.",
+      "inputs": [
+        "PDF/Bild"
+      ],
+      "outputs": [
+        "Textblöcke",
+        "Bounding Boxes",
+        "Tabellen-JSON"
+      ],
+      "inputs_outputs": "In: PDF/Bild. Out: Textblöcke, Bounding Boxes, Tabellen-JSON.",
+      "technologies": [
+        "OCR",
+        "LayoutLM/VLM"
+      ],
+      "model_types": [
+        "Abrechnung",
+        "Factoring",
+        "Claims",
+        "Procurement"
+      ],
+      "business_model_ids": [],
+      "implementation_note": ""
+    },
+    {
+      "id": 3,
+      "family": "A",
+      "name": "E-Mail- und Anhangs-Triage",
+      "description": "Erfasst eingehende Mails, trennt Fälle, Anhänge und Folgeaktionen.",
+      "inputs": [
+        "RFC822-Mail",
+        "Anhänge"
+      ],
+      "outputs": [
+        "Fallzuordnung",
+        "Doktypen",
+        "Priorität"
+      ],
+      "inputs_outputs": "In: RFC822-Mail, Anhänge. Out: Fallzuordnung, Doktypen, Priorität.",
+      "technologies": [
+        "LLM",
+        "OCR",
+        "Klassifikation"
+      ],
+      "model_types": [
+        "Inkasso",
+        "Facility",
+        "Vergabe",
+        "Travel"
+      ],
+      "business_model_ids": [],
+      "implementation_note": ""
+    },
+    {
+      "id": 4,
+      "family": "A",
+      "name": "Formular-Autofill-Extractor",
+      "description": "Liest Pflichtfelder und füllt strukturierte Antrags-/Einreichungsmodelle vor.",
+      "inputs": [
+        "Formulare",
+        "PDFs",
+        "Nutzerangaben"
+      ],
+      "outputs": [
+        "validiertes Formular-JSON"
+      ],
+      "inputs_outputs": "In: Formulare, PDFs, Nutzerangaben. Out: validiertes Formular-JSON.",
+      "technologies": [
+        "LLM",
+        "Regeln",
+        "OCR"
+      ],
+      "model_types": [
+        "Genehmigung",
+        "Benefits",
+        "Kommune",
+        "Migration"
+      ],
+      "business_model_ids": [],
+      "implementation_note": ""
+    },
+    {
+      "id": 5,
+      "family": "A",
+      "name": "Voice-to-Case Intake",
+      "description": "Wandelt freies Telefon-/Sprachaufkommen in strukturierte Fälle um.",
+      "inputs": [
+        "Audio/VoIP",
+        "Sprecherkanal"
+      ],
+      "outputs": [
+        "Transkript",
+        "Zusammenfassung",
+        "Fallobjekt"
+      ],
+      "inputs_outputs": "In: Audio/VoIP, Sprecherkanal. Out: Transkript, Zusammenfassung, Fallobjekt.",
+      "technologies": [
+        "ASR",
+        "Speaker diarization",
+        "LLM"
+      ],
+      "model_types": [
+        "Teletriage",
+        "Dolmetschen",
+        "Callcenter",
+        "Kommune"
+      ],
+      "business_model_ids": [],
+      "implementation_note": ""
+    },
+    {
+      "id": 6,
+      "family": "A",
+      "name": "Bild-Intake-Validator",
+      "description": "Prüft, ob Bilder für Schadens-, Mangel- oder Inspektionsfälle brauchbar sind.",
+      "inputs": [
+        "Fotos/Videos"
+      ],
+      "outputs": [
+        "Qualitätsurteil",
+        "Nachforderungs-Prompts",
+        "Referenzbilder"
+      ],
+      "inputs_outputs": "In: Fotos/Videos. Out: Qualitätsurteil, Nachforderungs-Prompts, Referenzbilder.",
+      "technologies": [
+        "Vision",
+        "VLM"
+      ],
+      "model_types": [
+        "Schaden",
+        "Renovierung",
+        "Abfall",
+        "Recommerce"
+      ],
+      "business_model_ids": [],
+      "implementation_note": ""
+    },
+    {
+      "id": 7,
+      "family": "A",
+      "name": "Dokument-Deduplikation und Versionsauflösung",
+      "description": "Erkennt Dubletten, neue Versionen und zusammengehörige Dokumentketten.",
+      "inputs": [
+        "Dokumente",
+        "Hashes",
+        "Metadaten"
+      ],
+      "outputs": [
+        "Version Graph",
+        "Master-Dokument"
+      ],
+      "inputs_outputs": "In: Dokumente, Hashes, Metadaten. Out: Version Graph, Master-Dokument.",
+      "technologies": [
+        "Embeddings",
+        "Graph",
+        "Regeln"
+      ],
+      "model_types": [
+        "Abrechnung",
+        "Entlassung",
+        "Due Diligence",
+        "Grants"
+      ],
+      "business_model_ids": [],
+      "implementation_note": ""
+    },
+    {
+      "id": 8,
+      "family": "A",
+      "name": "PII/PHI-Redaction Skill",
+      "description": "Erkennt und maskiert personenbezogene/sensible Daten vor Weitergabe.",
+      "inputs": [
+        "Text",
+        "PDF",
+        "Audio-Transkript"
+      ],
+      "outputs": [
+        "redigierte Fassung",
+        "Redaktionsprotokoll"
+      ],
+      "inputs_outputs": "In: Text, PDF, Audio-Transkript. Out: redigierte Fassung, Redaktionsprotokoll.",
+      "technologies": [
+        "NER",
+        "LLM",
+        "Regeln"
+      ],
+      "model_types": [
+        "Health",
+        "Legal",
+        "Benefits",
+        "Cyber"
+      ],
+      "business_model_ids": [],
+      "implementation_note": ""
+    },
+    {
+      "id": 9,
+      "family": "A",
+      "name": "Schema-Mapping Skill",
+      "description": "Überführt Freitext/Felder in Zielschemata wie Claims, Orders, FHIR, XRechnung.",
+      "inputs": [
+        "Extrakte",
+        "Freitext"
+      ],
+      "outputs": [
+        "normalisierte JSON-Objekte"
+      ],
+      "inputs_outputs": "In: Extrakte, Freitext. Out: normalisierte JSON-Objekte.",
+      "technologies": [
+        "LLM",
+        "Regeln",
+        "Ontologien"
+      ],
+      "model_types": [
+        "Billing",
+        "Carbon",
+        "Vergabe",
+        "Research"
+      ],
+      "business_model_ids": [],
+      "implementation_note": ""
+    },
+    {
+      "id": 10,
+      "family": "A",
+      "name": "Consent- und Provenance-Binder",
+      "description": "Verknüpft Fall, Einwilligung/Rechtsgrundlage, Quelle und Datenherkunft.",
+      "inputs": [
+        "Case",
+        "User action",
+        "Metadaten"
+      ],
+      "outputs": [
+        "Provenance-Record",
+        "Consent-Status"
+      ],
+      "inputs_outputs": "In: Case, User action, Metadaten. Out: Provenance-Record, Consent-Status.",
+      "technologies": [
+        "Regeln",
+        "Graph"
+      ],
+      "model_types": [
+        "Homecare",
+        "Sprachmittlung",
+        "Benefits",
+        "Health Data"
+      ],
+      "business_model_ids": [],
+      "implementation_note": ""
+    },
+    {
+      "id": 11,
+      "family": "B",
+      "name": "Intent- und Task-Classifier",
+      "description": "Erkennt, welches Problem vorliegt und welcher Skill- oder Prozesspfad gestartet werden muss.",
+      "inputs": [
+        "Text/Voice summary"
+      ],
+      "outputs": [
+        "Intention",
+        "Task-Type",
+        "Confidence"
+      ],
+      "inputs_outputs": "In: Text/Voice summary. Out: Intention, Task-Type, Confidence.",
+      "technologies": [
+        "LLM",
+        "Klassifikation"
+      ],
+      "model_types": [
+        "Intake",
+        "Service",
+        "Benefits",
+        "Contact Center"
+      ],
+      "business_model_ids": [
+        1,
+        2,
+        67,
+        83,
+        84
+      ],
+      "implementation_note": "Temperature niedrig; Closed Taxonomy + OOD-Erkennung statt Freitextlabels."
+    },
+    {
+      "id": 12,
+      "family": "B",
+      "name": "Dokumenttyp-Klassifikator",
+      "description": "Bestimmt zuverlässig Art und Zweck eines Dokuments.",
+      "inputs": [
+        "PDF/Bild/Text"
+      ],
+      "outputs": [
+        "Typ",
+        "Untertyp",
+        "Routing-Hinweis"
+      ],
+      "inputs_outputs": "In: PDF/Bild/Text. Out: Typ, Untertyp, Routing-Hinweis.",
+      "technologies": [
+        "OCR",
+        "VLM",
+        "LLM"
+      ],
+      "model_types": [
+        "Abrechnung",
+        "Factoring",
+        "Genehmigung",
+        "Vergabe"
+      ],
+      "business_model_ids": [
+        3,
+        16,
+        34,
+        56,
+        83
+      ],
+      "implementation_note": "Typkatalog versionieren; Unknown-Klasse obligatorisch."
+    },
+    {
+      "id": 13,
+      "family": "B",
+      "name": "Entity- und Feld-Extractor",
+      "description": "Zieht strukturierte Entitäten wie Beträge, Daten, Parteien, Codes, Orte.",
+      "inputs": [
+        "Text/Dokumente"
+      ],
+      "outputs": [
+        "Entitäten mit Positionen und Confidence"
+      ],
+      "inputs_outputs": "In: Text/Dokumente. Out: Entitäten mit Positionen und Confidence.",
+      "technologies": [
+        "NER",
+        "LLM",
+        "OCR"
+      ],
+      "model_types": [
+        "Billing",
+        "Schaden",
+        "Bau",
+        "ESG",
+        "Legal"
+      ],
+      "business_model_ids": [
+        3,
+        20,
+        26,
+        46,
+        68
+      ],
+      "implementation_note": "Felder mit Provenance (Seite/Box/Textspanne) zurückgeben."
+    },
+    {
+      "id": 14,
+      "family": "B",
+      "name": "Code- und Katalog-Klassifikator",
+      "description": "Ordnet Inhalte normierten Katalogen zu, z. B. ICD, HS, Tarif, Materialcode.",
+      "inputs": [
+        "Freitext/Beschreibung/Bild"
+      ],
+      "outputs": [
+        "Top-k Codes + Begründung"
+      ],
+      "inputs_outputs": "In: Freitext/Beschreibung/Bild. Out: Top-k Codes + Begründung.",
+      "technologies": [
+        "LLM",
+        "Retrieval",
+        "Regeln"
+      ],
+      "model_types": [
+        "Medizin",
+        "Pharma",
+        "EPR",
+        "Zoll",
+        "Public Billing"
+      ],
+      "business_model_ids": [
+        3,
+        11,
+        47,
+        60,
+        97
+      ],
+      "implementation_note": "Bei High-risk immer menschliche Bestätigung; Katalogversion speichern."
+    },
+    {
+      "id": 15,
+      "family": "B",
+      "name": "Dringlichkeits- und Risikoscorer",
+      "description": "Bewertet Priorität, Gefahrenlage oder Bearbeitungsdringlichkeit.",
+      "inputs": [
+        "Fallinhalt",
+        "Historie",
+        "Regeln"
+      ],
+      "outputs": [
+        "Risk/priority score",
+        "SLA-Klasse"
+      ],
+      "inputs_outputs": "In: Fallinhalt, Historie, Regeln. Out: Risk/priority score, SLA-Klasse.",
+      "technologies": [
+        "LLM",
+        "XGBoost",
+        "Regeln"
+      ],
+      "model_types": [
+        "Teletriage",
+        "Pflege",
+        "Discharge",
+        "Leckage"
+      ],
+      "business_model_ids": [
+        2,
+        4,
+        15,
+        27,
+        48
+      ],
+      "implementation_note": "Explainability-Felder ausgeben; kein Blind-Autodispatch bei Grenzfällen."
+    },
+    {
+      "id": 16,
+      "family": "B",
+      "name": "Beschwerde- und Mängelkategorisierung",
+      "description": "Strukturiert Beschwerden, Störungen oder Sachmängel in operative Cluster.",
+      "inputs": [
+        "Tickets",
+        "Bilder",
+        "Notizen"
+      ],
+      "outputs": [
+        "Kategorie",
+        "Subsystem",
+        "Severity"
+      ],
+      "inputs_outputs": "In: Tickets, Bilder, Notizen. Out: Kategorie, Subsystem, Severity.",
+      "technologies": [
+        "LLM",
+        "VLM",
+        "Klassifikation"
+      ],
+      "model_types": [
+        "Mieter",
+        "Abfall",
+        "FM",
+        "Legal Claims"
+      ],
+      "business_model_ids": [
+        27,
+        39,
+        48,
+        68,
+        87
+      ],
+      "implementation_note": "Klassenbaum pro Domäne pflegen; Drift-Monitoring nötig."
+    },
+    {
+      "id": 17,
+      "family": "B",
+      "name": "Outcome- und Status-Extractor",
+      "description": "Liest aus Freitexten den tatsächlichen Status eines Falls heraus.",
+      "inputs": [
+        "E-Mails",
+        "Berichte",
+        "ERP-Notizen"
+      ],
+      "outputs": [
+        "Status",
+        "next step",
+        "blockers"
+      ],
+      "inputs_outputs": "In: E-Mails, Berichte, ERP-Notizen. Out: Status, next step, blockers.",
+      "technologies": [
+        "LLM",
+        "Regeln"
+      ],
+      "model_types": [
+        "Entlassung",
+        "Claims",
+        "Logistik",
+        "Trials"
+      ],
+      "business_model_ids": [
+        15,
+        20,
+        61,
+        65,
+        89
+      ],
+      "implementation_note": "Statuswerte streng enumerieren; Freitext nur als Beleg anhängen."
+    },
+    {
+      "id": 18,
+      "family": "B",
+      "name": "Mehrsprachiger semantischer Normalizer",
+      "description": "Vereinheitlicht Inhalte sprach- und begriffsunabhängig auf eine interne Semantik.",
+      "inputs": [
+        "Multilinguale Texte"
+      ],
+      "outputs": [
+        "normierter semantischer Frame"
+      ],
+      "inputs_outputs": "In: Multilinguale Texte. Out: normierter semantischer Frame.",
+      "technologies": [
+        "Multilingual LLM",
+        "Embeddings"
+      ],
+      "model_types": [
+        "Dolmetschen",
+        "Remittance",
+        "Migration",
+        "Trade"
+      ],
+      "business_model_ids": [
+        13,
+        18,
+        85,
+        95
+      ],
+      "implementation_note": "Locale, Country, legal context separat als Features modellieren."
+    },
+    {
+      "id": 19,
+      "family": "B",
+      "name": "Knowledge-grounded QA Retriever",
+      "description": "Beantwortet Fragen nur mit dokumentierten Quellen aus Policy, FAQ oder Wissensbasis.",
+      "inputs": [
+        "Frage + Corpus"
+      ],
+      "outputs": [
+        "Antwort + Quellenanker"
+      ],
+      "inputs_outputs": "In: Frage + Corpus. Out: Antwort + Quellenanker.",
+      "technologies": [
+        "RAG",
+        "LLM",
+        "Retrieval"
+      ],
+      "model_types": [
+        "Genehmigung",
+        "Vergabe",
+        "Legal",
+        "Kommune"
+      ],
+      "business_model_ids": [
+        34,
+        56,
+        68,
+        83,
+        84
+      ],
+      "implementation_note": "Keine „free-form authority\"; Antwort nur mit source IDs ausgeben."
+    },
+    {
+      "id": 20,
+      "family": "B",
+      "name": "Widerspruchs- und Konsistenzprüfer",
+      "description": "Findet widersprüchliche Angaben über Dokumente, Systeme und Zeit hinweg.",
+      "inputs": [
+        "mehrere Records/Dokumente"
+      ],
+      "outputs": [
+        "Konfliktliste",
+        "Plausibilitätsscore"
+      ],
+      "inputs_outputs": "In: mehrere Records/Dokumente. Out: Konfliktliste, Plausibilitätsscore.",
+      "technologies": [
+        "LLM",
+        "Graph",
+        "Regeln"
+      ],
+      "model_types": [
+        "Abrechnung",
+        "DD",
+        "Legal",
+        "Grants",
+        "Data Rights"
+      ],
+      "business_model_ids": [
+        3,
+        35,
+        68,
+        90,
+        99
+      ],
+      "implementation_note": "CONFLICT als erster Output-Class; niemals stillschweigend überschreiben."
+    },
+    {
+      "id": 21,
+      "family": "C",
+      "name": "Provider Matcher",
+      "description": "Findet den passenden Leistungserbringer anhand Bedarf, Qualität, Ort und Regeln.",
+      "inputs": [
+        "Case",
+        "Provider graph"
+      ],
+      "outputs": [
+        "Ranked providers"
+      ],
+      "inputs_outputs": "In: Case, Provider graph. Out: Ranked providers.",
+      "technologies": [
+        "Embeddings",
+        "Graph",
+        "Ranking"
+      ],
+      "model_types": [
+        "Ärzte",
+        "Pflege",
+        "Therapy",
+        "Handwerk"
+      ],
+      "business_model_ids": [
+        1,
+        4,
+        6,
+        32,
+        72
+      ],
+      "implementation_note": "Features: Skills, Auslastung, Distanz, SLA, Compliance-Flags."
+    },
+    {
+      "id": 22,
+      "family": "C",
+      "name": "Slot Matcher",
+      "description": "Passt Nachfrage auf konkrete freie Zeiten, Restslots oder Fenster.",
+      "inputs": [
+        "Verfügbarkeiten",
+        "Präferenzen"
+      ],
+      "outputs": [
+        "gebuchte oder vorgeschlagene Slots"
+      ],
+      "inputs_outputs": "In: Verfügbarkeiten, Präferenzen. Out: gebuchte oder vorgeschlagene Slots.",
+      "technologies": [
+        "Constraints",
+        "Ranking",
+        "TSF"
+      ],
+      "model_types": [
+        "Termine",
+        "Reha",
+        "Hospitality",
+        "Beauty"
+      ],
+      "business_model_ids": [
+        1,
+        6,
+        37,
+        72,
+        80
+      ],
+      "implementation_note": "Kalender-API plus Hold/Confirm-Mechanik; Race-Conditions absichern."
+    },
+    {
+      "id": 23,
+      "family": "C",
+      "name": "Skill-based Dispatch Router",
+      "description": "Weist operative Tickets an genau passende Teams/Subunternehmer zu.",
+      "inputs": [
+        "Task",
+        "Skill matrix",
+        "Region"
+      ],
+      "outputs": [
+        "assignee",
+        "ETA",
+        "dispatch packet"
+      ],
+      "inputs_outputs": "In: Task, Skill matrix, Region. Out: assignee, ETA, dispatch packet.",
+      "technologies": [
+        "Graph",
+        "Constraints",
+        "LLM"
+      ],
+      "model_types": [
+        "FM",
+        "Handwerk",
+        "Field Service",
+        "Gastro"
+      ],
+      "business_model_ids": [
+        27,
+        31,
+        32,
+        59,
+        81
+      ],
+      "implementation_note": "Harte Constraints vor ML-Ranking auswerten."
+    },
+    {
+      "id": 24,
+      "family": "C",
+      "name": "Bid- und Auction Router",
+      "description": "Leitet Beschaffungs- oder Lead-Fälle an passende Bieter/Anbieter weiter.",
+      "inputs": [
+        "Request",
+        "Supplier graph"
+      ],
+      "outputs": [
+        "Invite list",
+        "bid window"
+      ],
+      "inputs_outputs": "In: Request, Supplier graph. Out: Invite list, bid window.",
+      "technologies": [
+        "Ranking",
+        "LLM",
+        "Graph"
+      ],
+      "model_types": [
+        "Trade finance",
+        "Einkauf",
+        "Vergabe",
+        "Influencer"
+      ],
+      "business_model_ids": [
+        22,
+        55,
+        56,
+        64,
+        75
+      ],
+      "implementation_note": "Fairness- und Anti-Spam-Regeln nötig; Supplier caps definieren."
+    },
+    {
+      "id": 25,
+      "family": "C",
+      "name": "Kapazitätsbalancer",
+      "description": "Glättet Last über Standorte, Teams oder Partnernetzwerke.",
+      "inputs": [
+        "Nachfrage",
+        "Kapazität",
+        "Forecast"
+      ],
+      "outputs": [
+        "rebalanced assignments"
+      ],
+      "inputs_outputs": "In: Nachfrage, Kapazität, Forecast. Out: rebalanced assignments.",
+      "technologies": [
+        "TSF",
+        "Optimierung"
+      ],
+      "model_types": [
+        "Pflege",
+        "Radiologie",
+        "Handwerk",
+        "Logistik"
+      ],
+      "business_model_ids": [
+        4,
+        7,
+        32,
+        61,
+        67
+      ],
+      "implementation_note": "Partnernetz als Graph modellieren; Übersteuerung nur mit SLA-Regeln."
+    },
+    {
+      "id": 26,
+      "family": "C",
+      "name": "Escalation Router",
+      "description": "Erkennt, wann ein Fall in höheren Review-, Notfall- oder Spezialpfad wechselt.",
+      "inputs": [
+        "Score",
+        "policy flags",
+        "events"
+      ],
+      "outputs": [
+        "escalated path"
+      ],
+      "inputs_outputs": "In: Score, policy flags, events. Out: escalated path.",
+      "technologies": [
+        "Regeln",
+        "LLM",
+        "Anomaly detection"
+      ],
+      "model_types": [
+        "Triage",
+        "Water damage",
+        "Contact Center",
+        "Legal Aid"
+      ],
+      "business_model_ids": [
+        2,
+        15,
+        48,
+        67,
+        86
+      ],
+      "implementation_note": "Einfache Regel-DSL bevorzugen; Audit-Pflicht."
+    },
+    {
+      "id": 27,
+      "family": "C",
+      "name": "Specialist Referral Matcher",
+      "description": "Matcht seltene oder komplexe Fälle an Spezialist:innen oder Zentren.",
+      "inputs": [
+        "Case summary",
+        "specialist graph"
+      ],
+      "outputs": [
+        "referral shortlist"
+      ],
+      "inputs_outputs": "In: Case summary, specialist graph. Out: referral shortlist.",
+      "technologies": [
+        "Graph",
+        "Embeddings",
+        "Ranking"
+      ],
+      "model_types": [
+        "Psychotherapie",
+        "Pathologie",
+        "Zweitmeinung",
+        "Trials"
+      ],
+      "business_model_ids": [
+        5,
+        7,
+        14,
+        89
+      ],
+      "implementation_note": "Expertise-Matrix pflegen; niedrige Recall-Fehler wichtiger als Precision."
+    },
+    {
+      "id": 28,
+      "family": "C",
+      "name": "Kanal-Orchestrator",
+      "description": "Wählt den besten Bearbeitungskanal: App, Mail, Telefon, Chat, API oder Vor-Ort.",
+      "inputs": [
+        "Nutzerprofil",
+        "Case",
+        "Kosten"
+      ],
+      "outputs": [
+        "channel recommendation/action"
+      ],
+      "inputs_outputs": "In: Nutzerprofil, Case, Kosten. Out: channel recommendation/action.",
+      "technologies": [
+        "LLM",
+        "Bandits",
+        "Regeln"
+      ],
+      "model_types": [
+        "Remittance",
+        "Travel",
+        "Kommune",
+        "Callcenter"
+      ],
+      "business_model_ids": [
+        18,
+        23,
+        65,
+        67,
+        84
+      ],
+      "implementation_note": "Kommunikationspräferenzen und Rechtsmitteilungen trennen."
+    },
+    {
+      "id": 29,
+      "family": "C",
+      "name": "Supply-Demand Clearing Engine",
+      "description": "Zentraler Matching-Skill für kleine Anbieter, volatile Nachfrage und variable Erlösverteilung.",
+      "inputs": [
+        "Nachfrage",
+        "Supply",
+        "Regeln",
+        "Preise"
+      ],
+      "outputs": [
+        "Zuweisungen",
+        "Clearing-Events"
+      ],
+      "inputs_outputs": "In: Nachfrage, Supply, Regeln, Preise. Out: Zuweisungen, Clearing-Events.",
+      "technologies": [
+        "Graph",
+        "Marktmechanismen",
+        "RL optional"
+      ],
+      "model_types": [
+        "Factoring",
+        "Handwerk",
+        "VPP",
+        "Parking",
+        "Warehouse"
+      ],
+      "business_model_ids": [
+        16,
+        32,
+        43,
+        51,
+        62
+      ],
+      "implementation_note": "Event-sourced; Reservierung, Finalisierung und Reversal modellieren."
+    },
+    {
+      "id": 30,
+      "family": "C",
+      "name": "Human Reviewer Assignment",
+      "description": "Weist Grenzfälle an geeignete Reviewer mit passenden Rechten und Skills zu.",
+      "inputs": [
+        "Task",
+        "confidence",
+        "reviewer pool"
+      ],
+      "outputs": [
+        "review task"
+      ],
+      "inputs_outputs": "In: Task, confidence, reviewer pool. Out: review task.",
+      "technologies": [
+        "Ranking",
+        "Regeln"
+      ],
+      "model_types": [
+        "Claims",
+        "Underwriting",
+        "QC",
+        "Cyber"
+      ],
+      "business_model_ids": [
+        20,
+        21,
+        57,
+        68,
+        96
+      ],
+      "implementation_note": "Four-eyes optional; Reviewer-Feedback strukturiert zurückführen."
+    },
+    {
+      "id": 31,
+      "family": "D",
+      "name": "No-show Forecast",
+      "description": "Schätzt Ausfallwahrscheinlichkeit von Terminen oder Schichten.",
+      "inputs": [
+        "Kalender",
+        "Historie",
+        "Kontext"
+      ],
+      "outputs": [
+        "no-show risk",
+        "overbooking hint"
+      ],
+      "inputs_outputs": "In: Kalender, Historie, Kontext. Out: no-show risk, overbooking hint.",
+      "technologies": [
+        "TSF",
+        "XGBoost"
+      ],
+      "model_types": [
+        "Arzttermine",
+        "Psychotherapie",
+        "Heilmittel",
+        "Beauty"
+      ],
+      "business_model_ids": [
+        1,
+        5,
+        6,
+        72,
+        80
+      ],
+      "implementation_note": "Bias auf vulnerable Gruppen prüfen; nur mit UX-Fallbacks einsetzen."
+    },
+    {
+      "id": 32,
+      "family": "D",
+      "name": "Claim Cost Estimator",
+      "description": "Schätzt Schaden-/Reparatur-/Fallkosten frühzeitig.",
+      "inputs": [
+        "FNOL",
+        "Bilder",
+        "Historie"
+      ],
+      "outputs": [
+        "cost range",
+        "reserve hint"
+      ],
+      "inputs_outputs": "In: FNOL, Bilder, Historie. Out: cost range, reserve hint.",
+      "technologies": [
+        "Vision",
+        "GBM",
+        "LLM"
+      ],
+      "model_types": [
+        "Kfz",
+        "Property",
+        "Water damage",
+        "Repair"
+      ],
+      "business_model_ids": [
+        20,
+        21,
+        48,
+        79,
+        100
+      ],
+      "implementation_note": "Range statt Punktwert; Belegbilder und Referenzfälle speichern."
+    },
+    {
+      "id": 33,
+      "family": "D",
+      "name": "Nachfrageprognose",
+      "description": "Prognostiziert Volumen nach Zeit, Region, Kanal oder Segment.",
+      "inputs": [
+        "historische Events",
+        "externe Faktoren"
+      ],
+      "outputs": [
+        "demand forecast"
+      ],
+      "inputs_outputs": "In: historische Events, externe Faktoren. Out: demand forecast.",
+      "technologies": [
+        "TSF",
+        "Prophet/Transformers"
+      ],
+      "model_types": [
+        "Hospitality",
+        "Retail",
+        "Procurement",
+        "Delivery"
+      ],
+      "business_model_ids": [
+        37,
+        42,
+        55,
+        77,
+        82
+      ],
+      "implementation_note": "Forecast-Horizonte explizit machen; kalendarische Features separat führen."
+    },
+    {
+      "id": 34,
+      "family": "D",
+      "name": "ETA- und Lead-Time-Forecast",
+      "description": "Schätzt Durchlauf- und Ankunftszeiten für Fälle, Transporte oder Genehmigungen.",
+      "inputs": [
+        "Route/Process events"
+      ],
+      "outputs": [
+        "ETA",
+        "uncertainty band"
+      ],
+      "inputs_outputs": "In: Route/Process events. Out: ETA, uncertainty band.",
+      "technologies": [
+        "TSF",
+        "Graph",
+        "Boosting"
+      ],
+      "model_types": [
+        "Maritime",
+        "Freight",
+        "Warehouse",
+        "Cold chain"
+      ],
+      "business_model_ids": [
+        54,
+        61,
+        62,
+        95
+      ],
+      "implementation_note": "Unsicherheitsband feldmäßig zurückgeben; nicht nur ETA-Punktwert."
+    },
+    {
+      "id": 35,
+      "family": "D",
+      "name": "Default- und Fraud-Risk Score",
+      "description": "Schätzt Ausfall- oder Betrugswahrscheinlichkeit.",
+      "inputs": [
+        "Transaktionen",
+        "Historie",
+        "Netzwerkdaten"
+      ],
+      "outputs": [
+        "risk score",
+        "reasons"
+      ],
+      "inputs_outputs": "In: Transaktionen, Historie, Netzwerkdaten. Out: risk score, reasons.",
+      "technologies": [
+        "GNN",
+        "GBM",
+        "Regeln"
+      ],
+      "model_types": [
+        "Factoring",
+        "Remittance",
+        "Claims",
+        "Collections"
+      ],
+      "business_model_ids": [
+        16,
+        18,
+        20,
+        24,
+        94
+      ],
+      "implementation_note": "Erklärbarkeit und manual override verpflichtend."
+    },
+    {
+      "id": 36,
+      "family": "D",
+      "name": "Churn- und Adhärenz-Risiko",
+      "description": "Erkennt, wer abspringt, nicht zahlt oder Therapie/Lernpfade abbricht.",
+      "inputs": [
+        "Usage",
+        "outcomes",
+        "contacts"
+      ],
+      "outputs": [
+        "churn/adherence score"
+      ],
+      "inputs_outputs": "In: Usage, outcomes, contacts. Out: churn/adherence score.",
+      "technologies": [
+        "TSF",
+        "Klassifikation"
+      ],
+      "model_types": [
+        "Homecare",
+        "Tutoring",
+        "Upskilling",
+        "Wellness"
+      ],
+      "business_model_ids": [
+        8,
+        72,
+        73,
+        80
+      ],
+      "implementation_note": "Nur verhaltensnahe Features; special category data minimieren."
+    },
+    {
+      "id": 37,
+      "family": "D",
+      "name": "Failure-/Incident-Forecast",
+      "description": "Sagt technische oder operative Ausfälle früh voraus.",
+      "inputs": [
+        "Telemetrie",
+        "Sensorik",
+        "Events"
+      ],
+      "outputs": [
+        "failure risk",
+        "lead time"
+      ],
+      "inputs_outputs": "In: Telemetrie, Sensorik, Events. Out: failure risk, lead time.",
+      "technologies": [
+        "Anomaly detection",
+        "TSF"
+      ],
+      "model_types": [
+        "Leckage",
+        "Micromobility",
+        "Field Service",
+        "Irrigation"
+      ],
+      "business_model_ids": [
+        48,
+        52,
+        59,
+        93
+      ],
+      "implementation_note": "Streaming-gestützt; Alert-Fatigue mit Threshold Governance vermeiden."
+    },
+    {
+      "id": 38,
+      "family": "D",
+      "name": "Preiselastizitäts-Prognose",
+      "description": "Schätzt, wie Nachfrage auf Preise oder Rabatte reagiert.",
+      "inputs": [
+        "Preis-Historie",
+        "Kontext",
+        "Segment"
+      ],
+      "outputs": [
+        "elasticity interval"
+      ],
+      "inputs_outputs": "In: Preis-Historie, Kontext, Segment. Out: elasticity interval.",
+      "technologies": [
+        "Causal ML",
+        "TSF"
+      ],
+      "model_types": [
+        "Short stay",
+        "EV charging",
+        "Heat pump leads",
+        "Surplus food"
+      ],
+      "business_model_ids": [
+        37,
+        41,
+        44,
+        77,
+        82
+      ],
+      "implementation_note": "Keine black-box Auto-Preisung ohne Guardrails."
+    },
+    {
+      "id": 39,
+      "family": "D",
+      "name": "Outcome Probability Estimator",
+      "description": "Schätzt Erfolg, Abschluss oder Wirksamkeit eines Falls.",
+      "inputs": [
+        "Patient/case/project features"
+      ],
+      "outputs": [
+        "success probability"
+      ],
+      "inputs_outputs": "In: Patient/case/project features. Out: success probability.",
+      "technologies": [
+        "GBM",
+        "LLM",
+        "Survival models"
+      ],
+      "model_types": [
+        "Therapie",
+        "Reha",
+        "Recruiting",
+        "Trials"
+      ],
+      "business_model_ids": [
+        5,
+        12,
+        71,
+        72,
+        89
+      ],
+      "implementation_note": "Reines Decision support; kein autonomer Ausschluss ohne Review."
+    },
+    {
+      "id": 40,
+      "family": "D",
+      "name": "Ressourcenverbrauchs-Forecast",
+      "description": "Schätzt Energie, Material, Zeit oder Budget pro Fall/Auftrag.",
+      "inputs": [
+        "Betrieb",
+        "Asset",
+        "Job scope"
+      ],
+      "outputs": [
+        "expected resource curve"
+      ],
+      "inputs_outputs": "In: Betrieb, Asset, Job scope. Out: expected resource curve.",
+      "technologies": [
+        "TSF",
+        "Regression"
+      ],
+      "model_types": [
+        "ESG",
+        "Tarife",
+        "VPP",
+        "Depot charging",
+        "Industry flex"
+      ],
+      "business_model_ids": [
+        36,
+        42,
+        43,
+        50,
+        100
+      ],
+      "implementation_note": "Units strikt typisieren; kWh, m³, EUR, minutes nicht mischen."
+    },
+    {
+      "id": 41,
+      "family": "E",
+      "name": "Routenoptimierer",
+      "description": "Optimiert physische Touren für Service, Pflege, Logistik oder Delivery.",
+      "inputs": [
+        "Stops",
+        "Zeiten",
+        "Restriktionen"
+      ],
+      "outputs": [
+        "route plan",
+        "expected KPIs"
+      ],
+      "inputs_outputs": "In: Stops, Zeiten, Restriktionen. Out: route plan, expected KPIs.",
+      "technologies": [
+        "OR",
+        "RL optional",
+        "Graph"
+      ],
+      "model_types": [
+        "Pflege",
+        "Dispatch",
+        "Fleet charging",
+        "Cold chain"
+      ],
+      "business_model_ids": [
+        4,
+        27,
+        50,
+        61,
+        95
+      ],
+      "implementation_note": "Deterministische Solver bevorzugen; Heuristik nur als Fallback."
+    },
+    {
+      "id": 42,
+      "family": "E",
+      "name": "Schedule Optimizer",
+      "description": "Baut optimale Zeitpläne für Personen, Ressourcen und Jobs.",
+      "inputs": [
+        "Slots",
+        "Skills",
+        "Regeln"
+      ],
+      "outputs": [
+        "plan with constraints satisfied"
+      ],
+      "inputs_outputs": "In: Slots, Skills, Regeln. Out: plan with constraints satisfied.",
+      "technologies": [
+        "Constraint solving"
+      ],
+      "model_types": [
+        "Termine",
+        "Pflege",
+        "FM",
+        "Shift exchange"
+      ],
+      "business_model_ids": [
+        1,
+        4,
+        31,
+        59,
+        81
+      ],
+      "implementation_note": "Reserve-/Hold-Zustände explizit modellieren."
+    },
+    {
+      "id": 43,
+      "family": "E",
+      "name": "Best-Next-Action Planner",
+      "description": "Wählt den nächsten sinnvollen Schritt pro Fall.",
+      "inputs": [
+        "case state",
+        "policies",
+        "history"
+      ],
+      "outputs": [
+        "ordered actions"
+      ],
+      "inputs_outputs": "In: case state, policies, history. Out: ordered actions.",
+      "technologies": [
+        "LLM planner",
+        "Regeln"
+      ],
+      "model_types": [
+        "Triage",
+        "Homecare",
+        "Tax",
+        "Contact Center"
+      ],
+      "business_model_ids": [
+        2,
+        8,
+        23,
+        67,
+        83
+      ],
+      "implementation_note": "Aktionskatalog begrenzen; immer „why this action\" loggen."
+    },
+    {
+      "id": 44,
+      "family": "E",
+      "name": "Dynamic Pricing Engine",
+      "description": "Setzt Preise oder Rabatte kontext- und kapazitätsabhängig.",
+      "inputs": [
+        "demand",
+        "supply",
+        "policy",
+        "risk"
+      ],
+      "outputs": [
+        "suggested price"
+      ],
+      "inputs_outputs": "In: demand, supply, policy, risk. Out: suggested price.",
+      "technologies": [
+        "Causal ML",
+        "Bandits"
+      ],
+      "model_types": [
+        "Hospitality",
+        "EV charging",
+        "Parking",
+        "Beauty",
+        "Surplus"
+      ],
+      "business_model_ids": [
+        37,
+        41,
+        51,
+        80,
+        82
+      ],
+      "implementation_note": "Preisgrenzen, Anti-discrimination und Explainability erforderlich."
+    },
+    {
+      "id": 45,
+      "family": "E",
+      "name": "Resource Allocation Optimizer",
+      "description": "Verteilt knappe Ressourcen über Standorte, Fälle oder Märkte.",
+      "inputs": [
+        "assets",
+        "demand",
+        "priorities"
+      ],
+      "outputs": [
+        "allocation plan"
+      ],
+      "inputs_outputs": "In: assets, demand, priorities. Out: allocation plan.",
+      "technologies": [
+        "OR",
+        "Graph"
+      ],
+      "model_types": [
+        "Radiology",
+        "capacity markets",
+        "warehouse",
+        "industry flex"
+      ],
+      "business_model_ids": [
+        7,
+        25,
+        43,
+        62,
+        100
+      ],
+      "implementation_note": "hard_constraints vs. soft_constraints getrennt halten."
+    },
+    {
+      "id": 46,
+      "family": "E",
+      "name": "Queue Prioritizer",
+      "description": "Sortiert Arbeitsvorräte nach SLA, Risiko und Wertbeitrag.",
+      "inputs": [
+        "queue events",
+        "scores"
+      ],
+      "outputs": [
+        "ranked work queue"
+      ],
+      "inputs_outputs": "In: queue events, scores. Out: ranked work queue.",
+      "technologies": [
+        "Regeln",
+        "Ranking"
+      ],
+      "model_types": [
+        "Triage",
+        "discharges",
+        "public services",
+        "legal aid"
+      ],
+      "business_model_ids": [
+        2,
+        15,
+        84,
+        86,
+        96
+      ],
+      "implementation_note": "Keine versteckten Priorisierungsmerkmale; rationale ausgeben."
+    },
+    {
+      "id": 47,
+      "family": "E",
+      "name": "Cross-System Workflow Orchestrator",
+      "description": "Koordiniert Tasks über CRM, ERP, Ticketing, Clearing und Doksysteme.",
+      "inputs": [
+        "case state",
+        "tool states"
+      ],
+      "outputs": [
+        "workflow transitions",
+        "events"
+      ],
+      "inputs_outputs": "In: case state, tool states. Out: workflow transitions, events.",
+      "technologies": [
+        "Agent orchestration",
+        "rules"
+      ],
+      "model_types": [
+        "Discharge",
+        "payments",
+        "DD",
+        "travel",
+        "public sector"
+      ],
+      "business_model_ids": [
+        12,
+        15,
+        35,
+        65,
+        84
+      ],
+      "implementation_note": "Saga-Pattern; kompensierende Aktionen definieren."
+    },
+    {
+      "id": 48,
+      "family": "E",
+      "name": "Exception Recovery Planner",
+      "description": "Baut Wiederanlaufpfade bei Fehlern, Ausfällen oder Konflikten.",
+      "inputs": [
+        "failed events",
+        "context"
+      ],
+      "outputs": [
+        "retry/rollback/escalate plan"
+      ],
+      "inputs_outputs": "In: failed events, context. Out: retry/rollback/escalate plan.",
+      "technologies": [
+        "Regeln",
+        "LLM"
+      ],
+      "model_types": [
+        "Payments",
+        "damage",
+        "transport",
+        "travel"
+      ],
+      "business_model_ids": [
+        17,
+        48,
+        61,
+        65,
+        95
+      ],
+      "implementation_note": "Kein blindes Retriggern; idempotente Recovery-Runs."
+    },
+    {
+      "id": 49,
+      "family": "E",
+      "name": "Inventory- und Replenishment-Optimizer",
+      "description": "Steuert Bestand und Nachschub nach Forecast und Servicelevel.",
+      "inputs": [
+        "stock",
+        "demand",
+        "lead time"
+      ],
+      "outputs": [
+        "replenishment actions"
+      ],
+      "inputs_outputs": "In: stock, demand, lead time. Out: replenishment actions.",
+      "technologies": [
+        "TSF",
+        "OR"
+      ],
+      "model_types": [
+        "Pharma substitution",
+        "spare parts",
+        "returns",
+        "retail",
+        "agri"
+      ],
+      "business_model_ids": [
+        11,
+        58,
+        63,
+        76,
+        92
+      ],
+      "implementation_note": "SKU-master als SoT; Substitute und MOQ modellieren."
+    },
+    {
+      "id": 50,
+      "family": "E",
+      "name": "Negotiation- und Proposal Optimizer",
+      "description": "Erzeugt preis- und regelkonforme Angebote, Gegenvorschläge oder RFP-Antworten.",
+      "inputs": [
+        "Anforderungen",
+        "Referenzen",
+        "Policy"
+      ],
+      "outputs": [
+        "proposal draft",
+        "trade-offs"
+      ],
+      "inputs_outputs": "In: Anforderungen, Referenzen, Policy. Out: proposal draft, trade-offs.",
+      "technologies": [
+        "LLM",
+        "retrieval",
+        "optimization"
+      ],
+      "model_types": [
+        "Trade finance",
+        "procurement",
+        "public bids",
+        "materials"
+      ],
+      "business_model_ids": [
+        22,
+        55,
+        56,
+        64,
+        66
+      ],
+      "implementation_note": "Freigabestufe vor Versand; Halluzinationsverbot via Retrieval."
+    },
+    {
+      "id": 51,
+      "family": "F",
+      "name": "Usage Meter Collector",
+      "description": "Misst jede fachliche Nutzung in abrechenbaren Einheiten.",
+      "inputs": [
+        "events",
+        "sessions",
+        "sensor/use data"
+      ],
+      "outputs": [
+        "metering events"
+      ],
+      "inputs_outputs": "In: events, sessions, sensor/use data. Out: metering events.",
+      "technologies": [
+        "Event processing"
+      ],
+      "model_types": [
+        "EV",
+        "VPP",
+        "fleet",
+        "SaaS usage"
+      ],
+      "business_model_ids": [
+        41,
+        43,
+        50,
+        51,
+        98
+      ],
+      "implementation_note": "Immer usage_unit, actor, asset, time_window, source loggen."
+    },
+    {
+      "id": 52,
+      "family": "F",
+      "name": "Event-to-Invoice Mapper",
+      "description": "Übersetzt Events in Rechnungspositionen oder Leistungsziffern.",
+      "inputs": [
+        "usage events",
+        "tariff rules"
+      ],
+      "outputs": [
+        "invoice lines / service codes"
+      ],
+      "inputs_outputs": "In: usage events, tariff rules. Out: invoice lines / service codes.",
+      "technologies": [
+        "Regeln",
+        "LLM assistiert Mapping"
+      ],
+      "model_types": [
+        "Praxisabrechnung",
+        "reconciliation",
+        "transit",
+        "public billing"
+      ],
+      "business_model_ids": [
+        3,
+        17,
+        53,
+        61,
+        97
+      ],
+      "implementation_note": "Output als line-item JSON; Tax/Code-Engine getrennt halten."
+    },
+    {
+      "id": 53,
+      "family": "F",
+      "name": "Revenue Splitter",
+      "description": "Verteilt Erlöse regelbasiert über Anbieter, Plattform, Referrer und Worker.",
+      "inputs": [
+        "settled revenue",
+        "contracts"
+      ],
+      "outputs": [
+        "payout ledger"
+      ],
+      "inputs_outputs": "In: settled revenue, contracts. Out: payout ledger.",
+      "technologies": [
+        "Regeln",
+        "Ledger logic"
+      ],
+      "model_types": [
+        "Remittance",
+        "charging",
+        "VPP",
+        "licensing",
+        "delivery"
+      ],
+      "business_model_ids": [
+        18,
+        41,
+        43,
+        74,
+        77
+      ],
+      "implementation_note": "Double-entry-Ledger; Split-Regeln versionieren."
+    },
+    {
+      "id": 54,
+      "family": "F",
+      "name": "Reconciliation Matcher",
+      "description": "Gleicht Rechnungen, Buchungen, Avis, Stornos und Gutschriften ab.",
+      "inputs": [
+        "banking/ERP/payment records"
+      ],
+      "outputs": [
+        "matched sets",
+        "breaks"
+      ],
+      "inputs_outputs": "In: banking/ERP/payment records. Out: matched sets, breaks.",
+      "technologies": [
+        "Matching ML",
+        "Regeln"
+      ],
+      "model_types": [
+        "B2B payments",
+        "collections",
+        "freight",
+        "travel",
+        "e-invoice"
+      ],
+      "business_model_ids": [
+        17,
+        24,
+        61,
+        65,
+        97
+      ],
+      "implementation_note": "ISO 20022/SEPA-Felder ausnutzen; unmatched cases separat."
+    },
+    {
+      "id": 55,
+      "family": "F",
+      "name": "Dynamic Tariff Calculator",
+      "description": "Berechnet kontextabhängige Tarife, Preise oder Zuschläge.",
+      "inputs": [
+        "tariff tables",
+        "context"
+      ],
+      "outputs": [
+        "price breakdown"
+      ],
+      "inputs_outputs": "In: tariff tables, context. Out: price breakdown.",
+      "technologies": [
+        "Regeln",
+        "optimization"
+      ],
+      "model_types": [
+        "EV charging",
+        "power tariffs",
+        "fleet",
+        "transport"
+      ],
+      "business_model_ids": [
+        41,
+        42,
+        50,
+        53,
+        54
+      ],
+      "implementation_note": "Tariff engine deklarativ; keine Logik in Prompts verstecken."
+    },
+    {
+      "id": 56,
+      "family": "F",
+      "name": "SLA- und Outcome-Meter",
+      "description": "Misst Erfüllung gegen SLA, Qualität oder Outcome-basiertes Pricing.",
+      "inputs": [
+        "process events",
+        "QA data"
+      ],
+      "outputs": [
+        "SLA status",
+        "billable outcome"
+      ],
+      "inputs_outputs": "In: process events, QA data. Out: SLA status, billable outcome.",
+      "technologies": [
+        "Event analytics"
+      ],
+      "model_types": [
+        "FM",
+        "field service",
+        "BPO",
+        "staffing",
+        "audits"
+      ],
+      "business_model_ids": [
+        31,
+        59,
+        67,
+        69,
+        76
+      ],
+      "implementation_note": "Outcome-Schema vor Vertragsstart festlegen."
+    },
+    {
+      "id": 57,
+      "family": "F",
+      "name": "Payout Scheduler",
+      "description": "Orchestriert zeitlich und bedingungslogisch Auszahlungen.",
+      "inputs": [
+        "ledger",
+        "milestones",
+        "holds"
+      ],
+      "outputs": [
+        "payout orders"
+      ],
+      "inputs_outputs": "In: ledger, milestones, holds. Out: payout orders.",
+      "technologies": [
+        "Regeln",
+        "workflow"
+      ],
+      "model_types": [
+        "Remittance",
+        "procurement finance",
+        "VPP",
+        "shifts",
+        "creators"
+      ],
+      "business_model_ids": [
+        18,
+        25,
+        43,
+        69,
+        74
+      ],
+      "implementation_note": "Hold/release/reverse explizit; Kalender und Cutoffs berücksichtigen."
+    },
+    {
+      "id": 58,
+      "family": "F",
+      "name": "Dispute Resolver",
+      "description": "Erstellt strukturierte Streitfälle zu Preis, Leistung oder Qualität.",
+      "inputs": [
+        "contested events/docs"
+      ],
+      "outputs": [
+        "dispute bundle",
+        "proposed resolution"
+      ],
+      "inputs_outputs": "In: contested events/docs. Out: dispute bundle, proposed resolution.",
+      "technologies": [
+        "LLM",
+        "retrieval",
+        "rules"
+      ],
+      "model_types": [
+        "Claims",
+        "collections",
+        "transit",
+        "freight",
+        "small claims"
+      ],
+      "business_model_ids": [
+        20,
+        24,
+        53,
+        61,
+        87
+      ],
+      "implementation_note": "Belege unveränderlich referenzieren; menschliche Entscheidungspfade vorsehen."
+    },
+    {
+      "id": 59,
+      "family": "F",
+      "name": "Fraudulent Billing Detector",
+      "description": "Findet anomale Abrechnungsmuster, Duplikate und Schätzbetrug.",
+      "inputs": [
+        "line items",
+        "behavior",
+        "history"
+      ],
+      "outputs": [
+        "fraud score",
+        "flags"
+      ],
+      "inputs_outputs": "In: line items, behavior, history. Out: fraud score, flags.",
+      "technologies": [
+        "Anomaly detection",
+        "GNN"
+      ],
+      "model_types": [
+        "Health billing",
+        "insurance",
+        "EPR",
+        "maritime"
+      ],
+      "business_model_ids": [
+        3,
+        20,
+        21,
+        47,
+        54
+      ],
+      "implementation_note": "Hoher False-positive-Schaden: nur Review-Trigger, kein Auto-Block."
+    },
+    {
+      "id": 60,
+      "family": "F",
+      "name": "Cost Attribution Engine",
+      "description": "Ordnet Kosten verursachungsgerecht Teams, Kund:innen, Assets oder Aufgaben zu.",
+      "inputs": [
+        "spend",
+        "usage",
+        "org graph"
+      ],
+      "outputs": [
+        "cost allocations"
+      ],
+      "inputs_outputs": "In: spend, usage, org graph. Out: cost allocations.",
+      "technologies": [
+        "Rules",
+        "graph",
+        "analytics"
+      ],
+      "model_types": [
+        "Insurance",
+        "travel",
+        "learning",
+        "FinOps",
+        "agentic SaaS"
+      ],
+      "business_model_ids": [
+        19,
+        65,
+        73,
+        97,
+        98
+      ],
+      "implementation_note": "Cost center, tenant, case, asset strikt trennen."
+    },
+    {
+      "id": 61,
+      "family": "G",
+      "name": "Policy Rule Engine",
+      "description": "Prüft Fälle gegen rechts-, vertrags- oder prozessbezogene Regeln.",
+      "inputs": [
+        "normalized case + policy set"
+      ],
+      "outputs": [
+        "allow/deny/needs review"
+      ],
+      "inputs_outputs": "In: normalized case + policy set. Out: allow/deny/needs review.",
+      "technologies": [
+        "Regeln",
+        "DSL",
+        "LLM für Erklärung"
+      ],
+      "model_types": [
+        "Genehmigung",
+        "carbon",
+        "packaging",
+        "procurement",
+        "public service"
+      ],
+      "business_model_ids": [
+        34,
+        46,
+        47,
+        56,
+        84
+      ],
+      "implementation_note": "Regeln deklarativ; Policies versionieren und testbar machen."
+    },
+    {
+      "id": 62,
+      "family": "G",
+      "name": "Retention-/Deletion-Orchestrator",
+      "description": "Steuert Löschfristen, Archivierung und Datensparsamkeit über Systeme hinweg.",
+      "inputs": [
+        "records",
+        "legal basis",
+        "retention rules"
+      ],
+      "outputs": [
+        "retention actions"
+      ],
+      "inputs_outputs": "In: records, legal basis, retention rules. Out: retention actions.",
+      "technologies": [
+        "Regeln",
+        "workflow"
+      ],
+      "model_types": [
+        "Health",
+        "legal",
+        "public services",
+        "cyber"
+      ],
+      "business_model_ids": [
+        1,
+        8,
+        68,
+        83,
+        96
+      ],
+      "implementation_note": "DSGVO-Fristen/Exceptions modellieren; Löschbeleg speichern."
+    },
+    {
+      "id": 63,
+      "family": "G",
+      "name": "Audit-Trail Composer",
+      "description": "Baut aus Events einen lesbaren, prüfbaren Verlauf pro Fall/Transaktion.",
+      "inputs": [
+        "raw events"
+      ],
+      "outputs": [
+        "ordered audit narrative + evidence links"
+      ],
+      "inputs_outputs": "In: raw events. Out: ordered audit narrative + evidence links.",
+      "technologies": [
+        "Event analytics",
+        "LLM summarization"
+      ],
+      "model_types": [
+        "Payments",
+        "insurance",
+        "ESG",
+        "freight",
+        "public services"
+      ],
+      "business_model_ids": [
+        17,
+        21,
+        46,
+        61,
+        84
+      ],
+      "implementation_note": "Append-only event store; Mensch- und Systemaktionen getrennt markieren."
+    },
+    {
+      "id": 64,
+      "family": "G",
+      "name": "Explainability Generator",
+      "description": "Erzeugt knappe, fallbezogene Begründungen zu Scores, Klassifikationen und Entscheidungen.",
+      "inputs": [
+        "model output + features"
+      ],
+      "outputs": [
+        "explanation bundle"
+      ],
+      "inputs_outputs": "In: model output + features. Out: explanation bundle.",
+      "technologies": [
+        "LLM",
+        "SHAP-like methods"
+      ],
+      "model_types": [
+        "Triage",
+        "claims",
+        "risk",
+        "recruiting",
+        "cyber"
+      ],
+      "business_model_ids": [
+        15,
+        20,
+        35,
+        71,
+        96
+      ],
+      "implementation_note": "Explanation nie aus Rohprompts ableiten; echte Feature-Bezüge verwenden."
+    },
+    {
+      "id": 65,
+      "family": "G",
+      "name": "AI-Act Risk Triage",
+      "description": "Prüft, ob ein Use Case eher gering-, transparent- oder hochrisikorelevant ist.",
+      "inputs": [
+        "use case",
+        "domain",
+        "user group"
+      ],
+      "outputs": [
+        "risk class hint",
+        "obligations list"
+      ],
+      "inputs_outputs": "In: use case, domain, user group. Out: risk class hint, obligations list.",
+      "technologies": [
+        "Regeln",
+        "LLM assistiert"
+      ],
+      "model_types": [
+        "Recruiting",
+        "public service",
+        "legal aid",
+        "cyber",
+        "agents"
+      ],
+      "business_model_ids": [
+        71,
+        83,
+        84,
+        86,
+        96
+      ],
+      "implementation_note": "Compliance-Skill, kein Rechtsgutachten; Zweifel als needs_legal_review."
+    },
+    {
+      "id": 66,
+      "family": "G",
+      "name": "Consent-/Lawful-Basis Checker",
+      "description": "Prüft, ob Datenverarbeitung auf tragfähiger Grundlage und im Scope erfolgt.",
+      "inputs": [
+        "subject",
+        "purpose",
+        "dataset"
+      ],
+      "outputs": [
+        "lawful basis status"
+      ],
+      "inputs_outputs": "In: subject, purpose, dataset. Out: lawful basis status.",
+      "technologies": [
+        "Regeln",
+        "graph"
+      ],
+      "model_types": [
+        "Health",
+        "homecare",
+        "translation",
+        "public sector"
+      ],
+      "business_model_ids": [
+        1,
+        8,
+        13,
+        83,
+        91
+      ],
+      "implementation_note": "Zweckbindung maschinenlesbar erzwingen; Art.-9-Daten gesondert markieren."
+    },
+    {
+      "id": 67,
+      "family": "G",
+      "name": "Sanctions-/KYC-/AML Screen",
+      "description": "Prüft Parteien und Zahlungen gegen Identitäts-, Sanktions- oder AML-Logiken.",
+      "inputs": [
+        "identities",
+        "transaction data"
+      ],
+      "outputs": [
+        "hits",
+        "review flags"
+      ],
+      "inputs_outputs": "In: identities, transaction data. Out: hits, review flags.",
+      "technologies": [
+        "Entity resolution",
+        "graph",
+        "rules"
+      ],
+      "model_types": [
+        "Remittance",
+        "trade finance",
+        "debt",
+        "freelancer payroll"
+      ],
+      "business_model_ids": [
+        18,
+        22,
+        24,
+        70,
+        96
+      ],
+      "implementation_note": "Keine fuzzy auto-denials; Treffer in Review-Queue."
+    },
+    {
+      "id": 68,
+      "family": "G",
+      "name": "Qualitäts- und Drift-Monitor",
+      "description": "Überwacht Modellgüte, Datenverschiebung und Prozessfehler.",
+      "inputs": [
+        "predictions",
+        "labels",
+        "ops metrics"
+      ],
+      "outputs": [
+        "alerts",
+        "retrain suggestions"
+      ],
+      "inputs_outputs": "In: predictions, labels, ops metrics. Out: alerts, retrain suggestions.",
+      "technologies": [
+        "Monitoring",
+        "stats",
+        "ML Ops"
+      ],
+      "model_types": [
+        "Radiology",
+        "underwriting",
+        "queueing",
+        "recruiting",
+        "cyber"
+      ],
+      "business_model_ids": [
+        7,
+        20,
+        31,
+        71,
+        96
+      ],
+      "implementation_note": "Slice-basierte Metriken; Governance für Retraining."
+    },
+    {
+      "id": 69,
+      "family": "G",
+      "name": "Regulatorischer Report-Generator",
+      "description": "Erzeugt normierte Reports aus Betriebs- und Falldaten.",
+      "inputs": [
+        "normalized ledger/events"
+      ],
+      "outputs": [
+        "report packages"
+      ],
+      "inputs_outputs": "In: normalized ledger/events. Out: report packages.",
+      "technologies": [
+        "Regeln",
+        "templating",
+        "LLM summarization"
+      ],
+      "model_types": [
+        "ETS",
+        "maritime",
+        "procurement",
+        "trials",
+        "e-invoicing"
+      ],
+      "business_model_ids": [
+        46,
+        54,
+        56,
+        89,
+        97
+      ],
+      "implementation_note": "Output bevorzugt XML/CSV/PDF plus machine-readable JSON."
+    },
+    {
+      "id": 70,
+      "family": "G",
+      "name": "Evidence Pack Assembler",
+      "description": "Bündelt alle Prüfbelege für Audit, Due Diligence oder Aufsicht.",
+      "inputs": [
+        "events",
+        "docs",
+        "screenshots",
+        "models"
+      ],
+      "outputs": [
+        "evidence bundle"
+      ],
+      "inputs_outputs": "In: events, docs, screenshots, models. Out: evidence bundle.",
+      "technologies": [
+        "Workflow",
+        "retrieval",
+        "LLM summary"
+      ],
+      "model_types": [
+        "Claims",
+        "recycling",
+        "public bids",
+        "grants"
+      ],
+      "business_model_ids": [
+        21,
+        40,
+        46,
+        56,
+        90
+      ],
+      "implementation_note": "Hashes, timestamps und source refs unveränderlich speichern."
+    },
+    {
+      "id": 71,
+      "family": "H",
+      "name": "Confidence Gating",
+      "description": "Schaltet je nach Sicherheit zwischen Auto, Assist und Human Review um.",
+      "inputs": [
+        "model outputs + confidence"
+      ],
+      "outputs": [
+        "execution mode"
+      ],
+      "inputs_outputs": "In: model outputs + confidence. Out: execution mode.",
+      "technologies": [
+        "Calibration",
+        "rules"
+      ],
+      "model_types": [
+        "Triage",
+        "imaging",
+        "recruiting",
+        "cyber"
+      ],
+      "business_model_ids": [
+        2,
+        7,
+        20,
+        71,
+        96
+      ],
+      "implementation_note": "Confidence kalibrieren; keine nackten Logits als Gate verwenden."
+    },
+    {
+      "id": 72,
+      "family": "H",
+      "name": "Annotation Workbench",
+      "description": "Oberfläche und Backend für Labeling, Review und Korrekturtraining.",
+      "inputs": [
+        "items",
+        "schema"
+      ],
+      "outputs": [
+        "gold labels",
+        "disagreements"
+      ],
+      "inputs_outputs": "In: items, schema. Out: gold labels, disagreements.",
+      "technologies": [
+        "HITL tooling"
+      ],
+      "model_types": [
+        "Education",
+        "QC",
+        "trials",
+        "cyber"
+      ],
+      "business_model_ids": [
+        72,
+        76,
+        89,
+        96
+      ],
+      "implementation_note": "Rollenrechte, adjudication und sampling strategisch aufsetzen."
+    },
+    {
+      "id": 73,
+      "family": "H",
+      "name": "Reviewer Copilot",
+      "description": "Unterstützt Reviewer mit Zusammenfassung, Evidenzlinks und Präzedenzfällen.",
+      "inputs": [
+        "review task"
+      ],
+      "outputs": [
+        "draft decision support"
+      ],
+      "inputs_outputs": "In: review task. Out: draft decision support.",
+      "technologies": [
+        "LLM",
+        "retrieval"
+      ],
+      "model_types": [
+        "Billing",
+        "claims",
+        "procurement",
+        "legal"
+      ],
+      "business_model_ids": [
+        3,
+        21,
+        56,
+        68,
+        87
+      ],
+      "implementation_note": "Nur Assist-Modus; final decision vom Menschen."
+    },
+    {
+      "id": 74,
+      "family": "H",
+      "name": "Vier-Augen-Workflow",
+      "description": "Erzwingt Doppelprüfung bei kritischen Fällen oder Auszahlungen.",
+      "inputs": [
+        "task",
+        "risk level"
+      ],
+      "outputs": [
+        "approval states"
+      ],
+      "inputs_outputs": "In: task, risk level. Out: approval states.",
+      "technologies": [
+        "Workflow",
+        "rules"
+      ],
+      "model_types": [
+        "Insurance",
+        "public sector",
+        "legal",
+        "cyber"
+      ],
+      "business_model_ids": [
+        19,
+        21,
+        68,
+        84,
+        96
+      ],
+      "implementation_note": "Reviewer-Trennung technisch erzwingen; kein gemeinsames Konto."
+    },
+    {
+      "id": 75,
+      "family": "H",
+      "name": "Active-Learning Sampler",
+      "description": "Wählt die informativsten Fälle für Nachlabeling und Modellverbesserung.",
+      "inputs": [
+        "unlabeled pool",
+        "uncertainty"
+      ],
+      "outputs": [
+        "label queue"
+      ],
+      "inputs_outputs": "In: unlabeled pool, uncertainty. Out: label queue.",
+      "technologies": [
+        "Active learning"
+      ],
+      "model_types": [
+        "Intake",
+        "QC",
+        "forecasting",
+        "cyber"
+      ],
+      "business_model_ids": [
+        11,
+        20,
+        31,
+        76,
+        96
+      ],
+      "implementation_note": "Budget- und Balance-Constraints im Sampling ergänzen."
+    },
+    {
+      "id": 76,
+      "family": "H",
+      "name": "Ground-Truth Builder",
+      "description": "Baut belastbare Referenzdaten aus mehreren Quellen und Reviews auf.",
+      "inputs": [
+        "raw cases",
+        "labels",
+        "outcomes"
+      ],
+      "outputs": [
+        "curated truth set"
+      ],
+      "inputs_outputs": "In: raw cases, labels, outcomes. Out: curated truth set.",
+      "technologies": [
+        "Data curation",
+        "rules"
+      ],
+      "model_types": [
+        "Tutoring",
+        "shelf audit",
+        "trials",
+        "cyber"
+      ],
+      "business_model_ids": [
+        72,
+        76,
+        89,
+        96
+      ],
+      "implementation_note": "Outcome-Leakage verhindern; Freeze-Snapshots für Benchmarking."
+    },
+    {
+      "id": 77,
+      "family": "H",
+      "name": "Red-Team/Testfall-Generator",
+      "description": "Erzeugt adversariale, randständige und policy-kritische Testfälle.",
+      "inputs": [
+        "policies",
+        "known failures"
+      ],
+      "outputs": [
+        "stress test suite"
+      ],
+      "inputs_outputs": "In: policies, known failures. Out: stress test suite.",
+      "technologies": [
+        "LLM",
+        "fuzzing"
+      ],
+      "model_types": [
+        "AI compliance",
+        "recruiting",
+        "public service",
+        "security"
+      ],
+      "business_model_ids": [
+        65,
+        71,
+        83,
+        96,
+        98
+      ],
+      "implementation_note": "Separate sichere Testumgebung; Ergebnisse versioniert sichern."
+    },
+    {
+      "id": 78,
+      "family": "H",
+      "name": "Feedback-Miner",
+      "description": "Analysiert Nutzer-, Partner- und Bearbeiterfeedback auf systematische Probleme.",
+      "inputs": [
+        "Feedback",
+        "tickets",
+        "ratings"
+      ],
+      "outputs": [
+        "themes",
+        "fix suggestions"
+      ],
+      "inputs_outputs": "In: Feedback, tickets, ratings. Out: themes, fix suggestions.",
+      "technologies": [
+        "Topic modeling",
+        "LLM"
+      ],
+      "model_types": [
+        "Scheduling",
+        "hospitality",
+        "creator",
+        "delivery",
+        "beauty"
+      ],
+      "business_model_ids": [
+        1,
+        37,
+        75,
+        77,
+        80
+      ],
+      "implementation_note": "Feedback mit Produkt-/Policy-Versionen joinen."
+    },
+    {
+      "id": 79,
+      "family": "H",
+      "name": "Correction-to-Rule Learner",
+      "description": "Leitet aus wiederkehrenden Korrekturen neue Regeln oder Prompt-Constraints ab.",
+      "inputs": [
+        "edits",
+        "overrides"
+      ],
+      "outputs": [
+        "proposed rule changes"
+      ],
+      "inputs_outputs": "In: edits, overrides. Out: proposed rule changes.",
+      "technologies": [
+        "Pattern mining",
+        "LLM"
+      ],
+      "model_types": [
+        "Billing",
+        "reconciliation",
+        "procurement",
+        "public billing"
+      ],
+      "business_model_ids": [
+        3,
+        17,
+        56,
+        61,
+        97
+      ],
+      "implementation_note": "Änderungen nie automatisch live schalten; Review-Board vorsehen."
+    },
+    {
+      "id": 80,
+      "family": "H",
+      "name": "Safe Fallback Handler",
+      "description": "Führt bei Unsicherheit kontrolliert in Formulare, Checklisten oder menschliche Bearbeitung zurück.",
+      "inputs": [
+        "failure state"
+      ],
+      "outputs": [
+        "fallback path"
+      ],
+      "inputs_outputs": "In: failure state. Out: fallback path.",
+      "technologies": [
+        "Regeln",
+        "workflow"
+      ],
+      "model_types": [
+        "Triage",
+        "discharges",
+        "leak claims",
+        "public services"
+      ],
+      "business_model_ids": [
+        2,
+        15,
+        48,
+        84,
+        96
+      ],
+      "implementation_note": "Fallback ist Produktfunktion, nicht nur Error-Page."
+    },
+    {
+      "id": 81,
+      "family": "I",
+      "name": "Tool Selector",
+      "description": "Wählt für einen Schritt das richtige Tool, Modell oder Subsystem.",
+      "inputs": [
+        "goal",
+        "context",
+        "tool registry"
+      ],
+      "outputs": [
+        "chosen tool + args"
+      ],
+      "inputs_outputs": "In: goal, context, tool registry. Out: chosen tool + args.",
+      "technologies": [
+        "LLM router",
+        "rules"
+      ],
+      "model_types": [
+        "Procurement",
+        "public sector",
+        "freight",
+        "SaaS brokers"
+      ],
+      "business_model_ids": [
+        55,
+        56,
+        61,
+        83,
+        97
+      ],
+      "implementation_note": "Tool-Metadaten als Registry pflegen; Whitelist statt freier Auswahl."
+    },
+    {
+      "id": 82,
+      "family": "I",
+      "name": "Multi-Step Plan Synthesizer",
+      "description": "Zerlegt ein Ziel in prüfbare Teilaufgaben mit Dependencies.",
+      "inputs": [
+        "objective",
+        "constraints"
+      ],
+      "outputs": [
+        "executable plan"
+      ],
+      "inputs_outputs": "In: objective, constraints. Out: executable plan.",
+      "technologies": [
+        "LLM planning"
+      ],
+      "model_types": [
+        "Genehmigung",
+        "DD",
+        "travel",
+        "benefits"
+      ],
+      "business_model_ids": [
+        12,
+        34,
+        47,
+        65,
+        83
+      ],
+      "implementation_note": "Planstruktur als DAG/JSON, nicht nur als Text."
+    },
+    {
+      "id": 83,
+      "family": "I",
+      "name": "Memory- und Context Manager",
+      "description": "Hält fallrelevanten Kontext über Schritte, Sessions und Kanäle konsistent.",
+      "inputs": [
+        "events",
+        "notes",
+        "docs"
+      ],
+      "outputs": [
+        "context state"
+      ],
+      "inputs_outputs": "In: events, notes, docs. Out: context state.",
+      "technologies": [
+        "Retrieval",
+        "summarization"
+      ],
+      "model_types": [
+        "Termine",
+        "DD",
+        "legal review",
+        "public service"
+      ],
+      "business_model_ids": [
+        1,
+        15,
+        35,
+        68,
+        84
+      ],
+      "implementation_note": "Kurzzeit- vs. Langzeitkontext trennen; TTLs definieren."
+    },
+    {
+      "id": 84,
+      "family": "I",
+      "name": "API Contract Validator",
+      "description": "Prüft vor Tool-Aufruf Daten, Pflichtfelder, Datentypen und Versionen.",
+      "inputs": [
+        "candidate payload"
+      ],
+      "outputs": [
+        "validated payload/errors"
+      ],
+      "inputs_outputs": "In: candidate payload. Out: validated payload/errors.",
+      "technologies": [
+        "Regeln",
+        "schema validation"
+      ],
+      "model_types": [
+        "Payments",
+        "EV",
+        "procurement",
+        "e-invoice",
+        "agents"
+      ],
+      "business_model_ids": [
+        17,
+        41,
+        56,
+        97,
+        98
+      ],
+      "implementation_note": "JSON Schema/OpenAPI/AsyncAPI; Fail-fast vor Side Effects."
+    },
+    {
+      "id": 85,
+      "family": "I",
+      "name": "Transactional Action Guard",
+      "description": "Verhindert gefährliche, irreversible oder doppelte Aktionen.",
+      "inputs": [
+        "planned action",
+        "state"
+      ],
+      "outputs": [
+        "allow/hold/block"
+      ],
+      "inputs_outputs": "In: planned action, state. Out: allow/hold/block.",
+      "technologies": [
+        "Regeln",
+        "risk engine"
+      ],
+      "model_types": [
+        "Remittance",
+        "debt",
+        "VPP",
+        "public actions",
+        "SaaS agents"
+      ],
+      "business_model_ids": [
+        18,
+        24,
+        43,
+        84,
+        98
+      ],
+      "implementation_note": "Idempotency keys und dry-run Mode obligatorisch."
+    },
+    {
+      "id": 86,
+      "family": "I",
+      "name": "Event-Driven Agent Runtime",
+      "description": "Führt Agents zustandsbasiert auf Events statt rein synchronen Calls aus.",
+      "inputs": [
+        "domain events"
+      ],
+      "outputs": [
+        "scheduled actions",
+        "state transitions"
+      ],
+      "inputs_outputs": "In: domain events. Out: scheduled actions, state transitions.",
+      "technologies": [
+        "Workflow engines",
+        "agents"
+      ],
+      "model_types": [
+        "Discharge",
+        "EV",
+        "damage",
+        "freight",
+        "cyber"
+      ],
+      "business_model_ids": [
+        15,
+        41,
+        48,
+        61,
+        96
+      ],
+      "implementation_note": "Event bus + DLQ; replay-fähig aufbauen."
+    },
+    {
+      "id": 87,
+      "family": "I",
+      "name": "Multi-Agent Coordinator",
+      "description": "Koordiniert spezialisierte Agents mit Rollen, Budgets und Übergaben.",
+      "inputs": [
+        "goal + subagents"
+      ],
+      "outputs": [
+        "combined plan/result"
+      ],
+      "inputs_outputs": "In: goal + subagents. Out: combined plan/result.",
+      "technologies": [
+        "Multi-agent orchestration"
+      ],
+      "model_types": [
+        "VPP",
+        "public workflows",
+        "freight",
+        "contact center"
+      ],
+      "business_model_ids": [
+        43,
+        47,
+        61,
+        83,
+        98
+      ],
+      "implementation_note": "Ein Supervisor-Agent mit Policy-Gates ist robuster als freie Schwärme."
+    },
+    {
+      "id": 88,
+      "family": "I",
+      "name": "Retrieval-and-Tool Fusion",
+      "description": "Verbindet Wissensretrieval direkt mit Tool-Ausführung und Ergebnisvalidierung.",
+      "inputs": [
+        "query",
+        "corpora",
+        "tools"
+      ],
+      "outputs": [
+        "answer + executed tool results"
+      ],
+      "inputs_outputs": "In: query, corpora, tools. Out: answer + executed tool results.",
+      "technologies": [
+        "RAG",
+        "LLM",
+        "tool use"
+      ],
+      "model_types": [
+        "Vergabe",
+        "legal",
+        "benefits",
+        "grants"
+      ],
+      "business_model_ids": [
+        34,
+        56,
+        68,
+        83,
+        90
+      ],
+      "implementation_note": "Quellenzitate und Tool-Outputs strikt trennen."
+    },
+    {
+      "id": 89,
+      "family": "I",
+      "name": "Goal- und Constraint Tracker",
+      "description": "Überwacht, ob der Agent noch im Scope, Budget und Compliance-Rahmen arbeitet.",
+      "inputs": [
+        "plan",
+        "state",
+        "constraints"
+      ],
+      "outputs": [
+        "status",
+        "violations"
+      ],
+      "inputs_outputs": "In: plan, state, constraints. Out: status, violations.",
+      "technologies": [
+        "Rules",
+        "planning"
+      ],
+      "model_types": [
+        "Tarife",
+        "workflows",
+        "fleet",
+        "public cases",
+        "industry flex"
+      ],
+      "business_model_ids": [
+        42,
+        47,
+        50,
+        83,
+        100
+      ],
+      "implementation_note": "must_not, Budget, Deadline, privacy scope als harte Constraints führen."
+    },
+    {
+      "id": 90,
+      "family": "I",
+      "name": "Sandboxed Execution Broker",
+      "description": "Isoliert riskante Tools wie Dateioperationen, Parser oder Browseraktionen.",
+      "inputs": [
+        "task",
+        "artifact refs"
+      ],
+      "outputs": [
+        "sandbox result",
+        "logs"
+      ],
+      "inputs_outputs": "In: task, artifact refs. Out: sandbox result, logs.",
+      "technologies": [
+        "Sandboxing",
+        "policy engines"
+      ],
+      "model_types": [
+        "Legal docs",
+        "public sector",
+        "grants",
+        "cyber",
+        "agents"
+      ],
+      "business_model_ids": [
+        68,
+        84,
+        90,
+        96,
+        98
+      ],
+      "implementation_note": "Netzwerk-/Dateirechte minimal halten; Vollprotokoll speichern."
+    },
+    {
+      "id": 91,
+      "family": "J",
+      "name": "FHIR-/DICOM-Clinical Packager",
+      "description": "Verpackt klinische Dokumente, Metadaten und Bildreferenzen interoperabel.",
+      "inputs": [
+        "clinical docs",
+        "images",
+        "patient refs"
+      ],
+      "outputs": [
+        "FHIR/DICOM bundles"
+      ],
+      "inputs_outputs": "In: clinical docs, images, patient refs. Out: FHIR/DICOM bundles.",
+      "technologies": [
+        "Regeln",
+        "mapping",
+        "VLM optional"
+      ],
+      "model_types": [
+        "Healthcare records",
+        "radiology",
+        "homecare",
+        "trials"
+      ],
+      "business_model_ids": [
+        1,
+        7,
+        8,
+        12,
+        89
+      ],
+      "implementation_note": "FHIR DocumentReference/Patient/Encounter sauber befüllen; Gesundheitsdaten besonders schützen."
+    },
+    {
+      "id": 92,
+      "family": "J",
+      "name": "Medizin-Coding- und Abrechnungs-Copilot",
+      "description": "Unterstützt Kodierung und Leistungsabrechnung aus Dokumentation und Verlauf.",
+      "inputs": [
+        "Arztbrief",
+        "Diktat",
+        "Befund"
+      ],
+      "outputs": [
+        "Code-Vorschläge",
+        "Prüfflags"
+      ],
+      "inputs_outputs": "In: Arztbrief, Diktat, Befund. Out: Code-Vorschläge, Prüfflags.",
+      "technologies": [
+        "LLM",
+        "retrieval",
+        "rules"
+      ],
+      "model_types": [
+        "Praxisabrechnung",
+        "Zahnlabor",
+        "Arznei",
+        "Pathologie"
+      ],
+      "business_model_ids": [
+        3,
+        10,
+        11,
+        12,
+        14
+      ],
+      "implementation_note": "Kein vollautonomes Final-Coding ohne Review; Codeversionen speichern."
+    },
+    {
+      "id": 93,
+      "family": "J",
+      "name": "Energy Flex Dispatch Agent",
+      "description": "Schaltet/vermarktet flexible Lasten oder Speicher nach Preis, Netzsignal und Nebenbedingungen.",
+      "inputs": [
+        "tariffs",
+        "telemetry",
+        "asset state"
+      ],
+      "outputs": [
+        "dispatch plan",
+        "bid events"
+      ],
+      "inputs_outputs": "In: tariffs, telemetry, asset state. Out: dispatch plan, bid events.",
+      "technologies": [
+        "TSF",
+        "OR",
+        "RL optional"
+      ],
+      "model_types": [
+        "Dynamic tariff",
+        "VPP",
+        "demand response",
+        "grid connection"
+      ],
+      "business_model_ids": [
+        42,
+        43,
+        45,
+        49,
+        100
+      ],
+      "implementation_note": "OCPP/OCPI/SCADA-artige Schnittstellen sauber kapseln; Safety-first."
+    },
+    {
+      "id": 94,
+      "family": "J",
+      "name": "LV-/Nachtrag-Interpreter für Bau",
+      "description": "Versteht Leistungsverzeichnisse, Nachträge und Mengengerüste domänenspezifisch.",
+      "inputs": [
+        "LV",
+        "Pläne",
+        "Nachträge"
+      ],
+      "outputs": [
+        "Positionsstruktur",
+        "Konfliktliste",
+        "Preisbasis"
+      ],
+      "inputs_outputs": "In: LV, Pläne, Nachträge. Out: Positionsstruktur, Konfliktliste, Preisbasis.",
+      "technologies": [
+        "LLM",
+        "OCR",
+        "rules"
+      ],
+      "model_types": [
+        "Baurechnung",
+        "Renovierung",
+        "Genehmigung",
+        "Bauabfall",
+        "Materialeinkauf"
+      ],
+      "business_model_ids": [
+        26,
+        33,
+        34,
+        40,
+        64
+      ],
+      "implementation_note": "Positionsnummern, Einheiten, Mengen nie im Prompt „schätzen\" lassen."
+    },
+    {
+      "id": 95,
+      "family": "J",
+      "name": "Shipment Exception Agent",
+      "description": "Bearbeitet Versandprobleme wie Delay, Damage, Missing Docs oder Customs Holds.",
+      "inputs": [
+        "shipment events",
+        "docs"
+      ],
+      "outputs": [
+        "exception case",
+        "actions",
+        "ETA update"
+      ],
+      "inputs_outputs": "In: shipment events, docs. Out: exception case, actions, ETA update.",
+      "technologies": [
+        "TSF",
+        "LLM",
+        "rules"
+      ],
+      "model_types": [
+        "Maritime",
+        "freight",
+        "warehouse",
+        "cold chain"
+      ],
+      "business_model_ids": [
+        54,
+        61,
+        62,
+        95
+      ],
+      "implementation_note": "Event-Correlation über consignment/container IDs; SLAs messen."
+    },
+    {
+      "id": 96,
+      "family": "J",
+      "name": "Covenant- und Invoice-Risk Agent",
+      "description": "Prüft Rechnungen, Verträge und Bonitäts-/Covenant-Signale für Finanzierungsentscheidungen.",
+      "inputs": [
+        "invoices",
+        "bank data",
+        "contracts"
+      ],
+      "outputs": [
+        "risk memo",
+        "flags",
+        "decision support"
+      ],
+      "inputs_outputs": "In: invoices, bank data, contracts. Out: risk memo, flags, decision support.",
+      "technologies": [
+        "GNN",
+        "GBM",
+        "LLM"
+      ],
+      "model_types": [
+        "Factoring",
+        "reconciliation",
+        "trade finance",
+        "procurement finance"
+      ],
+      "business_model_ids": [
+        16,
+        17,
+        22,
+        25,
+        35
+      ],
+      "implementation_note": "Finanzdaten feldgenau extrahieren; keine autonomen Kreditentscheidungen ohne Governance."
+    },
+    {
+      "id": 97,
+      "family": "J",
+      "name": "XRechnung-/Vergabe-Agent",
+      "description": "Baut, validiert und verarbeitet öffentliche Rechnungen und Ausschreibungsartefakte.",
+      "inputs": [
+        "order/invoice/bid docs"
+      ],
+      "outputs": [
+        "XRechnung/XML",
+        "submission pack",
+        "validation errors"
+      ],
+      "inputs_outputs": "In: order/invoice/bid docs. Out: XRechnung/XML, submission pack, validation errors.",
+      "technologies": [
+        "Regeln",
+        "XML/UBL",
+        "LLM assistiert"
+      ],
+      "model_types": [
+        "Public procurement",
+        "kommune",
+        "grants"
+      ],
+      "business_model_ids": [
+        56,
+        84,
+        90,
+        97
+      ],
+      "implementation_note": "XRechnung/EN16931 und Schematron-Validierung als harte Pipeline."
+    },
+    {
+      "id": 98,
+      "family": "J",
+      "name": "Shelf- und Return-Decision Agent",
+      "description": "Erkennt Shelf-Probleme, Retourenpfade und Recovery-Entscheidungen im Handel.",
+      "inputs": [
+        "shelf images",
+        "order/return data"
+      ],
+      "outputs": [
+        "issue class",
+        "routing",
+        "recovery value"
+      ],
+      "inputs_outputs": "In: shelf images, order/return data. Out: issue class, routing, recovery value.",
+      "technologies": [
+        "Vision",
+        "VLM",
+        "optimization"
+      ],
+      "model_types": [
+        "Recommerce",
+        "shelf audit",
+        "local delivery",
+        "surplus food"
+      ],
+      "business_model_ids": [
+        63,
+        76,
+        77,
+        82
+      ],
+      "implementation_note": "Store-/SKU-Masterdaten als SoT; Recovery-Regeln versioniert."
+    },
+    {
+      "id": 99,
+      "family": "J",
+      "name": "Plot-/Weather-Advisory Agent",
+      "description": "Kombiniert Schlag-, Wetter- und Inputdaten zu handlungsnahen Empfehlungen.",
+      "inputs": [
+        "field boundaries",
+        "weather",
+        "sensors",
+        "crop plan"
+      ],
+      "outputs": [
+        "advisory actions",
+        "risk alerts"
+      ],
+      "inputs_outputs": "In: field boundaries, weather, sensors, crop plan. Out: advisory actions, risk alerts.",
+      "technologies": [
+        "TSF",
+        "geospatial ML",
+        "rules"
+      ],
+      "model_types": [
+        "Farm inputs",
+        "irrigation",
+        "crop insurance",
+        "cold chain"
+      ],
+      "business_model_ids": [
+        92,
+        93,
+        94,
+        95
+      ],
+      "implementation_note": "GeoJSON/Raster sauber trennen; Empfehlungen als Decision Support."
+    },
+    {
+      "id": 100,
+      "family": "J",
+      "name": "Property-/Insurance Damage Vision Agent",
+      "description": "Bewertet Sachschäden an Fahrzeugen, Gebäuden oder Geräten visuell im Erstkontakt.",
+      "inputs": [
+        "images/video + FNOL data"
+      ],
+      "outputs": [
+        "damage classes",
+        "severity",
+        "review flag"
+      ],
+      "inputs_outputs": "In: images/video + FNOL data. Out: damage classes, severity, review flag.",
+      "technologies": [
+        "Vision",
+        "VLM",
+        "anomaly detection"
+      ],
+      "model_types": [
+        "Kfz claims",
+        "property claims",
+        "waste",
+        "repair"
+      ],
+      "business_model_ids": [
+        20,
+        21,
+        39,
+        48,
+        79
+      ],
+      "implementation_note": "Bounding boxes + Evidenzbilder zurückgeben; menschliche Freigabe bei Zahlentscheidungen."
+    }
+  ]
+}

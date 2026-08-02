@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edubrainboost.github.io/SSID-docs/schemas/ai-infrastructure/business-model.schema.json",
+  "title": "AI Infrastructure Business Model",
+  "type": "object",
+  "properties": {
+    "catalog_id": { "type": "string", "const": "ai-infrastructure-business-models-100" },
+    "title": { "type": "string", "minLength": 1 },
+    "language": { "type": "string", "const": "de" },
+    "count": { "type": "integer", "const": 100 },
+    "models": {
+      "type": "array",
+      "minItems": 100,
+      "maxItems": 100,
+      "items": { "$ref": "#/$defs/model" }
+    }
+  },
+  "required": ["catalog_id", "title", "language", "count", "models"],
+  "additionalProperties": false,
+  "$defs": {
+    "model": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "market": { "type": "string", "minLength": 1 },
+        "pain_point": { "type": "string", "minLength": 1 },
+        "ai_solution": { "type": "string", "minLength": 1 },
+        "monetization": { "type": "string", "minLength": 1 },
+        "market_comment": { "type": "string", "minLength": 1 },
+        "maturity": { "type": "string", "minLength": 1 },
+        "status": {
+          "type": "string",
+          "enum": ["VERIFIED", "DOCUMENTED", "INFERENCE", "UNKNOWN", "CONFLICT", "BLOCKED"]
+        }
+      },
+      "required": ["id", "market", "pain_point", "ai_solution", "monetization", "market_comment", "maturity", "status"],
+      "additionalProperties": false
+    }
+  }
+}

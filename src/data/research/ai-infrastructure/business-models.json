@@ -1,0 +1,1008 @@
+{
+  "catalog_id": "ai-infrastructure-business-models-100",
+  "title": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+  "language": "de",
+  "count": 100,
+  "models": [
+    {
+      "id": 1,
+      "market": "Ambulante Medizin / Arzttermine",
+      "pain_point": "Praxen sind lokal isoliert; Zugang läuft über Telefon, Webseiten und manuelle Triage; freie Slots verfallen.",
+      "ai_solution": "Freie Oberfläche mit KI-Triage, Terminmatching, Dokumentenextraktion und No-show-Prognose.",
+      "monetization": "Kostenlos für Patient:innen; Praxen zahlen pro gefülltem Slot oder vermiedenen Leerlauf; Erlöse werden nach tatsächlich genutzten Terminen verteilt.",
+      "market_comment": "Proxy: DE-Gesundheitsausgaben 538,2 Mrd. €; globaler Gesundheitsmarkt im Multi-Billionen-Bereich. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 2,
+      "market": "Teletriage und Erstkontakt",
+      "pain_point": "Zugang zu Erstberatung ist ungleich, Wartezeiten hoch, viele Fälle landen im falschen Versorgungspfad.",
+      "ai_solution": "KI-gestützte Symptomtriage, Priorisierung, Spracherkennung und Routing in Telekonsil oder Präsenztermin.",
+      "monetization": "Kostenlos für Patient:innen; Pay-per-case von Kassen, Arbeitgebern oder Leistungserbringern; Verteilung nach Fallannahme und Outcome.",
+      "market_comment": "Proxy: DE- und global sehr großer Gesundheitsmarkt. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 3,
+      "market": "Praxisabrechnung / GOÄ-EBM",
+      "pain_point": "Kodierung und Abrechnung sind regelbasiert, fehleranfällig und zwischen Praxissoftware, Labor, Kasse und Patient zersplittert.",
+      "ai_solution": "KI extrahiert Leistungen aus Diktat/Arztbrief, schlägt Codes vor, prüft Regelverstöße und simuliert Erstattungen.",
+      "monetization": "SaaS plus Success Fee auf korrekt realisierte Erlöse; Revenue Share mit Abrechnungsstellen nach gemessener Realisierung.",
+      "market_comment": "Proxy: DE-Gesundheitsausgaben 538,2 Mrd. €; hohe Abrechnungsdichte. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 4,
+      "market": "Pflegeeinsatz und ambulante Dienste",
+      "pain_point": "Mehr Pflegebedürftige treffen auf knappe Dienste, regionale Inseln und papierlastige Einsatzplanung.",
+      "ai_solution": "KI plant Touren, priorisiert Ausfälle, prognostiziert Pflegebedarf und vereinheitlicht Angehörigenkommunikation.",
+      "monetization": "Kostenloses Angehörigenportal; Pflegedienste zahlen pro disponierter Leistung; Erlöse nach tatsächlich erbrachten Einsätzen.",
+      "market_comment": "VERIFIED: Pflegebedarf steigt; über 80 % werden zu Hause versorgt. Reife: kurzfristig 1–2 Jahre, stark DE-relevant.",
+      "maturity": "kurzfristig 1–2 Jahre, stark DE-relevant",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 5,
+      "market": "Psychotherapie-Kapazitätsnetz",
+      "pain_point": "Plätze sind verstreut, Zugang intransparent, Intake-Manuelles Screening kostet Zeit.",
+      "ai_solution": "KI-Screening, Dringlichkeitsscoring, Therapeutenmatching und Dokumentenzusammenfassung vor Erstkontakt.",
+      "monetization": "Kostenlos für Patient:innen; Praxen/Kliniken zahlen pro qualifiziertem Intake oder belegtem Therapieplatz.",
+      "market_comment": "Proxy: großer Gesundheitsmarkt; Angebotszugang ist strukturell knapp. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 6,
+      "market": "Heilmittel / Physiotherapie",
+      "pain_point": "Viele kleine Anbieter, geringe Online-Buchbarkeit, Rezept- und Verfügbarkeitsabgleich manuell.",
+      "ai_solution": "KI liest Verordnungen, matcht freie Kapazitäten, priorisiert Hausbesuche und optimiert Serienbehandlungen.",
+      "monetization": "Kostenlos für Patient:innen; Pay-per-booking von Praxen; RevShare nach realisiertem Terminvolumen.",
+      "market_comment": "Proxy: Teil des großen DE-Gesundheitsmarkts. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 7,
+      "market": "Radiologie / Befundpool",
+      "pain_point": "Geräte und Befunderkapazität sind ungleich verteilt; Zweitbefunde und TAT-Steuerung sind ineffizient.",
+      "ai_solution": "KI-Vorbefundung, Priorisierung, Bildklassifikation und Routing an verfügbare Radiolog:innen.",
+      "monetization": "Kliniken/Praxen zahlen pro Studie; Erlöse an Befunder nach Fallvolumen und Befundqualität.",
+      "market_comment": "Proxy: hoher Gesundheits- und Krankenhausaufwand. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 8,
+      "market": "Homecare für chronische Erkrankungen",
+      "pain_point": "Geräte, Monitoring, Beratung und Abrechnung liegen bei vielen Spezialanbietern; Patientenzugang ist zäh.",
+      "ai_solution": "KI überwacht Messwerte, erkennt Adhärenzrisiken und koordiniert Material, Coachings und Eskalationen.",
+      "monetization": "Kostenlos für Patient:innen; Pay-per-monitored-member durch Kassen/Arbeitgeber; RevShare an Device- und Care-Partner.",
+      "market_comment": "Proxy: großer Gesundheitsmarkt, steigende Krankheitskosten. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 9,
+      "market": "Arbeitsmedizin / Corporate Health",
+      "pain_point": "Viele Betriebe kaufen Einzelservices separat; Terminierung, Befundverwaltung und Compliance sind verteilt.",
+      "ai_solution": "KI plant Vorsorgen, erstellt Risikoprofile, fasst Befunde zusammen und steuert Erinnerungen.",
+      "monetization": "Arbeitgeber zahlen pro Mitarbeitendem oder pro Case; Erlöse an Ärzt:innen/Zentren nach Nutzung.",
+      "market_comment": "Proxy: großer DE-Gesundheitsmarkt und wachsender Dienstleistungssektor. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 10,
+      "market": "Zahnlabor- und Heilkostenplan-Clearing",
+      "pain_point": "Praxen, Labore und Patient:innen arbeiten über PDFs, E-Mails und manuelle Kostenvoranschläge.",
+      "ai_solution": "KI liest HKP, vergleicht Laboroptionen, prognostiziert Durchlaufzeiten und Patientenzahlung.",
+      "monetization": "Kostenlose Patientenansicht; Praxis zahlt pro abgeschlossenem Fall; Labore erhalten Leads gegen RevShare.",
+      "market_comment": "Proxy: großer Gesundheitsmarkt, hohe Privatanteile. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 11,
+      "market": "Arznei-Substitution und Lieferbarkeit",
+      "pain_point": "Lieferengpässe, regionale Verfügbarkeiten und Erstattungslogiken sind zittrig und schwer zugänglich.",
+      "ai_solution": "KI gleicht Verfügbarkeit, Wirkstoffalternativen, Interaktionen und Preis-/Erstattungsregeln ab.",
+      "monetization": "Nullkosten-App für Patient:innen; Apotheken/Großhandel zahlen für erfolgreiche Vermittlung oder API-Nutzung.",
+      "market_comment": "Proxy: großer Gesundheitsmarkt; hoher Nutzen bei Zugangsfriktion. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 12,
+      "market": "Reha- und Nachsorge-Orchestrierung",
+      "pain_point": "Nach Klinikaufenthalt sind Reha, Termine, Transport und Dokumente auf viele Stellen verteilt.",
+      "ai_solution": "KI erstellt Nachsorgepfade, bündelt Dokumente und matcht Reha-, Therapie- und Transportkapazität.",
+      "monetization": "Kliniken/Kassen zahlen pro Discharge Case; Erlöse an Reha-Partner nach genutzten Modulen.",
+      "market_comment": "Proxy: hoher Krankenhaus- und Pflegeaufwand. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 13,
+      "market": "Sprachmittlung im Gesundheitswesen",
+      "pain_point": "Nicht-deutschsprachige Patient:innen treffen auf verstreute Dolmetschdienste und ungeklärte Kostenübernahme.",
+      "ai_solution": "KI-Spracherkennung, medizinische Übersetzung, Qualitätssicherung durch Humans-in-the-loop.",
+      "monetization": "Kostenlos für Patient:innen; Kliniken/Kassen zahlen pro Minute oder Fall; Ausschüttung an geprüfte Sprachmittler nach Nutzungszeit.",
+      "market_comment": "Marktgröße: unspezifiziert; klar DE-relevant in einem großen Gesundheitsmarkt. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "UNKNOWN"
+    },
+    {
+      "id": 14,
+      "market": "Pathologie / Second Opinion",
+      "pain_point": "Expertise ist konzentriert, Zugänge sind institutionell gebunden, Zweitmeinungen dauern.",
+      "ai_solution": "KI strukturiert Befundtexte, klassifiziert Bilder und routet seltene Fälle an Spezialist:innen.",
+      "monetization": "Pay-per-case durch Kliniken/Labore; RevShare an Expert:innen nach bearbeiteten Fällen.",
+      "market_comment": "Proxy: hoher Gesundheits- und F&E-Bezug. Reife: mittelfristig 3–5 Jahre.",
+      "maturity": "mittelfristig 3–5 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 15,
+      "market": "Klinik-Entlassmanagement",
+      "pain_point": "Station, Pflege, Hausarzt, Reha und Sozialdienste nutzen unterschiedliche Systeme und Übergaben.",
+      "ai_solution": "KI extrahiert Entlassinformationen, erstellt To-dos, priorisiert Risiken und verfolgt Erledigung.",
+      "monetization": "Kliniken zahlen pro Entlassfall; Folgeanbieter zahlen für übernommene Fälle; Ausschüttung nach Case Acceptance.",
+      "market_comment": "Proxy: hoher Krankenhaus- und Pflegebedarf. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 16,
+      "market": "KMU-Rechnungsfinanzierung",
+      "pain_point": "Kleine Unternehmen warten auf Zahlung, Bonität ist schwer prüfbar, Factoring ist zersplittert und teuer.",
+      "ai_solution": "KI bewertet Rechnung, Debitor und Cashflow-Risiko in Echtzeit und routet an passende Finanzierer.",
+      "monetization": "Kostenlose Upload-Oberfläche; Gebühr auf finanziertes Volumen; Einnahmen an Kapitalgeber nach gemessener Nutzung/Risiko.",
+      "market_comment": "VERIFIED: globale SME-Finanzierungslücke ist sehr groß; DE besonders relevant für Mittelstand. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 17,
+      "market": "B2B Payment Reconciliation",
+      "pain_point": "Zahlungsströme, Avis, Rechnungen und ERP-Referenzen passen oft nicht zusammen; hoher manueller Abgleich.",
+      "ai_solution": "KI matcht Zahlungen, Extrakte und Rechnungsbelege, erkennt Ausnahmen und lernt Buchungslogik.",
+      "monetization": "Freemium-Frontend; SaaS plus volumengebundene Gebühr; RevShare mit PSPs/Banking-Partnern.",
+      "market_comment": "VERIFIED: bargeldlose Transaktionen steigen stark; DE-Zahlungsmarkt hochvolumig. Reife: sofort/kurzfristig.",
+      "maturity": "sofort/kurzfristig",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 18,
+      "market": "Remittance- und Auslandslohn-Routing",
+      "pain_point": "Auslandslöhne und Rücküberweisungen laufen über viele Korridore mit intransparenten Kosten.",
+      "ai_solution": "KI wählt günstigsten und schnellsten Kanal, optimiert FX-Routing und Compliance-Prüfung.",
+      "monetization": "Kostenlos für Sender; Plattform nimmt kleinen Spread/Takerate; Auszahlung an Provider nach tatsächlich genutztem Corridor.",
+      "market_comment": "VERIFIED: Remittances lagen 2023 bei rund 656 Mrd. US$; Pricing wird global verfolgt. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 19,
+      "market": "Gewerbeversicherung mit dynamischem Underwriting",
+      "pain_point": "KMU kaufen starre Policen über fragmentierte Makler- und Carrierlandschaften; Risiko- und Nutzungsdaten fehlen.",
+      "ai_solution": "KI erzeugt laufende Risikoprofile aus Buchhaltung, IoT, Verträgen und Claims-Historie.",
+      "monetization": "Kostenloses Risk Dashboard; Provision pro Police plus laufende Usage Fee; Verteilung an Carrier/Broker nach aktivem Risiko-Book.",
+      "market_comment": "VERIFIED: deutsche Versicherungswirtschaft 238 Mrd. € Beitragseinnahmen. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 20,
+      "market": "Kfz-Schaden-Kostenbenchmark",
+      "pain_point": "Werkstätten, Gutachter, Versicherer und Teilelieferanten rechnen unterschiedlich und langsam ab.",
+      "ai_solution": "KI aus FNOL-Bildern, Kostenschätzung, Fraud-Screening und Werkstattmatching.",
+      "monetization": "Kostenloser Schadenstart für Kund:innen; Gebühr pro reguliertem Schaden; Erlösverteilung an Werkstatt/Gutachter nach Nutzung.",
+      "market_comment": "VERIFIED: Kfz treibt Versicherungswachstum; Reparaturkosten steigen. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 21,
+      "market": "Leistungsprüfung in der Versicherung",
+      "pain_point": "Dokumente, Policenregeln und Belege liegen verstreut; Bearbeitung ist fallbasiert und teuer.",
+      "ai_solution": "KI liest Schadenunterlagen, extrahiert Policelogik, erkennt Anomalien und priorisiert Bearbeitung.",
+      "monetization": "Carrier zahlen pro automatisiert bearbeitetem Claim; einsparungsbasierter RevShare.",
+      "market_comment": "VERIFIED: ca. 500 Mio. laufende Verträge in DE; massiver Automatisierungshebel. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 22,
+      "market": "Trade-Finance Risk Scoring",
+      "pain_point": "Kleine Importeure/Exporteure haben ungleichmäßigen Zugang zu Finanzierung und Deckung.",
+      "ai_solution": "KI kombiniert Rechnungen, Versanddaten, Sanktionsscreening und Buyer-Risk.",
+      "monetization": "Fee auf genehmigtes Volumen; Kapitalgeber zahlen für Decisioning, Händler für schnellere Auszahlung.",
+      "market_comment": "VERIFIED: Welthandel 2025 bei rund 34,9 Bio. US$ Güter und Dienstleistungen. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 23,
+      "market": "Steuererklärung für Freelancer",
+      "pain_point": "Viele kleine Erwerbstätige nutzen zerstreute Tools, verstehen Regeln schlecht und zahlen über Steuerberater Zeitpreise.",
+      "ai_solution": "KI kategorisiert Belege, simuliert Steuerlast, erklärt Risiken und reicht digital ein.",
+      "monetization": "Kostenloser Einstieg; Upgrade oder Erfolgsgebühr auf realisierte Ersparnis/erstatteten Betrag; RevShare mit Steuerkanzleien.",
+      "market_comment": "Marktgröße: unspezifiziert; DE-relevant im großen Dienstleistungs- und Plattformarbeitsmarkt. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "UNKNOWN"
+    },
+    {
+      "id": 24,
+      "market": "Forderungseinzug as a Platform",
+      "pain_point": "Inkasso ist regional fragmentiert; Gläubiger wechseln zwischen Kanzlei, Inkasso und manueller Nachverfolgung.",
+      "ai_solution": "KI priorisiert Fälle, generiert Kommunikation, verhandelt Vergleichsoptionen und bewertet Einbringlichkeit.",
+      "monetization": "Kostenloses Forderungsportal; erfolgsabhängige Gebühr; Verteilung an Partner nach realisiertem Einzug.",
+      "market_comment": "Marktgröße: unspezifiziert; Zahlungs- und Rechnungsvolumina in DE sehr groß. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "UNKNOWN"
+    },
+    {
+      "id": 25,
+      "market": "B2B-Procurement-Finanzierung",
+      "pain_point": "Einkauf, Lieferantenzahlung und Working Capital sind getrennte Systeme; kleinere Lieferanten finanzieren größere Kunden vor.",
+      "ai_solution": "KI prüft Bestellungen, Lieferscheine, Ausfallrisiko und skaliert Dynamic Discounting/Reverse Factoring.",
+      "monetization": "Fee auf vorfinanziertes Einkaufsvolumen; RevShare mit Kapitalpartnern und Lieferanten.",
+      "market_comment": "VERIFIED: öffentlicher und privater Procurement-Markt sehr groß; KMU-Finanzlücke signifikant. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 26,
+      "market": "Baurechnungs-Factoring",
+      "pain_point": "Abschlagsrechnungen, Nachträge und Prüfketten im Bau sind langsam und streitanfällig.",
+      "ai_solution": "KI liest Leistungsverzeichnisse, Bautenstände und Rechnungen, erkennt Konflikte und bewertet Zahlungsrisiko.",
+      "monetization": "Gebühr auf finanziertes Forderungsvolumen; Erlöse an Kapitalgeber nach realem Einsatz.",
+      "market_comment": "VERIFIED: Bauhauptgewerbe DE 120,5 Mrd. € Umsatz 2025. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 27,
+      "market": "Mieterservice und Reparatur-Dispatch",
+      "pain_point": "Millionen Mieter melden Schäden an viele Eigentümer/Verwalter/Handwerker; Status und Zuständigkeit sind unklar.",
+      "ai_solution": "KI klassifiziert Mängel, priorisiert Dringlichkeit, schätzt Kosten und routet an passende Gewerke.",
+      "monetization": "Für Mieter kostenlos; Hausverwaltungen zahlen pro Ticket oder Einsatzerfolg; Ausschüttung an Handwerker nach erledigtem Auftrag.",
+      "market_comment": "VERIFIED: 44,0 Mio. Wohnungen in DE; 52,8 % wohnen zur Miete. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 28,
+      "market": "Nebenkosten- und Utility-Audit",
+      "pain_point": "Nebenkosten rechnen viele Hausverwaltungen manuell ab; Vergleichs- und Fehlertransparenz fehlen.",
+      "ai_solution": "KI liest Abrechnungen, prüft Plausibilität, entdeckt Musterfehler und benchmarkt Verbräuche.",
+      "monetization": "Freemium für Mieter; Erfolgsgebühr auf Rückerstattung oder SaaS für Verwalter; RevShare mit Prüfpartnern.",
+      "market_comment": "VERIFIED: große DE-Wohnungsbasis; Wohnkostenbelastung relevant. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 29,
+      "market": "Mietkautions-Garantie",
+      "pain_point": "Kaution, Bonitätsprüfung und Mietvertragsunterlagen sind für Mieter und Vermieter unhandlich.",
+      "ai_solution": "KI prüft Unterlagen, modelliert Ausfallrisiko und erstellt sofortige Kautionszusage.",
+      "monetization": "Kostenlos für Mieter; Vermieter/Versicherer zahlen Provision oder Risk Fee; Ausschüttung nach aktivem Vertrag.",
+      "market_comment": "VERIFIED: Deutschland ist größtes Mieterland der EU. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 30,
+      "market": "Wohnungsbewerbungs-Wallet",
+      "pain_point": "Kandidat:innen senden dieselben Unterlagen an viele Objekte; Vermieter prüfen manuell.",
+      "ai_solution": "KI validiert Dokumente, erstellt standardisierte Bewerbungsprofile und priorisiert passende Matches.",
+      "monetization": "Kostenlos für Mieter; Vermieter/Portale zahlen pro qualifizierter Bewerbung oder Abschluss.",
+      "market_comment": "VERIFIED: deutliche Wohnkosten- und Zugangsprobleme; DE sehr mietmarktrelevant. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 31,
+      "market": "Facility-Management Work Orders",
+      "pain_point": "FM-Leistungen kommen von vielen Subunternehmern; Tickets, SLAs und Rechnungen sind nicht einheitlich.",
+      "ai_solution": "KI extrahiert Tickets, schätzt Aufwand, routet Techniker und misst SLA-Erfüllung.",
+      "monetization": "Plattformgebühr je Ticket/Objekt; Erlösverteilung an Servicepartner nach tatsächlich geleisteten Einsätzen.",
+      "market_comment": "Proxy: großer Wohn- und Gewerbeimmobilienbestand. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 32,
+      "market": "Handwerker-Kapazitätsbörse",
+      "pain_point": "Rund 1 Mio. Betriebe, lokale Sichtbarkeit, Telefonbuchung und unklare Preis-/Zeitslots bremsen den Markt.",
+      "ai_solution": "KI nimmt Problem per Foto/Text an, klassifiziert Gewerk, schätzt Aufwand und verteilt Leads intelligent.",
+      "monetization": "Kostenlos für Kund:innen; Handwerker zahlen pro gewonnenem Auftrag oder über Take Rate; Einnahmen nach gemessener Auslastung.",
+      "market_comment": "VERIFIED: Handwerk in DE rund 1,0 Mio. Betriebe. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 33,
+      "market": "Renovierungs-Scope-Estimator",
+      "pain_point": "Angebotserstellung ist manuell; Eigentümer kennen Umfang, Priorität und Kosten ihrer Maßnahmen schlecht.",
+      "ai_solution": "KI erstellt aus Fotos/Plänen einen Maßnahmenkatalog, Mengenansatz und Ausschreibungsvorschlag.",
+      "monetization": "Freemium für Eigentümer; Handwerker/Materialpartner zahlen für qualifizierte Projekte.",
+      "market_comment": "VERIFIED: große Wohnungsbasis und hoher Sanierungsbedarf. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 34,
+      "market": "Bauantrags- und Genehmigungs-Copilot",
+      "pain_point": "Unterlagen, Zuständigkeiten und Formularlogik variieren je Kommune; Genehmigungspfad ist schwer zugänglich.",
+      "ai_solution": "KI prüft Vollständigkeit, erzeugt Formulare, erklärt Abweichungen und simuliert Nachforderungsrisiko.",
+      "monetization": "Kostenloser Antragstellerzugang; Gebühr für Architekten/Projektentwickler pro Einreichung oder Behördenschnittstelle.",
+      "market_comment": "Marktgröße: unspezifiziert; DE-relevant in großem Bau- und Wohnmarkt. Reife: mittelfristig 3–5 Jahre.",
+      "maturity": "mittelfristig 3–5 Jahre",
+      "status": "UNKNOWN"
+    },
+    {
+      "id": 35,
+      "market": "Immobilien-DD und Dokumentenraum",
+      "pain_point": "Kauf-/Finanzierungsprozesse zerfallen in Makler, Gutachter, Banken, Notare und Datenräume.",
+      "ai_solution": "KI liest Exposés, Verträge, Energieausweise und Due-Diligence-Dokumente, erzeugt Risiko-Scorecards.",
+      "monetization": "Gebühr pro Deal oder Datenraum; RevShare mit Maklern, Banken und Gutachtern.",
+      "market_comment": "Proxy: großer Wohnungs- und Finanzierungsmarkt. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 36,
+      "market": "Gebäude-ESG-Datenexchange",
+      "pain_point": "Verbrauchs-, Emissions- und Sanierungsdaten liegen isoliert bei Verwalter, Energieberater und Eigentümer.",
+      "ai_solution": "KI vereinheitlicht Daten, berechnet ESG-Kennzahlen und priorisiert Maßnahmen.",
+      "monetization": "SaaS plus Report-/API-Gebühren; Revenue Share mit Energieberatern/Installateuren.",
+      "market_comment": "VERIFIED: Gebäude verbrauchen global rund 30 % der Endenergie. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 37,
+      "market": "Kurzzeitvermietungs-Compliance",
+      "pain_point": "Hosts, Plattformen und lokale Regeln sind fragmentiert; Gebühren, Meldungen und Steuern sind intransparent.",
+      "ai_solution": "KI prüft lokale Regeln, generiert Meldungen und optimiert Preis/Belegung.",
+      "monetization": "Kostenloses Host-Frontend; Take Rate auf Buchungen plus Compliance-Fee; Ausschüttung an Channel-Partner nach Belegung.",
+      "market_comment": "VERIFIED: DE 2025 bereits 68,3 Mio. über Online-Plattformen gebuchte Übernachtungen. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 38,
+      "market": "Immobilienbewertung und Mortgage-Prep",
+      "pain_point": "Kreditunterlagen, Bewertungen und Risikoangaben müssen mehrfach eingereicht werden.",
+      "ai_solution": "KI sammelt Unterlagen, schätzt Objektwert und erstellt bankfähige Entscheidungsakten.",
+      "monetization": "Für Endkund:innen kostenlos; Banken/Intermediäre zahlen pro abgeschlossener Finanzierungsakte.",
+      "market_comment": "Marktgröße: unspezifiziert; aber großer Wohn- und Finanzierungsmarkt. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "UNKNOWN"
+    },
+    {
+      "id": 39,
+      "market": "Abfall-, Sperrmüll- und Reuse-Netz",
+      "pain_point": "Entsorgung, Wiederverwendung und Nachweis laufen über kommunale, private und informelle Kanäle.",
+      "ai_solution": "KI erkennt Objektarten aus Fotos, entscheidet Reuse vs. Recycling vs. Entsorgung und routet Kapazität.",
+      "monetization": "Kostenlos für Haushalte; Kommunen/Entsorger zahlen pro Fall; RevShare an Reuse-/Recycler nach tatsächlich verarbeiteter Menge.",
+      "market_comment": "VERIFIED: DE-Abfallaufkommen 2023 bei 380,1 Mio. t. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 40,
+      "market": "Bauabfall-Recycling-Clearing",
+      "pain_point": "Bau- und Abbruchabfälle sind großvolumig, aber Stoffströme und Nachweise sind dezentral.",
+      "ai_solution": "KI klassifiziert Material, optimiert Transport/Sortierung und automatisiert Nachweise.",
+      "monetization": "Gebühren pro Tonne und Nachweis; Erlösverteilung an Recycler/Carrier nach gemessener Verarbeitung.",
+      "market_comment": "VERIFIED: Bauabfälle dominieren das Abfallaufkommen. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 41,
+      "market": "EV-Charging-Roaming und Settlement",
+      "pain_point": "Ladepunkte, Tarife, Apps und Zahlungsmodelle sind stark fragmentiert; Nutzer erleben Intransparenz.",
+      "ai_solution": "KI wählt Ladepunkt nach Preis, Zeit, Auslastung und Fahrzeugprofil; automatische Settlement-Engine.",
+      "monetization": "Kostenlos für Fahrer:innen; Take Rate auf kWh/Umsatz; Erlöse an CPO/MSP nach realer Nutzung.",
+      "market_comment": "VERIFIED: in DE über 209.000 öffentliche Ladepunkte; global wächst Public Charging stark. Reife: sofort/kurzfristig.",
+      "maturity": "sofort/kurzfristig",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 42,
+      "market": "Dynamischer Stromtarif-Optimizer",
+      "pain_point": "Haushalte und KMU verstehen Tarife, Lastprofile und Flexoptionen kaum; Abrechnung bleibt statisch.",
+      "ai_solution": "KI prognostiziert Last, Preise und verschiebt flexible Verbräuche automatisch.",
+      "monetization": "Kostenloses Frontend; Anteil an realisierten Einsparungen oder Fee pro gemanagter kWh.",
+      "market_comment": "VERIFIED: Stromnachfrage wächst weiter; DE-Energiewende erhöht Flexwert. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 43,
+      "market": "PV/Batterie/VPP für Prosumer",
+      "pain_point": "Kleine Anlagen sind einzeln zu klein, vermarkten Flexibilität schlecht und rechnen über unterschiedliche Anbieter ab.",
+      "ai_solution": "KI prognostiziert Erzeugung, Preise und Netzsignale, bündelt Assets virtuell.",
+      "monetization": "Kostenloses Prosumer-Dashboard; Plattform erhält Anteil an vermarkteter Flex/Balancing Revenue.",
+      "market_comment": "VERIFIED: Distributed Energy Resources wachsen schnell; globaler Ausbau hochdynamisch. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 44,
+      "market": "Heat-Pump-Installationsnetz",
+      "pain_point": "Nachfrage, Förderlogik, lokale Installateure und Angebotsqualität sind schwer vergleichbar.",
+      "ai_solution": "KI erzeugt Vorplanung aus Gebäudedaten, schlägt Komponenten vor und routet an Installationspartner.",
+      "monetization": "Kostenlos für Eigentümer; Installateure/OEMs zahlen pro qualifiziertem Projekt oder Verkauf.",
+      "market_comment": "VERIFIED: Gebäudesektor ist großer Energieverbraucher; Sanierungsdruck steigt. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 45,
+      "market": "Demand-Response für KMU",
+      "pain_point": "Kleine Lasten sind unkoordiniert und meist nicht marktfähig; Abrechnung mit Aggregatoren ist komplex.",
+      "ai_solution": "KI erkennt flexible Prozesse, bündelt Lastabschaltungen und automatisiert MRV.",
+      "monetization": "Erfolgsgebühr auf vermarktete Flexibilität; Auszahlung an KMU nach gemessenen Lastverschiebungen.",
+      "market_comment": "VERIFIED: Stromsysteme werden wetterabhängiger; Flex wird infrastrukturell wertvoller. Reife: mittelfristig 3–5 Jahre.",
+      "maturity": "mittelfristig 3–5 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 46,
+      "market": "Carbon Accounting für Mittelstand",
+      "pain_point": "Emissionsdaten sitzen in ERP, Strom, Fuel, Logistik und Einkauf; CO₂-Kosten werden oft grob geschätzt.",
+      "ai_solution": "KI sammelt Belege, klassifiziert Scope-Daten und erzeugt prüfbare Footprints.",
+      "monetization": "Freemium-Basis; Gebühr pro Standort/Supplier plus MRV-API; RevShare mit Auditoren/Beratungen.",
+      "market_comment": "VERIFIED: Emissionshandelserlöse in DE 2025 bei 21,4 Mrd. €; CO₂-Preislogik wird härter. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 47,
+      "market": "EPR- und Verpackungs-Clearing",
+      "pain_point": "Hersteller und Händler müssen Mengenströme über verschiedene Systeme melden; Regeln sind materialabhängig.",
+      "ai_solution": "KI erkennt Verpackungstypen, prognostiziert Abgabepflichten und füllt Meldungen automatisiert.",
+      "monetization": "Gebühr pro SKU/Markt; Revenue Share mit Entsorgungs- und Compliance-Partnern.",
+      "market_comment": "VERIFIED: Recyclingquoten steigen regulatorisch; Verpackungscompliance wird dichter. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 48,
+      "market": "Leckage- und Wasser-Claims-Netz",
+      "pain_point": "Wasserschäden werden spät erkannt; Sensoren, Versicherer und Handwerker arbeiten getrennt.",
+      "ai_solution": "KI detektiert Anomalien, schätzt Schadenshöhe und löst Dispatch plus Vorregulierung aus.",
+      "monetization": "Hardware-/SaaS-Fee plus Erfolgsvergütung je vermiedenem Schaden; Ausschüttung an Netzwerkpartner nach Einsatz.",
+      "market_comment": "Proxy: großer Versicherungs- und Immobilienmarkt. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 49,
+      "market": "Netzanschluss-Copilot",
+      "pain_point": "PV, Speicher, Ladepunkte und Industrieanschlüsse scheitern oft an unterschiedlichen Formularen und Bearbeitungswegen.",
+      "ai_solution": "KI baut Einreichungen, prüft Vollständigkeit und verfolgt Status automatisiert.",
+      "monetization": "Gebühr pro Anschlussfall; RevShare mit Installateuren/Planern.",
+      "market_comment": "VERIFIED: stark wachsender Lade- und DER-Markt. Reife: mittelfristig 3–5 Jahre.",
+      "maturity": "mittelfristig 3–5 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 50,
+      "market": "Depot- und Flottenladen-Orchestrierung",
+      "pain_point": "Fuhrparks nutzen verschiedene Tarife, Standorte und Fahrzeuge; Ladeplanung und Kostenzuordnung sind verteilt.",
+      "ai_solution": "KI plant Ladefenster, berücksichtigt Touren, Netzentgelte und Batteriezustand.",
+      "monetization": "Plattformgebühr pro Fahrzeug oder kWh; Einnahmen an CPOs/Software-Partner nach Nutzung.",
+      "market_comment": "VERIFIED: EV-Bestand und Ladeinfrastruktur wachsen deutlich. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 51,
+      "market": "Parkraum- und Ladeplatz-Monetarisierung",
+      "pain_point": "Private Stellplätze und halböffentliche Ladeflächen sind unsichtbar und werden schlecht ausgelastet.",
+      "ai_solution": "KI prognostiziert Nachfrage, Preis und Belegungswahrscheinlichkeit und steuert Zugang.",
+      "monetization": "Take Rate auf Buchungen/kWh; Erlösverteilung an Flächengeber nach tatsächlich genutzter Belegung.",
+      "market_comment": "Marktgröße: unspezifiziert; DE-relevant im wachsenden EV- und Stadtmobilitätsmarkt. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "UNKNOWN"
+    },
+    {
+      "id": 52,
+      "market": "Mikromobilität-Wartungsclearing",
+      "pain_point": "Betreiber, Werkstätten und Feldteams rechnen heterogen ab; Wartung ist lokal und schwer skalierbar.",
+      "ai_solution": "KI priorisiert Defekte aus Telemetrie/Bildern und routet Service-Einsätze.",
+      "monetization": "Gebühr pro Fahrzeug/Repair; Ausschüttung an Werkstätten und Rider-Teams nach Abschluss.",
+      "market_comment": "Marktgröße: unspezifiziert; eher urbanes Service-Modell. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "UNKNOWN"
+    },
+    {
+      "id": 53,
+      "market": "ÖPNV-Ticket-Clearing",
+      "pain_point": "Verkehrsverbünde, Tarifräume und Anbieter zersplittern Zugang und Erlösverteilung.",
+      "ai_solution": "KI erkennt Reisemuster, berechnet Best Price und verteilt Erlöse verbundübergreifend.",
+      "monetization": "Kostenlose Nutzeroberfläche; Plattform erhält Clearing-Fee; Verteilung an Betreiber nach realen Fahrten.",
+      "market_comment": "VERIFIED: Fahrgastzahlen im ÖPNV steigen wieder; Verbundlandschaft bleibt komplex. Reife: mittelfristig 3–5 Jahre.",
+      "maturity": "mittelfristig 3–5 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 54,
+      "market": "Maritime ETS-Reporting",
+      "pain_point": "Reedereien, Schiffe und Emissionsberichte werden in neue ETS-Logik eingezogen; Reporting ist komplex.",
+      "ai_solution": "KI extrahiert Voyage-/Fuel-Daten, erstellt Berichte und optimiert Zertifikatsbedarf.",
+      "monetization": "SaaS plus Fee je Schiff/Bericht; RevShare mit Verifizierern/Brokern.",
+      "market_comment": "VERIFIED: maritime Einbeziehung wächst; viele Unternehmen Deutschland zugeordnet. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 55,
+      "market": "SME Procurement Copilot",
+      "pain_point": "Kleine Firmen kaufen bei vielen Lieferanten mit E-Mail/PDF/Telefon; Preise und Bedingungen sind unübersichtlich.",
+      "ai_solution": "KI schreibt Anfragen, vergleicht Angebote, normalisiert Positionen und verhandelt Basiskonditionen.",
+      "monetization": "Kostenloses Buyer-Frontend; Take Rate oder Supplier-Fee auf vermitteltes Volumen; Verteilung nach realen Orders.",
+      "market_comment": "VERIFIED: EU-SME-Basis groß; Procurement-Märkte groß und offen. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 56,
+      "market": "Public Procurement Bid Builder",
+      "pain_point": "Öffentliche Vergaben sind formal, dokumentenlastig und für KMU schwer zugänglich.",
+      "ai_solution": "KI liest Ausschreibungen, zerlegt Eignungskriterien, erstellt Antworten und Compliance-Checks.",
+      "monetization": "Freemium für Bieter; Gebühr pro eingereichtem Angebot oder gewonnenem Los.",
+      "market_comment": "VERIFIED: öffentliche Beschaffung in der EU rund 14–15 % des BIP. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 57,
+      "market": "Lieferanten-Qualitätsinspektion",
+      "pain_point": "Audits, Wareneingang und Qualitätsdaten liegen bei vielen Prüfern und Fabriken.",
+      "ai_solution": "KI wertet Bilder, Messdaten und Audittexte aus und verteilt Prüfaufträge dynamisch.",
+      "monetization": "Gebühren pro Inspektion/Standort; Erlöse an Prüfer nach gemessenem Einsatz.",
+      "market_comment": "Proxy: großes Industrie- und Beschaffungsökosystem. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 58,
+      "market": "Ersatzteil-Sourcing",
+      "pain_point": "Teilemärkte sind hoch fragmentiert; Preise, Lieferzeit und Kompatibilität sind schwer vergleichbar.",
+      "ai_solution": "KI versteht Stücklisten, sucht Substitute und bewertet Lieferfähigkeit/Risiko.",
+      "monetization": "Freie Suchoberfläche; Take Rate auf vermittelte Teile; Ausschüttung an Supplier nach Lieferung.",
+      "market_comment": "Proxy: verarbeitendes Gewerbe groß; hohe Ersatzteilabhängigkeit. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 59,
+      "market": "Field-Service-Techniker-Dispatch",
+      "pain_point": "Serviceorganisationen verlieren Zeit in Disposition, Skill-Matching und manueller Rechnungserstellung.",
+      "ai_solution": "KI matcht Skills, Teile und Routen, generiert Einsatzberichte und Kostenpositionen.",
+      "monetization": "Gebühr pro Einsatz; Revenue Share mit Subunternehmern nach realen Service-Minuten.",
+      "market_comment": "Proxy: großer Industrie- und Dienstleistungsmarkt. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 60,
+      "market": "Zolltarifierung und Duty Engine",
+      "pain_point": "HS-Codes, Produktdaten und Einfuhrregeln sind komplex, länderspezifisch und fehleranfällig.",
+      "ai_solution": "KI klassifiziert Produkte, berechnet Zölle/Abgaben und markiert Compliance-Risiken.",
+      "monetization": "Per-shipment- oder API-Gebühr; RevShare mit Broker/Forwarder-Partnern.",
+      "market_comment": "VERIFIED: globaler Handelswert 2025 sehr hoch. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 61,
+      "market": "Frachtquote und Carrier-Payout",
+      "pain_point": "Carrier, Spediteure und Verlader nutzen fragmentierte Preis- und Statuskanäle; Settlement ist manuell.",
+      "ai_solution": "KI quotiert, routet Carrier, prognostiziert ETA und automatisiert Rechnungsabgleich.",
+      "monetization": "Take Rate pro Sendung; Ausschüttung an Carrier nach tatsächlich gefahrenen Loads.",
+      "market_comment": "VERIFIED: Güterverkehr und Welthandel bleiben groß; Lkw dominiert in DE. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 62,
+      "market": "Warehouse-Overflow-Exchange",
+      "pain_point": "Freie Lagerkapazität ist lokal verteilt und kurzfristig schwer zu finden.",
+      "ai_solution": "KI matcht Bedarf, SLA, Temperatur, Standort und Duration.",
+      "monetization": "Gebühr pro Palettenplatz/Tag; Erlösverteilung an Lagerhalter nach belegter Fläche.",
+      "market_comment": "Proxy: großer Logistik- und Handelsmarkt. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 63,
+      "market": "Retouren- und Recommerce-Orchestrierung",
+      "pain_point": "Retouren gehen über Händler, 3PL, Prüfer und Refurbisher mit unterschiedlichen Regeln und Erlösen.",
+      "ai_solution": "KI entscheidet Resell, Repair, Recycle oder Liquidation aus Produkt- und Bilddaten.",
+      "monetization": "Take Rate auf weiterverkaufte Ware; Erlösverteilung nach realem Recovery Value.",
+      "market_comment": "VERIFIED: Einzelhandel 2025 in DE gewachsen; Recommerce hängt an Logistik. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 64,
+      "market": "Baumaterial-Einkaufsnetz",
+      "pain_point": "Beschaffung läuft über viele lokale Händler, Preislisten und Angebotsrunden; Nachträge verteuern Projekte.",
+      "ai_solution": "KI normalisiert LV-Positionen, listet Alternativen und bündelt Nachfrage.",
+      "monetization": "Freier Buyer-Zugang; Supplier-Fee oder Take Rate auf Materialvolumen.",
+      "market_comment": "VERIFIED: Bauhauptgewerbe DE 120,5 Mrd. €; EU-Bau viele Unternehmen. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 65,
+      "market": "Corporate Travel Settlement",
+      "pain_point": "Buchung, Policy, Expense und Reimbursement liegen bei vielen TMC-, Card- und ERP-Providern.",
+      "ai_solution": "KI prüft Policy, extrahiert Belege und optimiert Reiserouting/Kosten.",
+      "monetization": "Gebühr pro Trip oder Expense; RevShare mit TMCs/Kartenanbietern nach gemessener Nutzung.",
+      "market_comment": "VERIFIED: Tourismus und Geschäftsreisen sind wieder groß. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 66,
+      "market": "RFP- und Proposal-Factory",
+      "pain_point": "B2B-Vertrieb reagiert auf Ausschreibungen und RFPs mit unstrukturierten Daten, Copy-Paste und Wissenssilos.",
+      "ai_solution": "KI erstellt Antwortbausteine, zieht Nachweise und lernt Gewinnmuster.",
+      "monetization": "SaaS plus Nutzungspreis; optional RevShare auf gewonnene Deals.",
+      "market_comment": "Proxy: großer Dienstleistungs- und Digitalmarkt. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 67,
+      "market": "Call-Center- und Backoffice-Overflow",
+      "pain_point": "Servicevolumen schwankt stark; BPOs und Inhouse-Teams haben ungleiche Auslastung und starre Verträge.",
+      "ai_solution": "KI klassifiziert Kontaktgründe, routet an passende Workpools und misst Ergebnisqualität.",
+      "monetization": "Gebühr pro gelöstem Kontakt; Ausschüttung an Bearbeiter/BPOs nach realer Leistung.",
+      "market_comment": "Proxy: großer Dienstleistungsmarkt. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 68,
+      "market": "Contract Review plus Counsel Routing",
+      "pain_point": "Firmen haben viele Standardverträge, aber externe Kanzleikosten und Inhouse-Kapazität sind schlecht abgestimmt.",
+      "ai_solution": "KI extrahiert Klauseln, markiert Risiken und routet Spezialfälle an Anwälte.",
+      "monetization": "Freemium Review; Pay-per-matter oder Erfolgsgebühr; RevShare mit Kanzleien je bearbeitetem Mandat.",
+      "market_comment": "Marktgröße: unspezifiziert; B2B-Use-Case in großem Dienstleistungsmarkt. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "UNKNOWN"
+    },
+    {
+      "id": 69,
+      "market": "Workforce Shift Exchange",
+      "pain_point": "Dienste, Gastronomie, Pflege und Retail verwalten Schichten oft lokal und manuell; Leerstände bleiben teuer.",
+      "ai_solution": "KI prognostiziert Spitzen, Staff-Bedarf und matcht verfügbare Worker.",
+      "monetization": "Kostenlos für Worker; Arbeitgeber zahlen pro besetzter Schicht; Ausschüttung an Worker nach tatsächlich geleisteten Stunden.",
+      "market_comment": "VERIFIED: Plattformarbeit und Dienstleistungsumsätze wachsen; Einsatz für volatile Märkte. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 70,
+      "market": "Freelancer Compliance und Payroll",
+      "pain_point": "Global verteilte Freelancer bedeuten Verträge, Steuer, Sanktions- und Arbeitsstatusprüfungen über viele Tools.",
+      "ai_solution": "KI prüft Vertragsstatus, Rechnungen, KYC und generiert länderspezifische Workflows.",
+      "monetization": "Kostenlos für Freelancer; Plattform nimmt Gebühr je aktiver Person/Abrechnung; RevShare mit Payroll-/Banking-Partnern.",
+      "market_comment": "VERIFIED: Plattformarbeit verändert Arbeitsmärkte. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 71,
+      "market": "Recruiting-Screening mit RevShare",
+      "pain_point": "Unternehmen kaufen Jobportale, Recruiter, Tests und ATS separat; Kandidatensichtung ist teuer.",
+      "ai_solution": "KI validiert CVs, simuliert Skill-Fit und priorisiert Kandidaten für Menschenreview.",
+      "monetization": "Kostenlos für Bewerber:innen; Arbeitgeber zahlen pro qualifiziertem Shortlist-Kandidaten oder Einstellung.",
+      "market_comment": "Proxy: großer Dienstleistungs- und Digitalmarkt. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "INFERENCE"
+    },
+    {
+      "id": 72,
+      "market": "Tutoring und Outcome Exchange",
+      "pain_point": "Nachhilfe ist lokal fragmentiert, Qualität schwer beurteilbar und Abrechnung oft zeitbasiert statt erfolgsbasiert.",
+      "ai_solution": "KI-Diagnostik, Lernpfadgenerierung und Tutor-Matching mit Outcome-Tracking.",
+      "monetization": "Freier Schülerzugang; Gebühren pro aktivem Lernpfad oder Ergebnismeile; Erlöse an Tutor:innen nach gemessener Nutzung/Erfolg.",
+      "market_comment": "VERIFIED: öffentliche Bildungsausgaben DE 2025 bei 205,7 Mrd. € geplant. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 73,
+      "market": "Corporate Upskilling Wallet",
+      "pain_point": "Unternehmen kaufen Lerninhalte, Coaches und Zertifikate verstreut; Nutzungsnachweis und ROI fehlen.",
+      "ai_solution": "KI erfasst Skill-Gaps, erzeugt Lernpfade und misst Job-Transfer.",
+      "monetization": "Gebühr pro Mitarbeitendem; Revenue Share an Kursanbieter/Coach nach realer Nutzung und Abschluss.",
+      "market_comment": "VERIFIED: Bildungsausgaben und Digitalwirtschaft sind groß. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 74,
+      "market": "Creator Rights und AI Licensing",
+      "pain_point": "Bild-, Video-, Voice- und Trainingsrechte sind über Plattformen, Agenturen und Verträge verstreut.",
+      "ai_solution": "KI erkennt Asset-Nutzung, fingerprintet Inhalte und ordnet Rechte/Provenienz zu.",
+      "monetization": "Kostenloses Creator-Wallet; Take Rate auf Lizenzen; Ausschüttung an Rechtehalter nach gemessener Nutzung.",
+      "market_comment": "VERIFIED: immaterielle Investitionen überschritten 2025 10 Bio. US$ weltweit. Reife: mittelfristig 3–5 Jahre.",
+      "maturity": "mittelfristig 3–5 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 75,
+      "market": "Influencer Procurement und Measurement",
+      "pain_point": "Brands, Agenturen und Creator rechnen kampagnenweise ohne sauberes Leistungs-Clearing ab.",
+      "ai_solution": "KI bewertet Brand Fit, prognostiziert Performance und misst echte Reichweite/Conversions.",
+      "monetization": "Take Rate auf Kampagnenbudget; Revenue Share an Creator nach gemessenem Outcome.",
+      "market_comment": "Marktgröße: unspezifiziert; klar digitalwirtschaftlich. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "UNKNOWN"
+    },
+    {
+      "id": 76,
+      "market": "Retail Shelf Audit",
+      "pain_point": "Marken kaufen Außendienst, Bilderfassung und Reporting getrennt; Daten kommen zu spät.",
+      "ai_solution": "KI erkennt Regallücken, Preisfehler und Promo-Compliance aus Smartphone-Bildern.",
+      "monetization": "Fee pro Store/Besuch; Ausschüttung an Crowd-Worker nach validierten Audits.",
+      "market_comment": "VERIFIED: Einzelhandel in DE wächst; operative Fläche bleibt groß. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 77,
+      "market": "Local Retail Delivery Mesh",
+      "pain_point": "Lokale Händler haben oft keine eigene Logistik oder mehrere Insellösungen mit schlechter Abrechnung.",
+      "ai_solution": "KI bündelt Orders, optimiert Touren und steuert Übergabepunkte.",
+      "monetization": "Kundenseitig einfache Bestelloberfläche; Take Rate auf Orders; Erlösverteilung an Händler/Kuriere nach realer Zustellung.",
+      "market_comment": "VERIFIED: Einzelhandel groß, Internet- und Versandhandel relevant. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 78,
+      "market": "Ad-Creative Performance Clearing",
+      "pain_point": "Kreativproduktion und Media-Budget sind getrennt; Vergütung folgt meist Stunden oder Pauschalen statt Ergebnis.",
+      "ai_solution": "KI generiert Varianten, testet sie, attribuiert Wirkung und lernt kreative Muster.",
+      "monetization": "Kostenloses Testing-Frontend; Fees/RevShare auf inkrementelle Performance; Ausschüttung an Creator nach nachgewiesener Wirkung.",
+      "market_comment": "Marktgröße: unspezifiziert; Teil der großen Digitalwirtschaft. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "UNKNOWN"
+    },
+    {
+      "id": 79,
+      "market": "Elektronik-Reparatur und Recommerce",
+      "pain_point": "Reparaturshops, Ersatzteile und Refurbisher sind lokal verstreut; Kostenschätzung und Restwert fehlen.",
+      "ai_solution": "KI diagnostiziert Defekt per Foto/Symptom, schätzt Reparaturkosten und Resale Value.",
+      "monetization": "Kostenloses Diagnose-Frontend; Take Rate auf Repair/Resale; Erlöse an Shops nach Abschluss.",
+      "market_comment": "VERIFIED: Digitalwirtschaft in DE groß; Recommerce profitiert von Daten- und Softwareachsen. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 80,
+      "market": "Beauty- und Wellness-Backfill",
+      "pain_point": "Viele kleine Studios haben Ausfälle, Restslots und manuelle Terminverwaltung.",
+      "ai_solution": "KI prognostiziert No-shows, preist Restslots dynamisch und matcht Kund:innen.",
+      "monetization": "Kostenlos für Nutzer:innen; Studios zahlen pro gefülltem Slot; RevShare nach realen Buchungen.",
+      "market_comment": "Marktgröße: unspezifiziert; typischer fragmentierter Dienstleistungsmarkt. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "UNKNOWN"
+    },
+    {
+      "id": 81,
+      "market": "Restaurant-Schichtbörse",
+      "pain_point": "Gastronomie arbeitet mit kleinteiligen Schichten, hoher Fluktuation und manueller Ersatzsuche.",
+      "ai_solution": "KI prognostiziert Nachfrage, Staff-Bedarf und matcht verfügbare Worker.",
+      "monetization": "Kostenlos für Worker; Restaurants zahlen pro besetzter Schicht; Auszahlung nach geleisteten Stunden.",
+      "market_comment": "VERIFIED: Tourismus- und Gastronomiesektor in DE auf Rekordniveau. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 82,
+      "market": "Food-Surplus Dynamic Routing",
+      "pain_point": "Überschüsse bei Handel, Gastro und Produzenten werden zu spät erkannt; Verkauf, Spende und Entsorgung sind getrennt.",
+      "ai_solution": "KI prognostiziert Verderb, routet zu Wiederverkauf, Donation oder Verarbeitung und preist dynamisch.",
+      "monetization": "Take Rate auf gerettetes Volumen; Revenue Share an Händler/Logistiker/Abnehmer nach tatsächlich verwertetem Wert.",
+      "market_comment": "VERIFIED: großer Lebensmittelhandel; Abfall- und Nachhaltigkeitsdruck hoch. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 83,
+      "market": "Public Benefits Copilot",
+      "pain_point": "Sozialleistungen sind über viele Programme, Träger und Formulare verteilt; Zugang ist kompliziert.",
+      "ai_solution": "KI prüft Anspruch, erzeugt Anträge, sammelt Nachweise und verfolgt Bescheide.",
+      "monetization": "Kostenlos für Bürger:innen; Kommunen/Kassen/Stiftungen zahlen pro bearbeitetem oder erfolgreich übermitteltem Fall.",
+      "market_comment": "VERIFIED: soziale Leistungen in DE 2025 rund 1.431 Mrd. €. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 84,
+      "market": "Kommunale Termine und Anträge",
+      "pain_point": "Bürgerportale sind uneinheitlich; Termin- und Formularlogik schwankt zwischen Behörden.",
+      "ai_solution": "KI füllt Formulare, erkennt fehlende Dokumente und priorisiert Anliegenspfade.",
+      "monetization": "Kostenlos für Bürger:innen; SaaS/Transaktionsgebühr für Kommunen; Verteilung an Dienstleister je erfolgreich bearbeitetem Vorgang.",
+      "market_comment": "VERIFIED: öffentlicher Haushalt in DE sehr groß. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 85,
+      "market": "Migrations- und Behördenformulare",
+      "pain_point": "Sprachbarrieren, Dokumentenanforderungen und zersplitterte Zuständigkeiten verhindern Zugang.",
+      "ai_solution": "KI übersetzt, extrahiert Dokumente, erzeugt Anträge und erklärt Status.",
+      "monetization": "Kostenlos für Antragsteller:innen; öffentliche Stellen/NGOs zahlen pro bearbeitetem Fall.",
+      "market_comment": "Marktgröße: unspezifiziert; klar DE-relevant im öffentlichen Leistungsmarkt. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "UNKNOWN"
+    },
+    {
+      "id": 86,
+      "market": "Legal Aid Triage",
+      "pain_point": "Rechtsberatung für kleine Fälle ist stark fragmentiert; Zugang hängt an Suche, Telefon und Formularen.",
+      "ai_solution": "KI klassifiziert Anliegen, bewertet Dringlichkeit, erstellt Fallakte und routet an passende Beratungsstellen.",
+      "monetization": "Kostenlos für Bürger:innen; Gebühren der Träger/Stiftungen/Kanzleien pro übernommenem Fall.",
+      "market_comment": "Marktgröße: unspezifiziert; aber hoher Bedarf in großen Sozial- und Dienstleistungsmärkten. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "UNKNOWN"
+    },
+    {
+      "id": 87,
+      "market": "Small Claims und ADR Clearing",
+      "pain_point": "Kleine Forderungen sind für Kanzleien und Gerichte oft zu teuer; Prozesse sind dokumentenlastig.",
+      "ai_solution": "KI baut Anspruchsakten, verhandelt Vergleichsvorschläge und standardisiert Beweisführung.",
+      "monetization": "Freemium für Anspruchsteller; Gebühr bei Einzug/Settlement; RevShare mit Partnerkanzleien/Inkasso.",
+      "market_comment": "Marktgröße: unspezifiziert; hohe Relevanz in Zahlungs- und Verbrauchermärkten. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "UNKNOWN"
+    },
+    {
+      "id": 88,
+      "market": "Patent Prior-Art und Agent Routing",
+      "pain_point": "Kleine Firmen finden schwer passende Patentanwälte; Prior-Art-Suche bleibt teuer und iterativ.",
+      "ai_solution": "KI durchsucht Patente/Literatur, erstellt Neuheitsrisiken und matcht Spezialisten.",
+      "monetization": "Freier Suchzugang; Gebühr pro Fall/Anmeldung; RevShare mit Kanzleien nach übernommenem Mandat.",
+      "market_comment": "VERIFIED: immaterielle Investitionen wachsen stark. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 89,
+      "market": "Clinical-Trial-Site Matching",
+      "pain_point": "Studienzentren, Patientenzugang und Sponsorbudgets sind verstreut; Site-Auslastung ist ineffizient.",
+      "ai_solution": "KI matcht Protokolle, Rekrutierungsprofile, Standorte und historische Performance.",
+      "monetization": "Sponsoren/CROs zahlen pro aktivierter Site oder randomisiertem Patienten; Erlöse an Sites nach Nutzung.",
+      "market_comment": "VERIFIED: EU-Clinical-Trials-Regulation harmonisiert Prozesse; 2030-Ziele treiben den Markt. Reife: mittelfristig 3–5 Jahre.",
+      "maturity": "mittelfristig 3–5 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 90,
+      "market": "Grant Application Routing",
+      "pain_point": "Forschungsförderung ist über Programme, Calls und Träger verteilt; Texte und Nachweise werden dupliziert.",
+      "ai_solution": "KI identifiziert passende Calls, baut Textbausteine und prüft Anforderungen.",
+      "monetization": "Freemium für Forschende/Startups; Gebühr auf eingereichte Anträge oder gewonnene Fördermittel.",
+      "market_comment": "VERIFIED: DE-F&E-Ausgaben 2024 bei 137,1 Mrd. €. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 91,
+      "market": "Forschungsgeräte-Auslastungsbörse",
+      "pain_point": "Hochwertige Geräte in Laboren sind institutionell gebunden und außerhalb der Heimatorganisation schwer zugänglich.",
+      "ai_solution": "KI plant Slot-Nutzung, standardisiert Probenanforderungen und bildet Preis-/Verfügbarkeitsmodelle.",
+      "monetization": "Gebühr pro Gerätezeit/Analyse; Revenue Share an Labore nach belegter Nutzung.",
+      "market_comment": "VERIFIED: DE-F&E hoch; Markt stark institutionell. Reife: mittelfristig 3–5 Jahre.",
+      "maturity": "mittelfristig 3–5 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 92,
+      "market": "Farm-Input-Procurement",
+      "pain_point": "Saatgut, Dünger, Pflanzenschutz und Beratung sind regional zersplittert; Preise und Lieferbarkeit schwanken.",
+      "ai_solution": "KI schätzt Bedarfe, vergleicht Angebote und optimiert Einkaufszeitpunkt.",
+      "monetization": "Kostenloses Farmer-Frontend; Take Rate auf Bestellungen; Verteilung an Lieferanten nach Volumen.",
+      "market_comment": "VERIFIED: Landwirtschaft bleibt global strukturell bedeutend; DE mit vielen Betrieben und Saisonarbeit. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 93,
+      "market": "Precision Irrigation Pay-per-Savings",
+      "pain_point": "Sensoren, Wetterdaten, Pumpen und Beratung sind getrennt; kleine Betriebe können Effizienz kaum monetarisieren.",
+      "ai_solution": "KI prognostiziert Wasserbedarf, steuert Bewässerung und misst Einsparungen.",
+      "monetization": "Keine hohe Upfront-Gebühr; Plattform nimmt Anteil an gemessenen Wasser-/Energiekosteneinsparungen.",
+      "market_comment": "VERIFIED: Wasserknappheit und Landdegradation verschärfen den Bedarf. Reife: mittelfristig 3–5 Jahre.",
+      "maturity": "mittelfristig 3–5 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 94,
+      "market": "Crop-Insurance Parametric",
+      "pain_point": "Schadenserhebung ist langsam; kleine Betriebe und Mikroversicherungen sind teuer zu bedienen.",
+      "ai_solution": "KI kombiniert Wetter, Satellit, Erntehistorie und Payout Triggers.",
+      "monetization": "Gebühren auf Policen und Schadenzahlungen; Carrier zahlen, Landwirte nutzen günstigen Front-End-Zugang.",
+      "market_comment": "VERIFIED: Landwirtschaft und Klimarisiken sind global groß; Versicherungsmärkte in DE stark. Reife: mittelfristig 3–5 Jahre.",
+      "maturity": "mittelfristig 3–5 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 95,
+      "market": "Perishable Cold-Chain Network",
+      "pain_point": "Kühltransporte, Lager und Abnehmer sind zerstreut; Verderbsrisiko und Kapazität sind schwer zu koordinieren.",
+      "ai_solution": "KI prognostiziert Haltbarkeit, optimiert Routing und priorisiert Umladung.",
+      "monetization": "Take Rate auf Transport-/Lagervolumen; Erlösverteilung nach real gemessener Kühlleistung.",
+      "market_comment": "VERIFIED: Welthandel und Lebensmittelströme sind groß. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 96,
+      "market": "Cybersecurity MSSP Exchange für KMU",
+      "pain_point": "Kleine Firmen kaufen Tools, Audits und Incident-Hilfe bei vielen Dienstleistern; Qualität ist schwer messbar.",
+      "ai_solution": "KI korreliert Alerts, priorisiert Risiken und routet Tickets an geeignete MSSPs.",
+      "monetization": "Freemium-Risk-Score; Gebühr pro Asset/Incident; Ausschüttung an MSSPs nach tatsächlich gelösten Fällen.",
+      "market_comment": "VERIFIED: BSI beschreibt die Lage 2025 als weiterhin sehr angespannt. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 97,
+      "market": "Cloud FinOps Clearing",
+      "pain_point": "Unternehmen nutzen viele Clouds/SaaS-Tools; Kostendaten, Empfehlungen und Chargeback sind uneinheitlich.",
+      "ai_solution": "KI erkennt Verschwendung, empfiehlt Rightsizing und verteilt Kosten verursachungsgerecht.",
+      "monetization": "Erfolgsgebühr auf realisierte Einsparungen plus API-Fee; RevShare mit Cloud-/Reseller-Partnern.",
+      "market_comment": "VERIFIED: Cloud ist zentrale Basis moderner IT; C5 wurde 2025/26 überarbeitet. Reife: kurzfristig 1–2 Jahre.",
+      "maturity": "kurzfristig 1–2 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 98,
+      "market": "Agentic SaaS-Usage Broker",
+      "pain_point": "Künftige KI-Agenten interagieren mit vielen SaaS-APIs; Preis, Rechte und Abrechnung sind noch produktzentriert statt aufgabenbasiert.",
+      "ai_solution": "Broker-Agent wählt Toolchain, verhandelt API-Wahl und misst Task-Kosten/Qualität.",
+      "monetization": "Kostenloses Nutzer-Frontend; Plattform nimmt Metering-Fee auf Agent-Usage und verteilt Umsatz an SaaS-Provider nach Calls/Outcome.",
+      "market_comment": "VERIFIED: Software- und Cloudumsätze in DE wachsen stark. Reife: mittelfristig 3–5 Jahre.",
+      "maturity": "mittelfristig 3–5 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 99,
+      "market": "Enterprise Data Rights Clearing",
+      "pain_point": "Daten liegen über Abteilungen, Vendoren und Verträge verteilt; Nutzungsrechte für KI sind unklar.",
+      "ai_solution": "KI klassifiziert Daten, Rechte, Sensitivität und erlaubte Nutzungsarten; ermöglicht policy-aware Zugriff.",
+      "monetization": "Plattform erhebt Zugriffs-/Metering-Gebühren und verteilt Erlöse an Datenhalter nach tatsächlicher Nutzung.",
+      "market_comment": "VERIFIED: immaterielle Investitionen und Data/Software-Anteile wachsen stark. Reife: mittelfristig 3–5 Jahre.",
+      "maturity": "mittelfristig 3–5 Jahre",
+      "status": "VERIFIED"
+    },
+    {
+      "id": 100,
+      "market": "Manufacturing Energy Flex Exchange",
+      "pain_point": "Fabriken haben flexible Lasten, aber keine einfache Oberfläche für Vermarktung an Netz- oder Bilanzkreismärkte.",
+      "ai_solution": "KI erkennt verschiebbare Prozesse, simuliert Produktionsimpact und steuert Bids in Flexmärkte.",
+      "monetization": "Anteil an vermarkteter Flexibilität; Erlöse an Werke nach gemessener Lastverschiebung und Verfügbarkeit.",
+      "market_comment": "VERIFIED: Industrie verbraucht in DE mehr als ein Viertel der gesamten Energiemenge. Reife: mittelfristig 3–5 Jahre.",
+      "maturity": "mittelfristig 3–5 Jahre",
+      "status": "VERIFIED"
+    }
+  ]
+}

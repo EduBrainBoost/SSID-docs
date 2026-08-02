@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edubrainboost.github.io/SSID-docs/schemas/ai-infrastructure/catalog-manifest.schema.json",
+  "title": "AI Infrastructure Catalog Manifest",
+  "type": "object",
+  "properties": {
+    "module": { "type": "string", "const": "ai-infrastructure-catalogs" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "catalogs": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": { "$ref": "#/$defs/catalogEntry" }
+    },
+    "visuals": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "pattern": "^/SSID-docs/" }
+    }
+  },
+  "required": ["module", "version", "catalogs", "visuals"],
+  "additionalProperties": false,
+  "$defs": {
+    "catalogEntry": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "enum": ["business-models", "skills"] },
+        "count": { "type": "integer", "const": 100 },
+        "page": { "type": "string", "pattern": "^/research/" },
+        "page_de": { "type": "string", "pattern": "^/de/research/" },
+        "pdf": { "type": "string", "pattern": "^/SSID-docs/downloads/" },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      },
+      "required": ["id", "count", "page", "page_de", "pdf", "sha256"],
+      "additionalProperties": false
+    }
+  }
+}
