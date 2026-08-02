@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#05060a" />
+  <rect x="0" y="0" width="1600" height="900" fill="none" stroke="rgba(0, 229, 255, 0.25)" stroke-width="2" />
+  <text x="120" y="70" font-family="'Inter', 'Segoe UI', sans-serif" font-size="20" font-weight="700" letter-spacing="4" fill="#00e5ff">SSID</text>
+  <text x="120" y="112" font-family="'Inter', 'Segoe UI', sans-serif" font-size="34" font-weight="800" fill="#e6e8ff">AI Infrastructure Stack</text>
+
+  <rect x="120" y="140.0" width="1360" height="77.0" rx="10" fill="#111520" stroke="#00e5ff" stroke-opacity="0.6" stroke-width="1.5" />
+  <rect x="120" y="140.0" width="6" height="77.0" fill="#00e5ff" />
+  <text x="156" y="186.5" font-family="'Inter', 'Segoe UI', sans-serif" font-size="24" font-weight="600" fill="#e6e8ff">Ebene 1: 100 Märkte und Business-Modelle</text>
+  <rect x="120" y="229.0" width="1360" height="77.0" rx="10" fill="#111520" stroke="#ff2bd6" stroke-opacity="0.6" stroke-width="1.5" />
+  <rect x="120" y="229.0" width="6" height="77.0" fill="#ff2bd6" />
+  <text x="156" y="275.5" font-family="'Inter', 'Segoe UI', sans-serif" font-size="24" font-weight="600" fill="#e6e8ff">Ebene 2: Intake und Dokumentenverarbeitung</text>
+  <rect x="120" y="318.0" width="1360" height="77.0" rx="10" fill="#111520" stroke="#ff2bd6" stroke-opacity="0.6" stroke-width="1.5" />
+  <rect x="120" y="318.0" width="6" height="77.0" fill="#ff2bd6" />
+  <text x="156" y="364.5" font-family="'Inter', 'Segoe UI', sans-serif" font-size="24" font-weight="600" fill="#e6e8ff">Ebene 3: Verständnis und Klassifikation</text>
+  <rect x="120" y="407.0" width="1360" height="77.0" rx="10" fill="#111520" stroke="#ffaa00" stroke-opacity="0.6" stroke-width="1.5" />
+  <rect x="120" y="407.0" width="6" height="77.0" fill="#ffaa00" />
+  <text x="156" y="453.5" font-family="'Inter', 'Segoe UI', sans-serif" font-size="24" font-weight="600" fill="#e6e8ff">Ebene 4: Matching, Routing und Prognose</text>
+  <rect x="120" y="496.0" width="1360" height="77.0" rx="10" fill="#111520" stroke="#ffaa00" stroke-opacity="0.6" stroke-width="1.5" />
+  <rect x="120" y="496.0" width="6" height="77.0" fill="#ffaa00" />
+  <text x="156" y="542.5" font-family="'Inter', 'Segoe UI', sans-serif" font-size="24" font-weight="600" fill="#e6e8ff">Ebene 5: Orchestrierung und Tool-Use</text>
+  <rect x="120" y="585.0" width="1360" height="77.0" rx="10" fill="#111520" stroke="#39ff14" stroke-opacity="0.6" stroke-width="1.5" />
+  <rect x="120" y="585.0" width="6" height="77.0" fill="#39ff14" />
+  <text x="156" y="631.5" font-family="'Inter', 'Segoe UI', sans-serif" font-size="24" font-weight="600" fill="#e6e8ff">Ebene 6: Metering, Billing und Settlement</text>
+  <rect x="120" y="674.0" width="1360" height="77.0" rx="10" fill="#111520" stroke="#39ff14" stroke-opacity="0.6" stroke-width="1.5" />
+  <rect x="120" y="674.0" width="6" height="77.0" fill="#39ff14" />
+  <text x="156" y="720.5" font-family="'Inter', 'Segoe UI', sans-serif" font-size="24" font-weight="600" fill="#e6e8ff">Ebene 7: Compliance, Audit und Human Review</text>
+  <rect x="120" y="763.0" width="1360" height="77.0" rx="10" fill="#111520" stroke="#00e5ff" stroke-opacity="0.6" stroke-width="1.5" />
+  <rect x="120" y="763.0" width="6" height="77.0" fill="#00e5ff" />
+  <text x="156" y="809.5" font-family="'Inter', 'Segoe UI', sans-serif" font-size="24" font-weight="600" fill="#e6e8ff">Ebene 8: KI-Agents und Plattform-Infrastruktur</text>
+</svg>

@@ -139,6 +139,9 @@ export default defineConfig({
         {
           label: 'Research',
           items: [
+            { label: 'AI Infrastructure Catalogs', slug: 'research/ai-infrastructure-catalogs' },
+            { label: '100 AI Business Models', slug: 'research/100-ai-business-models-infrastructure-pattern' },
+            { label: '100 AI Skills & Agents', slug: 'research/katalog-100-ki-skills-und-ki-agents' },
             { label: 'Permissionless Crypto Assets', slug: 'research/permissionless-crypto-assets-2026-03' },
           ],
         },
