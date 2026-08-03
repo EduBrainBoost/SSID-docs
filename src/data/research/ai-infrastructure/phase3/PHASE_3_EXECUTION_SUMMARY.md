@@ -322,7 +322,7 @@ Phase 3 objective: **Validate all 100 AI-driven business models against external
 **Security:**
 - ✅ No AWS keys, API credentials, personal tokens
 - ✅ No PII (emails, phone numbers, personal names)
-- ✅ No local absolute paths (C:\Users\...)
+- ✅ No local absolute paths (Windows/Unix home directories)
 - ✅ No worktree artifacts
 
 **Git Hygiene:**

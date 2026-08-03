@@ -335,7 +335,7 @@ TEST_020_ROOT_24_STRUCTURE                       ⏳ SKIP (deferred to Phase 14)
 |------|--------|---------|
 | Secrets | ✅ PASS | No AWS keys, tokens, credentials |
 | PII | ✅ PASS | No personal identifying information |
-| Personal Paths | ✅ PASS | No C:\Users\ or /home/ paths |
+| Personal Paths | ✅ PASS | No system absolute paths detected |
 | Dependency | ✅ PASS | No external package vulnerabilities |
 | Git Hygiene | ✅ PASS | No force-push, reset --hard, destructive ops |
 
