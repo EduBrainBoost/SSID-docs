@@ -12,7 +12,50 @@
       "monetization": "Kostenlos für Patient:innen; Praxen zahlen pro gefülltem Slot oder vermiedenen Leerlauf; Erlöse werden nach tatsächlich genutzten Terminen verteilt.",
       "market_comment": "Proxy: DE-Gesundheitsausgaben 538,2 Mrd. €; globaler Gesundheitsmarkt im Multi-Billionen-Bereich. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-001",
+      "source_number": 1,
+      "primary_cluster": "gesundheit-pflege",
+      "primary_cluster_label": "Gesundheit und Pflege",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 2,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Patient:innen",
+        "payer": "Praxen",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "medizinische Triage"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 70,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 2,
@@ -22,7 +65,50 @@
       "monetization": "Kostenlos für Patient:innen; Pay-per-case von Kassen, Arbeitgebern oder Leistungserbringern; Verteilung nach Fallannahme und Outcome.",
       "market_comment": "Proxy: DE- und global sehr großer Gesundheitsmarkt. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-002",
+      "source_number": 2,
+      "primary_cluster": "gesundheit-pflege",
+      "primary_cluster_label": "Gesundheit und Pflege",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 2,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Patient:innen",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "medizinische Triage"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 4,
+          "evidence_need": 4,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 3,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 74,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 3,
@@ -32,7 +118,48 @@
       "monetization": "SaaS plus Success Fee auf korrekt realisierte Erlöse; Revenue Share mit Abrechnungsstellen nach gemessener Realisierung.",
       "market_comment": "Proxy: DE-Gesundheitsausgaben 538,2 Mrd. €; hohe Abrechnungsdichte. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-003",
+      "source_number": 3,
+      "primary_cluster": "gesundheit-pflege",
+      "primary_cluster_label": "Gesundheit und Pflege",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 2,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 4,
+          "evidence_need": 4,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 64,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 4,
@@ -42,7 +169,48 @@
       "monetization": "Kostenloses Angehörigenportal; Pflegedienste zahlen pro disponierter Leistung; Erlöse nach tatsächlich erbrachten Einsätzen.",
       "market_comment": "VERIFIED: Pflegebedarf steigt; über 80 % werden zu Hause versorgt. Reife: kurzfristig 1–2 Jahre, stark DE-relevant.",
       "maturity": "kurzfristig 1–2 Jahre, stark DE-relevant",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-004",
+      "source_number": 4,
+      "primary_cluster": "gesundheit-pflege",
+      "primary_cluster_label": "Gesundheit und Pflege",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 2,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "Pflegedienste",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 66,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 5,
@@ -52,7 +220,49 @@
       "monetization": "Kostenlos für Patient:innen; Praxen/Kliniken zahlen pro qualifiziertem Intake oder belegtem Therapieplatz.",
       "market_comment": "Proxy: großer Gesundheitsmarkt; Angebotszugang ist strukturell knapp. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-005",
+      "source_number": 5,
+      "primary_cluster": "gesundheit-pflege",
+      "primary_cluster_label": "Gesundheit und Pflege",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 2,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Patient:innen",
+        "payer": "Praxen/Kliniken",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "medizinische/psychotherapeutische Triage"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 70,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 6,
@@ -62,7 +272,48 @@
       "monetization": "Kostenlos für Patient:innen; Pay-per-booking von Praxen; RevShare nach realisiertem Terminvolumen.",
       "market_comment": "Proxy: Teil des großen DE-Gesundheitsmarkts. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-006",
+      "source_number": 6,
+      "primary_cluster": "gesundheit-pflege",
+      "primary_cluster_label": "Gesundheit und Pflege",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 2,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Patient:innen",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 3,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 66,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 7,
@@ -72,7 +323,49 @@
       "monetization": "Kliniken/Praxen zahlen pro Studie; Erlöse an Befunder nach Fallvolumen und Befundqualität.",
       "market_comment": "Proxy: hoher Gesundheits- und Krankenhausaufwand. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-007",
+      "source_number": 7,
+      "primary_cluster": "gesundheit-pflege",
+      "primary_cluster_label": "Gesundheit und Pflege",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 2,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "Kliniken/Praxen",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "HIGH_RISK",
+        "categories": [
+          "medizinische Diagnostik (Vorbefundung/Bildklassifikation)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 70,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 8,
@@ -82,7 +375,47 @@
       "monetization": "Kostenlos für Patient:innen; Pay-per-monitored-member durch Kassen/Arbeitgeber; RevShare an Device- und Care-Partner.",
       "market_comment": "Proxy: großer Gesundheitsmarkt, steigende Krankheitskosten. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-008",
+      "source_number": 8,
+      "primary_cluster": "gesundheit-pflege",
+      "primary_cluster_label": "Gesundheit und Pflege",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 3,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Patient:innen",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 4,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 68,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 9,
@@ -92,7 +425,48 @@
       "monetization": "Arbeitgeber zahlen pro Mitarbeitendem oder pro Case; Erlöse an Ärzt:innen/Zentren nach Nutzung.",
       "market_comment": "Proxy: großer DE-Gesundheitsmarkt und wachsender Dienstleistungssektor. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-009",
+      "source_number": 9,
+      "primary_cluster": "gesundheit-pflege",
+      "primary_cluster_label": "Gesundheit und Pflege",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 3,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "Arbeitgeber",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 5,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 66,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 10,
@@ -102,7 +476,47 @@
       "monetization": "Kostenlose Patientenansicht; Praxis zahlt pro abgeschlossenem Fall; Labore erhalten Leads gegen RevShare.",
       "market_comment": "Proxy: großer Gesundheitsmarkt, hohe Privatanteile. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-010",
+      "source_number": 10,
+      "primary_cluster": "gesundheit-pflege",
+      "primary_cluster_label": "Gesundheit und Pflege",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 3,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "Praxis",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 68,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 11,
@@ -112,7 +526,47 @@
       "monetization": "Nullkosten-App für Patient:innen; Apotheken/Großhandel zahlen für erfolgreiche Vermittlung oder API-Nutzung.",
       "market_comment": "Proxy: großer Gesundheitsmarkt; hoher Nutzen bei Zugangsfriktion. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-011",
+      "source_number": 11,
+      "primary_cluster": "gesundheit-pflege",
+      "primary_cluster_label": "Gesundheit und Pflege",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 3,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Patient:innen",
+        "payer": "Apotheken/Großhandel",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 4,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 68,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 12,
@@ -122,7 +576,47 @@
       "monetization": "Kliniken/Kassen zahlen pro Discharge Case; Erlöse an Reha-Partner nach genutzten Modulen.",
       "market_comment": "Proxy: hoher Krankenhaus- und Pflegeaufwand. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-012",
+      "source_number": 12,
+      "primary_cluster": "gesundheit-pflege",
+      "primary_cluster_label": "Gesundheit und Pflege",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 3,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "Kliniken/Kassen",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 3,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 66,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 13,
@@ -132,7 +626,48 @@
       "monetization": "Kostenlos für Patient:innen; Kliniken/Kassen zahlen pro Minute oder Fall; Ausschüttung an geprüfte Sprachmittler nach Nutzungszeit.",
       "market_comment": "Marktgröße: unspezifiziert; klar DE-relevant in einem großen Gesundheitsmarkt. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "UNKNOWN"
+      "status": "UNKNOWN",
+      "model_id": "AI-INFRA-013",
+      "source_number": 13,
+      "primary_cluster": "gesundheit-pflege",
+      "primary_cluster_label": "Gesundheit und Pflege",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 3,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Patient:innen",
+        "payer": "Kliniken/Kassen",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 5,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 3,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 72,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 14,
@@ -142,7 +677,49 @@
       "monetization": "Pay-per-case durch Kliniken/Labore; RevShare an Expert:innen nach bearbeiteten Fällen.",
       "market_comment": "Proxy: hoher Gesundheits- und F&E-Bezug. Reife: mittelfristig 3–5 Jahre.",
       "maturity": "mittelfristig 3–5 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-014",
+      "source_number": 14,
+      "primary_cluster": "gesundheit-pflege",
+      "primary_cluster_label": "Gesundheit und Pflege",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 3,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "HIGH_RISK",
+        "categories": [
+          "medizinische Diagnostik (Pathologie-Bildklassifikation)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 2,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 66,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 15,
@@ -152,7 +729,47 @@
       "monetization": "Kliniken zahlen pro Entlassfall; Folgeanbieter zahlen für übernommene Fälle; Ausschüttung nach Case Acceptance.",
       "market_comment": "Proxy: hoher Krankenhaus- und Pflegebedarf. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-015",
+      "source_number": 15,
+      "primary_cluster": "gesundheit-pflege",
+      "primary_cluster_label": "Gesundheit und Pflege",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 3,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "Kliniken",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 3,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 66,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 16,
@@ -162,7 +779,50 @@
       "monetization": "Kostenlose Upload-Oberfläche; Gebühr auf finanziertes Volumen; Einnahmen an Kapitalgeber nach gemessener Nutzung/Risiko.",
       "market_comment": "VERIFIED: globale SME-Finanzierungslücke ist sehr groß; DE besonders relevant für Mittelstand. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-016",
+      "source_number": 16,
+      "primary_cluster": "payments-finanzierung",
+      "primary_cluster_label": "Payments und Finanzierung",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 4,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Kredit-/Bonitätsentscheidung"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 66,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 17,
@@ -172,7 +832,50 @@
       "monetization": "Freemium-Frontend; SaaS plus volumengebundene Gebühr; RevShare mit PSPs/Banking-Partnern.",
       "market_comment": "VERIFIED: bargeldlose Transaktionen steigen stark; DE-Zahlungsmarkt hochvolumig. Reife: sofort/kurzfristig.",
       "maturity": "sofort/kurzfristig",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-017",
+      "source_number": 17,
+      "primary_cluster": "payments-finanzierung",
+      "primary_cluster_label": "Payments und Finanzierung",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 4,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Finanztransaktionen (Zahlungsabgleich)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 4,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 74,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 18,
@@ -182,7 +885,50 @@
       "monetization": "Kostenlos für Sender; Plattform nimmt kleinen Spread/Takerate; Auszahlung an Provider nach tatsächlich genutztem Corridor.",
       "market_comment": "VERIFIED: Remittances lagen 2023 bei rund 656 Mrd. US$; Pricing wird global verfolgt. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-018",
+      "source_number": 18,
+      "primary_cluster": "payments-finanzierung",
+      "primary_cluster_label": "Payments und Finanzierung",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 4,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Sender",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "BLOCKED",
+        "categories": [
+          "Finanztransaktionen",
+          "Sanktionen/KYC/AML (Compliance-Prüfung explizit genannt)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 3,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 68,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 19,
@@ -192,7 +938,49 @@
       "monetization": "Kostenloses Risk Dashboard; Provision pro Police plus laufende Usage Fee; Verteilung an Carrier/Broker nach aktivem Risiko-Book.",
       "market_comment": "VERIFIED: deutsche Versicherungswirtschaft 238 Mrd. € Beitragseinnahmen. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-019",
+      "source_number": 19,
+      "primary_cluster": "versicherung-claims",
+      "primary_cluster_label": "Versicherung und Claims",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 4,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Versicherungsentscheidung (Underwriting)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 4,
+          "governance_need": 4,
+          "interoperability_need": 4,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 82,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 20,
@@ -202,7 +990,49 @@
       "monetization": "Kostenloser Schadenstart für Kund:innen; Gebühr pro reguliertem Schaden; Erlösverteilung an Werkstatt/Gutachter nach Nutzung.",
       "market_comment": "VERIFIED: Kfz treibt Versicherungswachstum; Reparaturkosten steigen. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-020",
+      "source_number": 20,
+      "primary_cluster": "versicherung-claims",
+      "primary_cluster_label": "Versicherung und Claims",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 4,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Kund:innen",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Versicherungsentscheidung (Schadenregulierung)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 4,
+          "governance_need": 4,
+          "interoperability_need": 3,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 80,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 21,
@@ -212,7 +1042,50 @@
       "monetization": "Carrier zahlen pro automatisiert bearbeitetem Claim; einsparungsbasierter RevShare.",
       "market_comment": "VERIFIED: ca. 500 Mio. laufende Verträge in DE; massiver Automatisierungshebel. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-021",
+      "source_number": 21,
+      "primary_cluster": "versicherung-claims",
+      "primary_cluster_label": "Versicherung und Claims",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 4,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "Carrier",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Versicherungsentscheidung (Leistungsprüfung)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 4,
+          "governance_need": 4,
+          "interoperability_need": 3,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 78,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 22,
@@ -222,7 +1095,50 @@
       "monetization": "Fee auf genehmigtes Volumen; Kapitalgeber zahlen für Decisioning, Händler für schnellere Auszahlung.",
       "market_comment": "VERIFIED: Welthandel 2025 bei rund 34,9 Bio. US$ Güter und Dienstleistungen. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-022",
+      "source_number": 22,
+      "primary_cluster": "payments-finanzierung",
+      "primary_cluster_label": "Payments und Finanzierung",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 4,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "Kapitalgeber",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "BLOCKED",
+        "categories": [
+          "Sanktionen/KYC/AML (Sanktionsscreening explizit genannt)",
+          "Kreditentscheidung"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 64,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 23,
@@ -232,7 +1148,50 @@
       "monetization": "Kostenloser Einstieg; Upgrade oder Erfolgsgebühr auf realisierte Ersparnis/erstatteten Betrag; RevShare mit Steuerkanzleien.",
       "market_comment": "Marktgröße: unspezifiziert; DE-relevant im großen Dienstleistungs- und Plattformarbeitsmarkt. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "UNKNOWN"
+      "status": "UNKNOWN",
+      "model_id": "AI-INFRA-023",
+      "source_number": 23,
+      "primary_cluster": "payments-finanzierung",
+      "primary_cluster_label": "Payments und Finanzierung",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 4,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "steuerliche Entscheidung"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 4,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 3,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 72,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 24,
@@ -242,7 +1201,50 @@
       "monetization": "Kostenloses Forderungsportal; erfolgsabhängige Gebühr; Verteilung an Partner nach realisiertem Einzug.",
       "market_comment": "Marktgröße: unspezifiziert; Zahlungs- und Rechnungsvolumina in DE sehr groß. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "UNKNOWN"
+      "status": "UNKNOWN",
+      "model_id": "AI-INFRA-024",
+      "source_number": 24,
+      "primary_cluster": "payments-finanzierung",
+      "primary_cluster_label": "Payments und Finanzierung",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 5,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Finanztransaktionen (Forderungseinzug)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 3,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 70,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 25,
@@ -252,7 +1254,49 @@
       "monetization": "Fee auf vorfinanziertes Einkaufsvolumen; RevShare mit Kapitalpartnern und Lieferanten.",
       "market_comment": "VERIFIED: öffentlicher und privater Procurement-Markt sehr groß; KMU-Finanzlücke signifikant. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-025",
+      "source_number": 25,
+      "primary_cluster": "procurement-industrie",
+      "primary_cluster_label": "Procurement und Industrie",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 5,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Kreditentscheidung (Procurement-Finanzierung)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 66,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 26,
@@ -262,7 +1306,50 @@
       "monetization": "Gebühr auf finanziertes Forderungsvolumen; Erlöse an Kapitalgeber nach realem Einsatz.",
       "market_comment": "VERIFIED: Bauhauptgewerbe DE 120,5 Mrd. € Umsatz 2025. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-026",
+      "source_number": 26,
+      "primary_cluster": "bau-handwerk",
+      "primary_cluster_label": "Bau und Handwerk",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 5,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Kreditentscheidung (Factoring)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 4,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 76,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 27,
@@ -272,7 +1359,48 @@
       "monetization": "Für Mieter kostenlos; Hausverwaltungen zahlen pro Ticket oder Einsatzerfolg; Ausschüttung an Handwerker nach erledigtem Auftrag.",
       "market_comment": "VERIFIED: 44,0 Mio. Wohnungen in DE; 52,8 % wohnen zur Miete. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-027",
+      "source_number": 27,
+      "primary_cluster": "wohnen-immobilien-fm",
+      "primary_cluster_label": "Wohnen, Immobilien und Facility Management",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 5,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "Hausverwaltungen",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 5,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 66,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 28,
@@ -282,7 +1410,48 @@
       "monetization": "Freemium für Mieter; Erfolgsgebühr auf Rückerstattung oder SaaS für Verwalter; RevShare mit Prüfpartnern.",
       "market_comment": "VERIFIED: große DE-Wohnungsbasis; Wohnkostenbelastung relevant. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-028",
+      "source_number": 28,
+      "primary_cluster": "wohnen-immobilien-fm",
+      "primary_cluster_label": "Wohnen, Immobilien und Facility Management",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 5,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 4,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 66,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 29,
@@ -292,7 +1461,50 @@
       "monetization": "Kostenlos für Mieter; Vermieter/Versicherer zahlen Provision oder Risk Fee; Ausschüttung nach aktivem Vertrag.",
       "market_comment": "VERIFIED: Deutschland ist größtes Mieterland der EU. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-029",
+      "source_number": 29,
+      "primary_cluster": "wohnen-immobilien-fm",
+      "primary_cluster_label": "Wohnen, Immobilien und Facility Management",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 5,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Mieter",
+        "payer": "Vermieter/Versicherer",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Bonitäts-/Ausfallrisiko-Entscheidung"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 3,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 72,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 30,
@@ -302,7 +1514,48 @@
       "monetization": "Kostenlos für Mieter; Vermieter/Portale zahlen pro qualifizierter Bewerbung oder Abschluss.",
       "market_comment": "VERIFIED: deutliche Wohnkosten- und Zugangsprobleme; DE sehr mietmarktrelevant. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-030",
+      "source_number": 30,
+      "primary_cluster": "wohnen-immobilien-fm",
+      "primary_cluster_label": "Wohnen, Immobilien und Facility Management",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 5,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Mieter",
+        "payer": "Vermieter/Portale",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 62,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 31,
@@ -312,7 +1565,47 @@
       "monetization": "Plattformgebühr je Ticket/Objekt; Erlösverteilung an Servicepartner nach tatsächlich geleisteten Einsätzen.",
       "market_comment": "Proxy: großer Wohn- und Gewerbeimmobilienbestand. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-031",
+      "source_number": 31,
+      "primary_cluster": "wohnen-immobilien-fm",
+      "primary_cluster_label": "Wohnen, Immobilien und Facility Management",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 5,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 60,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 32,
@@ -322,7 +1615,48 @@
       "monetization": "Kostenlos für Kund:innen; Handwerker zahlen pro gewonnenem Auftrag oder über Take Rate; Einnahmen nach gemessener Auslastung.",
       "market_comment": "VERIFIED: Handwerk in DE rund 1,0 Mio. Betriebe. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-032",
+      "source_number": 32,
+      "primary_cluster": "bau-handwerk",
+      "primary_cluster_label": "Bau und Handwerk",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 6,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Kund:innen",
+        "payer": "Handwerker",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 4,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 74,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 33,
@@ -332,7 +1666,47 @@
       "monetization": "Freemium für Eigentümer; Handwerker/Materialpartner zahlen für qualifizierte Projekte.",
       "market_comment": "VERIFIED: große Wohnungsbasis und hoher Sanierungsbedarf. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-033",
+      "source_number": 33,
+      "primary_cluster": "bau-handwerk",
+      "primary_cluster_label": "Bau und Handwerk",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 6,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "Handwerker/Materialpartner",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 4,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 70,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 34,
@@ -342,7 +1716,48 @@
       "monetization": "Kostenloser Antragstellerzugang; Gebühr für Architekten/Projektentwickler pro Einreichung oder Behördenschnittstelle.",
       "market_comment": "Marktgröße: unspezifiziert; DE-relevant in großem Bau- und Wohnmarkt. Reife: mittelfristig 3–5 Jahre.",
       "maturity": "mittelfristig 3–5 Jahre",
-      "status": "UNKNOWN"
+      "status": "UNKNOWN",
+      "model_id": "AI-INFRA-034",
+      "source_number": 34,
+      "primary_cluster": "bau-handwerk",
+      "primary_cluster_label": "Bau und Handwerk",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 6,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 4,
+          "governance_need": 2,
+          "interoperability_need": 4,
+          "market_readiness": 2,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 68,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 35,
@@ -352,7 +1767,47 @@
       "monetization": "Gebühr pro Deal oder Datenraum; RevShare mit Maklern, Banken und Gutachtern.",
       "market_comment": "Proxy: großer Wohnungs- und Finanzierungsmarkt. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-035",
+      "source_number": 35,
+      "primary_cluster": "wohnen-immobilien-fm",
+      "primary_cluster_label": "Wohnen, Immobilien und Facility Management",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 6,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 3,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 62,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 36,
@@ -362,7 +1817,47 @@
       "monetization": "SaaS plus Report-/API-Gebühren; Revenue Share mit Energieberatern/Installateuren.",
       "market_comment": "VERIFIED: Gebäude verbrauchen global rund 30 % der Endenergie. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-036",
+      "source_number": 36,
+      "primary_cluster": "wohnen-immobilien-fm",
+      "primary_cluster_label": "Wohnen, Immobilien und Facility Management",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 6,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 3,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 62,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 37,
@@ -372,7 +1867,48 @@
       "monetization": "Kostenloses Host-Frontend; Take Rate auf Buchungen plus Compliance-Fee; Ausschüttung an Channel-Partner nach Belegung.",
       "market_comment": "VERIFIED: DE 2025 bereits 68,3 Mio. über Online-Plattformen gebuchte Übernachtungen. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-037",
+      "source_number": 37,
+      "primary_cluster": "wohnen-immobilien-fm",
+      "primary_cluster_label": "Wohnen, Immobilien und Facility Management",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 6,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 64,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 38,
@@ -382,7 +1918,47 @@
       "monetization": "Für Endkund:innen kostenlos; Banken/Intermediäre zahlen pro abgeschlossener Finanzierungsakte.",
       "market_comment": "Marktgröße: unspezifiziert; aber großer Wohn- und Finanzierungsmarkt. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "UNKNOWN"
+      "status": "UNKNOWN",
+      "model_id": "AI-INFRA-038",
+      "source_number": 38,
+      "primary_cluster": "wohnen-immobilien-fm",
+      "primary_cluster_label": "Wohnen, Immobilien und Facility Management",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 6,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "Banken/Intermediäre",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 3,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 62,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 39,
@@ -392,7 +1968,48 @@
       "monetization": "Kostenlos für Haushalte; Kommunen/Entsorger zahlen pro Fall; RevShare an Reuse-/Recycler nach tatsächlich verarbeiteter Menge.",
       "market_comment": "VERIFIED: DE-Abfallaufkommen 2023 bei 380,1 Mio. t. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-039",
+      "source_number": 39,
+      "primary_cluster": "handel-gastro-lokal",
+      "primary_cluster_label": "Handel, Gastronomie und lokale Services",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 6,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Haushalte",
+        "payer": "Kommunen/Entsorger",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 5,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 3,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 68,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 40,
@@ -402,7 +2019,47 @@
       "monetization": "Gebühren pro Tonne und Nachweis; Erlösverteilung an Recycler/Carrier nach gemessener Verarbeitung.",
       "market_comment": "VERIFIED: Bauabfälle dominieren das Abfallaufkommen. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-040",
+      "source_number": 40,
+      "primary_cluster": "bau-handwerk",
+      "primary_cluster_label": "Bau und Handwerk",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 7,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 4,
+          "governance_need": 2,
+          "interoperability_need": 3,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 72,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 41,
@@ -412,7 +2069,51 @@
       "monetization": "Kostenlos für Fahrer:innen; Take Rate auf kWh/Umsatz; Erlöse an CPO/MSP nach realer Nutzung.",
       "market_comment": "VERIFIED: in DE über 209.000 öffentliche Ladepunkte; global wächst Public Charging stark. Reife: sofort/kurzfristig.",
       "maturity": "sofort/kurzfristig",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-041",
+      "source_number": 41,
+      "primary_cluster": "energie-flexibilitaet",
+      "primary_cluster_label": "Energie und Flexibilität",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 7,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Fahrer:innen",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "HIGH_RISK",
+        "categories": [
+          "Energiehandel/Netzsteuerung (Settlement)",
+          "kritische Infrastruktur (Ladeinfrastruktur)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 5,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 72,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 42,
@@ -422,7 +2123,51 @@
       "monetization": "Kostenloses Frontend; Anteil an realisierten Einsparungen oder Fee pro gemanagter kWh.",
       "market_comment": "VERIFIED: Stromnachfrage wächst weiter; DE-Energiewende erhöht Flexwert. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-042",
+      "source_number": 42,
+      "primary_cluster": "energie-flexibilitaet",
+      "primary_cluster_label": "Energie und Flexibilität",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 7,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "HIGH_RISK",
+        "categories": [
+          "Energiehandel/Netzsteuerung",
+          "automatisierte Preissteuerung"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 5,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 68,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 43,
@@ -432,7 +2177,50 @@
       "monetization": "Kostenloses Prosumer-Dashboard; Plattform erhält Anteil an vermarkteter Flex/Balancing Revenue.",
       "market_comment": "VERIFIED: Distributed Energy Resources wachsen schnell; globaler Ausbau hochdynamisch. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-043",
+      "source_number": 43,
+      "primary_cluster": "energie-flexibilitaet",
+      "primary_cluster_label": "Energie und Flexibilität",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 7,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "HIGH_RISK",
+        "categories": [
+          "Energiehandel/Netzsteuerung",
+          "kritische Infrastruktur"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 3,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 66,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 44,
@@ -442,7 +2230,47 @@
       "monetization": "Kostenlos für Eigentümer; Installateure/OEMs zahlen pro qualifiziertem Projekt oder Verkauf.",
       "market_comment": "VERIFIED: Gebäudesektor ist großer Energieverbraucher; Sanierungsdruck steigt. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-044",
+      "source_number": 44,
+      "primary_cluster": "energie-flexibilitaet",
+      "primary_cluster_label": "Energie und Flexibilität",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 7,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Eigentümer",
+        "payer": "Installateure/OEMs",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 3,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 64,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 45,
@@ -452,7 +2280,50 @@
       "monetization": "Erfolgsgebühr auf vermarktete Flexibilität; Auszahlung an KMU nach gemessenen Lastverschiebungen.",
       "market_comment": "VERIFIED: Stromsysteme werden wetterabhängiger; Flex wird infrastrukturell wertvoller. Reife: mittelfristig 3–5 Jahre.",
       "maturity": "mittelfristig 3–5 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-045",
+      "source_number": 45,
+      "primary_cluster": "energie-flexibilitaet",
+      "primary_cluster_label": "Energie und Flexibilität",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 7,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "HIGH_RISK",
+        "categories": [
+          "Energiehandel/Netzsteuerung (Demand Response)",
+          "kritische Infrastruktur"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 4,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 3,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 62,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 46,
@@ -462,7 +2333,50 @@
       "monetization": "Freemium-Basis; Gebühr pro Standort/Supplier plus MRV-API; RevShare mit Auditoren/Beratungen.",
       "market_comment": "VERIFIED: Emissionshandelserlöse in DE 2025 bei 21,4 Mrd. €; CO₂-Preislogik wird härter. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-046",
+      "source_number": 46,
+      "primary_cluster": "energie-flexibilitaet",
+      "primary_cluster_label": "Energie und Flexibilität",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 7,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "CO2-/Emissionsregulatorik"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 70,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 47,
@@ -472,7 +2386,49 @@
       "monetization": "Gebühr pro SKU/Markt; Revenue Share mit Entsorgungs- und Compliance-Partnern.",
       "market_comment": "VERIFIED: Recyclingquoten steigen regulatorisch; Verpackungscompliance wird dichter. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-047",
+      "source_number": 47,
+      "primary_cluster": "logistik-supply-chain",
+      "primary_cluster_label": "Logistik und Supply Chain",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 7,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Verpackungs-/Umweltregulatorik (EPR)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 64,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 48,
@@ -482,7 +2438,47 @@
       "monetization": "Hardware-/SaaS-Fee plus Erfolgsvergütung je vermiedenem Schaden; Ausschüttung an Netzwerkpartner nach Einsatz.",
       "market_comment": "Proxy: großer Versicherungs- und Immobilienmarkt. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-048",
+      "source_number": 48,
+      "primary_cluster": "versicherung-claims",
+      "primary_cluster_label": "Versicherung und Claims",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 8,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 4,
+          "governance_need": 2,
+          "interoperability_need": 3,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 70,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 49,
@@ -492,7 +2488,49 @@
       "monetization": "Gebühr pro Anschlussfall; RevShare mit Installateuren/Planern.",
       "market_comment": "VERIFIED: stark wachsender Lade- und DER-Markt. Reife: mittelfristig 3–5 Jahre.",
       "maturity": "mittelfristig 3–5 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-049",
+      "source_number": 49,
+      "primary_cluster": "energie-flexibilitaet",
+      "primary_cluster_label": "Energie und Flexibilität",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 8,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "HIGH_RISK",
+        "categories": [
+          "kritische Infrastruktur (Netzanschluss)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 3,
+          "market_readiness": 3,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 64,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 50,
@@ -502,7 +2540,47 @@
       "monetization": "Plattformgebühr pro Fahrzeug oder kWh; Einnahmen an CPOs/Software-Partner nach Nutzung.",
       "market_comment": "VERIFIED: EV-Bestand und Ladeinfrastruktur wachsen deutlich. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-050",
+      "source_number": 50,
+      "primary_cluster": "mobilitaet-transport",
+      "primary_cluster_label": "Mobilität und Transport",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 8,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 5,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 62,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 51,
@@ -512,7 +2590,50 @@
       "monetization": "Take Rate auf Buchungen/kWh; Erlösverteilung an Flächengeber nach tatsächlich genutzter Belegung.",
       "market_comment": "Marktgröße: unspezifiziert; DE-relevant im wachsenden EV- und Stadtmobilitätsmarkt. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "UNKNOWN"
+      "status": "UNKNOWN",
+      "model_id": "AI-INFRA-051",
+      "source_number": 51,
+      "primary_cluster": "mobilitaet-transport",
+      "primary_cluster_label": "Mobilität und Transport",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 8,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "automatisierte Preisdiskriminierung (dynamische Bepreisung)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 5,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 66,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 52,
@@ -522,7 +2643,47 @@
       "monetization": "Gebühr pro Fahrzeug/Repair; Ausschüttung an Werkstätten und Rider-Teams nach Abschluss.",
       "market_comment": "Marktgröße: unspezifiziert; eher urbanes Service-Modell. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "UNKNOWN"
+      "status": "UNKNOWN",
+      "model_id": "AI-INFRA-052",
+      "source_number": 52,
+      "primary_cluster": "mobilitaet-transport",
+      "primary_cluster_label": "Mobilität und Transport",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 8,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 60,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 53,
@@ -532,7 +2693,47 @@
       "monetization": "Kostenlose Nutzeroberfläche; Plattform erhält Clearing-Fee; Verteilung an Betreiber nach realen Fahrten.",
       "market_comment": "VERIFIED: Fahrgastzahlen im ÖPNV steigen wieder; Verbundlandschaft bleibt komplex. Reife: mittelfristig 3–5 Jahre.",
       "maturity": "mittelfristig 3–5 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-053",
+      "source_number": 53,
+      "primary_cluster": "mobilitaet-transport",
+      "primary_cluster_label": "Mobilität und Transport",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 8,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 3,
+          "market_readiness": 3,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 62,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 54,
@@ -542,7 +2743,48 @@
       "monetization": "SaaS plus Fee je Schiff/Bericht; RevShare mit Verifizierern/Brokern.",
       "market_comment": "VERIFIED: maritime Einbeziehung wächst; viele Unternehmen Deutschland zugeordnet. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-054",
+      "source_number": 54,
+      "primary_cluster": "logistik-supply-chain",
+      "primary_cluster_label": "Logistik und Supply Chain",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 8,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 3,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 64,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 55,
@@ -552,7 +2794,47 @@
       "monetization": "Kostenloses Buyer-Frontend; Take Rate oder Supplier-Fee auf vermitteltes Volumen; Verteilung nach realen Orders.",
       "market_comment": "VERIFIED: EU-SME-Basis groß; Procurement-Märkte groß und offen. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-055",
+      "source_number": 55,
+      "primary_cluster": "procurement-industrie",
+      "primary_cluster_label": "Procurement und Industrie",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 8,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 64,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 56,
@@ -562,7 +2844,49 @@
       "monetization": "Freemium für Bieter; Gebühr pro eingereichtem Angebot oder gewonnenem Los.",
       "market_comment": "VERIFIED: öffentliche Beschaffung in der EU rund 14–15 % des BIP. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-056",
+      "source_number": 56,
+      "primary_cluster": "oeffentlicher-sektor-sozial",
+      "primary_cluster_label": "öffentlicher Sektor und Sozialleistungen",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 9,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "öffentliche Vergabe"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 66,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 57,
@@ -572,7 +2896,47 @@
       "monetization": "Gebühren pro Inspektion/Standort; Erlöse an Prüfer nach gemessenem Einsatz.",
       "market_comment": "Proxy: großes Industrie- und Beschaffungsökosystem. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-057",
+      "source_number": 57,
+      "primary_cluster": "procurement-industrie",
+      "primary_cluster_label": "Procurement und Industrie",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 9,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 60,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 58,
@@ -582,7 +2946,47 @@
       "monetization": "Freie Suchoberfläche; Take Rate auf vermittelte Teile; Ausschüttung an Supplier nach Lieferung.",
       "market_comment": "Proxy: verarbeitendes Gewerbe groß; hohe Ersatzteilabhängigkeit. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-058",
+      "source_number": 58,
+      "primary_cluster": "procurement-industrie",
+      "primary_cluster_label": "Procurement und Industrie",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 9,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 60,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 59,
@@ -592,7 +2996,47 @@
       "monetization": "Gebühr pro Einsatz; Revenue Share mit Subunternehmern nach realen Service-Minuten.",
       "market_comment": "Proxy: großer Industrie- und Dienstleistungsmarkt. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-059",
+      "source_number": 59,
+      "primary_cluster": "procurement-industrie",
+      "primary_cluster_label": "Procurement und Industrie",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 9,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 5,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 60,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 60,
@@ -602,7 +3046,49 @@
       "monetization": "Per-shipment- oder API-Gebühr; RevShare mit Broker/Forwarder-Partnern.",
       "market_comment": "VERIFIED: globaler Handelswert 2025 sehr hoch. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-060",
+      "source_number": 60,
+      "primary_cluster": "logistik-supply-chain",
+      "primary_cluster_label": "Logistik und Supply Chain",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 9,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Zoll-/Außenhandelsregulatorik"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 3,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 68,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 61,
@@ -612,7 +3098,50 @@
       "monetization": "Take Rate pro Sendung; Ausschüttung an Carrier nach tatsächlich gefahrenen Loads.",
       "market_comment": "VERIFIED: Güterverkehr und Welthandel bleiben groß; Lkw dominiert in DE. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-061",
+      "source_number": 61,
+      "primary_cluster": "logistik-supply-chain",
+      "primary_cluster_label": "Logistik und Supply Chain",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 9,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Finanztransaktionen (Carrier-Payout)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 5,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 3,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 70,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 62,
@@ -622,7 +3151,47 @@
       "monetization": "Gebühr pro Palettenplatz/Tag; Erlösverteilung an Lagerhalter nach belegter Fläche.",
       "market_comment": "Proxy: großer Logistik- und Handelsmarkt. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-062",
+      "source_number": 62,
+      "primary_cluster": "logistik-supply-chain",
+      "primary_cluster_label": "Logistik und Supply Chain",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 9,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 60,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 63,
@@ -632,7 +3201,48 @@
       "monetization": "Take Rate auf weiterverkaufte Ware; Erlösverteilung nach realem Recovery Value.",
       "market_comment": "VERIFIED: Einzelhandel 2025 in DE gewachsen; Recommerce hängt an Logistik. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-063",
+      "source_number": 63,
+      "primary_cluster": "logistik-supply-chain",
+      "primary_cluster_label": "Logistik und Supply Chain",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 9,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 4,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 64,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 64,
@@ -642,7 +3252,48 @@
       "monetization": "Freier Buyer-Zugang; Supplier-Fee oder Take Rate auf Materialvolumen.",
       "market_comment": "VERIFIED: Bauhauptgewerbe DE 120,5 Mrd. €; EU-Bau viele Unternehmen. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-064",
+      "source_number": 64,
+      "primary_cluster": "bau-handwerk",
+      "primary_cluster_label": "Bau und Handwerk",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 9,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 4,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 70,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 65,
@@ -652,7 +3303,47 @@
       "monetization": "Gebühr pro Trip oder Expense; RevShare mit TMCs/Kartenanbietern nach gemessener Nutzung.",
       "market_comment": "VERIFIED: Tourismus und Geschäftsreisen sind wieder groß. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-065",
+      "source_number": 65,
+      "primary_cluster": "mobilitaet-transport",
+      "primary_cluster_label": "Mobilität und Transport",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 10,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 4,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 66,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 66,
@@ -662,7 +3353,47 @@
       "monetization": "SaaS plus Nutzungspreis; optional RevShare auf gewonnene Deals.",
       "market_comment": "Proxy: großer Dienstleistungs- und Digitalmarkt. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-066",
+      "source_number": 66,
+      "primary_cluster": "procurement-industrie",
+      "primary_cluster_label": "Procurement und Industrie",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 10,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 60,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 67,
@@ -672,7 +3403,47 @@
       "monetization": "Gebühr pro gelöstem Kontakt; Ausschüttung an Bearbeiter/BPOs nach realer Leistung.",
       "market_comment": "Proxy: großer Dienstleistungsmarkt. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-067",
+      "source_number": 67,
+      "primary_cluster": "arbeit-freelancer-workforce",
+      "primary_cluster_label": "Arbeit, Freelancer und Workforce",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 10,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 4,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 68,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 68,
@@ -682,7 +3453,49 @@
       "monetization": "Freemium Review; Pay-per-matter oder Erfolgsgebühr; RevShare mit Kanzleien je bearbeitetem Mandat.",
       "market_comment": "Marktgröße: unspezifiziert; B2B-Use-Case in großem Dienstleistungsmarkt. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "UNKNOWN"
+      "status": "UNKNOWN",
+      "model_id": "AI-INFRA-068",
+      "source_number": 68,
+      "primary_cluster": "recht-patente-streitbeilegung",
+      "primary_cluster_label": "Recht, Patente und Streitbeilegung",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 10,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Rechtsberatung (Vertragsklauseln)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 4,
+          "evidence_need": 4,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 4,
+          "governance_need": 4,
+          "interoperability_need": 3,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 80,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 69,
@@ -692,7 +3505,47 @@
       "monetization": "Kostenlos für Worker; Arbeitgeber zahlen pro besetzter Schicht; Ausschüttung an Worker nach tatsächlich geleisteten Stunden.",
       "market_comment": "VERIFIED: Plattformarbeit und Dienstleistungsumsätze wachsen; Einsatz für volatile Märkte. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-069",
+      "source_number": 69,
+      "primary_cluster": "arbeit-freelancer-workforce",
+      "primary_cluster_label": "Arbeit, Freelancer und Workforce",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 10,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Worker",
+        "payer": "Arbeitgeber",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 4,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 74,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 70,
@@ -702,7 +3555,49 @@
       "monetization": "Kostenlos für Freelancer; Plattform nimmt Gebühr je aktiver Person/Abrechnung; RevShare mit Payroll-/Banking-Partnern.",
       "market_comment": "VERIFIED: Plattformarbeit verändert Arbeitsmärkte. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-070",
+      "source_number": 70,
+      "primary_cluster": "arbeit-freelancer-workforce",
+      "primary_cluster_label": "Arbeit, Freelancer und Workforce",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 10,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Freelancer",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "BLOCKED",
+        "categories": [
+          "Sanktionen/KYC/AML (KYC explizit genannt)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 4,
+          "governance_need": 4,
+          "interoperability_need": 3,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 80,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 71,
@@ -712,7 +3607,49 @@
       "monetization": "Kostenlos für Bewerber:innen; Arbeitgeber zahlen pro qualifiziertem Shortlist-Kandidaten oder Einstellung.",
       "market_comment": "Proxy: großer Dienstleistungs- und Digitalmarkt. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "INFERENCE"
+      "status": "INFERENCE",
+      "model_id": "AI-INFRA-071",
+      "source_number": 71,
+      "primary_cluster": "arbeit-freelancer-workforce",
+      "primary_cluster_label": "Arbeit, Freelancer und Workforce",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 10,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Bewerber:innen",
+        "payer": "Arbeitgeber",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "HIGH_RISK",
+        "categories": [
+          "Beschäftigungs-/Recruiting-Entscheidung"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 4,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 74,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 72,
@@ -722,7 +3659,48 @@
       "monetization": "Freier Schülerzugang; Gebühren pro aktivem Lernpfad oder Ergebnismeile; Erlöse an Tutor:innen nach gemessener Nutzung/Erfolg.",
       "market_comment": "VERIFIED: öffentliche Bildungsausgaben DE 2025 bei 205,7 Mrd. € geplant. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-072",
+      "source_number": 72,
+      "primary_cluster": "bildung-skills",
+      "primary_cluster_label": "Bildung und Skills",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 10,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 4,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 64,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 73,
@@ -732,7 +3710,47 @@
       "monetization": "Gebühr pro Mitarbeitendem; Revenue Share an Kursanbieter/Coach nach realer Nutzung und Abschluss.",
       "market_comment": "VERIFIED: Bildungsausgaben und Digitalwirtschaft sind groß. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-073",
+      "source_number": 73,
+      "primary_cluster": "bildung-skills",
+      "primary_cluster_label": "Bildung und Skills",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 11,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 3,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 62,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 74,
@@ -742,7 +3760,49 @@
       "monetization": "Kostenloses Creator-Wallet; Take Rate auf Lizenzen; Ausschüttung an Rechtehalter nach gemessener Nutzung.",
       "market_comment": "VERIFIED: immaterielle Investitionen überschritten 2025 10 Bio. US$ weltweit. Reife: mittelfristig 3–5 Jahre.",
       "maturity": "mittelfristig 3–5 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-074",
+      "source_number": 74,
+      "primary_cluster": "creator-medien-rechte",
+      "primary_cluster_label": "Creator, Medien und Rechte",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 11,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Urheber-/Datenrechte"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 3,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 66,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 75,
@@ -752,7 +3812,47 @@
       "monetization": "Take Rate auf Kampagnenbudget; Revenue Share an Creator nach gemessenem Outcome.",
       "market_comment": "Marktgröße: unspezifiziert; klar digitalwirtschaftlich. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "UNKNOWN"
+      "status": "UNKNOWN",
+      "model_id": "AI-INFRA-075",
+      "source_number": 75,
+      "primary_cluster": "creator-medien-rechte",
+      "primary_cluster_label": "Creator, Medien und Rechte",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 11,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 4,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 62,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 76,
@@ -762,7 +3862,48 @@
       "monetization": "Fee pro Store/Besuch; Ausschüttung an Crowd-Worker nach validierten Audits.",
       "market_comment": "VERIFIED: Einzelhandel in DE wächst; operative Fläche bleibt groß. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-076",
+      "source_number": 76,
+      "primary_cluster": "handel-gastro-lokal",
+      "primary_cluster_label": "Handel, Gastronomie und lokale Services",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 11,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 62,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 77,
@@ -772,7 +3913,47 @@
       "monetization": "Kundenseitig einfache Bestelloberfläche; Take Rate auf Orders; Erlösverteilung an Händler/Kuriere nach realer Zustellung.",
       "market_comment": "VERIFIED: Einzelhandel groß, Internet- und Versandhandel relevant. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-077",
+      "source_number": 77,
+      "primary_cluster": "handel-gastro-lokal",
+      "primary_cluster_label": "Handel, Gastronomie und lokale Services",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 11,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 62,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 78,
@@ -782,7 +3963,47 @@
       "monetization": "Kostenloses Testing-Frontend; Fees/RevShare auf inkrementelle Performance; Ausschüttung an Creator nach nachgewiesener Wirkung.",
       "market_comment": "Marktgröße: unspezifiziert; Teil der großen Digitalwirtschaft. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "UNKNOWN"
+      "status": "UNKNOWN",
+      "model_id": "AI-INFRA-078",
+      "source_number": 78,
+      "primary_cluster": "creator-medien-rechte",
+      "primary_cluster_label": "Creator, Medien und Rechte",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 11,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 4,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 64,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 79,
@@ -792,7 +4013,48 @@
       "monetization": "Kostenloses Diagnose-Frontend; Take Rate auf Repair/Resale; Erlöse an Shops nach Abschluss.",
       "market_comment": "VERIFIED: Digitalwirtschaft in DE groß; Recommerce profitiert von Daten- und Softwareachsen. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-079",
+      "source_number": 79,
+      "primary_cluster": "handel-gastro-lokal",
+      "primary_cluster_label": "Handel, Gastronomie und lokale Services",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 11,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 64,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 80,
@@ -802,7 +4064,49 @@
       "monetization": "Kostenlos für Nutzer:innen; Studios zahlen pro gefülltem Slot; RevShare nach realen Buchungen.",
       "market_comment": "Marktgröße: unspezifiziert; typischer fragmentierter Dienstleistungsmarkt. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "UNKNOWN"
+      "status": "UNKNOWN",
+      "model_id": "AI-INFRA-080",
+      "source_number": 80,
+      "primary_cluster": "handel-gastro-lokal",
+      "primary_cluster_label": "Handel, Gastronomie und lokale Services",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 11,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Nutzer:innen",
+        "payer": "Studios",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "automatisierte Preisdiskriminierung (dynamische Bepreisung)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 68,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 81,
@@ -812,7 +4116,48 @@
       "monetization": "Kostenlos für Worker; Restaurants zahlen pro besetzter Schicht; Auszahlung nach geleisteten Stunden.",
       "market_comment": "VERIFIED: Tourismus- und Gastronomiesektor in DE auf Rekordniveau. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-081",
+      "source_number": 81,
+      "primary_cluster": "handel-gastro-lokal",
+      "primary_cluster_label": "Handel, Gastronomie und lokale Services",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 11,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Worker",
+        "payer": "Restaurants",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 62,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 82,
@@ -822,7 +4167,47 @@
       "monetization": "Take Rate auf gerettetes Volumen; Revenue Share an Händler/Logistiker/Abnehmer nach tatsächlich verwertetem Wert.",
       "market_comment": "VERIFIED: großer Lebensmittelhandel; Abfall- und Nachhaltigkeitsdruck hoch. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-082",
+      "source_number": 82,
+      "primary_cluster": "landwirtschaft-lebensmittel",
+      "primary_cluster_label": "Landwirtschaft und Lebensmittel",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 12,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 62,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 83,
@@ -832,7 +4217,50 @@
       "monetization": "Kostenlos für Bürger:innen; Kommunen/Kassen/Stiftungen zahlen pro bearbeitetem oder erfolgreich übermitteltem Fall.",
       "market_comment": "VERIFIED: soziale Leistungen in DE 2025 rund 1.431 Mrd. €. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-083",
+      "source_number": 83,
+      "primary_cluster": "oeffentlicher-sektor-sozial",
+      "primary_cluster_label": "öffentlicher Sektor und Sozialleistungen",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 12,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Bürger:innen",
+        "payer": "Kommunen/Kassen/Stiftungen",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Sozialleistungsanspruch"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 4,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 70,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 84,
@@ -842,7 +4270,50 @@
       "monetization": "Kostenlos für Bürger:innen; SaaS/Transaktionsgebühr für Kommunen; Verteilung an Dienstleister je erfolgreich bearbeitetem Vorgang.",
       "market_comment": "VERIFIED: öffentlicher Haushalt in DE sehr groß. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-084",
+      "source_number": 84,
+      "primary_cluster": "oeffentlicher-sektor-sozial",
+      "primary_cluster_label": "öffentlicher Sektor und Sozialleistungen",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 12,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Bürger:innen",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "automatische Behördenentscheidung (Kommunalverfahren)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 4,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 74,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 85,
@@ -852,7 +4323,51 @@
       "monetization": "Kostenlos für Antragsteller:innen; öffentliche Stellen/NGOs zahlen pro bearbeitetem Fall.",
       "market_comment": "Marktgröße: unspezifiziert; klar DE-relevant im öffentlichen Leistungsmarkt. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "UNKNOWN"
+      "status": "UNKNOWN",
+      "model_id": "AI-INFRA-085",
+      "source_number": 85,
+      "primary_cluster": "oeffentlicher-sektor-sozial",
+      "primary_cluster_label": "öffentlicher Sektor und Sozialleistungen",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 12,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Antragsteller:innen",
+        "payer": "Stellen/NGOs",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Migrations-/Aufenthaltsrecht",
+          "automatische Behördenentscheidung"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 64,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 86,
@@ -862,7 +4377,49 @@
       "monetization": "Kostenlos für Bürger:innen; Gebühren der Träger/Stiftungen/Kanzleien pro übernommenem Fall.",
       "market_comment": "Marktgröße: unspezifiziert; aber hoher Bedarf in großen Sozial- und Dienstleistungsmärkten. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "UNKNOWN"
+      "status": "UNKNOWN",
+      "model_id": "AI-INFRA-086",
+      "source_number": 86,
+      "primary_cluster": "recht-patente-streitbeilegung",
+      "primary_cluster_label": "Recht, Patente und Streitbeilegung",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 12,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "Bürger:innen",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Rechtsberatung"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 4,
+          "governance_need": 4,
+          "interoperability_need": 3,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 76,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 87,
@@ -872,7 +4429,49 @@
       "monetization": "Freemium für Anspruchsteller; Gebühr bei Einzug/Settlement; RevShare mit Partnerkanzleien/Inkasso.",
       "market_comment": "Marktgröße: unspezifiziert; hohe Relevanz in Zahlungs- und Verbrauchermärkten. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "UNKNOWN"
+      "status": "UNKNOWN",
+      "model_id": "AI-INFRA-087",
+      "source_number": 87,
+      "primary_cluster": "recht-patente-streitbeilegung",
+      "primary_cluster_label": "Recht, Patente und Streitbeilegung",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 12,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Rechtsberatung (ADR/Vergleich)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 4,
+          "governance_need": 4,
+          "interoperability_need": 3,
+          "market_readiness": 4,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 78,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 88,
@@ -882,7 +4481,49 @@
       "monetization": "Freier Suchzugang; Gebühr pro Fall/Anmeldung; RevShare mit Kanzleien nach übernommenem Mandat.",
       "market_comment": "VERIFIED: immaterielle Investitionen wachsen stark. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-088",
+      "source_number": 88,
+      "primary_cluster": "recht-patente-streitbeilegung",
+      "primary_cluster_label": "Recht, Patente und Streitbeilegung",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 12,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Rechtsberatung (Patentrecht)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 5,
+          "settlement_need": 5,
+          "trust_need": 4,
+          "governance_need": 4,
+          "interoperability_need": 3,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 80,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 89,
@@ -892,7 +4533,49 @@
       "monetization": "Sponsoren/CROs zahlen pro aktivierter Site oder randomisiertem Patienten; Erlöse an Sites nach Nutzung.",
       "market_comment": "VERIFIED: EU-Clinical-Trials-Regulation harmonisiert Prozesse; 2030-Ziele treiben den Markt. Reife: mittelfristig 3–5 Jahre.",
       "maturity": "mittelfristig 3–5 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-089",
+      "source_number": 89,
+      "primary_cluster": "forschung-life-sciences",
+      "primary_cluster_label": "Forschung und Life Sciences",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 12,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "Sponsoren/CROs",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "klinische Studien-Regulatorik (EU CTR)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 3,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 68,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 90,
@@ -902,7 +4585,48 @@
       "monetization": "Freemium für Forschende/Startups; Gebühr auf eingereichte Anträge oder gewonnene Fördermittel.",
       "market_comment": "VERIFIED: DE-F&E-Ausgaben 2024 bei 137,1 Mrd. €. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-090",
+      "source_number": 90,
+      "primary_cluster": "forschung-life-sciences",
+      "primary_cluster_label": "Forschung und Life Sciences",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 13,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 66,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 91,
@@ -912,7 +4636,48 @@
       "monetization": "Gebühr pro Gerätezeit/Analyse; Revenue Share an Labore nach belegter Nutzung.",
       "market_comment": "VERIFIED: DE-F&E hoch; Markt stark institutionell. Reife: mittelfristig 3–5 Jahre.",
       "maturity": "mittelfristig 3–5 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-091",
+      "source_number": 91,
+      "primary_cluster": "forschung-life-sciences",
+      "primary_cluster_label": "Forschung und Life Sciences",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 13,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 3,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 60,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 92,
@@ -922,7 +4687,48 @@
       "monetization": "Kostenloses Farmer-Frontend; Take Rate auf Bestellungen; Verteilung an Lieferanten nach Volumen.",
       "market_comment": "VERIFIED: Landwirtschaft bleibt global strukturell bedeutend; DE mit vielen Betrieben und Saisonarbeit. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-092",
+      "source_number": 92,
+      "primary_cluster": "landwirtschaft-lebensmittel",
+      "primary_cluster_label": "Landwirtschaft und Lebensmittel",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 13,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 64,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 93,
@@ -932,7 +4738,47 @@
       "monetization": "Keine hohe Upfront-Gebühr; Plattform nimmt Anteil an gemessenen Wasser-/Energiekosteneinsparungen.",
       "market_comment": "VERIFIED: Wasserknappheit und Landdegradation verschärfen den Bedarf. Reife: mittelfristig 3–5 Jahre.",
       "maturity": "mittelfristig 3–5 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-093",
+      "source_number": 93,
+      "primary_cluster": "landwirtschaft-lebensmittel",
+      "primary_cluster_label": "Landwirtschaft und Lebensmittel",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 13,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 3,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 56,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 94,
@@ -942,7 +4788,50 @@
       "monetization": "Gebühren auf Policen und Schadenzahlungen; Carrier zahlen, Landwirte nutzen günstigen Front-End-Zugang.",
       "market_comment": "VERIFIED: Landwirtschaft und Klimarisiken sind global groß; Versicherungsmärkte in DE stark. Reife: mittelfristig 3–5 Jahre.",
       "maturity": "mittelfristig 3–5 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-094",
+      "source_number": 94,
+      "primary_cluster": "landwirtschaft-lebensmittel",
+      "primary_cluster_label": "Landwirtschaft und Lebensmittel",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 13,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "Carrier",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Versicherungsentscheidung (parametrisch)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 4,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 3,
+          "market_readiness": 3,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 62,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 95,
@@ -952,7 +4841,47 @@
       "monetization": "Take Rate auf Transport-/Lagervolumen; Erlösverteilung nach real gemessener Kühlleistung.",
       "market_comment": "VERIFIED: Welthandel und Lebensmittelströme sind groß. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-095",
+      "source_number": 95,
+      "primary_cluster": "logistik-supply-chain",
+      "primary_cluster_label": "Logistik und Supply Chain",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 13,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 62,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 96,
@@ -962,7 +4891,49 @@
       "monetization": "Freemium-Risk-Score; Gebühr pro Asset/Incident; Ausschüttung an MSSPs nach tatsächlich gelösten Fällen.",
       "market_comment": "VERIFIED: BSI beschreibt die Lage 2025 als weiterhin sehr angespannt. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-096",
+      "source_number": 96,
+      "primary_cluster": "it-cloud-cyber-agentic",
+      "primary_cluster_label": "IT, Cloud, Cybersecurity und Agentic Infrastructure",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 13,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "kritische Infrastruktur (Cybersecurity-Vorfallreaktion)"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 4,
+          "governance_need": 4,
+          "interoperability_need": 3,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 80,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 97,
@@ -972,7 +4943,47 @@
       "monetization": "Erfolgsgebühr auf realisierte Einsparungen plus API-Fee; RevShare mit Cloud-/Reseller-Partnern.",
       "market_comment": "VERIFIED: Cloud ist zentrale Basis moderner IT; C5 wurde 2025/26 überarbeitet. Reife: kurzfristig 1–2 Jahre.",
       "maturity": "kurzfristig 1–2 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-097",
+      "source_number": 97,
+      "primary_cluster": "it-cloud-cyber-agentic",
+      "primary_cluster_label": "IT, Cloud, Cybersecurity und Agentic Infrastructure",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 13,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 4,
+          "evidence_need": 4,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 4,
+          "governance_need": 2,
+          "interoperability_need": 2,
+          "market_readiness": 5,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 74,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 98,
@@ -982,7 +4993,48 @@
       "monetization": "Kostenloses Nutzer-Frontend; Plattform nimmt Metering-Fee auf Agent-Usage und verteilt Umsatz an SaaS-Provider nach Calls/Outcome.",
       "market_comment": "VERIFIED: Software- und Cloudumsätze in DE wachsen stark. Reife: mittelfristig 3–5 Jahre.",
       "maturity": "mittelfristig 3–5 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-098",
+      "source_number": 98,
+      "primary_cluster": "it-cloud-cyber-agentic",
+      "primary_cluster_label": "IT, Cloud, Cybersecurity und Agentic Infrastructure",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 14,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": null,
+        "categories": [],
+        "status": "OK"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 4,
+          "credential_need": 4,
+          "evidence_need": 4,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 4,
+          "governance_need": 2,
+          "interoperability_need": 4,
+          "market_readiness": 3,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 76,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 99,
@@ -992,7 +5044,49 @@
       "monetization": "Plattform erhebt Zugriffs-/Metering-Gebühren und verteilt Erlöse an Datenhalter nach tatsächlicher Nutzung.",
       "market_comment": "VERIFIED: immaterielle Investitionen und Data/Software-Anteile wachsen stark. Reife: mittelfristig 3–5 Jahre.",
       "maturity": "mittelfristig 3–5 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-099",
+      "source_number": 99,
+      "primary_cluster": "it-cloud-cyber-agentic",
+      "primary_cluster_label": "IT, Cloud, Cybersecurity und Agentic Infrastructure",
+      "region": [
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 14,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "REQUIRES_LEGAL_REVIEW",
+        "categories": [
+          "Daten-/Urheberrechte"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 4,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 4,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 3,
+          "ssid_reuse_potential": 4
+        },
+        "fit_score": 72,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     },
     {
       "id": 100,
@@ -1002,7 +5096,53 @@
       "monetization": "Anteil an vermarkteter Flexibilität; Erlöse an Werke nach gemessener Lastverschiebung und Verfügbarkeit.",
       "market_comment": "VERIFIED: Industrie verbraucht in DE mehr als ein Viertel der gesamten Energiemenge. Reife: mittelfristig 3–5 Jahre.",
       "maturity": "mittelfristig 3–5 Jahre",
-      "status": "VERIFIED"
+      "status": "VERIFIED",
+      "model_id": "AI-INFRA-100",
+      "source_number": 100,
+      "primary_cluster": "energie-flexibilitaet",
+      "primary_cluster_label": "Energie und Flexibilität",
+      "region": [
+        "DE",
+        "global"
+      ],
+      "source_reference": {
+        "document": "Hundert KI-gestützte Business-Modelle nach dem Infrastrukturmuster",
+        "page": 14,
+        "section": "Tabelle der Modelle",
+        "status": "VERIFIED"
+      },
+      "economics_breakdown": {
+        "beneficiary": "siehe monetization-Feld",
+        "payer": "siehe monetization-Feld",
+        "note": "INFERENCE: heuristisch aus monetization-Feld abgeleitet, nicht separat verifiziert"
+      },
+      "risk": {
+        "flag": "HIGH_RISK",
+        "categories": [
+          "Energiehandel/Netzsteuerung (Industrie-Flexmarkt)",
+          "kritische Infrastruktur"
+        ],
+        "status": "INFERENCE"
+      },
+      "ssid_relevance": {
+        "dimensions": {
+          "identity_need": 3,
+          "credential_need": 2,
+          "evidence_need": 3,
+          "metering_need": 4,
+          "settlement_need": 5,
+          "trust_need": 2,
+          "governance_need": 4,
+          "interoperability_need": 2,
+          "market_readiness": 3,
+          "ssid_reuse_potential": 3
+        },
+        "fit_score": 62,
+        "status": "INFERENCE",
+        "methodology_ref": "phase6_ssid_fit_methodology_v1"
+      }
     }
-  ]
+  ],
+  "schema_version": "1.1.0-enriched",
+  "enrichment_note": "Zusaetzliche Felder (model_id, source_number, primary_cluster, region, source_reference, economics_breakdown, risk, ssid_relevance) wurden additiv ergaenzt. Bestehende Kernfelder (market, pain_point, ai_solution, monetization, market_comment, maturity, status) unveraendert."
 }
