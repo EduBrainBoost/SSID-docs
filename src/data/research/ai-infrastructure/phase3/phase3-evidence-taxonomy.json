@@ -288,23 +288,23 @@
     },
     {
       "claim_id": "CLAIM-P3-0026",
-      "evidence_status": "SUPPORTED",
-      "confidence": 0.70,
-      "methodology": "Compiled from market research and professional association data (source year unclear)",
-      "assumptions": "Psychotherapist count from German professional registrations; data year assumption",
-      "limitations": "KNOWN DEFECT #5: Source documents do not explicitly state measurement year; treating as 2025 estimate but requires verification",
-      "last_verified_utc": "2026-08-03T16:30:00Z",
-      "rationale": "STALE or DATE_UNKNOWN: Source verification required to establish measurement year"
+      "evidence_status": "UNKNOWN",
+      "confidence": 0.00,
+      "methodology": "DOWNGRADED: Source year unknown; cannot verify authoritativeness",
+      "assumptions": "None — claim withdrawn pending source verification",
+      "limitations": "DEFECT-005 PATH B RESOLUTION: Measurement year undocumented; external source research unavailable; claim safely downgraded to UNKNOWN and excluded from pilot calculations",
+      "last_verified_utc": "2026-08-03T21:05:00Z",
+      "rationale": "DEFECT-005 SAFELY CLOSED: 28k psychotherapist count downgraded to UNKNOWN. No current 2026 value established. Removed from pilot-readiness scoring for AI-INFRA-005."
     },
     {
       "claim_id": "CLAIM-P3-0027",
-      "evidence_status": "SUPPORTED",
-      "confidence": 0.65,
-      "methodology": "Market research data on psychotherapy waiting times (source year unclear)",
-      "assumptions": "Average waiting time representative; measurement methodology consistent",
-      "limitations": "KNOWN DEFECT #5: Measurement year not documented; treating as current but requires source verification. Waiting times may vary by region.",
-      "last_verified_utc": "2026-08-03T16:30:00Z",
-      "rationale": "STALE or DATE_UNKNOWN: Critical defect requires immediate source research"
+      "evidence_status": "UNKNOWN",
+      "confidence": 0.00,
+      "methodology": "DOWNGRADED: Source year unknown; cannot verify authoritativeness",
+      "assumptions": "None — claim withdrawn pending source verification",
+      "limitations": "DEFECT-005 PATH B RESOLUTION: Measurement year undocumented; external source research unavailable; claim safely downgraded to UNKNOWN and excluded from pilot calculations",
+      "last_verified_utc": "2026-08-03T21:05:00Z",
+      "rationale": "DEFECT-005 SAFELY CLOSED: 142-day psychotherapy waiting time downgraded to UNKNOWN. No current measurement year established. Removed from pilot-readiness scoring for AI-INFRA-005."
     },
     {
       "claim_id": "CLAIM-P3-0028",

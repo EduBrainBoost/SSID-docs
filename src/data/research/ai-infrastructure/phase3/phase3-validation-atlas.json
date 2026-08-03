@@ -232,11 +232,11 @@
         {
           "model_id": "AI-INFRA-005",
           "title": "Psychotherapie-Kapazitätsnetz",
-          "classification": "GO_TO_CUSTOMER_VALIDATION",
-          "rationale": "Only 28k therapists for 83M people; 142-day average wait; EUR market size TBD; severe supply shortage creates urgent demand",
-          "confidence": 8,
-          "critical_gaps": ["European/German psychotherapy market TAM", "Digital-first psychotherapy adoption rate", "Regulatory constraints on telehealth therapy"],
-          "evidence_status": "SUPPORTED"
+          "classification": "GO_TO_LEGAL_REVIEW",
+          "rationale": "DEFECT-005 RESOLUTION: Therapist count and waiting time metrics downgraded to UNKNOWN (source dates undocumented). Market TAM unverified. Primary blocking issue is regulatory ambiguity (telehealth therapy constraints). Legal review required before customer validation.",
+          "confidence": 6,
+          "critical_gaps": ["European/German psychotherapy market TAM unverified", "Therapist shortage evidence withdrawn", "Waiting time data source unknown", "Regulatory constraints on telehealth therapy (BLOCKING)", "Digital-first psychotherapy adoption rate"],
+          "evidence_status": "DOCUMENTED"
         },
         {
           "model_id": "AI-INFRA-006",
@@ -249,10 +249,10 @@
         }
       ],
       "batch_recommendations": {
-        "immediate_priority": "AI-INFRA-001, AI-INFRA-004, AI-INFRA-005 (largest markets, clearest demand)",
-        "customer_validation_cohort": "All 6 models suitable for parallel customer interviews",
-        "regulatory_review_required": "AI-INFRA-003 (billing compliance)",
-        "research_gaps": "Market size TAM for 003, 005, 006; competitive analysis for all"
+        "immediate_priority": "AI-INFRA-001, AI-INFRA-004 (largest markets, clearest demand, GO_TO_CUSTOMER_VALIDATION)",
+        "customer_validation_cohort": "AI-INFRA-001, AI-INFRA-002, AI-INFRA-004, AI-INFRA-006",
+        "legal_review_required": "AI-INFRA-003 (billing compliance), AI-INFRA-005 (telehealth therapy regulatory ambiguity — DEFECT-005 closure)",
+        "research_gaps": "Market size TAM for 003, 005, 006; competitive analysis for all; psychotherapy metrics source verification (deferred)"
       }
     },
     "batch_02_healthcare_diagnostics_oncology": {
@@ -312,7 +312,7 @@
     ],
     "high_opportunity_high_risk": [
       "AI-INFRA-003 (Medical billing: large TAM, complex regulation, certification required)",
-      "AI-INFRA-005 (Psychotherapy network: urgent demand, regulatory ambiguity, cold-start complexity)"
+      "AI-INFRA-005 (Psychotherapy network: unverified demand metrics, regulatory ambiguity BLOCKING, market TAM unknown — DEFECT-005 closure)"
     ],
     "emerging_opportunity": [
       "AI-INFRA-006 (Dental AI: fast growth, emerging adoption, lower regulation)"
