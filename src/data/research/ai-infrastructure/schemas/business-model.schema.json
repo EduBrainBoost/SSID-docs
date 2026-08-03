@@ -14,7 +14,9 @@
       "minItems": 100,
       "maxItems": 100,
       "items": { "$ref": "#/$defs/model" }
-    }
+    },
+    "schema_version": { "type": "string" },
+    "enrichment_note": { "type": "string" }
   },
   "required": ["catalog_id", "title", "language", "count", "models"],
   "additionalProperties": false,
@@ -111,6 +113,7 @@
             "failure_modes": { "type": "array", "items": { "type": "string" } },
             "evidence": { "$ref": "#/$defs/evidence" }
           },
+          "required": ["type", "architecture", "coordination_model", "network_effect", "evidence"],
           "additionalProperties": false
         },
         "market_sizing": {
@@ -130,6 +133,7 @@
             "sources": { "type": "array", "items": { "type": "string" } },
             "evidence": { "$ref": "#/$defs/evidence" }
           },
+          "required": ["tam", "sam", "som", "currency", "base_year", "methodology", "geographic_scope", "market_definition", "evidence"],
           "additionalProperties": false
         },
         "cold_start_strategy": {
@@ -148,6 +152,7 @@
             "failure_conditions": { "type": "array", "items": { "type": "string" } },
             "evidence": { "$ref": "#/$defs/evidence" }
           },
+          "required": ["initial_wedge", "bootstrap_mechanism", "minimum_viable_network", "failure_conditions", "evidence"],
           "additionalProperties": false
         },
         "competitive_landscape": {
@@ -165,6 +170,7 @@
             "competitive_intensity": { "type": "string" },
             "evidence": { "$ref": "#/$defs/evidence" }
           },
+          "required": ["incumbent_alternatives", "differentiators", "barriers_to_entry", "competitive_intensity", "evidence"],
           "additionalProperties": false
         },
         "data_and_integration_dependencies": {
@@ -186,6 +192,7 @@
             "integration_complexity": { "type": "string" },
             "evidence": { "$ref": "#/$defs/evidence" }
           },
+          "required": ["required_data", "system_integrations", "protocols", "data_residency", "integration_complexity", "evidence"],
           "additionalProperties": false
         },
         "regulatory_constraints": {
@@ -207,6 +214,7 @@
             "regulatory_risk": { "type": "string" },
             "evidence": { "$ref": "#/$defs/evidence" }
           },
+          "required": ["jurisdictions", "regulated_activities", "data_protection", "required_legal_reviews", "regulatory_risk", "evidence"],
           "additionalProperties": false
         },
         "ai_vs_infrastructure_moat": {
@@ -228,6 +236,7 @@
             "rationale": { "type": "string" },
             "evidence": { "$ref": "#/$defs/evidence" }
           },
+          "required": ["ai_dependency", "infrastructure_dependency", "durability_score", "rationale", "evidence"],
           "additionalProperties": false
         },
         "market_maturity": {
@@ -250,6 +259,7 @@
             "maturity_score": { "type": "integer", "minimum": 0, "maximum": 10 },
             "evidence": { "$ref": "#/$defs/evidence" }
           },
+          "required": ["stage", "technology_maturity", "regulatory_maturity", "adoption_barriers", "maturity_score", "evidence"],
           "additionalProperties": false
         },
         "evidence_status": { "$ref": "#/$defs/evidence" },
@@ -272,11 +282,12 @@
             "warnings": { "type": "array", "items": { "type": "string" } },
             "last_validated_utc": { "type": "string", "format": "date-time" }
           },
+          "required": ["overall_status", "validation_score", "last_validated_utc"],
           "additionalProperties": false
         }
       },
       "required": [
-        "id", "market", "pain_point", "ai_solution", "monetization", "market_comment", "maturity", "status",
+        "id", "model_id", "source_number", "market", "pain_point", "ai_solution", "monetization", "market_comment", "maturity", "status",
         "infrastructure_pattern", "market_sizing", "cold_start_strategy", "competitive_landscape",
         "data_and_integration_dependencies", "regulatory_constraints", "ai_vs_infrastructure_moat",
         "market_maturity", "evidence_status", "validation_atlas"
@@ -290,21 +301,23 @@
         "minimum": { "type": ["number", "null"] },
         "maximum": { "type": ["number", "null"] },
         "unit": { "type": "string" },
-        "status": { "type": "string" },
+        "status": { "type": "string", "enum": ["VERIFIED", "ESTIMATED", "INFERRED", "UNKNOWN", "BLOCKED", "NOT_APPLICABLE"] },
         "rationale": { "type": "string" }
       },
+      "required": ["status", "unit", "rationale"],
       "additionalProperties": false
     },
     "validation_category": {
       "type": "object",
       "properties": {
-        "status": { "type": "string" },
+        "status": { "type": "string", "enum": ["PASS", "FAIL", "PARTIAL", "PENDING", "UNKNOWN", "BLOCKED"] },
         "checks": { "type": "array", "items": { "type": "string" } },
-        "passed": { "type": "integer" },
-        "failed": { "type": "integer" },
-        "unknown": { "type": "integer" },
+        "passed": { "type": "integer", "minimum": 0 },
+        "failed": { "type": "integer", "minimum": 0 },
+        "unknown": { "type": "integer", "minimum": 0 },
         "evidence": { "type": "object" }
       },
+      "required": ["status", "checks", "passed", "failed", "unknown"],
       "additionalProperties": false
     }
   }
