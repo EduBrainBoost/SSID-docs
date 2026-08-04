@@ -5,20 +5,38 @@
   "version": "2.1.0",
   "type": "object",
   "properties": {
-    "catalog_id": { "type": "string", "const": "ai-infrastructure-business-models-100" },
-    "title": { "type": "string", "minLength": 1 },
-    "language": { "type": "string", "const": "de" },
-    "count": { "type": "integer", "const": 100 },
+    "catalog_id": {
+      "type": "string",
+      "const": "ai-infrastructure-business-models-100"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "language": {
+      "type": "string",
+      "const": "de"
+    },
+    "count": {
+      "type": "integer",
+      "const": 100
+    },
     "models": {
       "type": "array",
       "minItems": 100,
       "maxItems": 100,
-      "items": { "$ref": "#/$defs/model" }
-    },
-    "schema_version": { "type": "string" },
-    "enrichment_note": { "type": "string" }
+      "items": {
+        "$ref": "#/$defs/model"
+      }
+    }
   },
-  "required": ["catalog_id", "title", "language", "count", "models"],
+  "required": [
+    "catalog_id",
+    "title",
+    "language",
+    "count",
+    "models"
+  ],
   "additionalProperties": false,
   "$defs": {
     "evidence": {
@@ -26,72 +44,190 @@
       "properties": {
         "status": {
           "type": "string",
-          "enum": ["VERIFIED", "SUPPORTED", "DOCUMENTED", "ESTIMATED", "INFERRED", "PLANNED", "ASSUMED", "UNKNOWN", "CONFLICT", "BLOCKED", "NOT_APPLICABLE", "STALE", "REJECTED"]
+          "enum": [
+            "VERIFIED",
+            "SUPPORTED",
+            "DOCUMENTED",
+            "ESTIMATED",
+            "INFERRED",
+            "PLANNED",
+            "ASSUMED",
+            "UNKNOWN",
+            "CONFLICT",
+            "BLOCKED",
+            "NOT_APPLICABLE",
+            "STALE",
+            "REJECTED"
+          ]
         },
-        "sources": { "type": "array", "items": { "type": "string" } },
-        "rationale": { "type": "string" },
-        "confidence": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
-        "last_verified_utc": { "type": "string", "format": "date-time" },
-        "notes": { "type": "string" }
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "last_verified_utc": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "notes": {
+          "type": "string"
+        }
       },
-      "required": ["status"],
+      "required": [
+        "status"
+      ],
       "additionalProperties": false
     },
     "model": {
       "type": "object",
       "properties": {
-        "id": { "type": "integer", "minimum": 1, "maximum": 100 },
-        "market": { "type": "string", "minLength": 1 },
-        "pain_point": { "type": "string", "minLength": 1 },
-        "ai_solution": { "type": "string", "minLength": 1 },
-        "monetization": { "type": "string", "minLength": 1 },
-        "market_comment": { "type": "string", "minLength": 1 },
-        "maturity": { "type": "string", "minLength": 1 },
+        "id": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "market": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pain_point": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ai_solution": {
+          "type": "string",
+          "minLength": 1
+        },
+        "monetization": {
+          "type": "string",
+          "minLength": 1
+        },
+        "market_comment": {
+          "type": "string",
+          "minLength": 1
+        },
+        "maturity": {
+          "type": "string",
+          "minLength": 1
+        },
         "status": {
           "type": "string",
-          "enum": ["VERIFIED", "DOCUMENTED", "INFERENCE", "UNKNOWN", "CONFLICT", "BLOCKED"]
+          "enum": [
+            "VERIFIED",
+            "DOCUMENTED",
+            "INFERENCE",
+            "UNKNOWN",
+            "CONFLICT",
+            "BLOCKED"
+          ]
         },
-        "model_id": { "type": "string", "pattern": "^AI-INFRA-[0-9]{3}$" },
-        "source_number": { "type": "integer", "minimum": 1, "maximum": 100 },
-        "primary_cluster": { "type": "string" },
-        "primary_cluster_label": { "type": "string" },
-        "region": { "type": "array", "items": { "type": "string" } },
+        "model_id": {
+          "type": "string",
+          "pattern": "^AI-INFRA-[0-9]{3}$"
+        },
+        "source_number": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "primary_cluster": {
+          "type": "string"
+        },
+        "primary_cluster_label": {
+          "type": "string"
+        },
+        "region": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "source_reference": {
           "type": "object",
           "properties": {
-            "document": { "type": "string" },
-            "page": { "type": "integer" },
-            "section": { "type": "string" },
-            "status": { "type": "string" }
+            "document": {
+              "type": "string"
+            },
+            "page": {
+              "type": "integer"
+            },
+            "section": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            }
           },
-          "required": ["document"],
+          "required": [
+            "document"
+          ],
           "additionalProperties": false
         },
         "economics_breakdown": {
           "type": "object",
           "properties": {
-            "beneficiary": { "type": "string" },
-            "payer": { "type": "string" },
-            "note": { "type": "string" }
+            "beneficiary": {
+              "type": "string"
+            },
+            "payer": {
+              "type": "string"
+            },
+            "note": {
+              "type": "string"
+            }
           },
           "additionalProperties": false
         },
         "risk": {
           "type": "object",
           "properties": {
-            "flag": { "type": ["string", "null"] },
-            "categories": { "type": "array", "items": { "type": "string" } },
-            "status": { "type": "string" }
+            "flag": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "categories": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "status": {
+              "type": "string"
+            }
           },
           "additionalProperties": false
         },
         "ssid_relevance": {
           "type": "object",
           "properties": {
-            "dimensions": { "type": "object" },
-            "fit_score": { "type": "integer", "minimum": 0, "maximum": 100 },
-            "status": { "type": "string" },
-            "methodology_ref": { "type": "string" }
+            "dimensions": {
+              "type": "object"
+            },
+            "fit_score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "status": {
+              "type": "string"
+            },
+            "methodology_ref": {
+              "type": "string"
+            }
           },
           "additionalProperties": false
         },
@@ -100,143 +236,472 @@
           "properties": {
             "type": {
               "type": "string",
-              "enum": ["marketplace", "network", "protocol", "platform", "orchestration_layer", "data_infrastructure", "physical_infrastructure", "hybrid", "unknown"]
+              "enum": [
+                "marketplace",
+                "network",
+                "protocol",
+                "platform",
+                "orchestration_layer",
+                "data_infrastructure",
+                "physical_infrastructure",
+                "hybrid",
+                "unknown"
+              ]
             },
-            "architecture": { "type": "string" },
-            "coordination_model": { "type": "string" },
-            "network_effect": { "type": "boolean" },
-            "supply_side": { "type": "array", "items": { "type": "string" } },
-            "demand_side": { "type": "array", "items": { "type": "string" } },
-            "core_infrastructure": { "type": "string" },
-            "critical_dependencies": { "type": "array", "items": { "type": "string" } },
-            "scalability_pattern": { "type": "string" },
-            "failure_modes": { "type": "array", "items": { "type": "string" } },
-            "evidence": { "$ref": "#/$defs/evidence" }
+            "architecture": {
+              "type": "string"
+            },
+            "coordination_model": {
+              "type": "string"
+            },
+            "network_effect": {
+              "type": "boolean"
+            },
+            "supply_side": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "demand_side": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "core_infrastructure": {
+              "type": "string"
+            },
+            "critical_dependencies": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "scalability_pattern": {
+              "type": "string"
+            },
+            "failure_modes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "evidence": {
+              "$ref": "#/$defs/evidence"
+            }
           },
-          "required": ["type", "architecture", "coordination_model", "network_effect", "evidence"],
+          "required": [
+            "type",
+            "architecture",
+            "coordination_model",
+            "network_effect",
+            "evidence"
+          ],
           "additionalProperties": false
         },
         "market_sizing": {
           "type": "object",
           "properties": {
-            "tam": { "$ref": "#/$defs/market_size" },
-            "sam": { "$ref": "#/$defs/market_size" },
-            "som": { "$ref": "#/$defs/market_size" },
-            "currency": { "type": "string" },
-            "base_year": { "type": "integer" },
-            "target_year": { "type": "integer" },
-            "methodology": { "type": "string" },
-            "assumptions": { "type": "array", "items": { "type": "string" } },
-            "geographic_scope": { "type": "array", "items": { "type": "string" } },
-            "market_definition": { "type": "string" },
-            "growth_rate": { "type": ["number", "null"] },
-            "sources": { "type": "array", "items": { "type": "string" } },
-            "evidence": { "$ref": "#/$defs/evidence" }
+            "tam": {
+              "$ref": "#/$defs/market_size"
+            },
+            "sam": {
+              "$ref": "#/$defs/market_size"
+            },
+            "som": {
+              "$ref": "#/$defs/market_size"
+            },
+            "currency": {
+              "type": "string"
+            },
+            "base_year": {
+              "type": "integer"
+            },
+            "target_year": {
+              "type": "integer"
+            },
+            "methodology": {
+              "type": "string"
+            },
+            "assumptions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "geographic_scope": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "market_definition": {
+              "type": "string"
+            },
+            "growth_rate": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "sources": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "evidence": {
+              "$ref": "#/$defs/evidence"
+            }
           },
-          "required": ["tam", "sam", "som", "currency", "base_year", "methodology", "geographic_scope", "market_definition", "evidence"],
+          "required": [
+            "tam",
+            "sam",
+            "som",
+            "currency",
+            "base_year",
+            "methodology",
+            "geographic_scope",
+            "market_definition",
+            "evidence"
+          ],
           "additionalProperties": false
         },
         "cold_start_strategy": {
           "type": "object",
           "properties": {
-            "initial_wedge": { "type": "string" },
-            "first_supply": { "type": "array", "items": { "type": "string" } },
-            "first_demand": { "type": "array", "items": { "type": "string" } },
-            "bootstrap_mechanism": { "type": "string" },
-            "liquidity_strategy": { "type": "string" },
-            "geographic_sequence": { "type": "array", "items": { "type": "string" } },
-            "incentive_strategy": { "type": "string" },
-            "trust_bootstrap": { "type": "string" },
-            "minimum_viable_network": { "type": "string" },
-            "activation_thresholds": { "type": "object" },
-            "failure_conditions": { "type": "array", "items": { "type": "string" } },
-            "evidence": { "$ref": "#/$defs/evidence" }
+            "initial_wedge": {
+              "type": "string"
+            },
+            "first_supply": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "first_demand": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "bootstrap_mechanism": {
+              "type": "string"
+            },
+            "liquidity_strategy": {
+              "type": "string"
+            },
+            "geographic_sequence": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "incentive_strategy": {
+              "type": "string"
+            },
+            "trust_bootstrap": {
+              "type": "string"
+            },
+            "minimum_viable_network": {
+              "type": "string"
+            },
+            "activation_thresholds": {
+              "type": "object"
+            },
+            "failure_conditions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "evidence": {
+              "$ref": "#/$defs/evidence"
+            }
           },
-          "required": ["initial_wedge", "bootstrap_mechanism", "minimum_viable_network", "failure_conditions", "evidence"],
+          "required": [
+            "initial_wedge",
+            "bootstrap_mechanism",
+            "minimum_viable_network",
+            "failure_conditions",
+            "evidence"
+          ],
           "additionalProperties": false
         },
         "competitive_landscape": {
           "type": "object",
           "properties": {
-            "direct_competitors": { "type": "array", "items": { "type": "string" } },
-            "indirect_competitors": { "type": "array", "items": { "type": "string" } },
-            "incumbent_alternatives": { "type": "array", "items": { "type": "string" } },
-            "open_source_alternatives": { "type": "array", "items": { "type": "string" } },
-            "internal_build_alternative": { "type": "string" },
-            "differentiators": { "type": "array", "items": { "type": "string" } },
-            "switching_costs": { "type": "string" },
-            "barriers_to_entry": { "type": "array", "items": { "type": "string" } },
-            "commoditization_risk": { "type": "string" },
-            "competitive_intensity": { "type": "string" },
-            "evidence": { "$ref": "#/$defs/evidence" }
+            "direct_competitors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "indirect_competitors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "incumbent_alternatives": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "open_source_alternatives": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "internal_build_alternative": {
+              "type": "string"
+            },
+            "differentiators": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "switching_costs": {
+              "type": "string"
+            },
+            "barriers_to_entry": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "commoditization_risk": {
+              "type": "string"
+            },
+            "competitive_intensity": {
+              "type": "string"
+            },
+            "evidence": {
+              "$ref": "#/$defs/evidence"
+            }
           },
-          "required": ["incumbent_alternatives", "differentiators", "barriers_to_entry", "competitive_intensity", "evidence"],
+          "required": [
+            "incumbent_alternatives",
+            "differentiators",
+            "barriers_to_entry",
+            "competitive_intensity",
+            "evidence"
+          ],
           "additionalProperties": false
         },
         "data_and_integration_dependencies": {
           "type": "object",
           "properties": {
-            "required_data": { "type": "array", "items": { "type": "string" } },
-            "optional_data": { "type": "array", "items": { "type": "string" } },
-            "data_providers": { "type": "array", "items": { "type": "string" } },
-            "system_integrations": { "type": "array", "items": { "type": "string" } },
-            "protocols": { "type": "array", "items": { "type": "string" } },
-            "identity_dependencies": { "type": "array", "items": { "type": "string" } },
-            "payment_dependencies": { "type": "array", "items": { "type": "string" } },
-            "model_dependencies": { "type": "array", "items": { "type": "string" } },
-            "latency_requirements": { "type": "string" },
-            "availability_requirements": { "type": "string" },
-            "data_quality_requirements": { "type": "string" },
-            "data_residency": { "type": "string" },
-            "vendor_lock_in": { "type": "string" },
-            "integration_complexity": { "type": "string" },
-            "evidence": { "$ref": "#/$defs/evidence" }
+            "required_data": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "optional_data": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "data_providers": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "system_integrations": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "protocols": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "identity_dependencies": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "payment_dependencies": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "model_dependencies": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "latency_requirements": {
+              "type": "string"
+            },
+            "availability_requirements": {
+              "type": "string"
+            },
+            "data_quality_requirements": {
+              "type": "string"
+            },
+            "data_residency": {
+              "type": "string"
+            },
+            "vendor_lock_in": {
+              "type": "string"
+            },
+            "integration_complexity": {
+              "type": "string"
+            },
+            "evidence": {
+              "$ref": "#/$defs/evidence"
+            }
           },
-          "required": ["required_data", "system_integrations", "protocols", "data_residency", "integration_complexity", "evidence"],
+          "required": [
+            "required_data",
+            "system_integrations",
+            "protocols",
+            "data_residency",
+            "integration_complexity",
+            "evidence"
+          ],
           "additionalProperties": false
         },
         "regulatory_constraints": {
           "type": "object",
           "properties": {
-            "jurisdictions": { "type": "array", "items": { "type": "string" } },
-            "regulated_activities": { "type": "array", "items": { "type": "string" } },
-            "licensing_requirements": { "type": "string" },
-            "data_protection": { "type": "string" },
-            "consumer_protection": { "type": "string" },
-            "competition_law": { "type": "string" },
-            "employment_law": { "type": "string" },
-            "tax": { "type": "string" },
-            "payments": { "type": "string" },
-            "financial_services": { "type": "string" },
-            "sector_specific_rules": { "type": "string" },
-            "cross_border_constraints": { "type": "string" },
-            "required_legal_reviews": { "type": "array", "items": { "type": "string" } },
-            "regulatory_risk": { "type": "string" },
-            "evidence": { "$ref": "#/$defs/evidence" }
+            "jurisdictions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "regulated_activities": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "licensing_requirements": {
+              "type": "string"
+            },
+            "data_protection": {
+              "type": "string"
+            },
+            "consumer_protection": {
+              "type": "string"
+            },
+            "competition_law": {
+              "type": "string"
+            },
+            "employment_law": {
+              "type": "string"
+            },
+            "tax": {
+              "type": "string"
+            },
+            "payments": {
+              "type": "string"
+            },
+            "financial_services": {
+              "type": "string"
+            },
+            "sector_specific_rules": {
+              "type": "string"
+            },
+            "cross_border_constraints": {
+              "type": "string"
+            },
+            "required_legal_reviews": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "regulatory_risk": {
+              "type": "string"
+            },
+            "evidence": {
+              "$ref": "#/$defs/evidence"
+            }
           },
-          "required": ["jurisdictions", "regulated_activities", "data_protection", "required_legal_reviews", "regulatory_risk", "evidence"],
+          "required": [
+            "jurisdictions",
+            "regulated_activities",
+            "data_protection",
+            "required_legal_reviews",
+            "regulatory_risk",
+            "evidence"
+          ],
           "additionalProperties": false
         },
         "ai_vs_infrastructure_moat": {
           "type": "object",
           "properties": {
-            "ai_dependency": { "type": "object" },
-            "infrastructure_dependency": { "type": "object" },
-            "data_moat": { "type": "string" },
-            "workflow_moat": { "type": "string" },
-            "network_moat": { "type": "string" },
-            "distribution_moat": { "type": "string" },
-            "regulatory_moat": { "type": "string" },
-            "integration_moat": { "type": "string" },
-            "switching_cost_moat": { "type": "string" },
-            "model_substitutability": { "type": "string" },
-            "open_source_substitution_risk": { "type": "string" },
-            "infrastructure_replicability": { "type": "string" },
-            "durability_score": { "type": "integer", "minimum": 0, "maximum": 10 },
-            "rationale": { "type": "string" },
-            "evidence": { "$ref": "#/$defs/evidence" }
+            "ai_dependency": {
+              "type": "object"
+            },
+            "infrastructure_dependency": {
+              "type": "object"
+            },
+            "data_moat": {
+              "type": "string"
+            },
+            "workflow_moat": {
+              "type": "string"
+            },
+            "network_moat": {
+              "type": "string"
+            },
+            "distribution_moat": {
+              "type": "string"
+            },
+            "regulatory_moat": {
+              "type": "string"
+            },
+            "integration_moat": {
+              "type": "string"
+            },
+            "switching_cost_moat": {
+              "type": "string"
+            },
+            "model_substitutability": {
+              "type": "string"
+            },
+            "open_source_substitution_risk": {
+              "type": "string"
+            },
+            "infrastructure_replicability": {
+              "type": "string"
+            },
+            "durability_score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10
+            },
+            "rationale": {
+              "type": "string"
+            },
+            "evidence": {
+              "$ref": "#/$defs/evidence"
+            }
           },
-          "required": ["ai_dependency", "infrastructure_dependency", "durability_score", "rationale", "evidence"],
+          "required": [
+            "ai_dependency",
+            "infrastructure_dependency",
+            "durability_score",
+            "rationale",
+            "evidence"
+          ],
           "additionalProperties": false
         },
         "market_maturity": {
@@ -244,80 +709,251 @@
           "properties": {
             "stage": {
               "type": "string",
-              "enum": ["nascent", "emerging", "developing", "established", "mature", "declining", "fragmented", "unknown"]
+              "enum": [
+                "nascent",
+                "emerging",
+                "developing",
+                "established",
+                "mature",
+                "declining",
+                "fragmented",
+                "unknown"
+              ]
             },
-            "demand_maturity": { "type": "string" },
-            "supply_maturity": { "type": "string" },
-            "technology_maturity": { "type": "string" },
-            "regulatory_maturity": { "type": "string" },
-            "procurement_maturity": { "type": "string" },
-            "integration_maturity": { "type": "string" },
-            "standardization": { "type": "string" },
-            "customer_education": { "type": "string" },
-            "sales_cycle_maturity": { "type": "string" },
-            "adoption_barriers": { "type": "array", "items": { "type": "string" } },
-            "maturity_score": { "type": "integer", "minimum": 0, "maximum": 10 },
-            "evidence": { "$ref": "#/$defs/evidence" }
+            "demand_maturity": {
+              "type": "string"
+            },
+            "supply_maturity": {
+              "type": "string"
+            },
+            "technology_maturity": {
+              "type": "string"
+            },
+            "regulatory_maturity": {
+              "type": "string"
+            },
+            "procurement_maturity": {
+              "type": "string"
+            },
+            "integration_maturity": {
+              "type": "string"
+            },
+            "standardization": {
+              "type": "string"
+            },
+            "customer_education": {
+              "type": "string"
+            },
+            "sales_cycle_maturity": {
+              "type": "string"
+            },
+            "adoption_barriers": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "maturity_score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10
+            },
+            "evidence": {
+              "$ref": "#/$defs/evidence"
+            }
           },
-          "required": ["stage", "technology_maturity", "regulatory_maturity", "adoption_barriers", "maturity_score", "evidence"],
+          "required": [
+            "stage",
+            "technology_maturity",
+            "regulatory_maturity",
+            "adoption_barriers",
+            "maturity_score",
+            "evidence"
+          ],
           "additionalProperties": false
         },
-        "evidence_status": { "$ref": "#/$defs/evidence" },
+        "evidence_status": {
+          "$ref": "#/$defs/evidence"
+        },
         "validation_atlas": {
           "type": "object",
           "properties": {
-            "schema_validation": { "$ref": "#/$defs/validation_category" },
-            "source_validation": { "$ref": "#/$defs/validation_category" },
-            "economic_validation": { "$ref": "#/$defs/validation_category" },
-            "technical_validation": { "$ref": "#/$defs/validation_category" },
-            "market_validation": { "$ref": "#/$defs/validation_category" },
-            "regulatory_validation": { "$ref": "#/$defs/validation_category" },
-            "competitive_validation": { "$ref": "#/$defs/validation_category" },
-            "integration_validation": { "$ref": "#/$defs/validation_category" },
-            "risk_validation": { "$ref": "#/$defs/validation_category" },
-            "cross_record_validation": { "$ref": "#/$defs/validation_category" },
-            "overall_status": { "type": "string" },
-            "validation_score": { "type": "integer", "minimum": 0, "maximum": 100 },
-            "blocking_findings": { "type": "array", "items": { "type": "string" } },
-            "warnings": { "type": "array", "items": { "type": "string" } },
-            "last_validated_utc": { "type": "string", "format": "date-time" }
+            "schema_validation": {
+              "$ref": "#/$defs/validation_category"
+            },
+            "source_validation": {
+              "$ref": "#/$defs/validation_category"
+            },
+            "economic_validation": {
+              "$ref": "#/$defs/validation_category"
+            },
+            "technical_validation": {
+              "$ref": "#/$defs/validation_category"
+            },
+            "market_validation": {
+              "$ref": "#/$defs/validation_category"
+            },
+            "regulatory_validation": {
+              "$ref": "#/$defs/validation_category"
+            },
+            "competitive_validation": {
+              "$ref": "#/$defs/validation_category"
+            },
+            "integration_validation": {
+              "$ref": "#/$defs/validation_category"
+            },
+            "risk_validation": {
+              "$ref": "#/$defs/validation_category"
+            },
+            "cross_record_validation": {
+              "$ref": "#/$defs/validation_category"
+            },
+            "overall_status": {
+              "type": "string"
+            },
+            "validation_score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "blocking_findings": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "last_validated_utc": {
+              "type": "string",
+              "format": "date-time"
+            }
           },
-          "required": ["overall_status", "validation_score", "last_validated_utc"],
+          "required": [
+            "overall_status",
+            "validation_score",
+            "last_validated_utc"
+          ],
           "additionalProperties": false
         }
       },
       "required": [
-        "id", "model_id", "source_number", "market", "pain_point", "ai_solution", "monetization", "market_comment", "maturity", "status",
-        "infrastructure_pattern", "market_sizing", "cold_start_strategy", "competitive_landscape",
-        "data_and_integration_dependencies", "regulatory_constraints", "ai_vs_infrastructure_moat",
-        "market_maturity", "evidence_status", "validation_atlas"
+        "id",
+        "model_id",
+        "source_number",
+        "market",
+        "pain_point",
+        "ai_solution",
+        "monetization",
+        "market_comment",
+        "maturity",
+        "status",
+        "infrastructure_pattern",
+        "market_sizing",
+        "cold_start_strategy",
+        "competitive_landscape",
+        "data_and_integration_dependencies",
+        "regulatory_constraints",
+        "ai_vs_infrastructure_moat",
+        "market_maturity",
+        "evidence_status",
+        "validation_atlas"
       ],
       "additionalProperties": false
     },
     "market_size": {
       "type": "object",
       "properties": {
-        "value": { "type": ["number", "null"] },
-        "minimum": { "type": ["number", "null"] },
-        "maximum": { "type": ["number", "null"] },
-        "unit": { "type": "string" },
-        "status": { "type": "string", "enum": ["VERIFIED", "ESTIMATED", "INFERRED", "UNKNOWN", "BLOCKED", "NOT_APPLICABLE"] },
-        "rationale": { "type": "string" }
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "minimum": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "maximum": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "unit": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "VERIFIED",
+            "ESTIMATED",
+            "INFERRED",
+            "UNKNOWN",
+            "BLOCKED",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "rationale": {
+          "type": "string"
+        }
       },
-      "required": ["status", "unit", "rationale"],
+      "required": [
+        "status",
+        "unit",
+        "rationale"
+      ],
       "additionalProperties": false
     },
     "validation_category": {
       "type": "object",
       "properties": {
-        "status": { "type": "string", "enum": ["PASS", "FAIL", "PARTIAL", "PENDING", "UNKNOWN", "BLOCKED"] },
-        "checks": { "type": "array", "items": { "type": "string" } },
-        "passed": { "type": "integer", "minimum": 0 },
-        "failed": { "type": "integer", "minimum": 0 },
-        "unknown": { "type": "integer", "minimum": 0 },
-        "evidence": { "type": "object" }
+        "status": {
+          "type": "string",
+          "enum": [
+            "PASS",
+            "FAIL",
+            "PARTIAL",
+            "PENDING",
+            "UNKNOWN",
+            "BLOCKED"
+          ]
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "passed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "failed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unknown": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "evidence": {
+          "type": "object"
+        }
       },
-      "required": ["status", "checks", "passed", "failed", "unknown"],
+      "required": [
+        "status",
+        "checks",
+        "passed",
+        "failed",
+        "unknown"
+      ],
       "additionalProperties": false
     }
   }
