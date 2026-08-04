@@ -1,7 +1,38 @@
 #!/usr/bin/env node
 // Parses the canonical AI infrastructure documentation pages and regenerates
-// the structured JSON catalogs, matrix, and manifest. Source of truth is the
-// markdown under src/content/docs/research/ — this script must not invent data.
+// the structured JSON catalogs, matrix, and manifest.
+//
+// CANONICAL SOURCES:
+// 1. src/content/docs/research/100-ai-business-models-infrastructure-pattern.md
+//    → parses legacy business model fields (id 1-100, market, pain_point, etc.)
+//
+// 2. src/data/research/ai-infrastructure/enrichment-atlas.json (REQUIRED)
+//    → contains Phase-2.1 hardening dimensions for all 100 models
+//    → NEVER optional; generation MUST fail if missing or incomplete
+//    → provides: model_id, source_number, primary_cluster, region,
+//      economics_breakdown, risk, ssid_relevance, infrastructure_pattern,
+//      market_sizing, cold_start_strategy, competitive_landscape,
+//      data_and_integration_dependencies, regulatory_constraints,
+//      ai_vs_infrastructure_moat, market_maturity, evidence_status, validation_atlas
+//
+// 3. src/content/docs/research/katalog-100-ki-skills-und-ki-agents.md
+//    → parses 100 skills and their business model mappings
+//
+// OUTPUT CONTRACT:
+// Each business model in output MUST contain all 27 fields:
+// - 8 legacy fields (id, market, pain_point, ai_solution, monetization, market_comment, maturity, status)
+// - 10 Phase-2.1 hardening dimensions (infrastructure_pattern, market_sizing, etc.)
+// - 9 enrichment metadata fields (model_id, source_number, primary_cluster, etc.)
+//
+// FAILURE CONDITIONS (all are hard-fail):
+// - enrichment-atlas.json missing
+// - enrichment-atlas.json has < 100 records
+// - Any model missing from enrichment-atlas
+// - Any enrichment record with duplicate ID
+// - Any required hardening dimension null/undefined
+// - Output model count ≠ 100
+// - Output model IDs ≠ 1–100 (consecutive)
+// - Schema validation failure
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -13,6 +44,30 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 function fail(message) {
   console.error(`BLOCKED: ${message}`);
   process.exit(1);
+}
+
+function validateEnrichmentIntegrity(model, enrichment, modelId) {
+  const dimensions = [
+    'infrastructure_pattern', 'market_sizing', 'cold_start_strategy',
+    'competitive_landscape', 'data_and_integration_dependencies',
+    'regulatory_constraints', 'ai_vs_infrastructure_moat', 'market_maturity',
+    'evidence_status', 'validation_atlas'
+  ];
+
+  for (const dim of dimensions) {
+    if (!(dim in enrichment)) {
+      fail(`Enrichment for model ${modelId} missing required field: ${dim}`);
+    }
+    if (enrichment[dim] === null || enrichment[dim] === undefined) {
+      fail(`Enrichment for model ${modelId} has null/undefined ${dim}`);
+    }
+    if (typeof enrichment[dim] === 'object' && Object.keys(enrichment[dim]).length === 0) {
+      fail(`Enrichment for model ${modelId} has empty object for ${dim}`);
+    }
+    if (!(dim in model)) {
+      fail(`Merged model ${modelId} missing field: ${dim}`);
+    }
+  }
 }
 
 function readText(relPath) {
@@ -117,6 +172,16 @@ function mergeWithEnrichment(legacyModels, enrichmentByID) {
   const merged = [];
   const seenIds = new Set();
 
+  // Validate enrichment atlas has exactly 100 records covering IDs 1-100
+  if (Object.keys(enrichmentByID).length !== 100) {
+    fail(`Enrichment atlas must have exactly 100 records, found ${Object.keys(enrichmentByID).length}`);
+  }
+  for (let i = 1; i <= 100; i++) {
+    if (!enrichmentByID[i]) {
+      fail(`Enrichment atlas missing required model ID: ${i}`);
+    }
+  }
+
   for (const model of legacyModels) {
     const enrichment = enrichmentByID[model.id];
     if (!enrichment) fail(`No enrichment found for model ID ${model.id}`);
@@ -144,24 +209,17 @@ function mergeWithEnrichment(legacyModels, enrichmentByID) {
       validation_atlas: enrichment.validation_atlas,
     };
 
-    const dimensions = [
-      'infrastructure_pattern', 'market_sizing', 'cold_start_strategy',
-      'competitive_landscape', 'data_and_integration_dependencies',
-      'regulatory_constraints', 'ai_vs_infrastructure_moat', 'market_maturity',
-      'evidence_status', 'validation_atlas'
-    ];
-    for (const dim of dimensions) {
-      if (!(dim in fullModel)) fail(`Model ${model.id} missing hardening dimension: ${dim}`);
-      if (!fullModel[dim]) fail(`Model ${model.id} has null/undefined ${dim}`);
-    }
+    validateEnrichmentIntegrity(fullModel, enrichment, model.id);
 
     merged.push(fullModel);
     seenIds.add(model.id);
   }
 
+  // Verify all enrichment records were used
   for (const id of Object.keys(enrichmentByID)) {
-    if (!seenIds.has(Number(id))) {
-      fail(`Enrichment atlas has unknown model ID: ${id}`);
+    const numId = Number(id);
+    if (!seenIds.has(numId)) {
+      fail(`Enrichment atlas has model ID not in legacy models: ${id}`);
     }
   }
 
@@ -244,6 +302,49 @@ function parseSkills() {
 
 // ---------- Build ----------
 
+function validateOutputModels(models) {
+  if (models.length !== 100) {
+    fail(`Output must contain exactly 100 models, got ${models.length}`);
+  }
+
+  const requiredFields = [
+    // Legacy fields (8)
+    'id', 'market', 'pain_point', 'ai_solution', 'monetization', 'market_comment', 'maturity', 'status',
+    // Enrichment metadata (9)
+    'model_id', 'source_number', 'primary_cluster', 'primary_cluster_label', 'region', 'source_reference', 'economics_breakdown', 'risk', 'ssid_relevance',
+    // Phase-2.1 hardening dimensions (10)
+    'infrastructure_pattern', 'market_sizing', 'cold_start_strategy', 'competitive_landscape',
+    'data_and_integration_dependencies', 'regulatory_constraints', 'ai_vs_infrastructure_moat',
+    'market_maturity', 'evidence_status', 'validation_atlas'
+  ];
+
+  const modelIds = new Set();
+  for (const model of models) {
+    for (const field of requiredFields) {
+      if (!(field in model)) {
+        fail(`Model ${model.id} missing required field: ${field}`);
+      }
+      if (model[field] === null || model[field] === undefined) {
+        fail(`Model ${model.id} has null/undefined ${field}`);
+      }
+    }
+    if (model.id < 1 || model.id > 100 || !Number.isInteger(model.id)) {
+      fail(`Model has invalid id: ${model.id}`);
+    }
+    if (modelIds.has(model.id)) {
+      fail(`Duplicate model ID: ${model.id}`);
+    }
+    modelIds.add(model.id);
+  }
+
+  // Verify IDs are exactly 1-100
+  for (let i = 1; i <= 100; i++) {
+    if (!modelIds.has(i)) {
+      fail(`Missing model ID: ${i}`);
+    }
+  }
+}
+
 function build() {
   const legacyModels = parseBusinessModels();
   if (legacyModels.length !== 100) fail(`Expected 100 business models, parsed ${legacyModels.length}.`);
@@ -254,6 +355,9 @@ function build() {
 
   const enrichmentByID = loadEnrichmentAtlas();
   const models = mergeWithEnrichment(legacyModels, enrichmentByID);
+
+  // Validate output before writing
+  validateOutputModels(models);
 
   const skills = parseSkills();
   if (skills.length !== 100) fail(`Expected 100 skills, parsed ${skills.length}.`);
