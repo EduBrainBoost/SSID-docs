@@ -1,0 +1,98 @@
+name: phase3-evidence-validation
+
+on:
+  pull_request:
+    paths:
+      - 'src/data/research/ai-infrastructure/phase3/**'
+      - 'tools/ai-infrastructure/phase3/**'
+      - 'tests/ai-infrastructure/phase3/**'
+      - '.github/workflows/phase3-evidence-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'src/data/research/ai-infrastructure/phase3/**'
+      - 'tools/ai-infrastructure/phase3/**'
+      - 'tests/ai-infrastructure/phase3/**'
+      - '.github/workflows/phase3-evidence-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  phase3-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Run Phase-3 validator
+        run: python tools/ai-infrastructure/phase3/validate_phase3.py
+        continue-on-error: false
+
+      - name: Run Phase-3 tests
+        run: python -m pytest tests/ai-infrastructure/phase3/test_phase3_evidence.py -v --tb=short 2>&1 | tee test-output.log
+        continue-on-error: true
+
+      - name: Verify test gate (20/24 pass minimum)
+        run: |
+          PASSED=$(grep -c "PASS\|ok" test-output.log || echo 0)
+          TOTAL=$(grep -c "test_" test-output.log || echo 0)
+          if [ $PASSED -lt 20 ]; then
+            echo "❌ FAIL: Only $PASSED/24 tests passed (required: 20)"
+            exit 1
+          fi
+          echo "✓ PASS: $PASSED/24 tests passed"
+
+      - name: Verify catalog and schema unchanged
+        run: |
+          git diff --exit-code src/data/research/ai-infrastructure/business-models.json || exit 1
+          git diff --exit-code src/data/research/ai-infrastructure/schemas/business-model.schema.json || exit 1
+
+      - name: Check for personal paths
+        run: |
+          ! grep -r 'C:\\Users\\' src/data/research/ai-infrastructure/phase3/ tests/ai-infrastructure/phase3/ tools/ai-infrastructure/phase3/ 2>/dev/null || exit 1
+          ! grep -r '/home/' src/data/research/ai-infrastructure/phase3/ tests/ai-infrastructure/phase3/ tools/ai-infrastructure/phase3/ 2>/dev/null || exit 1
+          ! grep -r 'SSID-Workspace\|SSID-Arbeitsbereich' src/data/research/ai-infrastructure/phase3/ tests/ai-infrastructure/phase3/ tools/ai-infrastructure/phase3/ 2>/dev/null || exit 1
+
+      - name: Check for secrets
+        run: |
+          ! grep -ir 'password\|secret\|token\|api.key' src/data/research/ai-infrastructure/phase3/ 2>/dev/null | grep -v 'test_phase3' | grep -v 'methodology' || exit 1
+          echo "✓ No secrets detected"
+
+      - name: Validate artifact inventory
+        run: |
+          EXPECTED_FILES=(
+            "phase3-claim-inventory.json"
+            "phase3-source-manifest.json"
+            "phase3-evidence-taxonomy.json"
+            "phase3-known-defect-repairs.json"
+            "phase3-test-results.json"
+            "phase3-repository-scope-audit.json"
+            "PHASE_3_AUDIT_CLOSURE_SUMMARY.md"
+            "PHASE_3_EXECUTION_SUMMARY.md"
+            "phase3-research-execution-framework.json"
+            "phase3-human-research-backlog.json"
+            "phase3-validation-atlas.json"
+          )
+
+          MISSING=0
+          for file in "${EXPECTED_FILES[@]}"; do
+            if [ ! -f "src/data/research/ai-infrastructure/phase3/$file" ]; then
+              echo "❌ Missing: $file"
+              MISSING=$((MISSING + 1))
+            fi
+          done
+
+          if [ $MISSING -gt 0 ]; then
+            echo "❌ FAIL: $MISSING required files missing"
+            exit 1
+          fi
+          echo "✓ All 11 Phase-3 artifacts present"

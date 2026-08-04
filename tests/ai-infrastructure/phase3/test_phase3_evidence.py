@@ -24,7 +24,7 @@ class Phase3EvidenceTests(unittest.TestCase):
             "phase3-evidence-taxonomy.json",
             "phase3-known-defect-repairs.json",
             "phase3-test-results.json",
-            "phase3-root24-repair-report.json"
+            "phase3-repository-scope-audit.json"
         }
 
         for filename in required_files:
@@ -299,29 +299,28 @@ class Phase3EvidenceTests(unittest.TestCase):
             self.assertEqual(len(matches), 0, f"Secret pattern detected: {secret_type}")
 
     def test_020_root24_violations_documented(self):
-        """TEST_020: ROOT-24 violations are documented and authorized"""
-        repairs = self.data["phase3-root24-repair-report.json"]
+        """TEST_020: Repository scope audit validates SSID-docs CI scope compliance"""
+        repairs = self.data["phase3-repository-scope-audit.json"]
 
-        self.assertIn("audit_findings", repairs, "ROOT-24 report should contain audit findings")
-        self.assertIn("root_24_remediation_plan", repairs, "Should have remediation plan")
+        self.assertIn("repository_structure_compliance", repairs, "Should have structure compliance")
+        self.assertIn("final_assessment", repairs, "Should have final assessment")
 
     # ========== ADDITIONAL VALIDATION TESTS (021-024) ==========
 
     def test_021_all_required_files_present(self):
-        """TEST_021: All 12 Phase-3 artifacts are present"""
+        """TEST_021: All 11 Phase-3 artifacts are present"""
         expected_files = {
             "phase3-claim-inventory.json",
             "phase3-source-manifest.json",
             "phase3-evidence-taxonomy.json",
             "phase3-known-defect-repairs.json",
             "phase3-test-results.json",
-            "phase3-root24-repair-report.json",
+            "phase3-repository-scope-audit.json",
             "PHASE_3_AUDIT_CLOSURE_SUMMARY.md",
             "PHASE_3_EXECUTION_SUMMARY.md",
             "phase3-research-execution-framework.json",
             "phase3-human-research-backlog.json",
-            "phase3-validation-atlas.json",
-            "DRAFT_PR_PHASE3_RESEARCH.md"
+            "phase3-validation-atlas.json"
         }
 
         actual_files = set(f.name for f in self.data_path.glob("*"))
