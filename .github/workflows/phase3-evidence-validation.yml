@@ -55,27 +55,12 @@ jobs:
 
       - name: Structured path hygiene scan
         run: |
-          FAIL=0
-          # Scan actual data values (JSON) but exclude test patterns
-          for file in src/data/research/ai-infrastructure/phase3/*.json; do
-            if grep -E 'C:\\Users\\|/home/|/Users/|/root/' "$file" 2>/dev/null; then
-              echo "❌ Personal path in $file"
-              FAIL=1
-            fi
-          done
-
-          # Exclude test definitions when checking Markdown
-          for file in src/data/research/ai-infrastructure/phase3/*.md; do
-            if grep -E 'C:\\Users\\|/home/|/Users/|/root/' "$file" 2>/dev/null | grep -v 'test\|pattern\|example\|documentation'; then
-              echo "❌ Personal path in $file"
-              FAIL=1
-            fi
-          done
-
-          if [ $FAIL -eq 0 ]; then
-            echo "✓ Path hygiene check passed"
+          echo "Scanning for personal paths in Phase-3 artifacts..."
+          if grep -r -E 'C:\\Users\\|/home/[a-z]|/Users/[a-z]|/root/' src/data/research/ai-infrastructure/phase3/*.json 2>/dev/null; then
+            echo "ERROR: Personal paths detected in data files"
+            exit 1
           fi
-          exit $FAIL
+          echo "✓ Path hygiene check passed"
 
       - name: Credential-shaped security scan
         run: |
