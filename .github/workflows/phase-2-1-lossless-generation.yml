@@ -8,8 +8,12 @@ on:
       - 'src/content/docs/research/100-ai-business-models-infrastructure-pattern.md'
       - 'src/content/docs/research/katalog-100-ki-skills-und-ki-agents.md'
       - 'src/data/research/ai-infrastructure/enrichment-atlas.json'
+      - 'src/data/research/ai-infrastructure/schemas/business-model.schema.json'
       - 'src/data/research/ai-infrastructure/business-models.json'
       - 'tools/build-ai-infrastructure-catalogs.mjs'
+      - 'tests/ai-infrastructure-phase2-1-lossless.test.mjs'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
       - '.github/workflows/phase-2-1-lossless-generation.yml'
   push:
     branches:
@@ -18,8 +22,12 @@ on:
       - 'src/content/docs/research/100-ai-business-models-infrastructure-pattern.md'
       - 'src/content/docs/research/katalog-100-ki-skills-und-ki-agents.md'
       - 'src/data/research/ai-infrastructure/enrichment-atlas.json'
+      - 'src/data/research/ai-infrastructure/schemas/business-model.schema.json'
       - 'src/data/research/ai-infrastructure/business-models.json'
       - 'tools/build-ai-infrastructure-catalogs.mjs'
+      - 'tests/ai-infrastructure-phase2-1-lossless.test.mjs'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
 
 jobs:
   phase-2-1-lossless:
@@ -38,8 +46,11 @@ jobs:
         with:
           node-version: '24'
 
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Install dependencies (pnpm frozen lockfile)
+        run: pnpm install --frozen-lockfile
         env:
           CI: true
 
@@ -58,7 +69,7 @@ jobs:
           echo "✓ Enrichment atlas: $enrichCount records verified"
 
       - name: First catalog generation
-        run: npm run build:ai-catalogs
+        run: pnpm run build:ai-catalogs
         env:
           CI: true
 
@@ -79,7 +90,7 @@ jobs:
           echo "✓ First generation hash: $HASH1"
 
       - name: Second catalog generation (determinism check)
-        run: npm run build:ai-catalogs
+        run: pnpm run build:ai-catalogs
         env:
           CI: true
 
@@ -99,63 +110,25 @@ jobs:
         env:
           CI: true
 
-      - name: Catalog schema validation
-        run: |
-          schema_file="src/data/research/ai-infrastructure/schemas/business-model.schema.json"
-          catalog_file="src/data/research/ai-infrastructure/business-models.json"
+      - name: Real JSON Schema validation
+        run: node tools/validate-schema.mjs src/data/research/ai-infrastructure/business-models.json src/data/research/ai-infrastructure/schemas/business-model.schema.json
+        env:
+          CI: true
 
-          if [ ! -f "$schema_file" ]; then
-            echo "BLOCKED: Schema file not found: $schema_file"
+      - name: Run repository tests
+        run: pnpm run test
+        env:
+          CI: true
+
+      - name: Verify clean worktree
+        run: |
+          if ! git diff --exit-code --check; then
+            echo "BLOCKED: Whitespace or line-ending issues detected"
             exit 1
           fi
-
-          # Validate schema is valid JSON Schema
-          echo "Validating schema..."
-          jq . "$schema_file" > /dev/null || exit 1
-
-          # Validate catalog is valid JSON
-          echo "Validating catalog JSON..."
-          jq . "$catalog_file" > /dev/null || exit 1
-
-          # Count models
-          modelCount=$(jq '.models | length' "$catalog_file")
-          echo "✓ Catalog has $modelCount models (expected 100)"
-          [ "$modelCount" -eq 100 ] || exit 1
-
-          # Verify all models have required Phase-2.1 fields
-          dimensions="infrastructure_pattern market_sizing cold_start_strategy competitive_landscape data_and_integration_dependencies regulatory_constraints ai_vs_infrastructure_moat market_maturity evidence_status validation_atlas"
-          for dim in $dimensions; do
-            missingCount=$(jq --arg d "$dim" '[.models[] | select(.[$d] == null or (.[$d] | type) == "null")] | length' "$catalog_file")
-            if [ "$missingCount" -gt 0 ]; then
-              echo "BLOCKED: $missingCount models missing or have null $dim"
-              exit 1
-            fi
-          done
-          echo "✓ All models have all 10 Phase-2.1 dimensions"
-
-      - name: Verify all tests pass
-        run: npm test -- --reporter=verbose 2>/dev/null || true
-
-      - name: Summary
-        run: |
-          echo "✓ PHASE_2_1_LOSSLESS_GENERATION_VERIFIED"
-          echo ""
-          echo "Validation Summary:"
-          echo "  ✓ enrichment-atlas.json: 100 records present"
-          echo "  ✓ Generation 1: deterministic, no unexpected changes"
-          echo "  ✓ Generation 2: byte-identical to generation 1"
-          echo "  ✓ All Phase-2.1 lossless tests: PASS (17/17)"
-          echo "  ✓ Catalog schema: valid, 100 models, all dimensions present"
-          echo "  ✓ Model IDs: 1-100 complete"
-          echo ""
-          echo "Phase-2.1 hardening dimensions verified in all models:"
-          echo "  1. infrastructure_pattern"
-          echo "  2. market_sizing"
-          echo "  3. cold_start_strategy"
-          echo "  4. competitive_landscape"
-          echo "  5. data_and_integration_dependencies"
-          echo "  6. regulatory_constraints"
-          echo "  7. ai_vs_infrastructure_moat"
-          echo "  8. market_maturity"
-          echo "  9. evidence_status"
-          echo "  10. validation_atlas"
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "BLOCKED: Worktree is not clean"
+            git status --porcelain
+            exit 1
+          fi
+          echo "✓ Worktree is clean"
