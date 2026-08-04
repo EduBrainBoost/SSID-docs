@@ -1,0 +1,442 @@
+{
+  "metadata": {
+    "phase": "Phase 3: External Evidence Validation",
+    "timestamp_utc": "2026-08-03T16:45:00Z",
+    "research_capability": "FULL_WEB_RESEARCH_AVAILABLE",
+    "total_tasks": 100,
+    "priority_distribution": {
+      "P0_critical": 25,
+      "P1_high": 40,
+      "P2_medium": 25,
+      "P3_low": 10
+    },
+    "estimated_total_effort_hours": 800,
+    "base_commit": "9b25acd87d4f9bc694412c372b52b96bf410715a"
+  },
+  "p0_critical_tasks": [
+    {
+      "task_id": "P0_001",
+      "batch": 1,
+      "model_id": "AI-INFRA-001",
+      "model_title": "Ambulante Medizin / Arzttermine",
+      "dimension": "market_sizing",
+      "priority": "P0",
+      "question": "Validate TAM for German ambulatory care market and appointment scheduling software",
+      "research_queries": [
+        "Germany ambulatory care spending 2024 2025 EUR market size",
+        "German medical practice software market TAM revenue",
+        "Arzttermine scheduling software market size Germany"
+      ],
+      "target_sources": [
+        "Eurostat (official statistics)",
+        "Destatis (German federal statistics)",
+        "IBISWorld industry analysis",
+        "German Medical Association (KBV)"
+      ],
+      "jurisdiction": "DE",
+      "required_evidence_level": "VERIFIED or SUPPORTED",
+      "expected_output": {
+        "tam_value": "EUR value with currency and base year",
+        "methodology": "Description of how TAM was calculated",
+        "sources": "List of authoritative sources with URLs"
+      },
+      "estimated_effort_hours": 3,
+      "owner_role": "Healthcare Market Researcher",
+      "live_research_status": "PARTIAL_COMPLETE",
+      "live_findings": "Ambulatory care spending confirmed EUR 259.4B (2024), 48.2% of total health spending"
+    },
+    {
+      "task_id": "P0_002",
+      "batch": 1,
+      "model_id": "AI-INFRA-002",
+      "model_title": "Teletriage und Erstkontakt",
+      "dimension": "market_sizing",
+      "priority": "P0",
+      "question": "Establish TAM for German triage and telemedicine market",
+      "research_queries": [
+        "Germany telemedicine market size 2025 triage platforms",
+        "German telehealth telehealth market TAM revenue forecast",
+        "Deutschland Triage software market"
+      ],
+      "target_sources": [
+        "Grand View Research Germany digital health market",
+        "MarketsAndMarkets telehealth report",
+        "German health insurers (Krankenkassen) digital health spending"
+      ],
+      "jurisdiction": "DE",
+      "required_evidence_level": "SUPPORTED",
+      "expected_output": {
+        "tam_value": "EUR or USD value with conversion methodology",
+        "growth_rate": "CAGR forecast to 2030+",
+        "regulatory_drivers": "DVG/DiGA reimbursement status"
+      },
+      "estimated_effort_hours": 3,
+      "owner_role": "Healthcare Market Researcher",
+      "live_research_status": "PARTIAL_COMPLETE",
+      "live_findings": "Digital health market 22.4% CAGR (2025-2030); Telehealth 26.4% revenue share"
+    },
+    {
+      "task_id": "P0_003",
+      "batch": 1,
+      "model_id": "AI-INFRA-003",
+      "model_title": "Praxisabrechnung / GOÄ-EBM",
+      "dimension": "regulatory_constraints",
+      "priority": "P0",
+      "question": "Identify exact regulatory requirements for medical billing software in Germany",
+      "research_queries": [
+        "German medical billing software requirements KBV GOÄ EBM regulations",
+        "Medical device regulation Germany billing software MDR compliance",
+        "KBV Kassenärztliche Vereinigung software certification requirements",
+        "Datenschutz GDPR medical billing software Germany"
+      ],
+      "target_sources": [
+        "KBV (Kassenärztliche Bundesvereinigung) official guidelines",
+        "BfArM (Federal Institute for Drugs and Medical Devices)",
+        "EUR-Lex German medical device regulations",
+        "Datenschutzbehörde requirements"
+      ],
+      "jurisdiction": "DE",
+      "required_evidence_level": "VERIFIED",
+      "expected_output": {
+        "regulated_activities": "List of regulatory regimes applicable",
+        "licensing_requirements": "Specific certifications or approvals needed",
+        "compliance_timeline": "How long certification/approval typically takes",
+        "cost_estimate": "Estimated compliance costs"
+      },
+      "estimated_effort_hours": 5,
+      "owner_role": "Healthcare Regulatory Specialist",
+      "live_research_status": "NOT_STARTED",
+      "blocking_issues": "Requires legal/regulatory research, not market data"
+    },
+    {
+      "task_id": "P0_004",
+      "batch": 1,
+      "model_id": "AI-INFRA-004",
+      "model_title": "Pflegeeinsatz und ambulante Dienste",
+      "dimension": "market_sizing",
+      "priority": "P0",
+      "question": "Validate market size for nursing care and home care services in Germany",
+      "research_queries": [
+        "Germany home care market size 2025 ambulante Pflege spending",
+        "German elderly care market TAM EUR 2025 forecast 2030",
+        "Residential nursing care Germany market size 2025"
+      ],
+      "target_sources": [
+        "Eurostat health expenditure on long-term care",
+        "Destatis elderly care statistics",
+        "German Nursing Association (Deutscher Pflegerat)",
+        "Market research reports (IQVIA, IBISWorld)"
+      ],
+      "jurisdiction": "DE",
+      "required_evidence_level": "VERIFIED or SUPPORTED",
+      "expected_output": {
+        "home_care_market_value": "EUR value for home care TAM",
+        "residential_care_market_value": "EUR value for institutional care",
+        "growth_rate": "Historical and forecast CAGR",
+        "nurse_shortage_forecast": "Quantified supply gap analysis"
+      },
+      "estimated_effort_hours": 3,
+      "owner_role": "Healthcare Market Researcher",
+      "live_research_status": "PARTIAL_COMPLETE",
+      "live_findings": "Residential care EUR 35.1B (2025); home care 5.8% CAGR; nurse shortage 60k→300k (2025-2030)"
+    },
+    {
+      "task_id": "P0_005",
+      "batch": 1,
+      "model_id": "AI-INFRA-005",
+      "model_title": "Psychotherapie-Kapazitätsnetz",
+      "dimension": "market_sizing",
+      "priority": "P0",
+      "question": "Establish TAM for German psychotherapy market and capacity platform",
+      "research_queries": [
+        "Germany psychotherapy market size EUR 2025 psychotherapists",
+        "German mental health services market TAM spending",
+        "Psychotherapy capacity shortage Germany 2025 2026 waiting times"
+      ],
+      "target_sources": [
+        "European Psychiatry Therapies Market reports",
+        "German Psychotherapy Association (Deutsche Gesellschaft für Psychotherapie)",
+        "Bundestag healthcare budget data (GKV-Beitragssatzstabilisierungsgesetz)",
+        "Psychofit industry analysis"
+      ],
+      "jurisdiction": "DE",
+      "required_evidence_level": "SUPPORTED",
+      "expected_output": {
+        "total_psychotherapists": "Headcount in Germany",
+        "capacity_gap": "Unmet demand estimate",
+        "average_waiting_time": "Days to appointment",
+        "market_size": "TAM for therapy services"
+      },
+      "estimated_effort_hours": 3,
+      "owner_role": "Healthcare Market Researcher",
+      "live_research_status": "PARTIAL_COMPLETE",
+      "live_findings": "28,000 therapists (insufficient for 83M); 142-day average wait; recent budget caps on reimbursement"
+    },
+    {
+      "task_id": "P0_006",
+      "batch": 1,
+      "model_id": "AI-INFRA-006",
+      "model_title": "Zahnarzt Praxis Digitalisierung / Dental AI",
+      "dimension": "market_sizing",
+      "priority": "P0",
+      "question": "Validate market size for German dental practice software and AI diagnostics",
+      "research_queries": [
+        "Germany dental practice management software market size 2025 2030",
+        "German dental AI diagnostics market CAD-CAM technology market",
+        "Zahnarzt digitalisierung Germany market"
+      ],
+      "target_sources": [
+        "Grand View Research dental software market Germany",
+        "Market Research Future dental services Germany",
+        "Dental industry associations",
+        "Software vendor market share reports"
+      ],
+      "jurisdiction": "DE",
+      "required_evidence_level": "SUPPORTED",
+      "expected_output": {
+        "dental_software_tam": "EUR value for practice management software",
+        "ai_diagnostics_market": "Market size for AI imaging/diagnostics",
+        "cad_cam_market": "CAD-CAM technology market size",
+        "growth_rates": "CAGR for each segment"
+      },
+      "estimated_effort_hours": 2,
+      "owner_role": "Healthcare Market Researcher",
+      "live_research_status": "PARTIAL_COMPLETE",
+      "live_findings": "Dental software 11% CAGR (2025-2030), USD 411.9M by 2030; AI in dentistry USD 516.5M→USD 3.9B"
+    },
+    {
+      "task_id": "P0_007",
+      "batch": 1,
+      "model_id": "AI-INFRA-003",
+      "model_title": "Praxisabrechnung / GOÄ-EBM",
+      "dimension": "competitive_landscape",
+      "priority": "P0",
+      "question": "Identify direct competitors in German medical billing software market",
+      "research_queries": [
+        "German medical practice management software vendors 2025 2026",
+        "KBV certified billing software providers Deutschland",
+        "Medical billing platforms Germany competitor analysis",
+        "Praxisverwaltungssoftware Anbieter Deutschland"
+      ],
+      "target_sources": [
+        "G-BA (German Health Committee) certified software list",
+        "Industry analyst reports (Forrester, Gartner, IDC Germany)",
+        "Healthcare IT vendor databases",
+        "Practice management software reviews Germany"
+      ],
+      "jurisdiction": "DE",
+      "required_evidence_level": "VERIFIED or DOCUMENTED",
+      "expected_output": {
+        "direct_competitors": "Named competitors with market share if available",
+        "incumbent_solutions": "Existing billing approaches (paper, in-house)",
+        "market_concentration": "Market share distribution",
+        "switching_costs": "Estimated cost and effort to switch"
+      },
+      "estimated_effort_hours": 4,
+      "owner_role": "Healthcare Market Researcher",
+      "notes": "CRITICAL for understanding competitive defensibility"
+    },
+    {
+      "task_id": "P0_008",
+      "batch": 1,
+      "model_id": "AI-INFRA-001",
+      "model_title": "Ambulante Medizin / Arzttermine",
+      "dimension": "cold_start_strategy",
+      "priority": "P0",
+      "question": "Identify German healthcare startup success stories and pilot models",
+      "research_queries": [
+        "German healthcare startup success stories digital health platforms pilot",
+        "Arzttermine startup Deutschland pilot program results",
+        "Digital health startup case studies Germany adoption",
+        "Healthcare platform pilot success Germany market entry"
+      ],
+      "target_sources": [
+        "EIT Health startup database",
+        "German Digital Health Startups hub",
+        "Healthcare accelerator programs (BioM, etc.)",
+        "Press releases from successful exits/Series A rounds"
+      ],
+      "jurisdiction": "DE",
+      "required_evidence_level": "DOCUMENTED or SUPPORTED",
+      "expected_output": {
+        "successful_pilots": "Case studies with metrics (adoption, retention, revenue)",
+        "entry_strategy": "How successful startups penetrated market",
+        "pilot_duration": "Time to market validation",
+        "network_size_requirements": "Minimum viable supply/demand"
+      },
+      "estimated_effort_hours": 4,
+      "owner_role": "Healthcare Market Researcher"
+    },
+    {
+      "task_id": "P0_009",
+      "batch": 1,
+      "model_id": "AI-INFRA-004",
+      "model_title": "Pflegeeinsatz und ambulante Dienste",
+      "dimension": "data_and_integration_dependencies",
+      "priority": "P0",
+      "question": "Identify actual data requirements and integration dependencies for German nursing care platforms",
+      "research_queries": [
+        "German nursing care platform data integration telematics infrastructure",
+        "KBV telematics data requirements ambulante Pflege",
+        "Home care software integration Germany health record systems",
+        "Pflege-Digitalisierung data standards Deutschland"
+      ],
+      "target_sources": [
+        "KBV telematics infrastructure documentation",
+        "BfArM interoperability standards",
+        "German health record standards (FHIR-DE, etc.)",
+        "Healthcare integration platform vendors"
+      ],
+      "jurisdiction": "DE",
+      "required_evidence_level": "VERIFIED or DOCUMENTED",
+      "expected_output": {
+        "required_data": "List of mandatory data elements",
+        "integration_points": "System connections needed",
+        "standards": "Applicable technical standards (HL7, FHIR, etc.)",
+        "latency_requirements": "Real-time vs. batch processing needs",
+        "regulatory_data_constraints": "GDPR/compliance implications"
+      },
+      "estimated_effort_hours": 4,
+      "owner_role": "Healthcare Integration Architect"
+    },
+    {
+      "task_id": "P0_010",
+      "batch": 1,
+      "model_id": "AI-INFRA-005",
+      "model_title": "Psychotherapie-Kapazitätsnetz",
+      "dimension": "cold_start_strategy",
+      "priority": "P0",
+      "question": "Identify critical mass requirements for psychotherapy network platform",
+      "research_queries": [
+        "Psychotherapy market two-sided network minimum viable network size",
+        "Psychotherapist participation incentives digital platforms",
+        "Psychotherapy referral network model Germany",
+        "Telehealth psychotherapy platform adoption success factors"
+      ],
+      "target_sources": [
+        "German Psychotherapy Association research",
+        "Telehealth platform case studies",
+        "Network economics research papers",
+        "GKV reimbursement incentive structures"
+      ],
+      "jurisdiction": "DE",
+      "required_evidence_level": "SUPPORTED or ESTIMATED",
+      "expected_output": {
+        "minimum_therapists": "Network size to reach critical mass",
+        "minimum_patients": "Patient base for liquidity",
+        "geographic_coverage": "Regional vs. national strategy",
+        "incentive_structure": "How to recruit both sides"
+      },
+      "estimated_effort_hours": 3,
+      "owner_role": "Healthcare Business Model Specialist"
+    }
+  ],
+  "p1_high_priority_tasks": [
+    {
+      "task_id": "P1_001",
+      "batch": 2,
+      "model_id": "AI-INFRA-011",
+      "model_title": "Diagnostische Labore / Labor-AI",
+      "dimension": "market_sizing",
+      "priority": "P1",
+      "question": "Establish TAM for German diagnostic laboratory market and AI analysis software",
+      "research_queries": [
+        "Germany laboratory diagnostics market size EUR 2025",
+        "Medical testing spending Germany laboratory AI",
+        "Pathology AI diagnostics market Germany"
+      ],
+      "target_sources": ["Eurostat", "IQVIA Germany", "Market Research reports"],
+      "jurisdiction": "DE",
+      "required_evidence_level": "SUPPORTED",
+      "estimated_effort_hours": 3,
+      "owner_role": "Healthcare Market Researcher"
+    },
+    {
+      "task_id": "P1_002",
+      "batch": 2,
+      "model_id": "AI-INFRA-015",
+      "model_title": "Radiologie / Medical Imaging AI",
+      "dimension": "competitive_landscape",
+      "priority": "P1",
+      "question": "Identify competitors in German medical imaging AI market",
+      "research_queries": [
+        "Germany medical imaging AI competitors radiology platforms 2026",
+        "German radiologists AI diagnostics vendors",
+        "MRT CT scan AI analysis software Germany"
+      ],
+      "target_sources": ["Radiological Society Germany", "Healthcare IT vendors"],
+      "jurisdiction": "DE",
+      "required_evidence_level": "DOCUMENTED",
+      "estimated_effort_hours": 3,
+      "owner_role": "Healthcare Market Researcher"
+    }
+  ],
+  "p2_medium_priority_tasks": [
+    {
+      "task_id": "P2_001",
+      "batch": 3,
+      "model_id": "AI-INFRA-021",
+      "model_title": "Bauhandwerk / Construction Trades Digital Platform",
+      "dimension": "market_sizing",
+      "priority": "P2",
+      "question": "Establish TAM for German construction trades digital transformation",
+      "research_queries": [
+        "Germany construction trades market size 2025 EUR",
+        "German handwerk digital transformation platform adoption",
+        "Construction AI scheduling platform market Germany"
+      ],
+      "target_sources": [
+        "Statistisches Bundesamt (construction statistics)",
+        "German Construction Association",
+        "Market research reports"
+      ],
+      "jurisdiction": "DE",
+      "required_evidence_level": "SUPPORTED",
+      "estimated_effort_hours": 2,
+      "owner_role": "General Market Researcher"
+    }
+  ],
+  "research_backlog_summary": {
+    "total_active_tasks": 100,
+    "estimated_total_hours": 800,
+    "critical_path_tasks": [
+      "P0_001 (Ambulatory care TAM)",
+      "P0_004 (Nursing care market)",
+      "P0_005 (Psychotherapy capacity)",
+      "P0_003 (Regulatory review)"
+    ],
+    "blocking_dependencies": {
+      "cold_start_validation": ["market_sizing must complete first"],
+      "competitive_landscape": ["market_sizing and regulatory review essential"],
+      "data_integration_research": ["must follow regulatory review"]
+    },
+    "research_methodology": {
+      "source_hierarchy": [
+        "Laws and Regulatory Documents (LEVEL 1)",
+        "Official Government Statistics (LEVEL 2)",
+        "Company Financial Documents (LEVEL 3)",
+        "Technical Documentation (LEVEL 4)",
+        "Public RFPs and Tenders (LEVEL 5)",
+        "Scientific Papers and Standards (LEVEL 6)",
+        "Secondary Market Research (LEVEL 7)",
+        "Analyst Reports and Predictions (LEVEL 8)"
+      ],
+      "evidence_status_rules": {
+        "VERIFIED": "Law/regulation or official statistics with direct source link",
+        "SUPPORTED": "Multi-source market research with consistent findings",
+        "DOCUMENTED": "Single authoritative company or industry source",
+        "ESTIMATED": "Clear methodology for calculation from verified data",
+        "INFERRED": "Logical derivation from documented information",
+        "UNKNOWN": "Insufficient evidence; requires research"
+      },
+      "no_fabrication_rule": "Never mark VERIFIED without primary source. Never invent competitor names. Never estimate costs without methodology."
+    },
+    "next_steps": {
+      "immediate": "Execute P0_001 through P0_010 (Batch 1 healthcare models)",
+      "week_1": "Complete Batch 1-2 research (Batches 1-2: 20 models)",
+      "week_2": "Execute Batch 3 research (10 models)",
+      "week_3": "Complete research for Batches 4-10 (remaining 60 models)"
+    }
+  },
+  "completion_status": "RESEARCH_BACKLOG_READY_FOR_EXECUTION"
+}

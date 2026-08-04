@@ -1,0 +1,109 @@
+{
+  "metadata": {
+    "phase": "Phase 17: Repository Scope & Structure Validation",
+    "timestamp_utc": "2026-08-03T21:00:00Z",
+    "repository": "EduBrainBoost/SSID-docs",
+    "repository_branch": "feat/phase3-clean-stack-reconstruction-20260803",
+    "audit_version": "1.0"
+  },
+  "ssid_docs_ci_scope_policy": {
+    "description": "SSID-docs uses repository scope allowlist (not generic ROOT-24 policy)",
+    "allowed_repository_prefixes": [
+      ".github/",
+      "02_audit_logging/",
+      "05_documentation/",
+      "docs/",
+      "governance/",
+      "intro/",
+      "public/",
+      "src/",
+      "sws/",
+      "team/",
+      "tests/",
+      "tools/"
+    ],
+    "forbidden_roots": [
+      "08_research/",
+      "research/",
+      "backups/",
+      "phase-2-1-hardening/",
+      "repair-clean/",
+      "recovery-english/"
+    ]
+  },
+  "phase_3_artifacts": {
+    "count": 16,
+    "all_within_allowed_scope": true,
+    "artifact_distribution": {
+      "src/data/research/ai-infrastructure/phase3/": {
+        "count": 12,
+        "files": [
+          "phase3-claim-inventory.json",
+          "phase3-source-manifest.json",
+          "phase3-evidence-taxonomy.json",
+          "phase3-known-defect-repairs.json",
+          "phase3-test-results.json",
+          "phase3-repository-scope-audit.json",
+          "PHASE_3_AUDIT_CLOSURE_SUMMARY.md",
+          "PHASE_3_EXECUTION_SUMMARY.md",
+          "phase3-research-execution-framework.json",
+          "phase3-human-research-backlog.json",
+          "phase3-validation-atlas.json",
+          "DRAFT_PR_PHASE3_RESEARCH.md"
+        ],
+        "allowed_root": "src/ (allowed)"
+      },
+      "05_documentation/research/ai-infrastructure/phase3/": {
+        "count": 0,
+        "files": [],
+        "allowed_root": "05_documentation/ (allowed)",
+        "note": "Documentation index provided in 05_documentation/ADR_PHASE3_EVIDENCE_RECONCILIATION.md"
+      },
+      "tools/ai-infrastructure/phase3/": {
+        "count": 1,
+        "files": [
+          "validate_phase3.py"
+        ],
+        "allowed_root": "tools/ (allowed)"
+      },
+      "tests/ai-infrastructure/phase3/": {
+        "count": 1,
+        "files": [
+          "test_phase3_evidence.py"
+        ],
+        "allowed_root": "tests/ (allowed)"
+      },
+      ".github/workflows/": {
+        "count": 1,
+        "files": [
+          "phase3-evidence-validation.yaml"
+        ],
+        "allowed_root": ".github/ (allowed)"
+      },
+      "public/badges/": {
+        "count": 1,
+        "files": [
+          "phase3-evidence-status.svg"
+        ],
+        "allowed_root": "public/ (allowed)"
+      }
+    }
+  },
+  "security_assessment": {
+    "absolute_paths_scan": "PASS - all paths sanitized",
+    "secrets_scan": "PASS - no credentials detected",
+    "pii_scan": "PASS - no personal identifying information",
+    "forbidden_file_types": "PASS - no .pem, .key, .env files",
+    "private_repo_references": "PASS - no local SSID paths"
+  },
+  "repository_structure_compliance": {
+    "policy": "SSID-docs CI scope allowlist (11 authorized roots)",
+    "violations_found": 0,
+    "scope_gate": "PASS"
+  },
+  "final_assessment": {
+    "phase_3_compliance": "PASS - All artifacts within authorized repository scope",
+    "security_clearance": "PASS - No leaks, secrets, or forbidden paths",
+    "recommendation": "Phase 3 artifacts approved for merge into SSID-docs"
+  }
+}
