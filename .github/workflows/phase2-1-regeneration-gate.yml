@@ -1,0 +1,86 @@
+name: Phase 2.1 Regeneration Gate
+on:
+  push:
+    branches:
+      - main
+      - 'test/**'
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  regeneration-gate:
+    name: Regeneration Determinism + Contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify phase 2.1 artifacts
+        run: |
+          ls -lh src/data/research/ai-infrastructure/enrichment-atlas.json
+          ls -lh src/data/research/ai-infrastructure/business-models.json
+          echo "✓ Phase 2.1 artifacts present"
+
+      - name: Generator run 1
+        run: node tools/build-ai-infrastructure-catalogs.mjs
+
+      - name: Verify no diff after run 1
+        run: |
+          git diff --exit-code src/data/research/ai-infrastructure/business-models.json || {
+            echo "BLOCKED: Generator produced diff on first run"
+            exit 1
+          }
+
+      - name: Capture hash 1
+        id: hash1
+        run: |
+          HASH=$(sha256sum src/data/research/ai-infrastructure/business-models.json | awk '{print $1}')
+          echo "hash=$HASH" >> $GITHUB_OUTPUT
+          echo "Run 1: $HASH"
+
+      - name: Generator run 2 (determinism)
+        run: node tools/build-ai-infrastructure-catalogs.mjs
+
+      - name: Verify no diff after run 2
+        run: |
+          git diff --exit-code src/data/research/ai-infrastructure/business-models.json || {
+            echo "BLOCKED: Generator produced diff on second run"
+            exit 1
+          }
+
+      - name: Capture hash 2
+        id: hash2
+        run: |
+          HASH=$(sha256sum src/data/research/ai-infrastructure/business-models.json | awk '{print $1}')
+          echo "hash=$HASH" >> $GITHUB_OUTPUT
+          echo "Run 2: $HASH"
+
+      - name: Verify determinism
+        run: |
+          HASH1="${{ steps.hash1.outputs.hash }}"
+          HASH2="${{ steps.hash2.outputs.hash }}"
+          if [ "$HASH1" != "$HASH2" ]; then
+            echo "BLOCKED: Generator is not deterministic"
+            echo "Run 1: $HASH1"
+            echo "Run 2: $HASH2"
+            exit 1
+          fi
+          echo "✓ Generator is deterministic"
+          echo "  SHA256: $HASH1"
+
+      - name: Run contract tests
+        run: node tests/ai-infrastructure/test-phase2-1-regeneration-contract.mjs
+
+      - name: Summary
+        if: success()
+        run: |
+          echo "## Phase 2.1 Regeneration Gate ✓" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- ✓ Generator run 1: no diff" >> $GITHUB_STEP_SUMMARY
+          echo "- ✓ Generator run 2: no diff" >> $GITHUB_STEP_SUMMARY
+          echo "- ✓ Deterministic: ${{ steps.hash1.outputs.hash }}" >> $GITHUB_STEP_SUMMARY
+          echo "- ✓ Contract tests passed" >> $GITHUB_STEP_SUMMARY
