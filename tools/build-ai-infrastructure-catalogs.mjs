@@ -91,6 +91,83 @@ function parseBusinessModels() {
   return models;
 }
 
+function loadEnrichmentAtlas() {
+  const raw = readText('src/data/research/ai-infrastructure/enrichment-atlas.json');
+  let atlas;
+  try {
+    atlas = JSON.parse(raw);
+  } catch (e) {
+    fail(`Failed to parse enrichment-atlas.json: ${e.message}`);
+  }
+  if (!atlas.enrichments || !Array.isArray(atlas.enrichments)) {
+    fail('Enrichment atlas must have enrichments array.');
+  }
+  const byId = {};
+  for (const rec of atlas.enrichments) {
+    if (!Number.isInteger(rec.id) || rec.id < 1 || rec.id > 100) {
+      fail(`Enrichment record has invalid id: ${rec.id}`);
+    }
+    if (byId[rec.id]) fail(`Enrichment has duplicate id: ${rec.id}`);
+    byId[rec.id] = rec;
+  }
+  return byId;
+}
+
+function mergeWithEnrichment(legacyModels, enrichmentByID) {
+  const merged = [];
+  const seenIds = new Set();
+
+  for (const model of legacyModels) {
+    const enrichment = enrichmentByID[model.id];
+    if (!enrichment) fail(`No enrichment found for model ID ${model.id}`);
+
+    const fullModel = {
+      ...model,
+      model_id: enrichment.model_id,
+      source_number: enrichment.source_number,
+      primary_cluster: enrichment.primary_cluster,
+      primary_cluster_label: enrichment.primary_cluster_label,
+      region: enrichment.region,
+      source_reference: enrichment.source_reference,
+      economics_breakdown: enrichment.economics_breakdown,
+      risk: enrichment.risk,
+      ssid_relevance: enrichment.ssid_relevance,
+      infrastructure_pattern: enrichment.infrastructure_pattern,
+      market_sizing: enrichment.market_sizing,
+      cold_start_strategy: enrichment.cold_start_strategy,
+      competitive_landscape: enrichment.competitive_landscape,
+      data_and_integration_dependencies: enrichment.data_and_integration_dependencies,
+      regulatory_constraints: enrichment.regulatory_constraints,
+      ai_vs_infrastructure_moat: enrichment.ai_vs_infrastructure_moat,
+      market_maturity: enrichment.market_maturity,
+      evidence_status: enrichment.evidence_status,
+      validation_atlas: enrichment.validation_atlas,
+    };
+
+    const dimensions = [
+      'infrastructure_pattern', 'market_sizing', 'cold_start_strategy',
+      'competitive_landscape', 'data_and_integration_dependencies',
+      'regulatory_constraints', 'ai_vs_infrastructure_moat', 'market_maturity',
+      'evidence_status', 'validation_atlas'
+    ];
+    for (const dim of dimensions) {
+      if (!(dim in fullModel)) fail(`Model ${model.id} missing hardening dimension: ${dim}`);
+      if (!fullModel[dim]) fail(`Model ${model.id} has null/undefined ${dim}`);
+    }
+
+    merged.push(fullModel);
+    seenIds.add(model.id);
+  }
+
+  for (const id of Object.keys(enrichmentByID)) {
+    if (!seenIds.has(Number(id))) {
+      fail(`Enrichment atlas has unknown model ID: ${id}`);
+    }
+  }
+
+  return merged;
+}
+
 // ---------- Skills ----------
 
 const FAMILIES = {
@@ -168,12 +245,15 @@ function parseSkills() {
 // ---------- Build ----------
 
 function build() {
-  const models = parseBusinessModels();
-  if (models.length !== 100) fail(`Expected 100 business models, parsed ${models.length}.`);
-  const modelIds = models.map((m) => m.id).sort((a, b) => a - b);
+  const legacyModels = parseBusinessModels();
+  if (legacyModels.length !== 100) fail(`Expected 100 business models, parsed ${legacyModels.length}.`);
+  const modelIds = legacyModels.map((m) => m.id).sort((a, b) => a - b);
   for (let i = 0; i < 100; i++) {
     if (modelIds[i] !== i + 1) fail(`Business model ID mismatch at position ${i}: expected ${i + 1}, got ${modelIds[i]}.`);
   }
+
+  const enrichmentByID = loadEnrichmentAtlas();
+  const models = mergeWithEnrichment(legacyModels, enrichmentByID);
 
   const skills = parseSkills();
   if (skills.length !== 100) fail(`Expected 100 skills, parsed ${skills.length}.`);
