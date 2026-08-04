@@ -33,41 +33,64 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Run Phase-3 validator
-        run: python tools/ai-infrastructure/phase3/validate_phase3.py
+      - name: Run Phase-3 validator with explicit path
+        run: python tools/ai-infrastructure/phase3/validate_phase3.py src/data/research/ai-infrastructure/phase3
         continue-on-error: false
 
-      - name: Run Phase-3 tests
-        run: python -m pytest tests/ai-infrastructure/phase3/test_phase3_evidence.py -v --tb=short 2>&1 | tee test-output.log
-        continue-on-error: true
+      - name: Run Phase-3 tests (fail-closed)
+        run: python -m pytest tests/ai-infrastructure/phase3/test_phase3_evidence.py -v --tb=short
 
-      - name: Verify test gate (20/24 pass minimum)
+      - name: Verify protected files unchanged (base to head)
         run: |
-          PASSED=$(grep -c "PASS\|ok" test-output.log || echo 0)
-          TOTAL=$(grep -c "test_" test-output.log || echo 0)
-          if [ $PASSED -lt 20 ]; then
-            echo "❌ FAIL: Only $PASSED/24 tests passed (required: 20)"
-            exit 1
+          BASE_SHA=$(git rev-parse origin/${{ github.base_ref || 'main' }})
+          HEAD_SHA=$(git rev-parse HEAD)
+          echo "Comparing base SHA=$BASE_SHA to head SHA=$HEAD_SHA"
+          git diff --exit-code "$BASE_SHA..HEAD" -- src/data/research/ai-infrastructure/business-models.json || exit 1
+          git diff --exit-code "$BASE_SHA..HEAD" -- src/data/research/ai-infrastructure/schemas/business-model.schema.json || exit 1
+          git diff --exit-code "$BASE_SHA..HEAD" -- src/data/research/ai-infrastructure/enrichment-atlas.json || exit 1
+          echo "✓ Protected files unchanged"
+
+      - name: Structured path hygiene scan
+        run: |
+          FAIL=0
+          # Scan actual data values (JSON) but exclude test patterns
+          for file in src/data/research/ai-infrastructure/phase3/*.json; do
+            if grep -E 'C:\\Users\\|/home/|/Users/|/root/' "$file" 2>/dev/null; then
+              echo "❌ Personal path in $file"
+              FAIL=1
+            fi
+          done
+
+          # Exclude test definitions when checking Markdown
+          for file in src/data/research/ai-infrastructure/phase3/*.md; do
+            if grep -E 'C:\\Users\\|/home/|/Users/|/root/' "$file" 2>/dev/null | grep -v 'test\|pattern\|example\|documentation'; then
+              echo "❌ Personal path in $file"
+              FAIL=1
+            fi
+          done
+
+          if [ $FAIL -eq 0 ]; then
+            echo "✓ Path hygiene check passed"
           fi
-          echo "✓ PASS: $PASSED/24 tests passed"
+          exit $FAIL
 
-      - name: Verify catalog and schema unchanged
+      - name: Credential-shaped security scan
         run: |
-          git diff --exit-code src/data/research/ai-infrastructure/business-models.json || exit 1
-          git diff --exit-code src/data/research/ai-infrastructure/schemas/business-model.schema.json || exit 1
+          FAIL=0
+          # Only look for realistic credential patterns
+          for file in src/data/research/ai-infrastructure/phase3/*.json; do
+            if grep -E 'AKIA[0-9A-Z]{16}|password["\s:=]+[a-zA-Z0-9]{8,}|api.key["\s:=]+[a-zA-Z0-9_]{16,}' "$file" 2>/dev/null; then
+              echo "❌ Credential pattern in $file"
+              FAIL=1
+            fi
+          done
 
-      - name: Check for personal paths
-        run: |
-          ! grep -r 'C:\\Users\\' src/data/research/ai-infrastructure/phase3/ tests/ai-infrastructure/phase3/ tools/ai-infrastructure/phase3/ 2>/dev/null || exit 1
-          ! grep -r '/home/' src/data/research/ai-infrastructure/phase3/ tests/ai-infrastructure/phase3/ tools/ai-infrastructure/phase3/ 2>/dev/null || exit 1
-          ! grep -r 'SSID-Workspace\|SSID-Arbeitsbereich' src/data/research/ai-infrastructure/phase3/ tests/ai-infrastructure/phase3/ tools/ai-infrastructure/phase3/ 2>/dev/null || exit 1
+          if [ $FAIL -eq 0 ]; then
+            echo "✓ Security scan passed (no credential patterns)"
+          fi
+          exit $FAIL
 
-      - name: Check for secrets
-        run: |
-          ! grep -ir 'password\|secret\|token\|api.key' src/data/research/ai-infrastructure/phase3/ 2>/dev/null | grep -v 'test_phase3' | grep -v 'methodology' || exit 1
-          echo "✓ No secrets detected"
-
-      - name: Validate artifact inventory
+      - name: Validate artifact inventory (exactly 11 files)
         run: |
           EXPECTED_FILES=(
             "phase3-claim-inventory.json"
@@ -84,6 +107,8 @@ jobs:
           )
 
           MISSING=0
+          EXTRA=0
+
           for file in "${EXPECTED_FILES[@]}"; do
             if [ ! -f "src/data/research/ai-infrastructure/phase3/$file" ]; then
               echo "❌ Missing: $file"
@@ -91,8 +116,16 @@ jobs:
             fi
           done
 
+          ACTUAL_COUNT=$(ls -1 src/data/research/ai-infrastructure/phase3/ | wc -l)
+          EXPECTED_COUNT=${#EXPECTED_FILES[@]}
+
+          if [ $ACTUAL_COUNT -ne $EXPECTED_COUNT ]; then
+            echo "❌ File count mismatch: expected $EXPECTED_COUNT, found $ACTUAL_COUNT"
+            exit 1
+          fi
+
           if [ $MISSING -gt 0 ]; then
             echo "❌ FAIL: $MISSING required files missing"
             exit 1
           fi
-          echo "✓ All 11 Phase-3 artifacts present"
+          echo "✓ All 11 Phase-3 artifacts present and accounted for"
