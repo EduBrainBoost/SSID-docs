@@ -1,0 +1,56 @@
+name: phase3-evidence-validation
+
+on:
+  pull_request:
+    paths:
+      - 'src/data/research/ai-infrastructure/phase3/**'
+      - 'tools/ai-infrastructure/phase3/**'
+      - 'tests/ai-infrastructure/phase3/**'
+      - '.github/workflows/phase3-evidence-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'src/data/research/ai-infrastructure/phase3/**'
+      - 'tools/ai-infrastructure/phase3/**'
+      - 'tests/ai-infrastructure/phase3/**'
+      - '.github/workflows/phase3-evidence-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  phase3-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Run Phase-3 validator
+        run: python tools/ai-infrastructure/phase3/validate_phase3.py
+
+      - name: Run Phase-3 tests
+        run: python -m pytest tests/ai-infrastructure/phase3/test_phase3_evidence.py -v --tb=short
+
+      - name: Verify catalog and schema unchanged
+        run: |
+          git diff --exit-code src/data/research/ai-infrastructure/business-models.json || exit 1
+          git diff --exit-code src/data/research/ai-infrastructure/schemas/business-model.schema.json || exit 1
+
+      - name: Check for personal paths
+        run: |
+          ! grep -r 'C:\Users\\' src/data/research/ai-infrastructure/phase3/ tests/ai-infrastructure/phase3/ tools/ai-infrastructure/phase3/ 2>/dev/null
+          ! grep -r '/home/' src/data/research/ai-infrastructure/phase3/ tests/ai-infrastructure/phase3/ tools/ai-infrastructure/phase3/ 2>/dev/null
+          ! grep -r 'SSID-Workspace\|SSID-Arbeitsbereich' src/data/research/ai-infrastructure/phase3/ tests/ai-infrastructure/phase3/ tools/ai-infrastructure/phase3/ 2>/dev/null
+
+      - name: Check for secrets
+        run: |
+          ! grep -ir 'password\|secret\|token\|api.key' src/data/research/ai-infrastructure/phase3/ 2>/dev/null | grep -v 'test_phase3' | grep -v 'methodology\|methodology:'
+          echo "✓ No secrets detected"

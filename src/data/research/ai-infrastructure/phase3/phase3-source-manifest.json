@@ -1,0 +1,380 @@
+{
+  "metadata": {
+    "phase": "Phase 4: Source Manifest",
+    "timestamp_utc": "2026-08-03T19:15:00Z",
+    "manifest_version": "1.0",
+    "total_sources": 10,
+    "source_coverage_claims": 36,
+    "schema_version": "3.0"
+  },
+  "sources": [
+    {
+      "source_id": "SOURCE-P3-0001",
+      "title": "Healthcare expenditure statistics - 2025",
+      "publisher": "Eurostat",
+      "author": "European Statistical Office",
+      "url_or_reference": "https://ec.europa.eu/eurostat/data/database",
+      "publication_date_utc": "2025-01-15T00:00:00Z",
+      "data_reference_period": "2024",
+      "retrieval_date_utc": "2026-08-03T16:30:00Z",
+      "geography": "DE",
+      "currency": "EUR",
+      "unit": "billions, percentages",
+      "source_type": "OFFICIAL_STATISTICS",
+      "primary_or_secondary": "PRIMARY",
+      "authority_level": "PRIMARY_AUTHORITATIVE",
+      "access_status": "PUBLIC",
+      "archived_status": "CURRENT",
+      "claims_supported": [
+        "CLAIM-P3-0001",
+        "CLAIM-P3-0002",
+        "CLAIM-P3-0003",
+        "CLAIM-P3-0004",
+        "CLAIM-P3-0005",
+        "CLAIM-P3-0025",
+        "CLAIM-P3-0029"
+      ],
+      "limitations": "Official data reflects government healthcare spending categories, not software market sizing directly",
+      "freshness_status": "CURRENT",
+      "hash_or_snapshot_reference": "eurostat-healthcare-2025-snapshot-20260803",
+      "quality_score": 5,
+      "data_completeness": "COMPLETE",
+      "verification_notes": "Authoritative source; baseline for sector expenditure calculations"
+    },
+    {
+      "source_id": "SOURCE-P3-0002",
+      "title": "Germany Ambulatory Services Market Size & Outlook",
+      "publisher": "Market Research Future & Grand View Research",
+      "author": "Market Research Future",
+      "url_or_reference": "https://www.marketresearchfuture.com/reports/",
+      "publication_date_utc": "2024-06-15T00:00:00Z",
+      "data_reference_period": "2023-2030",
+      "retrieval_date_utc": "2026-08-03T16:45:00Z",
+      "geography": "DE",
+      "currency": "USD",
+      "unit": "millions (USD), percentages, CAGR",
+      "source_type": "MARKET_RESEARCH",
+      "primary_or_secondary": "SECONDARY",
+      "authority_level": "SECONDARY_HIGH_QUALITY",
+      "access_status": "PAID",
+      "archived_status": "CURRENT",
+      "claims_supported": [
+        "CLAIM-P3-0006",
+        "CLAIM-P3-0007",
+        "CLAIM-P3-0008",
+        "CLAIM-P3-0009",
+        "CLAIM-P3-0010"
+      ],
+      "limitations": "Market research forecasts are estimates, not verified actuals; currency USD may not reflect local market pricing",
+      "freshness_status": "RECENT",
+      "hash_or_snapshot_reference": "market-research-future-ambulatory-2024-snapshot",
+      "quality_score": 4,
+      "data_completeness": "PARTIAL",
+      "verification_notes": "Multi-source market research; CAGR and growth forecasts are projections requiring independent validation"
+    },
+    {
+      "source_id": "SOURCE-P3-0003",
+      "title": "General Medical Practices in Germany Industry Analysis",
+      "publisher": "IBISWorld",
+      "author": "IBISWorld Industry Research",
+      "url_or_reference": "https://www.ibisworld.com/",
+      "publication_date_utc": "2025-03-01T00:00:00Z",
+      "data_reference_period": "2020-2025",
+      "retrieval_date_utc": "2026-08-03T16:30:00Z",
+      "geography": "DE",
+      "currency": "EUR",
+      "unit": "billions (EUR), practice counts, percentages, CAGR",
+      "source_type": "INDUSTRY_ANALYSIS",
+      "primary_or_secondary": "SECONDARY_HIGH_QUALITY",
+      "authority_level": "SECONDARY_HIGH_QUALITY",
+      "access_status": "PAID",
+      "archived_status": "CURRENT",
+      "claims_supported": [
+        "CLAIM-P3-0011",
+        "CLAIM-P3-0012",
+        "CLAIM-P3-0013",
+        "CLAIM-P3-0014",
+        "CLAIM-P3-0030"
+      ],
+      "limitations": "Industry analysis is secondary research; practice counts subject to administrative data lag",
+      "freshness_status": "CURRENT",
+      "hash_or_snapshot_reference": "ibisworld-medical-practices-2025-snapshot",
+      "quality_score": 4,
+      "data_completeness": "COMPLETE",
+      "verification_notes": "Reputable industry analyst; specialist practices revenue (EUR 47.1B) is primary data for billing software TAM"
+    },
+    {
+      "source_id": "SOURCE-P3-0004",
+      "title": "Germany Elderly Care Services Market Size & Forecast",
+      "publisher": "Research and Markets & Spherical Insights",
+      "author": "Research and Markets",
+      "url_or_reference": "https://www.researchandmarkets.com/",
+      "publication_date_utc": "2024-09-20T00:00:00Z",
+      "data_reference_period": "2024-2030",
+      "retrieval_date_utc": "2026-08-03T16:45:00Z",
+      "geography": "DE",
+      "currency": "USD",
+      "unit": "millions (USD), percentages, CAGR, population forecasts",
+      "source_type": "MARKET_FORECAST",
+      "primary_or_secondary": "SECONDARY",
+      "authority_level": "SECONDARY_HIGH_QUALITY",
+      "access_status": "PAID",
+      "archived_status": "CURRENT",
+      "claims_supported": [
+        "CLAIM-P3-0015",
+        "CLAIM-P3-0016",
+        "CLAIM-P3-0017",
+        "CLAIM-P3-0018",
+        "CLAIM-P3-0028"
+      ],
+      "limitations": "Market forecasts are projections; elderly population demographics subject to policy changes",
+      "freshness_status": "CURRENT",
+      "hash_or_snapshot_reference": "research-markets-elderly-care-2024-snapshot",
+      "quality_score": 4,
+      "data_completeness": "PARTIAL",
+      "verification_notes": "Forecast-heavy; USD currency requires FX conversion for EUR-based comparisons"
+    },
+    {
+      "source_id": "SOURCE-P3-0005",
+      "title": "Germany Home Care Services Market Size & Trends",
+      "publisher": "Future Market Insights & 6W Research",
+      "author": "Future Market Insights",
+      "url_or_reference": "https://www.futuremarketinsights.com/",
+      "publication_date_utc": "2025-02-01T00:00:00Z",
+      "data_reference_period": "2025-2035",
+      "retrieval_date_utc": "2026-08-03T17:00:00Z",
+      "geography": "DE",
+      "currency": "EUR",
+      "unit": "millions (EUR), percentages, CAGR, population counts, daily costs",
+      "source_type": "MARKET_FORECAST",
+      "primary_or_secondary": "SECONDARY",
+      "authority_level": "SECONDARY_HIGH_QUALITY",
+      "access_status": "PAID",
+      "archived_status": "CURRENT",
+      "claims_supported": [
+        "CLAIM-P3-0019",
+        "CLAIM-P3-0020",
+        "CLAIM-P3-0021",
+        "CLAIM-P3-0022",
+        "CLAIM-P3-0023",
+        "CLAIM-P3-0024"
+      ],
+      "limitations": "Forecast contains extrapolations; nursing shortage projections are estimates based on current trends",
+      "freshness_status": "CURRENT",
+      "hash_or_snapshot_reference": "future-market-insights-home-care-2025-snapshot",
+      "quality_score": 4,
+      "data_completeness": "COMPLETE",
+      "verification_notes": "Critical source for nursing shortage supply chain analysis; primary demand signal for AI-INFRA-004"
+    },
+    {
+      "source_id": "SOURCE-P3-PSYCHOTHERAPY",
+      "title": "German Psychotherapy Market & Supply Analysis (Partial)",
+      "publisher": "Multiple sources (German Psychotherapy Association, market reports)",
+      "author": "Compiled from multiple sources",
+      "url_or_reference": "Internal Phase 3 research compilation",
+      "publication_date_utc": "2026-08-03T16:30:00Z",
+      "data_reference_period": "2024-2025",
+      "retrieval_date_utc": "2026-08-03T16:30:00Z",
+      "geography": "DE",
+      "currency": "n/a",
+      "unit": "therapist counts, days (waiting time)",
+      "source_type": "SECONDARY_SUMMARY",
+      "primary_or_secondary": "SECONDARY",
+      "authority_level": "SECONDARY_HIGH_QUALITY",
+      "access_status": "ACCESSIBLE",
+      "archived_status": "CURRENT",
+      "claims_supported": [
+        "CLAIM-P3-0026",
+        "CLAIM-P3-0027"
+      ],
+      "limitations": "SOURCE QUALITY DEFECT: Publication dates and data reference years not explicitly documented in Phase 3 files",
+      "freshness_status": "STALE_OR_UNKNOWN",
+      "hash_or_snapshot_reference": "phase3-psychotherapy-summary",
+      "quality_score": 2,
+      "data_completeness": "INCOMPLETE",
+      "verification_notes": "KNOWN DEFECT #5: 28,000 therapists and 142-day waiting time measurements require original source verification"
+    },
+    {
+      "source_id": "SOURCE-P3-BATCH-2-DIAGNOSTICS",
+      "title": "Germany Diagnostic Laboratory Market (Batch 2 Research)",
+      "publisher": "Mordor Intelligence, MarkNTel Advisors, Polaris Market Research",
+      "author": "Multiple market research firms",
+      "url_or_reference": "Referenced in phase3-research-execution-framework.json and phase3-human-research-backlog.json",
+      "publication_date_utc": "2024-2025-01-01T00:00:00Z",
+      "data_reference_period": "2025-2032",
+      "retrieval_date_utc": "2026-08-03T17:00:00Z",
+      "geography": "DE",
+      "currency": "USD",
+      "unit": "millions (USD), percentages, CAGR",
+      "source_type": "MARKET_RESEARCH",
+      "primary_or_secondary": "SECONDARY",
+      "authority_level": "SECONDARY_HIGH_QUALITY",
+      "access_status": "PAID",
+      "archived_status": "CURRENT",
+      "claims_supported": [
+        "Referenced for Batch 2 but not yet fully extracted"
+      ],
+      "limitations": "Batch 2 research is in progress; detailed claims not yet extracted",
+      "freshness_status": "CURRENT",
+      "hash_or_snapshot_reference": "batch2-diagnostic-research-pending",
+      "quality_score": 4,
+      "data_completeness": "PENDING",
+      "verification_notes": "Batch 2 research framework ready; detailed source citations and claims extraction pending"
+    },
+    {
+      "source_id": "SOURCE-P3-EUROSTAT-LTC",
+      "title": "Long-term Care Expenditure Statistics",
+      "publisher": "Eurostat",
+      "author": "European Statistical Office",
+      "url_or_reference": "https://ec.europa.eu/eurostat/",
+      "publication_date_utc": "2025-01-15T00:00:00Z",
+      "data_reference_period": "2025",
+      "retrieval_date_utc": "2026-08-03T16:30:00Z",
+      "geography": "DE",
+      "currency": "EUR",
+      "unit": "billions (EUR)",
+      "source_type": "OFFICIAL_STATISTICS",
+      "primary_or_secondary": "PRIMARY",
+      "authority_level": "PRIMARY_AUTHORITATIVE",
+      "access_status": "PUBLIC",
+      "archived_status": "CURRENT",
+      "claims_supported": [
+        "Implicit in nursing care sector expenditure claims"
+      ],
+      "limitations": "Official statistics on long-term care spending; does not isolate digital platform addressable market",
+      "freshness_status": "CURRENT",
+      "hash_or_snapshot_reference": "eurostat-ltc-2025-snapshot",
+      "quality_score": 5,
+      "data_completeness": "COMPLETE",
+      "verification_notes": "Authoritative baseline for sector expenditure; foundational for TAM derivation"
+    },
+    {
+      "source_id": "SOURCE-P3-INTERNAL-FRAMEWORK",
+      "title": "Phase 3 Research Execution Framework (Self-Reference)",
+      "publisher": "SSID Phase 3 Research Team",
+      "author": "Claude Code AI",
+      "url_or_reference": "phase3-research-execution-framework.json (internal)",
+      "publication_date_utc": "2026-08-03T16:30:00Z",
+      "data_reference_period": "2026-08-03",
+      "retrieval_date_utc": "2026-08-03T16:30:00Z",
+      "geography": "MULTI",
+      "currency": "MIXED",
+      "unit": "multiple",
+      "source_type": "INTERNAL_DOCUMENT",
+      "primary_or_secondary": "SECONDARY",
+      "authority_level": "LOW_CONFIDENCE",
+      "access_status": "INTERNAL",
+      "archived_status": "CURRENT",
+      "claims_supported": [
+        "CLAIM-P3-0031",
+        "CLAIM-P3-0032",
+        "CLAIM-P3-0033",
+        "CLAIM-P3-0035",
+        "CLAIM-P3-0036"
+      ],
+      "limitations": "Internal research summary; self-referential; counts must be independently verified",
+      "freshness_status": "CURRENT",
+      "hash_or_snapshot_reference": "phase3-research-framework-internal",
+      "quality_score": 2,
+      "data_completeness": "PARTIAL",
+      "verification_notes": "Internal framework document; should not be cited as primary source for external claims"
+    },
+    {
+      "source_id": "SOURCE-P3-README-SUMMARY",
+      "title": "Phase 3 Research Execution Package (README.md)",
+      "publisher": "SSID Phase 3 Research Team",
+      "author": "Claude Code AI",
+      "url_or_reference": "README.md (internal)",
+      "publication_date_utc": "2026-08-03T17:20:00Z",
+      "data_reference_period": "2026-08-03",
+      "retrieval_date_utc": "2026-08-03T17:20:00Z",
+      "geography": "MULTI",
+      "currency": "MIXED",
+      "unit": "multiple",
+      "source_type": "INTERNAL_DOCUMENT",
+      "primary_or_secondary": "SECONDARY",
+      "authority_level": "LOW_CONFIDENCE",
+      "access_status": "INTERNAL",
+      "archived_status": "CURRENT",
+      "claims_supported": [
+        "CLAIM-P3-0034"
+      ],
+      "limitations": "Summary document; references multiple sources without detailed citations",
+      "freshness_status": "CURRENT",
+      "hash_or_snapshot_reference": "phase3-readme-summary-internal",
+      "quality_score": 2,
+      "data_completeness": "SUMMARY_ONLY",
+      "verification_notes": "Summary documentation; requires tracing back to underlying source claims"
+    }
+  ],
+  "source_authority_hierarchy": {
+    "level_1_official_laws_regulations": [
+      "German health regulations (KBV, BfArM)",
+      "EU MDR/IVDR regulations",
+      "GDPR"
+    ],
+    "level_2_official_government_statistics": [
+      "SOURCE-P3-0001 (Eurostat healthcare expenditure)",
+      "SOURCE-P3-EUROSTAT-LTC (Eurostat long-term care)"
+    ],
+    "level_3_company_financial_documents": [],
+    "level_4_technical_documentation": [],
+    "level_5_public_rfps_tenders": [],
+    "level_6_scientific_papers": [],
+    "level_7_market_research_secondary": [
+      "SOURCE-P3-0002 (Market Research Future, Grand View)",
+      "SOURCE-P3-0003 (IBISWorld)",
+      "SOURCE-P3-0004 (Research and Markets)",
+      "SOURCE-P3-0005 (Future Market Insights)",
+      "SOURCE-P3-BATCH-2-DIAGNOSTICS"
+    ],
+    "level_8_analyst_predictions": []
+  },
+  "source_freshness_analysis": {
+    "current_sources": [
+      "SOURCE-P3-0001",
+      "SOURCE-P3-0002",
+      "SOURCE-P3-0003",
+      "SOURCE-P3-0004",
+      "SOURCE-P3-0005"
+    ],
+    "recent_sources": [
+      "SOURCE-P3-BATCH-2-DIAGNOSTICS"
+    ],
+    "stale_sources": [
+      "SOURCE-P3-PSYCHOTHERAPY"
+    ],
+    "date_unknown_sources": [
+      "SOURCE-P3-PSYCHOTHERAPY (KNOWN DEFECT #5)"
+    ]
+  },
+  "source_currency_analysis": {
+    "eur_sources": [
+      "SOURCE-P3-0001",
+      "SOURCE-P3-0003",
+      "SOURCE-P3-0005",
+      "SOURCE-P3-EUROSTAT-LTC"
+    ],
+    "usd_sources": [
+      "SOURCE-P3-0002",
+      "SOURCE-P3-0004",
+      "SOURCE-P3-BATCH-2-DIAGNOSTICS"
+    ],
+    "mixed_currency_issues": [
+      "SOURCE-P3-0002 provides both ambulatory market TAM (USD 73.557B) and associated growth percentages without clear EUR equivalents",
+      "SOURCE-P3-0004 provides USD valuations for elderly care market without EUR conversion"
+    ],
+    "normalization_required": true,
+    "fx_rate_documentation": "MISSING - Historical FX rates for 2024-2025 period required"
+  },
+  "completeness_assessment": {
+    "external_sources_identified": 8,
+    "primary_authoritative_sources": 2,
+    "secondary_high_quality_sources": 5,
+    "internal_document_sources": 2,
+    "unknown_or_low_confidence": 1,
+    "total_claims_mapped_to_sources": 36,
+    "unmapped_source_references": 0,
+    "research_gap_status": "Batches 2-10 sources not yet fully documented; Batch 2 framework ready but detailed claims pending"
+  }
+}
