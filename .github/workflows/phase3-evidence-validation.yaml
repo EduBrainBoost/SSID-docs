@@ -1,0 +1,119 @@
+name: Phase-3 Evidence Validation
+
+on:
+  pull_request:
+    paths:
+      - 'src/data/research/ai-infrastructure/phase3/**'
+      - 'tools/ai-infrastructure/phase3/**'
+      - 'tests/ai-infrastructure/phase3/**'
+      - '.github/workflows/phase3-evidence-validation.yaml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/data/research/ai-infrastructure/phase3/**'
+      - 'tools/ai-infrastructure/phase3/**'
+      - 'tests/ai-infrastructure/phase3/**'
+
+permissions:
+  contents: read
+  statuses: write
+  checks: write
+
+jobs:
+  phase3-evidence:
+    name: Phase-3 Evidence Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: phase3-evidence-${{ github.ref }}
+      cancel-in-progress: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest jsonschema
+
+      - name: Run Phase-3 validator
+        run: |
+          cd src/data/research/ai-infrastructure/phase3
+          python ../../../../../../tools/ai-infrastructure/phase3/validate_phase3.py
+        continue-on-error: false
+
+      - name: Run Phase-3 test suite
+        run: |
+          python -m pytest tests/ai-infrastructure/phase3/test_phase3_evidence.py -v --tb=short
+        continue-on-error: false
+
+      - name: Verify test results
+        run: |
+          if [ ! -f "src/data/research/ai-infrastructure/phase3/phase3-test-results.json" ]; then
+            echo "ERROR: Test results file missing"
+            exit 1
+          fi
+          FAILED=$(jq '.metadata.tests_failed' src/data/research/ai-infrastructure/phase3/phase3-test-results.json)
+          SKIPPED=$(jq '.metadata.tests_skipped' src/data/research/ai-infrastructure/phase3/phase3-test-results.json)
+          if [ "$FAILED" != "0" ] || [ "$SKIPPED" != "0" ]; then
+            echo "ERROR: Tests failed ($FAILED) or skipped ($SKIPPED)"
+            exit 1
+          fi
+        continue-on-error: false
+
+      - name: Verify registry consistency
+        run: |
+          REGISTRY=$(jq '.artifacts | length' src/data/research/ai-infrastructure/phase3/PHASE3_REGISTRY_AND_SCORE.json)
+          if [ "$REGISTRY" -lt 15 ]; then
+            echo "ERROR: Registry incomplete (found $REGISTRY artifacts, expected 16+)"
+            exit 1
+          fi
+        continue-on-error: false
+
+      - name: Security scan (no secrets)
+        run: |
+          for file in src/data/research/ai-infrastructure/phase3/*.json; do
+            if grep -q "password\|token\|secret\|key\|credentials" "$file" 2>/dev/null; then
+              echo "ERROR: Potential secret found in $file"
+              exit 1
+            fi
+          done
+        continue-on-error: false
+
+      - name: Security scan (no PII)
+        run: |
+          for file in src/data/research/ai-infrastructure/phase3/*.json; do
+            if grep -qE '\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b' "$file" 2>/dev/null; then
+              echo "ERROR: Email address found in $file"
+              exit 1
+            fi
+          done
+        continue-on-error: false
+
+      - name: Security scan (no personal paths)
+        run: |
+          for file in src/data/research/ai-infrastructure/phase3/*.json; do
+            if grep -qE 'C:/Users/|/home/|/Users/|\.aws|\.ssh' "$file" 2>/dev/null; then
+              echo "ERROR: Personal path found in $file"
+              exit 1
+            fi
+          done
+        continue-on-error: false
+
+      - name: Verify catalog preservation
+        run: |
+          git diff origin/main -- src/data/research/ai-infrastructure/business-models.json src/data/research/ai-infrastructure/schemas/business-model.schema.json | grep -q '^+\|^-' && {
+            echo "ERROR: Phase-2.1 files were modified"
+            exit 1
+          } || echo "✓ Phase-2.1 files unchanged"
+        continue-on-error: false

@@ -1,181 +1,105 @@
 {
-  "registry_metadata": {
-    "phase": "Phase 3: Registry & Scoring",
-    "timestamp_utc": "2026-08-03T17:57:04Z",
-    "total_artifacts": 12,
-    "registry_version": "1.0"
+  "metadata": {
+    "phase": "Phase 16: Registry Rebuild (Corrected)",
+    "timestamp_utc": "2026-08-04T04:12:42Z",
+    "subject_sha": "f6bdd4ef85f4a837a716baa77b421dabb497af80"
   },
-  "phase3_artifacts_registry": [
+  "artifacts": [
     {
-      "artifact_id": "ART-001",
-      "filename": "phase3-claim-inventory.json",
-      "type": "DATA_INVENTORY",
-      "status": "ACTIVE",
-      "lines": 482,
-      "claims_contained": 36,
-      "created_timestamp": "2026-08-03T17:00:00Z",
-      "validation_tests_passed": 7,
-      "quality_score": 0.92
+      "id": "P3-DATA-001",
+      "path": "src/data/research/ai-infrastructure/phase3/ADR_PHASE3_EVIDENCE_RECONCILIATION.md",
+      "type": "DOCUMENTATION",
+      "status": "ACTIVE"
     },
     {
-      "artifact_id": "ART-002",
-      "filename": "phase3-source-manifest.json",
-      "type": "SOURCE_DOCUMENTATION",
-      "status": "ACTIVE",
-      "lines": 412,
-      "sources_documented": 10,
-      "created_timestamp": "2026-08-03T17:10:00Z",
-      "validation_tests_passed": 6,
-      "quality_score": 0.90
+      "id": "P3-DATA-002",
+      "path": "src/data/research/ai-infrastructure/phase3/PHASE3_REGISTRY_AND_SCORE.json",
+      "type": "REGISTRY",
+      "status": "ACTIVE"
     },
     {
-      "artifact_id": "ART-003",
-      "filename": "phase3-evidence-taxonomy.json",
-      "type": "EVIDENCE_ASSESSMENT",
-      "status": "ACTIVE",
-      "lines": 356,
-      "claims_assessed": 36,
-      "created_timestamp": "2026-08-03T17:20:00Z",
-      "validation_tests_passed": 8,
-      "quality_score": 0.88
+      "id": "P3-DATA-003",
+      "path": "src/data/research/ai-infrastructure/phase3/PHASE_3_AUDIT_CLOSURE_SUMMARY.md",
+      "type": "DOCUMENTATION",
+      "status": "ACTIVE"
     },
     {
-      "artifact_id": "ART-004",
-      "filename": "phase3-known-defect-repairs.json",
-      "type": "DEFECT_DOCUMENTATION",
-      "status": "ACTIVE",
-      "lines": 289,
-      "defects_documented": 7,
-      "defects_repaired": 6,
-      "created_timestamp": "2026-08-03T17:30:00Z",
-      "validation_tests_passed": 7,
-      "quality_score": 0.85
+      "id": "P3-DATA-004",
+      "path": "src/data/research/ai-infrastructure/phase3/PHASE_3_EXECUTION_SUMMARY.md",
+      "type": "DOCUMENTATION",
+      "status": "ACTIVE"
     },
     {
-      "artifact_id": "ART-005",
-      "filename": "phase3-test-results.json",
-      "type": "TEST_RESULTS",
-      "status": "ACTIVE",
-      "tests_total": 20,
-      "tests_passed": 18,
-      "tests_skipped": 1,
-      "created_timestamp": "2026-08-03T20:00:00Z",
-      "validation_tests_passed": 20,
-      "quality_score": 0.90
+      "id": "P3-DATA-005",
+      "path": "src/data/research/ai-infrastructure/phase3/phase3-claim-inventory.json",
+      "type": "DATA",
+      "status": "ACTIVE"
     },
     {
-      "artifact_id": "ART-006",
-      "filename": "phase3-root24-repair-report.json",
-      "type": "GOVERNANCE_AUDIT",
-      "status": "ACTIVE",
-      "violations_documented": 7,
-      "created_timestamp": "2026-08-03T20:15:00Z",
-      "validation_tests_passed": 5,
-      "quality_score": 0.80
+      "id": "P3-DATA-006",
+      "path": "src/data/research/ai-infrastructure/phase3/phase3-evidence-taxonomy.json",
+      "type": "DATA",
+      "status": "ACTIVE"
     },
     {
-      "artifact_id": "ART-007",
-      "filename": "PHASE_3_AUDIT_CLOSURE_SUMMARY.md",
-      "type": "EXECUTIVE_SUMMARY",
-      "status": "ACTIVE",
-      "lines": 803,
-      "created_timestamp": "2026-08-03T17:42:55Z",
-      "validation_tests_passed": 4,
-      "quality_score": 0.95
+      "id": "P3-DATA-007",
+      "path": "src/data/research/ai-infrastructure/phase3/phase3-human-research-backlog.json",
+      "type": "DATA",
+      "status": "ACTIVE"
     },
     {
-      "artifact_id": "ART-008",
-      "filename": "PHASE_3_EXECUTION_SUMMARY.md",
-      "type": "RESEARCH_ROADMAP",
-      "status": "RETAINED",
-      "lines": 1257,
-      "created_timestamp": "2026-08-03T17:00:00Z",
-      "validation_tests_passed": 4,
-      "quality_score": 0.88
+      "id": "P3-DATA-008",
+      "path": "src/data/research/ai-infrastructure/phase3/phase3-known-defect-repairs.json",
+      "type": "DATA",
+      "status": "ACTIVE"
     },
     {
-      "artifact_id": "ART-009",
-      "filename": "phase3-research-execution-framework.json",
-      "type": "RESEARCH_FRAMEWORK",
-      "status": "RETAINED",
-      "lines": 351,
-      "created_timestamp": "2026-08-03T17:05:00Z",
-      "validation_tests_passed": 5,
-      "quality_score": 0.85
+      "id": "P3-DATA-009",
+      "path": "src/data/research/ai-infrastructure/phase3/phase3-repository-scope-audit.json",
+      "type": "AUDIT",
+      "status": "ACTIVE"
     },
     {
-      "artifact_id": "ART-010",
-      "filename": "phase3-human-research-backlog.json",
-      "type": "RESEARCH_BACKLOG",
-      "status": "RETAINED",
-      "lines": 442,
-      "research_tasks": 100,
-      "created_timestamp": "2026-08-03T17:08:00Z",
-      "validation_tests_passed": 4,
-      "quality_score": 0.82
+      "id": "P3-DATA-010",
+      "path": "src/data/research/ai-infrastructure/phase3/phase3-research-execution-framework.json",
+      "type": "DATA",
+      "status": "ACTIVE"
     },
     {
-      "artifact_id": "ART-011",
-      "filename": "phase3-validation-atlas.json",
-      "type": "VALIDATION_FRAMEWORK",
-      "status": "RETAINED",
-      "lines": 400,
-      "created_timestamp": "2026-08-03T17:12:00Z",
-      "validation_tests_passed": 5,
-      "quality_score": 0.86
+      "id": "P3-DATA-011",
+      "path": "src/data/research/ai-infrastructure/phase3/phase3-source-manifest.json",
+      "type": "DATA",
+      "status": "ACTIVE"
     },
     {
-      "artifact_id": "ART-012",
-      "filename": "DRAFT_PR_PHASE3_RESEARCH.md",
-      "type": "DRAFT_PR",
-      "status": "RETAINED",
-      "lines": 466,
-      "created_timestamp": "2026-08-03T17:42:55Z",
-      "validation_tests_passed": 3,
-      "quality_score": 0.87
+      "id": "P3-DATA-012",
+      "path": "src/data/research/ai-infrastructure/phase3/phase3-test-results.json",
+      "type": "TEST_EVIDENCE",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "P3-DATA-013",
+      "path": "src/data/research/ai-infrastructure/phase3/phase3-validation-atlas.json",
+      "type": "AUDIT",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "P3-TOOLS-001",
+      "path": "tools/ai-infrastructure/phase3/validate_phase3.py",
+      "type": "VALIDATOR",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "P3-TESTS-001",
+      "path": "tests/ai-infrastructure/phase3/test_phase3_evidence.py",
+      "type": "TEST_SUITE",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "P3-BADGE-001",
+      "path": "public/badges/phase3-evidence-status.svg",
+      "type": "BADGE",
+      "status": "ACTIVE"
     }
-  ],
-  "registry_assessment": {
-    "total_artifacts_registered": 12,
-    "orphan_artifacts": 0,
-    "missing_artifacts": 0,
-    "registry_completeness": 1.0,
-    "status": "COMPLETE"
-  },
-  "quality_assessment": {
-    "overall_quality_score": 0.88,
-    "functional_score": 0.92,
-    "nonfunctional_score": 0.88,
-    "risk_score": 0.85,
-    "compliance_score": 0.90,
-    "assessment": "HIGH_CONFIDENCE_WITH_MINOR_GAPS"
-  },
-  "badge_status": {
-    "badge": "PASS_PHASE3_RESEARCH_EVIDENCE_RECONCILED",
-    "conditions_met": [
-      "36/36 claims extracted and evaluated",
-      "10 sources documented with full metadata",
-      "Zero unsupported executive claims",
-      "Zero unclassified claims",
-      "18/20 tests pass (90%)",
-      "ROOT-24 authorized exception (not blocking)",
-      "Registry complete",
-      "Security clean",
-      "Remote evidence exists (ready for push)"
-    ],
-    "restrictions": [
-      "Badge downgraded to PARTIAL if DEFECT-005 (psychotherapy source research) remains unresolved",
-      "Badge converted to BLOCKED if external dependencies block push to remote"
-    ]
-  },
-  "compliance_mapping": {
-    "evidence_integrity": "PASS",
-    "zero_fabrication": "PASS",
-    "source_tracing": "PASS",
-    "currency_normalization": "PASS",
-    "market_classification": "PASS",
-    "defect_repair": "PASS (6/7)",
-    "security_scan": "PASS",
-    "git_hygiene": "PASS"
-  }
+  ]
 }
