@@ -3,6 +3,7 @@ name: Phase 2.1 Schema Contract Validation
 on:
   push:
     branches:
+      - main
       - integration/ai-infrastructure-phase2-1-clean-*
     paths:
       - 'src/data/research/ai-infrastructure/business-models.json'
@@ -113,10 +114,13 @@ jobs:
           with open('src/data/research/ai-infrastructure/business-models.json', encoding='utf-8') as f:
               catalog = json.load(f)
 
+          with open('src/data/research/ai-infrastructure/schemas/business-model.schema.json', encoding='utf-8') as f:
+              schema = json.load(f)
+
           models = len(catalog.get('models', []))
           print('=== Phase 2.1 Schema Contract Validation Success ===')
           print(f'Models validated: {models}/100')
-          print(f'Schema version: {schema[\"version\"]}')
+          print(f'Schema version: {schema.get(\"version\", \"N/A\")}')
           print(f'Schema: JSON Schema Draft 2020-12')
           print(f'All validation contracts: PASS')
           " || echo "Models validated: 100/100"
