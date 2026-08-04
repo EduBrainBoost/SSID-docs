@@ -28,7 +28,19 @@ function validateInstance(instance, schema, path = '') {
   // Type validation
   if (schema.type) {
     const actualType = Array.isArray(instance) ? 'array' : typeof instance;
-    if (actualType !== schema.type && !(schema.type === 'object' && actualType === 'object')) {
+    let typeMatches = actualType === schema.type;
+
+    // Allow number for integer type if value is actually an integer
+    if (schema.type === 'integer' && actualType === 'number' && Number.isInteger(instance)) {
+      typeMatches = true;
+    }
+
+    // Allow number/integer confusion both directions
+    if ((schema.type === 'number' || schema.type === 'integer') && (actualType === 'number')) {
+      typeMatches = true;
+    }
+
+    if (!typeMatches && !(schema.type === 'object' && actualType === 'object')) {
       return {
         valid: false,
         error: `Type mismatch at ${path}: expected ${schema.type}, got ${actualType}`
