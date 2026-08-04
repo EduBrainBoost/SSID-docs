@@ -115,6 +115,11 @@ jobs:
         env:
           CI: true
 
+      - name: Build documentation
+        run: pnpm run build
+        env:
+          CI: true
+
       - name: Run repository tests
         run: pnpm run test
         env:
