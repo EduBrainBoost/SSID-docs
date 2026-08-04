@@ -39,8 +39,8 @@ stammbaum.html
 # Generated agent documentation (local)
 AGENTS.md
 
-# pnpm lock file (using npm)
-pnpm-lock.yaml
+# pnpm-only (no npm lockfile)
+package-lock.json
 
 # Debug
 npm-debug.log*
